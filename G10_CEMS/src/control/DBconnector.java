@@ -7,7 +7,8 @@ import java.sql.SQLException;
 public class DBconnector 
 {
 	static Connection con;
-	public static void main(String[] args) 
+	
+	public void connectToDB()
 	{
 		try 
 		{
@@ -28,5 +29,15 @@ public class DBconnector
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
-   	}
+	}
+	
+	public void parseData() {}
+	
+	public void saveToDB() {}
+	
+	public void removeFromDB() {}
+	
+	public void updateDB() {}
+	
+	public void selectQuery() {}
 }
