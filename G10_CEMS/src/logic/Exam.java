@@ -12,12 +12,11 @@ public class Exam {
 	private List<Integer> scores = new ArrayList<>();
 	
 	/**
-	 * 
-	 * @param eID - exam ID [format : ##$$%%]  [%% - represents exam number]
-	 * @param eProfession - exam profession [## - represents profession number]
-	 * @param eCourse - exam course [$$ - represents course number]
-	 * @param eAllocatedTime - allocated time (in minutes)
-	 * @param scores - array of scores. the length represents the amount of questions
+	 * @param eID 		 	 exam ID [format : ##$$%%]  [%% - represents exam number]
+	 * @param eProfession	 exam profession [## - represents profession number]
+	 * @param eCourse		 exam course [$$ - represents course number]
+	 * @param eAllocatedTime allocated time (in minutes)
+	 * @param scores		 array of scores. the length represents the amount of questions
 	 */
 	public Exam(String eID, String eProfession, String eCourse, int eAllocatedTime, String scores)
 	{
@@ -72,7 +71,6 @@ public class Exam {
 	}
 	
 	/**
-	 * 
 	 * @return the exam allocated Time
 	 */
 	public int getEAllocatedTime() {
@@ -101,9 +99,9 @@ public class Exam {
 	}
 	// End of Exam ****************************************************************
 	
-	/* toString example
+	//toString example
 	public static void main(String[] args) {
 		Exam examInfo = new Exam("010201", "Math", "Algebra 2", 120, "50|40|10");
 		System.out.println(examInfo);
-	}*/
+	}
 }
