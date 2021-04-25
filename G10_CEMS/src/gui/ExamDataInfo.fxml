@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.ExamDataInfoController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+         <center>
+            <TableView fx:id="tblVExamDetails" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="75.0" resizable="false" text="Exam ID" />
+                <TableColumn prefWidth="78.0" resizable="false" text="Profession" />
+                  <TableColumn prefWidth="74.0" resizable="false" text="Course" />
+                  <TableColumn prefWidth="105.0" resizable="false" text="Allocated Time" />
+                  <TableColumn minWidth="0.0" prefWidth="78.0" resizable="false" text="Score" />
+                  <TableColumn minWidth="8.0" prefWidth="89.0" resizable="false" text="Update Time" />
+              </columns>
+            </TableView>
+         </center>
+         <top>
+            <Label text="Client" underline="true" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="50.0" />
+               </font>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
