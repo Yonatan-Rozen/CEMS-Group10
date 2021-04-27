@@ -7,19 +7,18 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.ExamDataInfoController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ExamDataInfoController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+      <BorderPane fx:id="borderPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <center>
             <TableView fx:id="tblVExamDetails" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="75.0" resizable="false" text="Exam ID" />
-                <TableColumn prefWidth="78.0" resizable="false" text="Profession" />
-                  <TableColumn prefWidth="74.0" resizable="false" text="Course" />
-                  <TableColumn prefWidth="105.0" resizable="false" text="Allocated Time" />
-                  <TableColumn minWidth="0.0" prefWidth="78.0" resizable="false" text="Score" />
-                  <TableColumn minWidth="8.0" prefWidth="89.0" resizable="false" text="Update Time" />
+                <TableColumn fx:id="tblCExamID" prefWidth="75.0" resizable="false" text="Exam ID" />
+                <TableColumn fx:id="tblCProfession" prefWidth="78.0" resizable="false" text="Profession" />
+                  <TableColumn fx:id="tblCCourse" prefWidth="74.0" resizable="false" text="Course" />
+                  <TableColumn fx:id="tblCAllocatedTime" prefWidth="105.0" resizable="false" text="Allocated Time" />
+                  <TableColumn fx:id="tblCScores" minWidth="0.0" prefWidth="78.0" resizable="false" text="Score" />
+                  <TableColumn fx:id="tblCUpdateBtns" minWidth="8.0" prefWidth="89.0" resizable="false" text="Update Time" />
               </columns>
             </TableView>
          </center>
