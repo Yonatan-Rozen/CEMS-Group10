@@ -25,16 +25,20 @@ public class EchoServer extends AbstractServer {
 	}
 
 	private void parsingTheData(Object msg) {
-		String[] s = msg.toString().split(" ");
-		switch (s[0]) {
-			case "Request":
-				DBconnector.selectQuery(s);
-				break;
-			case "Update":
-				DBconnector.updateDB(s);
-				break;
-			default:
-				break;
+		
+		if (msg instanceof String)
+		{ // handle messages
+			String[] s = msg.toString().split(" ");
+			switch (s[0]) {
+				case "Request":
+					DBconnector.selectQuery(s);
+					break;
+				case "Update":
+					DBconnector.updateDB(s);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
