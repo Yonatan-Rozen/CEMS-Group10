@@ -8,7 +8,6 @@ import ocsf.server.*;
 
 public class EchoServer extends AbstractServer {
 
-	public static Connection con;
 	public static EchoServer es;
 	public EchoServer(int port) {
 		super(port);
@@ -17,29 +16,12 @@ public class EchoServer extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// System.out.println("Message received: " + msg + " from " + client);
-		ServerUI.scc.appendTextToConsole("Message received: " + msg + " from " + client);
+		ServerUI.serverConsole.appendTextToConsole("Message received: " + msg + " from " + client);
 
-		parsingTheData(msg);
+		//parsingTheData(msg); // deleted parsingTheData from EchoServer and created paresData in DBconnector - Yonatan
+		DBconnector.parseData(msg);
 		this.sendToAllClients(msg);
 
-	}
-
-	private void parsingTheData(Object msg) {
-		
-		if (msg instanceof String)
-		{ // handle messages
-			String[] s = msg.toString().split(" ");
-			switch (s[0]) {
-				case "Request":
-					DBconnector.selectQuery(s);
-					break;
-				case "Update":
-					DBconnector.updateDB(s);
-					break;
-				default:
-					break;
-			}
-		}
 	}
 
 	/**
@@ -47,9 +29,8 @@ public class EchoServer extends AbstractServer {
 	 * starts listening for connections.
 	 */
 	protected void serverStarted() {
-		ServerUI.scc.appendTextToConsole("Server listening for connections on port " + getPort());
+		ServerUI.serverConsole.appendTextToConsole("Server listening for connections on port " + getPort());
 		es = this;
-		// System.out.println("Server listening for connections on port " + getPort());
 	}
 
 	/**
@@ -57,8 +38,7 @@ public class EchoServer extends AbstractServer {
 	 * listening for connections.
 	 */
 	protected void serverStopped() {
-		ServerUI.scc.appendTextToConsole("Server has stopped listening for connections.");
-		// System.out.println("Server has stopped listening for connections.");
+		ServerUI.serverConsole.appendTextToConsole("Server has stopped listening for connections.");
 	}
 
 }
