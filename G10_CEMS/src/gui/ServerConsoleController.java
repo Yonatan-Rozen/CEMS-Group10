@@ -1,19 +1,37 @@
 package gui;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import server.ServerUI;
 
-public class ServerConsoleController {
-	
+public class ServerConsoleController implements Initializable {
+
+	// fxml variables
+
 	@FXML
-	private TextArea txtServerConsole;
-	// not to be called!
-	
-	private static TextArea console;
+	private TextField txtFPort;
+
+	@FXML
+	private Button btnConnectServer;
+
+	@FXML
+	private TextArea txtAServerConsole;
+
+	private static TextField portTxt;
+	private static Button connectServerBtn;
+	private static TextArea consoleTxt;
+
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConsole.fxml"));
@@ -21,23 +39,39 @@ public class ServerConsoleController {
 			primaryStage.setTitle("CEMS - Server");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	@FXML
-	public void initialize()
-	{
-		txtServerConsole.setEditable(false);
-		console = txtServerConsole;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		portTxt = txtFPort;
+		connectServerBtn = btnConnectServer;
+		consoleTxt = txtAServerConsole;
 	}
 	
-	public void appendTextToConsole(String text)
-	{
-		console.appendText(text+"\n");
-		//System.out.println(text);
+	public void getServerPort(ActionEvent event) throws Exception {
+		int p;
+		try {
+			p = getPort();
+		} catch(NumberFormatException e) {
+			ServerUI.serverConsole.appendTextToConsole("You must enter a port number");
+			return;
+		}
+		
+		portTxt.setDisable(true);
+		connectServerBtn.setDisable(true);
+		ServerUI.startServer(p);
 	}
-	
-	
+
+	private int getPort() throws NumberFormatException{
+		return Integer.parseInt(portTxt.getText());
+	}
+
+	public void appendTextToConsole(String text) {
+		consoleTxt.appendText(text + "\n");
+		// System.out.println(text);
+	}
+
 }
