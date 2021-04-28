@@ -6,8 +6,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class ServerUI extends Application {
-	final public static int DEFAULT_PORT = 5555;
-	public static ServerConsoleController scc;
+	//final public static int DEFAULT_PORT = 5555;
+	public static ServerConsoleController serverConsole;
 
 	public static void main(String[] args) throws Exception {
 		launch(args);
@@ -15,16 +15,17 @@ public class ServerUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		scc = new ServerConsoleController();
-		scc.start(primaryStage);
-
+		serverConsole = new ServerConsoleController();
+		serverConsole.start(primaryStage);
+	}
+	
+	public static void startServer(int p) {
 		int port = 0; // Port to listen on
 
 		try {
-			port = DEFAULT_PORT; // Set port to 5555
-
+			port = p; // 5555 is the default port
 		} catch (Throwable t) {
-			scc.appendTextToConsole("ERROR - Could not connect!");
+			serverConsole.appendTextToConsole("ERROR - Could not connect!");
 		}
 
 		EchoServer sv = new EchoServer(port);
@@ -32,7 +33,7 @@ public class ServerUI extends Application {
 		try {
 			sv.listen(); // Start listening for connections
 		} catch (Exception ex) {
-			System.out.println("ERROR - Could not listen for clients!"); 
+			serverConsole.appendTextToConsole("ERROR - Could not listen for clients!"); 
 		};
 		
 		DBconnector.connectToDB(); // Connect server to data base
