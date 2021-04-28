@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,10 +23,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Exam;
 
+/**
+ * 
+ * @author Yonatan Rozen
+ *
+ */
 public class ExamDataInfoController implements Initializable{
 	
 	@FXML
@@ -74,7 +81,8 @@ public class ExamDataInfoController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		tblE = tblVExamDetails;
+		bp = borderPane;
 		// set up columns
 		tblCExamID.setCellValueFactory(new PropertyValueFactory<Exam, String>("eID"));
 		tblCProfession.setCellValueFactory(new PropertyValueFactory<Exam, String>("eProfession"));
@@ -82,7 +90,7 @@ public class ExamDataInfoController implements Initializable{
 		tblCAllocatedTime.setCellValueFactory(new PropertyValueFactory<Exam, Integer>("eAllocatedTime"));
 		tblCScores.setCellValueFactory(new PropertyValueFactory<Exam, String>("eScores"));
 		
-		// 
+		// set button cells for the 'Update Time' Column
 		Callback<TableColumn<Exam, String>, TableCell<Exam, String>> btnCellFactory
         = new Callback<TableColumn<Exam, String>, TableCell<Exam, String>>() {
 		    @Override
@@ -100,8 +108,6 @@ public class ExamDataInfoController implements Initializable{
 		                } else {
 		                    btn.setOnAction(event -> {
                                 Exam exam = getTableView().getItems().get(getIndex());
-                                System.out.println(exam);
-                                tblVExamDetails.setVisible(false);
                                 updateSelectedExamAllocatedTime(exam);
                                 
 		                    });
@@ -114,13 +120,12 @@ public class ExamDataInfoController implements Initializable{
 		    }
 		};
 		tblCUpdateBtns.setCellFactory(btnCellFactory);
-		
-		tblE = tblVExamDetails;
-		bp = borderPane;
+
 		ClientUI.chat.accept("Request Test Table");
+		
 	}
 	
-	public void addExam(List<String> details)
+	public void addExams(List<String> details)
 	{
 		ObservableList<Exam> exams = FXCollections.observableArrayList();
 		for (String row : details)
@@ -138,22 +143,30 @@ public class ExamDataInfoController implements Initializable{
 		bp.setCenter(gp);
 		Label headline = new Label("Exam "+ exam.getEID() + " Details:");
 		headline.setUnderline(true);
-		headline.setFont(new Font("Arial", 20));
+		headline.setFont(Font.font("Verdana", FontWeight.BOLD,20));
 		
 		Label lblProfession = new Label("Profession: " + exam.getEProfession());
+		lblProfession.setFont(Font.font("Verdana", 15));
 		
-		Label lblCourse = new Label("Profession: " + exam.getECourse());
+		Label lblCourse = new Label("Course: " + exam.getECourse());
+		lblCourse.setFont(Font.font("Verdana", 15));
 		
 		Label lblAllocatedTime = new Label("Allocated Time: ");
+		lblAllocatedTime.setFont(Font.font("Verdana", 15));
 		
 		TextField txtAllocatedTime = new TextField();
+		txtAllocatedTime.setPrefWidth(10);
 		txtAllocatedTime.setText(String.valueOf(exam.getEAllocatedTime()));
+		txtAllocatedTime.setFont(Font.font("Verdana", 15));
 		
 		Label lblScores = new Label("Scores: " + exam.getEScores());
+		lblScores.setFont(Font.font("Verdana", 15));
 		
 		Button btnCancelRequest = new Button("cancel request");
+		btnCancelRequest.setFont(Font.font("Verdana", 15));
 		
 		Button btnUpdateTime = new Button("update time");
+		btnUpdateTime.setFont(Font.font("Verdana", 15));
 		
 		gp.add(headline, 0, 0);
 		gp.add(lblProfession, 0, 1);
@@ -166,12 +179,14 @@ public class ExamDataInfoController implements Initializable{
 		
 		
 		btnCancelRequest.setOnAction(event ->{
-			tblE.setVisible(true);
-			bp.getChildren().remove(gp);
+			bp.setCenter(tblE);
+			System.out.println("tblE should be shown");
 		});
 		
-		/*btnUpdateTime.setOnAction(event ->{
-			ClientUI.chat.accept("Update " + exam.getEID() + " " + txtAllocatedTime.getText());
-		});*/
+		btnUpdateTime.setOnAction(event ->{ 
+			ClientUI.chat.accept("Update Test AllocatedTime " + txtAllocatedTime.getText() + " ID " + exam.getEID());
+			((Node)event.getSource()).getScene().getWindow().hide();
+			ClientMenuController.edic.start(new Stage());
+		});
 	}
 }
