@@ -2,6 +2,7 @@ package control;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,36 +12,51 @@ import java.util.List;
 import server.EchoServer;
 import server.ServerUI;
 
+/**
+ * 
+ * @author Yonatan Rozen
+ *
+ */
 public class DBconnector {
 	public static Connection con;
 
+	// Handles the connection with the database
 	public static void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			//System.out.println("Driver definition succeed");
-			ServerUI.scc.appendTextToConsole("Driver definition succeed");
+			ServerUI.serverConsole.appendTextToConsole("Driver definition succeed");
 		} catch (Exception ex) {
-			/* handle the error */
-			//System.out.println("Driver definition failed");
-			ServerUI.scc.appendTextToConsole("Driver definition failed");
+			ServerUI.serverConsole.appendTextToConsole("Driver definition failed");
 		}
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost/CEMS?serverTimezone=IST", "root", "Group10*");
-			//System.out.println("SQL connection succeed");
-			ServerUI.scc.appendTextToConsole("SQL connection succeed");
+			ServerUI.serverConsole.appendTextToConsole("SQL connection succeed");
 		} catch (SQLException ex) {
-			/* handle any errors */
-			ServerUI.scc.appendTextToConsole("SQLException: " + ex.getMessage());
-			ServerUI.scc.appendTextToConsole("SQLState: " + ex.getSQLState());
-			ServerUI.scc.appendTextToConsole("VendorError: " + ex.getErrorCode());
-			//System.out.println("SQLException: " + ex.getMessage());
-			//System.out.println("SQLState: " + ex.getSQLState());
-			//System.out.println("VendorError: " + ex.getErrorCode());
+			ServerUI.serverConsole.appendTextToConsole("SQLException: " + ex.getMessage());
+			ServerUI.serverConsole.appendTextToConsole("SQLState: " + ex.getSQLState());
+			ServerUI.serverConsole.appendTextToConsole("VendorError: " + ex.getErrorCode());
 		}
 	}
 
-	public static void parseData() {
+	/**
+	 * @param msg the object to parse.
+	 * @if msg is instance of String - split msg and handle the request accordingly
+	 */
+	public static void parseData(Object msg) {
+		if (msg instanceof String) { // handle messages
+			String[] s = msg.toString().split(" ");
+			switch (s[0]) {
+			case "Request":
+				selectQuery(s);
+				break;
+			case "Update":
+				updateDB(s);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	public static void saveToDB() {
@@ -50,8 +66,15 @@ public class DBconnector {
 	}
 
 	public static void updateDB(String[] sArr) {
-		
-		
+
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("UPDATE " + sArr[1] + " SET " + sArr[2] + " = \"" + sArr[3] + "\" WHERE "
+					+ sArr[4] + " = \"" + sArr[5] + "\"");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void selectQuery(String[] sArr) {
@@ -62,7 +85,7 @@ public class DBconnector {
 			String s = "";
 			while (rs.next()) {
 				for (int i = 1; i < 6; i++) {
-					s += rs.getString(i) + ",";// Allocated Time might not work
+					s += rs.getString(i) + ",";
 				}
 				tableRowsInfo.add(s);
 				s = "";
