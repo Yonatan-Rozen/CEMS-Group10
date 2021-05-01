@@ -19,6 +19,15 @@ import server.ServerUI;
  */
 public class DBconnector {
 	public static Connection con;
+	private static DBconnector dbCinstance;
+
+	private DBconnector() {}
+
+	public static DBconnector getInstance() {
+		if (dbCinstance == null)
+			dbCinstance = new DBconnector();
+		return dbCinstance;
+	}
 
 	// Handles the connection with the database
 	public static void connectToDB() {
@@ -31,7 +40,7 @@ public class DBconnector {
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost/CEMS?serverTimezone=IST", "root", "Group10*");
-			ServerUI.serverConsole.appendTextToConsole("SQL connection succeed");
+			ServerUI.serverConsole.appendTextToConsole("SQL connection succeed...");
 		} catch (SQLException ex) {
 			ServerUI.serverConsole.appendTextToConsole("SQLException: " + ex.getMessage());
 			ServerUI.serverConsole.appendTextToConsole("SQLState: " + ex.getSQLState());
@@ -48,36 +57,29 @@ public class DBconnector {
 			String[] s = msg.toString().split(" ");
 			switch (s[0]) {
 			case "Request":
-				selectQuery(s);
+				getInstance().selectQuery(s);
 				break;
 			case "Update":
-				updateDB(s);
+				getInstance().updateDB(s);
 				break;
 			default:
 				break;
 			}
 		}
 	}
-
-	public static void saveToDB() {
-	}
-
-	public static void removeFromDB() {
-	}
-
-	public static void updateDB(String[] sArr) {
+	public void updateDB(String[] sArr) {
 
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("UPDATE " + sArr[1] + " SET " + sArr[2] + " = \"" + sArr[3] + "\" WHERE "
-					+ sArr[4] + " = \"" + sArr[5] + "\"");
+			stmt = con.prepareStatement("UPDATE " + sArr[1] + " SET " + sArr[2] + " = \"" 
+							+ sArr[3] + "\" WHERE " + sArr[4] + " = \"" + sArr[5] + "\"");
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void selectQuery(String[] sArr) {
+	public void selectQuery(String[] sArr) {
 		List<String> tableRowsInfo = new ArrayList<>();
 		try {
 			Statement stmt = con.createStatement();
