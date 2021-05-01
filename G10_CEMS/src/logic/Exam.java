@@ -10,8 +10,6 @@ public class Exam {
 	private SimpleStringProperty eCourse;
 	private SimpleIntegerProperty eAllocatedTime;
 	private SimpleStringProperty eScores;
-	//private SimpleListProperty<Integer> hi = new SimpleListProperty<>();
-	//private List<Integer> scores = new ArrayList<>();
 	
 	/**
 	 * @param eID 		 	 exam ID [format : ##$$%%]  [%% - represents exam number]
@@ -27,14 +25,9 @@ public class Exam {
 		this.eCourse = new SimpleStringProperty(eCourse);
 		this.eAllocatedTime = new SimpleIntegerProperty(eAllocatedTime);
 		this.eScores = new SimpleStringProperty(eScores);
-		
-		
-		//String[] sArr = scores.split("\\|");
-		//for (String s: sArr)
-			//this.scores.add(Integer.parseInt(s));
 	}
 	
-	// setters & getters **********************************************************
+	// getters & setters **********************************************************
 	
 	/**
 	 * @return the exam ID
@@ -89,10 +82,16 @@ public class Exam {
 		this.eAllocatedTime.set(eAllocatedTime);
 	}
 
+	/**
+	 * @return
+	 */
 	public String getEScores() {
 		return eScores.get();
 	}
 
+	/**
+	 * @param eScores
+	 */
 	public void setEScores(String eScores) {
 		this.eScores.set(eScores);
 	}
@@ -102,8 +101,8 @@ public class Exam {
 
 	@Override
 	public String toString() {
-		return String.format("ID: %s%nProfession: %s%nCourse: %s%n"
-				+ "Allocated Time: %d%nScores (in order): {%s}", 
+		return String.format("ID: %s, Profession: %s, Course: %s, "
+				+ "Allocated Time: %d, Scores: %s", 
 				getEID(), getEProfession(), getECourse(), getEAllocatedTime(), getEScores());
 	}
 	// End of Exam ****************************************************************
