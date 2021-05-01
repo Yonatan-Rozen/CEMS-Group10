@@ -1,10 +1,14 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import control.DBCommandExecution;
+import control.ExamControl;
+import control.REQUEST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -57,13 +61,7 @@ public class ExamDataInfoController implements Initializable{
 	private TableColumn<Exam,String> tblCScores;
 	
 	@FXML
-	private TableColumn tblCUpdateBtns;
-	
-	/*
-	private final ObservableList<Exam> data
-    = FXCollections.observableArrayList(
-            new Exam("123456", "Math", "Mlm", 120, "50|20|30")
-    );*/
+	private TableColumn<Exam, Void> tblCUpdateBtns;
 	
 	private static TableView<Exam> tblE;
 	private static BorderPane bp;
@@ -83,6 +81,7 @@ public class ExamDataInfoController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		tblE = tblVExamDetails;
 		bp = borderPane;
+		
 		// set up columns
 		tblCExamID.setCellValueFactory(new PropertyValueFactory<Exam, String>("eID"));
 		tblCProfession.setCellValueFactory(new PropertyValueFactory<Exam, String>("eProfession"));
@@ -91,28 +90,25 @@ public class ExamDataInfoController implements Initializable{
 		tblCScores.setCellValueFactory(new PropertyValueFactory<Exam, String>("eScores"));
 		
 		// set button cells for the 'Update Time' Column
-		Callback<TableColumn<Exam, String>, TableCell<Exam, String>> btnCellFactory
-        = new Callback<TableColumn<Exam, String>, TableCell<Exam, String>>() {
+		Callback<TableColumn<Exam, Void>, TableCell<Exam, Void>> btnCellFactory
+        = new Callback<TableColumn<Exam, Void>, TableCell<Exam, Void>>() {
 		    @Override
-		    public TableCell call(final TableColumn<Exam, String> param) {
-		        final TableCell<Exam, String> cell = new TableCell<Exam, String>() {
-		
-		            final Button btn = new Button("update");
-		
+		    public TableCell<Exam, Void> call(final TableColumn<Exam, Void> param) {
+		        final TableCell<Exam, Void> cell = new TableCell<Exam, Void>() {
+		        	
+		            private final Button btn = new Button("update");
+		            
 		            @Override
-		            public void updateItem(String item, boolean empty) {
+		            public void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);
 		                if (empty) {
 		                    setGraphic(null);
-		                    setText(null);
 		                } else {
-		                    btn.setOnAction(event -> {
-                                Exam exam = getTableView().getItems().get(getIndex());
-                                updateSelectedExamAllocatedTime(exam);
-                                
-		                    });
+		                	btn.setOnAction(e -> {
+	                            Exam exam = getTableView().getItems().get(getIndex());
+	                            updateSelectedExamAllocatedTime(exam);
+	                        });
 		                    setGraphic(btn);
-		                    setText(null);
 		                }
 		            }
 		        };
