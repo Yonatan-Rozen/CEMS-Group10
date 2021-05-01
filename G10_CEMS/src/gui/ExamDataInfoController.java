@@ -1,14 +1,10 @@
 package gui;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
-import control.DBCommandExecution;
-import control.ExamControl;
-import control.REQUEST;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
