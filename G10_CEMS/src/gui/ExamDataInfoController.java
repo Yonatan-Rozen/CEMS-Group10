@@ -61,13 +61,24 @@ public class ExamDataInfoController implements Initializable{
 	
 	private static TableView<Exam> tblE;
 	private static BorderPane bp;
-	public void start(Stage primaryStage) {
+	private static Stage currentStage;
+	public void start(Stage primaryStage, Point p) {
 		try {
+			currentStage = primaryStage;
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/ExamDataInfo.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/gui/ExamDataInfo.css").toExternalForm());
 			primaryStage.setTitle("CEMS - Client");
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.setX(p.getX());
+			primaryStage.setY(p.getY());
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(e -> {
+				ClientUI.chat.accept("client disconnected");
+				primaryStage.hide();
+				System.exit(0);
+			});
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -172,13 +183,13 @@ public class ExamDataInfoController implements Initializable{
 		
 		btnCancelRequest.setOnAction(event ->{
 			bp.setCenter(tblE);
-			System.out.println("tblE should be shown");
 		});
 		
 		btnUpdateTime.setOnAction(event ->{ 
 			ClientUI.chat.accept("Update Test AllocatedTime " + txtAllocatedTime.getText() + " ID " + exam.getEID());
+			Point windowPosition = new Point(currentStage.getX(),currentStage.getY());
 			((Node)event.getSource()).getScene().getWindow().hide();
-			ClientMenuController.edic.start(new Stage());
+			ClientMenuController.edic.start(new Stage(), windowPosition);
 		});
 	}
 }

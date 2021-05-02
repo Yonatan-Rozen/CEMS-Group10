@@ -36,8 +36,14 @@ public class ServerConsoleController implements Initializable {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConsole.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/gui/ServerConsole.css").toExternalForm());
 			primaryStage.setTitle("CEMS - Server");
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.setOnCloseRequest(e -> {
+				primaryStage.hide();
+				System.exit(0);
+			});
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
