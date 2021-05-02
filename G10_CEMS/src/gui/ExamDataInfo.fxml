@@ -17,8 +17,8 @@
                 <TableColumn fx:id="tblCProfession" prefWidth="78.0" resizable="false" text="Profession" />
                   <TableColumn fx:id="tblCCourse" prefWidth="74.0" resizable="false" text="Course" />
                   <TableColumn fx:id="tblCAllocatedTime" prefWidth="105.0" resizable="false" text="Allocated Time" />
-                  <TableColumn fx:id="tblCScores" minWidth="0.0" prefWidth="78.0" resizable="false" text="Score" />
-                  <TableColumn fx:id="tblCUpdateBtns" minWidth="8.0" prefWidth="89.0" resizable="false" text="Update Time" />
+                  <TableColumn fx:id="tblCScores" minWidth="0.0" prefWidth="72.0" resizable="false" text="Score" />
+                  <TableColumn fx:id="tblCUpdateBtns" minWidth="8.0" prefWidth="93.0" resizable="false" text="Update Time" />
               </columns>
             </TableView>
          </center>
