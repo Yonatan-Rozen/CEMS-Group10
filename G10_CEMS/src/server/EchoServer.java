@@ -16,10 +16,10 @@ public class EchoServer extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// System.out.println("Message received: " + msg + " from " + client);
-		ServerUI.serverConsole.appendTextToConsole("Message received: " + msg + " from " + client);
+		ServerUI.serverConsole.appendTextToConsole(">>> " + msg + " from " + client);
 
 		//parsingTheData(msg); // deleted parsingTheData from EchoServer and created paresData in DBconnector - Yonatan
-		DBconnector.parseData(msg);
+		DBconnector.getInstance().parseData(msg);
 		this.sendToAllClients(msg);
 
 	}

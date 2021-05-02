@@ -30,7 +30,7 @@ public class DBconnector {
 	}
 
 	// Handles the connection with the database
-	public static void connectToDB() {
+	public void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			ServerUI.serverConsole.appendTextToConsole("Driver definition succeed");
@@ -52,7 +52,7 @@ public class DBconnector {
 	 * @param msg the object to parse.
 	 * @if msg is instance of String - split msg and handle the request accordingly
 	 */
-	public static void parseData(Object msg) {
+	public void parseData(Object msg) {
 		if (msg instanceof String) { // handle messages
 			String[] s = msg.toString().split(" ");
 			switch (s[0]) {

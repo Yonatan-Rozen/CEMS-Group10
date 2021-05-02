@@ -36,6 +36,6 @@ public class ServerUI extends Application {
 			serverConsole.appendTextToConsole("ERROR - Could not listen for clients!"); 
 		};
 		
-		DBconnector.connectToDB(); // Connect server to data base
+		DBconnector.getInstance().connectToDB(); // Connect server to data base
 	}
 }
