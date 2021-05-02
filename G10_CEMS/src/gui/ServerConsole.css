@@ -1,0 +1,35 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root {
+	-fx-background-color: #1c2023;
+}
+
+.label {
+	-fx-text-fill: #dc9656;
+	-fx-font-: Verdana;
+}
+
+.text-area {
+    text-area-background: #f3f4f5;
+    -fx-font-: Verdana;
+    -fx-font-weight: bold;
+    -fx-border-style: solid;
+}
+
+.text-area .content {
+    -fx-background-color: text-area-background ;
+    -fx-border-color: #c39262;
+}
+
+.text-area .scroll-pane .content{
+    -fx-border-color: #4c4c9d;
+    -fx-text-fill: #1e88e5;
+}
+
+.button {
+	-fx-background-color: #f7ca88;
+	-fx-text-fill: #ab4642;
+	-fx-border-radius: 3;
+	-fx-font-: Verdana;
+	-fx-font-weight : bold;
+	-fx-border-color: #c39262;
+}
