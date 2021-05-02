@@ -61,7 +61,7 @@
                         </Button>
                      </children>
                   </GridPane>
-                  <TextArea fx:id="txtAServerConsole" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <TextArea fx:id="txtAServerConsole" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </center>
