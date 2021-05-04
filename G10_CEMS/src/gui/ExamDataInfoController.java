@@ -13,13 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -34,6 +38,9 @@ import logic.Exam;
  *
  */
 public class ExamDataInfoController implements Initializable{
+	
+	@FXML
+	private ImageView imgView;
 	
 	@FXML
 	private BorderPane borderPane;
@@ -77,6 +84,11 @@ public class ExamDataInfoController implements Initializable{
 			primaryStage.setOnCloseRequest(e -> {
 				ClientUI.chat.accept("client disconnected");
 				primaryStage.hide();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Client disconnected");
+				alert.setHeaderText("You have been disconnected from the server");
+				alert.setContentText("Press ok to continue...");
+				alert.showAndWait();
 				System.exit(0);
 			});
 		} catch(Exception e) {
@@ -86,6 +98,7 @@ public class ExamDataInfoController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		imgView.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
 		tblE = tblVExamDetails;
 		bp = borderPane;
 		

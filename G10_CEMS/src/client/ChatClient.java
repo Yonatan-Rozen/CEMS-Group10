@@ -9,6 +9,8 @@ import client.*;
 import common.ChatIF;
 import gui.ClientMenuController;
 import gui.ExamDataInfoController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ChatClient extends AbstractClient {
 
@@ -34,7 +36,6 @@ public class ChatClient extends AbstractClient {
 	public ChatClient(String host, int port, ChatIF clientUI) throws IOException {
 		super(host, port); // Call the superclass constructor
 		this.ClientController = clientUI;
-		//openConnection();
 	}
 
 	// Instance methods ************************************************
@@ -70,6 +71,11 @@ public class ChatClient extends AbstractClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 			ClientController.display("Could not send message to server: Terminating client." + e);
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Connection attempt");
+			alert.setHeaderText("Unable to connect to server!");
+			alert.setContentText("Please make sure the server is online!");
+			alert.showAndWait();
 			quit();
 		}
 	}
