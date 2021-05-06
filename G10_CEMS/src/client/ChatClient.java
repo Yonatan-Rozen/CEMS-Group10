@@ -1,16 +1,13 @@
 package client;
 
-import ocsf.client.*;
-
 import java.io.IOException;
 import java.util.List;
 
-import client.*;
 import common.ChatIF;
 import gui.ClientMenuController;
-import gui.ExamDataInfoController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient {
 
@@ -45,6 +42,7 @@ public class ChatClient extends AbstractClient {
 	 *
 	 * @param msg The message from the server.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		if (msg instanceof String)

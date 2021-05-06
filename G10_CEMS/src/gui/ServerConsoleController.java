@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import server.ServerUI;
 
