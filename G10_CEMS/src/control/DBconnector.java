@@ -35,7 +35,7 @@ public class DBconnector {
 		}
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost/OOOO?serverTimezone=IST", "root", "OOOO2");
+			con = DriverManager.getConnection("jdbc:mysql://localhost/OOOO?serverTimezone=IST", "root", "OOOO3");
 		} catch (SQLException ex) {
 			ServerUI.serverConsole.appendTextToConsole("SQLException: " + ex.getMessage());
 			ServerUI.serverConsole.appendTextToConsole("SQLState: " + ex.getSQLState());
