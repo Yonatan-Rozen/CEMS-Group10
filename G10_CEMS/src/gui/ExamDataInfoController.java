@@ -32,11 +32,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Exam;
 
-/**
- * 
- * @author Yonatan Rozen
- *
- */
 public class ExamDataInfoController implements Initializable{
 	
 	@FXML
@@ -141,10 +136,15 @@ public class ExamDataInfoController implements Initializable{
 		
 	}
 	
-	public void addExams(List<String> details)
+	/**
+	 * 
+	 * @param rowInExamTable
+	 * @example 010201,Math,Algebra 2,120,50|40|10, --> s= [010201,Math,Algebra 2,120,50|40|10]
+	 */
+	public void addExamToObservableList(List<String> rowInExamTable)
 	{
 		ObservableList<Exam> exams = FXCollections.observableArrayList();
-		for (String row : details)
+		for (String row : rowInExamTable)
 		{
 			String[] s = row.split("\\,");
 			Exam e = new Exam(s[0], s[1], s[2], Integer.parseInt(s[3]), s[4]);
@@ -153,6 +153,9 @@ public class ExamDataInfoController implements Initializable{
 		tblE.setItems(exams);
 	}
 	
+	/**
+	 * @param exam the 
+	 */
 	public void updateSelectedExamAllocatedTime(Exam exam) {
 		
 		GridPane gp = new GridPane();

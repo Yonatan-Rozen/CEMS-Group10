@@ -18,11 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-/**
- * 
- * @author Yonatan Rozen
- *
- */
 public class ClientMenuController implements Initializable{
 	public static ExamDataInfoController edic;
 	

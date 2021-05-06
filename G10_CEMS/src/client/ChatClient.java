@@ -50,7 +50,7 @@ public class ChatClient extends AbstractClient {
 		if (msg instanceof String)
 			ClientController.display(msg.toString());
 		if (msg instanceof List)
-			ClientMenuController.edic.addExams((List<String>)msg);
+			ClientMenuController.edic.addExamToObservableList((List<String>)msg);
 		awaitResponse = false;
 
 	}

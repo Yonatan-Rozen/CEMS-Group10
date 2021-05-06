@@ -12,11 +12,6 @@ import java.util.List;
 import server.EchoServer;
 import server.ServerUI;
 
-/**
- * 
- * @author Yonatan Rozen
- *
- */
 //DBconnector is a singleton class
 public class DBconnector {
 	public static Connection con;
@@ -51,7 +46,7 @@ public class DBconnector {
 
 	/**
 	 * @param msg the object to parse.
-	 * @if msg is instance of String - split msg and handle the request accordingly
+	 * @if msg is instance of String -> split msg and handle the request accordingly
 	 */
 	public void parseData(Object msg) {
 		if (msg instanceof String) { // handle messages
@@ -68,6 +63,14 @@ public class DBconnector {
 			}
 		}
 	}
+	
+	
+	/**
+	 * 
+	 * @param sArr contains the info for updating 
+	 * @example for sArr = [Update,Test,AllocatedTime,120,ID,010201]
+	 * we get the query: {Update Test SET AllocatedTime = "120" WHERE ID = "010201"}
+	 */
 	public void updateDB(String[] sArr) {
 
 		PreparedStatement stmt;
@@ -80,15 +83,20 @@ public class DBconnector {
 		}
 	}
 
+	/**
+	 * @param sArr contains the required table name
+	 * @example for sArr=[Request,Test] we get the query {SELECT * FROM Test}
+	 */
 	public void selectQuery(String[] sArr) {
 		List<String> tableRowsInfo = new ArrayList<>();
+		int NumberOfColumns = 5;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM " + sArr[1]);
 			String s = "";
 			while (rs.next()) {
-				for (int i = 1; i < 6; i++) {
-					s += rs.getString(i) + ",";
+				for (int i = 0; i < NumberOfColumns; i++) {
+					s += rs.getString(i+1) + ",";
 				}
 				tableRowsInfo.add(s);
 				s = "";
