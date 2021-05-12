@@ -30,7 +30,7 @@ public class ServerConsoleController implements Initializable {
 	@FXML
 	private TextArea sbConsoleTa;
 
-	// STATIC JAVAFX INSTNCES ***********************************************
+	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField portTf;
 	private static Button startServerBtn;
 	private static TextArea consoleTa;
@@ -62,7 +62,7 @@ public class ServerConsoleController implements Initializable {
 		primaryStage.show();
 	}
 
-	// initialize method ****************************************************
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		portTf = sbPortTf;
@@ -70,7 +70,7 @@ public class ServerConsoleController implements Initializable {
 		consoleTa = sbConsoleTa;
 	}
 
-	// startServerBtn method ************************************************
+	// startServerBtn METHOD ************************************************
 	public void btnPressStartServer(ActionEvent event) {
 		int portNumber;
 		try {
@@ -89,6 +89,7 @@ public class ServerConsoleController implements Initializable {
 		ServerUI.startServer(portNumber);
 	}
 
+	// INSTANCE METHODS ****************************************************
 	private int getPort() throws NumberFormatException {
 		return Integer.parseInt(portTf.getText());
 	}
