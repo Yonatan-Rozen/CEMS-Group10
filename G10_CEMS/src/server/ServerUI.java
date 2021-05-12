@@ -34,7 +34,7 @@ public class ServerUI extends Application {
 			sv.listen(); // Start listening for connections
 		} catch (Exception ex) {
 			serverConsole.appendTextToConsole("ERROR - Could not listen for clients!"); 
-		};
+		}
 		
 		DBconnector.getInstance().connectToDB(); // Connect server to data base
 	}
