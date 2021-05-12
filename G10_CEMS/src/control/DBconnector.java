@@ -35,13 +35,13 @@ public class DBconnector {
 		}
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost/OOOO?serverTimezone=IST", "root", "OOOO4");
+			con = DriverManager.getConnection("jdbc:mysql://localhost/cems?serverTimezone=IST", "root", "Group10*");
+			ServerUI.serverConsole.appendTextToConsole("SQL connection succeed...");
 		} catch (SQLException ex) {
 			ServerUI.serverConsole.appendTextToConsole("SQLException: " + ex.getMessage());
 			ServerUI.serverConsole.appendTextToConsole("SQLState: " + ex.getSQLState());
 			ServerUI.serverConsole.appendTextToConsole("VendorError: " + ex.getErrorCode());
 		}
-		ServerUI.serverConsole.appendTextToConsole("SQL connection succeed...");
 	}
 
 	/**
