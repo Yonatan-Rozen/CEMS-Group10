@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 
-public class TeacherMenuController{
+public class TeacherMenuController implements Initializable{
 	//
 
 	@FXML
@@ -117,9 +117,9 @@ public class TeacherMenuController{
 		}
 	}
 
-//	@Override
-//	public void initialize(URL location, ResourceBundle resources) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
+}
