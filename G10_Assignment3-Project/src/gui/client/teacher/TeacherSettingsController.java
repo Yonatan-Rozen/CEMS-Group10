@@ -22,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 public class TeacherSettingsController implements Initializable {
-	// public static ExamDataInfoController edic;
 
 	@FXML
     private ImageView imgView;
