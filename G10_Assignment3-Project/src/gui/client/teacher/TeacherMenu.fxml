@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
-
+<VBox maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuController">
+   <children>
+      <Hyperlink fx:id="LableTeacherName" onAction="#LblTeacherName" prefHeight="23.0" prefWidth="107.0" text="TeacheName">
+         <VBox.margin>
+            <Insets left="500.0" />
+         </VBox.margin>
+      </Hyperlink>
+      <Hyperlink fx:id="btnLogoyt" onAction="#btnLogout" prefHeight="23.0" prefWidth="76.0" text="Logout">
+         <VBox.margin>
+            <Insets left="500.0" />
+         </VBox.margin>
+      </Hyperlink>
+      <Label alignment="CENTER" prefHeight="45.0" prefWidth="300.0" text="Welcome, Teacher!" textAlignment="JUSTIFY">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets bottom="10.0" left="150.0" />
+         </VBox.margin>
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnStartExam" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStartExam" prefHeight="25.0" prefWidth="150.0" text="Start Exam" textAlignment="JUSTIFY" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="10.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnCreateQuestion" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnCreateQuestion" prefHeight="25.0" prefWidth="150.0" text="Create Question" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnEditQuestion" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnEditQuestion" prefHeight="25.0" prefWidth="150.0" text="Edit Question" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnCrreateExam" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnCrreateExam" prefHeight="25.0" prefWidth="150.0" text="Crreate Exam" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnEditExam" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnEditExam" prefHeight="25.0" prefWidth="150.0" text="Edit Exam" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnViewReport" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnViewReport" prefHeight="25.0" prefWidth="150.0" text="View Report" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="btnSettings" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnSettings" prefHeight="25.0" prefWidth="150.0" text="Settings" underline="true">
+         <VBox.margin>
+            <Insets bottom="10.0" left="225.0" top="5.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>

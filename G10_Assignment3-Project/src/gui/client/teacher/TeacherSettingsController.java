@@ -1,4 +1,4 @@
-package gui.client.student;
+package gui.client.teacher;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,92 +21,126 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
-public class StudentSettingsController implements Initializable {
-	//public static ExamDataInfoController edic;
+public class TeacherSettingsController implements Initializable {
+	
+	//
 
 	@FXML
-	private ImageView imgView;
+    private ImageView imgView;
 
-	 @FXML
-	    private Hyperlink lnkLogout;
+    @FXML
+    private Hyperlink lnkLogout;
 
-	    @FXML
-	    private Button btnTakeExam;
+    @FXML
+    private Button btnStartexam;
 
-	    @FXML
-	    private Button btnExamResults;
+    @FXML
+    private Button btnCreatequestion;
 
-	    @FXML
-	    private Button btnSettings;
+    @FXML
+    private Button btnEditquestion;
 
-	    @FXML
-	    private Label Lblusername;
+    @FXML
+    private Button btnCreateexam;
 
-	    @FXML
-	    private Label LblFullname;
+    @FXML
+    private Button btnEditexam;
 
-	    @FXML
-	    private Label LblPhonenumber;
+    @FXML
+    private Button btnViewreports;
 
-	    @FXML
-	    private Label LblEmail;
+    @FXML
+    private Button btnSettings;
 
-	    @FXML
-	    private Label LblAccounttype;
+    @FXML
+    private Label Lblusername;
 
-	    @FXML
-	    private Hyperlink LnkChangepassword;
+    @FXML
+    private Label LblFullname;
 
-	    @FXML
-	    private Text usernameTxt;
+    @FXML
+    private Label LblPhonenumber;
 
-	    @FXML
-	    private Text FullnameTxt;
+    @FXML
+    private Label LblEmail;
 
-	    @FXML
-	    private Text PhonenumberTxt;
+    @FXML
+    private Label LblAccounttype;
 
-	    @FXML
-	    private Text EmailTxt;
+    @FXML
+    private Hyperlink LnkChangepassword;
 
-	    @FXML
-	    private Text AccounttypeTxt;
+    @FXML
+    private Text usernameTxt;
 
-	    @FXML
-	    private Button btnBack;
+    @FXML
+    private Text FullnameTxt;
 
-	    @FXML
-	    private Label LblSettings;
+    @FXML
+    private Text PhonenumberTxt;
 
-	    @FXML
-	    void BackBtn(ActionEvent event) {
+    @FXML
+    private Text EmailTxt;
 
-	    }
+    @FXML
+    private Text AccounttypeTxt;
 
-	    @FXML
-	    void ChangepasswordLnk(ActionEvent event) {
+    @FXML
+    private Button btnBack;
 
-	    }
+    @FXML
+    private Label LblSettings;
 
-	    @FXML
-	    void ExamResultsBtn(ActionEvent event) {
+    @FXML
+    void BackBtn(ActionEvent event) {
 
-	    }
+    }
 
-	    @FXML
-	    void LogoutLnk(ActionEvent event) {
+    @FXML
+    void ChangepasswordLnk(ActionEvent event) {
 
-	    }
+    }
 
-	    @FXML
-	    void SettingsBtn(ActionEvent event) {
+    @FXML
+    void CreateexamBtn(ActionEvent event) {
 
-	    }
+    }
 
-	    @FXML
-	    void TakeExamBtn(ActionEvent event) {
+    @FXML
+    void CreatequestionBtn(ActionEvent event) {
 
-	    }
+    }
+
+    @FXML
+    void EditexamBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void EditquestionBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void LogoutLnk(ActionEvent event) {
+
+    }
+
+    @FXML
+    void SettingsBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void StartexamBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ViewreportsBtn(ActionEvent event) {
+
+    }
+
 
 	private static Stage currentStage;
 
@@ -115,12 +149,12 @@ public class StudentSettingsController implements Initializable {
 			currentStage = primaryStage;
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
 			Scene scene = new Scene(root);
-		//	scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
+			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
 			primaryStage.setTitle("Student Settings");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.setOnCloseRequest(e -> {
-				//ClientUI.chat.accept("client disconnected");
+				// ClientUI.chat.accept("client disconnected");
 				primaryStage.hide();
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Client disconnected");

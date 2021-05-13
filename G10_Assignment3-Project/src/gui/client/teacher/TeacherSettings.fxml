@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentSettingsController">
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherSettingsController">
   <items>
       <BorderPane maxHeight="400.0" maxWidth="160.0" minHeight="400.0" minWidth="160.0" prefHeight="400.0" prefWidth="160.0">
          <top>
@@ -26,19 +26,39 @@
          <center>
             <VBox BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnTakeExam" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#TakeExamBtn" prefWidth="120.0" text="Take Exam">
+                  <Button fx:id="btnStartexam" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#StartexamBtn" prefWidth="120.0" text="Start exam">
                      <VBox.margin>
                         <Insets left="20.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnExamResults" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#ExamResultsBtn" prefWidth="120.0" text="Exam results">
+                  <Button fx:id="btnCreatequestion" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#CreatequestionBtn" prefWidth="120.0" text="Create question">
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnEditquestion" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#EditquestionBtn" prefWidth="120.0" text="Edit question">
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnCreateexam" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#CreateexamBtn" prefWidth="120.0" text="Create exam">
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnEditexam" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#EditexamBtn" prefWidth="120.0" text="Edit exam">
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnViewreports" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#ViewreportsBtn" prefWidth="120.0" text="View reports">
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                   <Button fx:id="btnSettings" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#SettingsBtn" prefWidth="120.0" text="Settings">
                      <VBox.margin>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="20.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
