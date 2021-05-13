@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 public class TeacherSettingsController implements Initializable {
+	
+	//
 
 	@FXML
     private ImageView imgView;

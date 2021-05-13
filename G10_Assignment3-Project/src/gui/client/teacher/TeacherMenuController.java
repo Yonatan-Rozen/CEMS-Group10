@@ -1,10 +1,13 @@
 package gui.client.teacher;
 
 import java.awt.Button;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,7 +15,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 
-public class TeacherMenuController {
+public class TeacherMenuController implements Initializable{
+	//
 
 	@FXML
 	private Hyperlink LableTeacherName;
@@ -112,4 +116,10 @@ public class TeacherMenuController {
 			e.printStackTrace();
 		}
 	}
-}
+
+//	@Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//}
