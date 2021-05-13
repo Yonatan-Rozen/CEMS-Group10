@@ -78,35 +78,35 @@ public class StudentSettingsController implements Initializable {
 	    @FXML
 	    private Label LblSettings;
 
-//	    @FXML
-//	    void BackBtn(ActionEvent event) {
-//
-//	    }
-//
-//	    @FXML
-//	    void ChangepasswordLnk(ActionEvent event) {
-//
-//	    }
-//
-//	    @FXML
-//	    void ExamResultsBtn(ActionEvent event) {
-//
-//	    }
-//
-//	    @FXML
-//	    void LogoutLnk(ActionEvent event) {
-//
-//	    }
-//
-//	    @FXML
-//	    void SettingsBtn(ActionEvent event) {
-//
-//	    }
-//
-//	    @FXML
-//	    void TakeExamBtn(ActionEvent event) {
-//
-//	    }
+	    @FXML
+	    void BackBtn(ActionEvent event) {
+
+	    }
+
+	    @FXML
+	    void ChangepasswordLnk(ActionEvent event) {
+
+	    }
+
+	    @FXML
+	    void ExamResultsBtn(ActionEvent event) {
+
+	    }
+
+	    @FXML
+	    void LogoutLnk(ActionEvent event) {
+
+	    }
+
+	    @FXML
+	    void SettingsBtn(ActionEvent event) {
+
+	    }
+
+	    @FXML
+	    void TakeExamBtn(ActionEvent event) {
+
+	    }
 
 	private static Stage currentStage;
 
