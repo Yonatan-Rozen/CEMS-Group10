@@ -17,7 +17,7 @@ import javafx.stage.StageStyle;
 
 public class PrincipleMenuController implements Initializable{
 
-	// JAVAFX INSTNCES ******************************************************
+	// JAVAFX INSTANCES ******************************************************
     @FXML
     private Label sbWelcomeLbl;
 
@@ -43,7 +43,6 @@ public class PrincipleMenuController implements Initializable{
     // START METHOD *********************************************************
  	/**
  	 * Opens PrincipleMenu.fxml
- 	 * 
  	 * @param primaryStage
  	 * @throws Exception
  	 */
@@ -78,22 +77,24 @@ public class PrincipleMenuController implements Initializable{
 	    settingsBtn = sbSettingsBtn;
 	}
 	
-	// viewRequestBtn METHOD *****************************************************
+	// ACTION METHODS *******************************************************
+	
+	@FXML
 	public void BtnPressViewRequest(ActionEvent event) {
 		// TODO 
 	}
 	
-	// viewInfoBtn METHOD *****************************************************
-	public void BtnPresssbViewInfo(ActionEvent event) {
+	@FXML
+	public void BtnPressbViewInfo(ActionEvent event) {
 		// TODO 
 	}
 	
-	// viewReportsBtn METHOD *****************************************************
+	@FXML
 	public void BtnPressViewReports(ActionEvent event) {
 		// TODO 
 	}
 	
-	// settingsBtn METHOD *****************************************************
+	@FXML
 	public void BtnPressSettings(ActionEvent event) {
 		// TODO
 	}
