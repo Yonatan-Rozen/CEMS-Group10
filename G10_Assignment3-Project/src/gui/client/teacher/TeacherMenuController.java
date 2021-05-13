@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 
-public class TeacherMenuController implements Initializable{
+public class TeacherMenuController{
 	//
 
 	@FXML
