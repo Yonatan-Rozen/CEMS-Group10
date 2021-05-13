@@ -49,7 +49,7 @@ public class SignInController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml"));
 		Scene scene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
-		primaryStage.setTitle("CEMS - Computerized Exam Management System (Server)");
+		primaryStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.setOnCloseRequest(e -> {
@@ -81,5 +81,4 @@ public class SignInController implements Initializable {
 		// TODO send the object to the server
 		// TODO open the correct client window (student / teacher / principle)
 	}
-
 }
