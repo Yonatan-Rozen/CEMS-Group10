@@ -14,9 +14,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane maxHeight="400.0" maxWidth="160.0" minHeight="400.0" minWidth="160.0" prefHeight="400.0" prefWidth="160.0">
          <top>
             <ImageView fx:id="imgView" fitHeight="120.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </top>
@@ -24,7 +24,7 @@
             <Hyperlink fx:id="lnkLogout" onAction="#LogoutLnk" text="Logout" BorderPane.alignment="CENTER" />
          </bottom>
          <center>
-            <VBox maxWidth="160.0" minWidth="160.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+            <VBox BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="btnTakeExam" maxWidth="120.0" minWidth="60.0" mnemonicParsing="false" onAction="#TakeExamBtn" prefWidth="120.0" text="Take Exam">
                      <VBox.margin>
@@ -45,7 +45,7 @@
             </VBox>
          </center>
       </BorderPane>
-      <BorderPane prefHeight="398.0" prefWidth="430.0">
+      <BorderPane maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" prefHeight="400.0" prefWidth="440.0">
          <center>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
