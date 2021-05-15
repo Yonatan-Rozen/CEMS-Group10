@@ -1,117 +1,143 @@
 package gui.client.principle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.scene.layout.BorderPane;
 
 public class PrincipleMenuBarController implements Initializable {
-	
+
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
-    private Button sbViewRequestsBtn;
+	private Button sbViewRequestsBtn;
 
-    @FXML
-    private Button sbViewInfoBtn;
+	@FXML
+	private Button sbViewInfoBtn;
 
-    @FXML
-    private Button sbViewReportsBtn;
+	@FXML
+	private Button sbViewReportsBtn;
 
-    @FXML
-    private Button sbSettingsBtn;
+	@FXML
+	private Button sbSettingsBtn;
 
-    @FXML
-    private Hyperlink sbLogoutLnk;
+	@FXML
+	private Hyperlink sbLogoutLnk;
 
-    @FXML
-    private ImageView sbLogoIv;
+	@FXML
+	private ImageView sbLogoIv;
 
-    @FXML
-    private AnchorPane sbMainPaneAp;
-    
-    // STATIC JAVAFX INSTANCES **********************************************
-    private Button viewRequestsBtn;
-    private Button viewInfoBtn;
-    private Button viewReportsBtn;
-    private Button settingsBtn;
-    private Hyperlink logoutLnk;
-    private AnchorPane mainPaneAp;
-    
-    // START METHOD *********************************************************
-  	/**
-  	 * Opens PrincipleMenu.fxml
-  	 * @param primaryStage
-  	 * @throws Exception
-  	 */
-  	public void start(Stage primaryStage) throws Exception {
-  		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml"));
-  		Scene scene = new Scene(root);
-  		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenuBar.css").toExternalForm());
-  		primaryStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
-  		primaryStage.setScene(scene);
-  		primaryStage.setResizable(false);
-  		primaryStage.setOnCloseRequest(e -> {
-  			primaryStage.hide();
-  			Alert alert = new Alert(AlertType.INFORMATION);
-  			alert.initStyle(StageStyle.UTILITY);
-  			alert.setTitle("Client window closed");
-  			alert.setHeaderText("You have been disconnected");
-  			alert.setContentText("Press ok to continue.");
-  			alert.showAndWait();
-  			System.exit(0);
-  		});
-  		primaryStage.show();
-  	}
-  	
-  	// INITIALIZE METHOD ****************************************************
+	@FXML
+	private BorderPane sbMainPaneBp;
+
+	// STATIC JAVAFX INSTANCES **********************************************
+	private static Button viewRequestsBtn; 
+	private static Button viewInfoBtn;
+	private static Button viewReportsBtn; 
+	private static Button settingsBtn;
+	private static Hyperlink logoutLnk;
+	private static BorderPane mainPaneBp;
+	private static int loaded = 0;
+
+	// START METHOD *********************************************************
+	/**
+	 * Opens PrincipleMenuBar.fxml
+	 * 
+	 * @throws Exception
+	 */
+	public void start() throws Exception {
+		
+		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
+		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenuBar.css").toExternalForm());
+	}
+
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		viewRequestsBtn = sbViewRequestsBtn;
-	    viewInfoBtn = sbViewInfoBtn;
-	    viewReportsBtn = sbViewReportsBtn;
-	    settingsBtn = sbSettingsBtn;
-	    logoutLnk = sbLogoutLnk;
-	    mainPaneAp = sbMainPaneAp;
-	    //sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/util/logo.png")));
+		viewRequestsBtn = sbViewRequestsBtn; 
+		viewInfoBtn = sbViewInfoBtn;
+		viewReportsBtn = sbViewReportsBtn; 
+		settingsBtn = sbSettingsBtn; 
+		logoutLnk = sbLogoutLnk;
+		mainPaneBp = sbMainPaneBp;
+		//sbLogoIv.setImage(new Image (getClass().getResourceAsStream("../util/logo.png")));
+	}
+
+	// ACTION METHODS *******************************************************
+	@FXML
+	public void btnPressViewRequests(ActionEvent event) throws IOException {
+		System.out.println("BtnPressViewRequests");
+		// uncomment if there are any methods that are used externally from the controller
+		//PrincipleViewRequestController pvreqC = new PrincipleViewRequestController();
+		if (loaded != 1)
+		{
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewRequests"));
+			loaded = 1;
+			System.out.println(loaded);
+		}
+	}
+
+	@FXML
+	public void btnPressViewInfo(ActionEvent event) throws IOException {
+		// TODO open PrincipleViewInfo.fxml
+		System.out.println("BtnPressViewInfo");
+		// uncomment if there are any methods that are used externally from the controller
+		// PrincipleViewInfoController pviC = new PrincipleViewInfoController();
+		if (loaded != 2)
+		{
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewInfo"));
+			loaded = 2;
+			System.out.println(loaded);
+		}
+	}
+	@FXML
+	public void btnPressViewReports(ActionEvent event) throws IOException {
+		// TODO open PrincipleViewReports.fxml
+		System.out.println("BtnPressViewReports");
+		// uncomment if there are any methods that are used externally from the controller
+		// PrincipleViewReportsController pvreqC = new PrincipleViewRequestController();
+		if (loaded != 3)
+		{
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewReports"));
+			loaded = 3;
+			System.out.println(loaded);
+		}
+	}
+	@FXML
+	public void btnPressSettings(ActionEvent event) throws IOException {
+		// TODO open PrincipleSettings.fxml
+		System.out.println("BtnPressSettings");
+		// uncomment if there are any methods that are used externally from the controller
+		// PrincipleSettingsController pvreqC = new PrincipleSettingsController();
+		if (loaded != 4)
+		{
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleSettings"));
+			loaded = 4;
+			System.out.println(loaded);
+		}
+	}
+
+	@FXML
+	public void lnkPressLogout(ActionEvent event) throws IOException {
+		// TODO open SignIn.fxml
+		System.out.println("LnkPressLogout");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
+		ClientUI.mainStage.setWidth(600);
 	}
 	
-	// ACTION METHODS *******************************************************
-    @FXML
-    private void BtnPressViewRequests(ActionEvent event) {
-    	// TODO open PrincipleViewRequest.fxml
-    }
-
-    @FXML
-    private void BtnPressViewInfo(ActionEvent event) {
-    	// TODO open PrincipleViewInfo.fxml
-    }
-
-    @FXML
-    private void BtnPressViewReports(ActionEvent event) {
-    	// TODO open PrincipleViewReports.fxml
-    }
-    
-    @FXML
-    private void BtnPressSettings(ActionEvent event) {
-    	// TODO open PrincipleSettings.fxml
-    }
-
-    @FXML
-    private void LnkPressLogout(ActionEvent event) {
-    	// TODO open SignIn.fxml
-    }
+	@FXML
+	public void btnPressBack(ActionEvent event) throws IOException {
+		// TODO I prefer it to be a menu button rather than back - Yonatan
+	}
 }
