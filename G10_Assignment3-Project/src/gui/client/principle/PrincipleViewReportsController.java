@@ -1,5 +1,6 @@
 package gui.client.principle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,6 +37,7 @@ public class PrincipleViewReportsController implements Initializable{
     private static TextField studentNameTf;
     private static Button produceByStudentBtn;
 
+    private static ReportsController rController;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		teacherNameTf = sbTeacherNameTf;
@@ -44,11 +46,16 @@ public class PrincipleViewReportsController implements Initializable{
 		produceByCourseBtn = sbProduceByCourseBtn;
 		studentNameTf = sbStudentNameTf;
 		produceByStudentBtn = sbProduceByStudentBtn;
+		rController = new ReportsController();
 	}
 
     @FXML
-    void btnPressProduceByCourse(ActionEvent event) {
+    void btnPressProduceByCourse(ActionEvent event) throws IOException {
     	// TODO show exam reports by course
+    	// example *********************************************
+    	rController.start();
+    	// *****************************************************
+    	
     }
 
     @FXML
