@@ -3,6 +3,8 @@ package gui.client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
+import gui.client.principle.PrincipleMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,22 +12,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class SignInController implements Initializable {
-
+	public static SignInController signInController;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private TextField sbUsernameTf;
 
 	@FXML
 	private TextField sbPasswordTf;
-	
+
 	@FXML
 	private Label sbMessagelbl;
 
@@ -40,20 +41,20 @@ public class SignInController implements Initializable {
 
 	// START METHOD *********************************************************
 	/**
-	 * Opens ServerConsole.fxml
+	 * Opens SignIn.fxml
 	 * 
-	 * @param primaryStage
 	 * @throws Exception
 	 */
-	public void start(Stage primaryStage) throws Exception {
+	public void start() throws Exception {
+		signInController = this;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml"));
-		Scene scene = new Scene(root);
+		ClientUI.mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
-		primaryStage.setTitle("CEMS - Computerized Exam Management System (Client)");
-		primaryStage.setScene(scene);
-		primaryStage.setResizable(false);
-		primaryStage.setOnCloseRequest(e -> {
-			primaryStage.hide();
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
+		ClientUI.mainStage.setScene(ClientUI.mainScene);
+		ClientUI.mainStage.setResizable(false);
+		ClientUI.mainStage.setOnCloseRequest(e -> {
+			ClientUI.mainStage.hide();
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.initStyle(StageStyle.UTILITY);
 			alert.setTitle("Client window closed");
@@ -62,7 +63,7 @@ public class SignInController implements Initializable {
 			alert.showAndWait();
 			System.exit(0);
 		});
-		primaryStage.show();
+		ClientUI.mainStage.show();
 	}
 
 	// INITIALIZE METHOD ****************************************************
@@ -80,5 +81,12 @@ public class SignInController implements Initializable {
 		// TODO create USER object
 		// TODO send the object to the server
 		// TODO open the correct client window (student / teacher / principle)
+		// example : ********************************************************
+		PrincipleMenuController pmC = new PrincipleMenuController();
+		try {
+			pmC.start();
+		} catch (Exception e) {
+		}
+		// ******************************************************************
 	}
 }
