@@ -84,14 +84,18 @@ public class ServerConsoleController implements Initializable {
 			return;
 		}
 
-		portTf.setDisable(true);
-		startServerBtn.setDisable(true);
+		setDisable(true);
 		ServerUI.startServer(portNumber);
 	}
 
 	// INSTANCE METHODS ****************************************************
 	private int getPort() throws NumberFormatException {
 		return Integer.parseInt(portTf.getText());
+	}
+	
+	public void setDisable(boolean value) {
+		portTf.setDisable(value);
+		startServerBtn.setDisable(value);
 	}
 
 	public void print(String info) {
