@@ -144,18 +144,18 @@ public class TeacherSettingsController implements Initializable {
 
 	private static Stage currentStage;
 
-	public void start(Stage primaryStage) {
+	public void start(Stage mainStage) {
 		try {
-			currentStage = primaryStage;
+			currentStage = mainStage;
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
 			Scene scene = new Scene(root);
 			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
-			primaryStage.setTitle("Student Settings");
-			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.setOnCloseRequest(e -> {
+			mainStage.setTitle("Student Settings");
+			mainStage.setScene(scene);
+			mainStage.setResizable(false);
+			mainStage.setOnCloseRequest(e -> {
 				// ClientUI.chat.accept("client disconnected");
-				primaryStage.hide();
+				mainStage.hide();
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Client disconnected");
 				alert.setHeaderText("You have been disconnected from the server(StudentSettings)");
@@ -163,7 +163,7 @@ public class TeacherSettingsController implements Initializable {
 				alert.showAndWait();
 				System.exit(0);
 			});
-			primaryStage.show();
+			mainStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
