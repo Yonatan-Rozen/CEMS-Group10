@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewInfoController">
+   <children>
+      <Label layoutX="176.0" layoutY="14.0" text="View general info" underline="true" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutX="188.0" layoutY="130.0" prefHeight="140.0" prefWidth="225.0" spacing="10.0">
+         <children>
+            <Button fx:id="sbViewUsersBtn" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#btnPressViewUsers" prefHeight="35.0" text="View Users">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="sbViewExamsBtn" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#btnPressViewExams" prefHeight="35.0" text="View Exams">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="sbViewQuestionsBtn" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#btnPressViewQuestions" prefHeight="35.0" text="View Questions">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
