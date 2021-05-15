@@ -3,47 +3,24 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.client.principle.PrincipleMenuController">
    <children>
-      <BorderPane layoutY="41.0" prefHeight="329.0" prefWidth="540.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
-         <top>
-            <Label fx:id="sbWelcomeLbl" text="Welcome, Ron!" underline="true" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="30.0" />
-               </font>
-            </Label>
-         </top>
-         <center>
-            <VBox maxHeight="130.0" maxWidth="225.0" prefHeight="130.0" prefWidth="225.0" spacing="10.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="sbViewRequestBtn" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#BtnPressViewRequest" prefHeight="35.0" text="View requests">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#BtnPresssbViewInfo" prefHeight="35.0" text="View general info">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="sbViewReportsBtn" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#BtnPressViewReports" prefHeight="35.0" text="View reports">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#BtnPressSettings" prefHeight="35.0" text="Settings">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
-         </center>
-      </BorderPane>
+      <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="14.0" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutX="213.0" layoutY="100.0" prefHeight="200.0" prefWidth="175.0" spacing="10.0">
+         <children>
+            <Button fx:id="sbViewRequestsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewRequest" text="View requests" />
+            <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewInfo" text="View general info" />
+            <Button fx:id="sbViewReportsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReports" text="View reports" />
+            <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="Settings" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

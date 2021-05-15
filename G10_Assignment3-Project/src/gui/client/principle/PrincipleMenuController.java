@@ -2,18 +2,13 @@ package gui.client.principle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class PrincipleMenuController implements Initializable{
 
@@ -22,7 +17,7 @@ public class PrincipleMenuController implements Initializable{
     private Label sbWelcomeLbl;
 
     @FXML
-    private Button sbViewRequestBtn;
+    private Button sbViewRequestsBtn;
 
     @FXML
     private Button sbViewInfoBtn;
@@ -34,36 +29,28 @@ public class PrincipleMenuController implements Initializable{
     private Button sbSettingsBtn;
     
     // STATIC JAVAFX INSTANCES **********************************************
-    private Label welcomeLbl;
-    private Button viewRequestBtn;
-    private Button viewInfoBtn;
-    private Button viewReportsBtn;
-    private Button settingsBtn;
+    private static Label welcomeLbl;
+    private static Button viewRequestsBtn;
+    private static Button viewInfoBtn;
+    private static Button viewReportsBtn;
+    private static Button settingsBtn;
+    
+    // CONTROLLER INSTANCES
+    public static PrincipleMenuBarController pmbController;
     
     // START METHOD *********************************************************
  	/**
  	 * Opens PrincipleMenu.fxml
- 	 * @param primaryStage
+ 	 * 
  	 * @throws Exception
  	 */
- 	public void start(Stage primaryStage) throws Exception {
- 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml"));
- 		Scene scene = new Scene(root);
- 		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
- 		primaryStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
- 		primaryStage.setScene(scene);
- 		primaryStage.setResizable(false);
- 		primaryStage.setOnCloseRequest(e -> {
- 			primaryStage.hide();
- 			Alert alert = new Alert(AlertType.INFORMATION);
- 			alert.initStyle(StageStyle.UTILITY);
- 			alert.setTitle("Client window closed");
- 			alert.setHeaderText("You have been disconnected");
- 			alert.setContentText("Press ok to continue.");
- 			alert.showAndWait();
- 			System.exit(0);
- 		});
- 		primaryStage.show();
+ 	public void start() throws Exception {
+ 		
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+		
+		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
+ 		
  	}
  	
  	// INITIALIZE METHOD ****************************************************
@@ -71,32 +58,36 @@ public class PrincipleMenuController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		welcomeLbl = sbWelcomeLbl;
 		//TODO welcomeLbl should be set with a name (e.x : 'welcome, Ron')
-	    viewRequestBtn = sbViewRequestBtn;
+	    viewRequestsBtn = sbViewRequestsBtn;
 	    viewInfoBtn = sbViewInfoBtn;
 	    viewReportsBtn = sbViewReportsBtn;
 	    settingsBtn = sbSettingsBtn;
+	    pmbController = new PrincipleMenuBarController();
 	}
 	
 	// ACTION METHODS *******************************************************
-	
 	@FXML
-	public void BtnPressViewRequest(ActionEvent event) {
-		// TODO 
+	public void btnPressViewRequest(ActionEvent event) throws Exception {
+		pmbController.start();
+		pmbController.btnPressViewRequests(event);
 	}
 	
 	@FXML
-	public void BtnPressbViewInfo(ActionEvent event) {
-		// TODO 
+	public void btnPressViewInfo(ActionEvent event) throws Exception {
+		pmbController.start();
+		pmbController.btnPressViewInfo(event);
 	}
 	
 	@FXML
-	public void BtnPressViewReports(ActionEvent event) {
-		// TODO 
+	public void btnPressViewReports(ActionEvent event) throws Exception {
+		pmbController.start();
+		pmbController.btnPressViewReports(event);
 	}
 	
 	@FXML
-	public void BtnPressSettings(ActionEvent event) {
-		// TODO
+	public void btnPressSettings(ActionEvent event) throws Exception {
+		pmbController.start();
+		pmbController.btnPressSettings(event);
 	}
 	
 }
