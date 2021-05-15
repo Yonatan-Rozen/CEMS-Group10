@@ -45,7 +45,7 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button viewReportsBtn; 
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
-	private static BorderPane mainPaneBp;
+	protected static BorderPane mainPaneBp;
 	private static int loaded = 0;
 
 	// START METHOD *********************************************************
