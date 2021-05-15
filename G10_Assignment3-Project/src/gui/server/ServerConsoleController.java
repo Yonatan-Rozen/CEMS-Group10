@@ -39,18 +39,18 @@ public class ServerConsoleController implements Initializable {
 	/**
 	 * Opens ServerConsole.fxml
 	 * 
-	 * @param primaryStage
+	 * @param mainStage
 	 * @throws Exception
 	 */
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage mainStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/server/ServerConsole.fxml"));
 		Scene scene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui.server/ServerConsole.css").toExternalForm());
-		primaryStage.setTitle("CEMS - Computerized Exam Management System (Server)");
-		primaryStage.setScene(scene);
-		primaryStage.setResizable(false);
-		primaryStage.setOnCloseRequest(e -> {
-			primaryStage.hide();
+		mainStage.setTitle("CEMS - Computerized Exam Management System (Server)");
+		mainStage.setScene(scene);
+		mainStage.setResizable(false);
+		mainStage.setOnCloseRequest(e -> {
+			mainStage.hide();
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.initStyle(StageStyle.UTILITY);
 			alert.setTitle("Server shut down");
@@ -59,7 +59,7 @@ public class ServerConsoleController implements Initializable {
 			alert.showAndWait();
 			System.exit(0);
 		});
-		primaryStage.show();
+		mainStage.show();
 	}
 
 	// INITIALIZE METHOD ****************************************************

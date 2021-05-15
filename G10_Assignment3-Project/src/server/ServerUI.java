@@ -14,9 +14,9 @@ public class ServerUI extends Application{
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage mainStage) throws Exception {
 		serverConsole = new ServerConsoleController();
-		serverConsole.start(primaryStage);
+		serverConsole.start(mainStage);
 	}
 
 	/**
