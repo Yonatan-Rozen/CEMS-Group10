@@ -64,6 +64,11 @@ public class StudentMenuBarController implements Initializable {
 	}
 
 	@FXML
+	void btnPressTakeAnExam(ActionEvent event) {
+		//TODO go to take exam options (+entercode)
+	}
+
+	@FXML
 	void btnPressViewExamResults(ActionEvent event) {
 		//TODO go to student's exam results
 	}

@@ -15,7 +15,7 @@
          <children>
             <VBox alignment="CENTER" layoutX="5.0" layoutY="100.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">
                <children>
-                  <Button fx:id="sbTakeExamBtn" minWidth="130.0" mnemonicParsing="false" text="Take an exam" />
+                  <Button fx:id="sbTakeExamBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressTakeAnExam" text="Take an exam" />
                   <Button fx:id="sbViewExamResultsBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressViewExamResults" text="View exam results" />
                   <Button fx:id="sbSettingsBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressSettings" text="Settings" />
                </children>
