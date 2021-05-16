@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
@@ -46,7 +47,6 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
 	protected static BorderPane mainPaneBp;
-	private static int loaded = 0;
 
 	// START METHOD *********************************************************
 	/**
@@ -55,9 +55,9 @@ public class PrincipleMenuBarController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		
 		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
+
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenuBar.css").toExternalForm());
 	}
 
@@ -77,59 +77,28 @@ public class PrincipleMenuBarController implements Initializable {
 	@FXML
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
 		System.out.println("BtnPressViewRequests");
-		// uncomment if there are any methods that are used externally from the controller
-		//PrincipleViewRequestController pvreqC = new PrincipleViewRequestController();
-		if (loaded != 1)
-		{
-			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewRequests"));
-			loaded = 1;
-			System.out.println(loaded);
-		}
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewRequests"));
 	}
 
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
-		// TODO open PrincipleViewInfo.fxml
 		System.out.println("BtnPressViewInfo");
-		// uncomment if there are any methods that are used externally from the controller
-		// PrincipleViewInfoController pviC = new PrincipleViewInfoController();
-		if (loaded != 2)
-		{
-			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewInfo"));
-			loaded = 2;
-			System.out.println(loaded);
-		}
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
+
 	}
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
-		// TODO open PrincipleViewReports.fxml
 		System.out.println("BtnPressViewReports");
-		// uncomment if there are any methods that are used externally from the controller
-		// PrincipleViewReportsController pvreqC = new PrincipleViewRequestController();
-		if (loaded != 3)
-		{
-			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleViewReports"));
-			loaded = 3;
-			System.out.println(loaded);
-		}
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
 	}
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
-		// TODO open PrincipleSettings.fxml
 		System.out.println("BtnPressSettings");
-		// uncomment if there are any methods that are used externally from the controller
-		// PrincipleSettingsController pvreqC = new PrincipleSettingsController();
-		if (loaded != 4)
-		{
-			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("PrincipleSettings"));
-			loaded = 4;
-			System.out.println(loaded);
-		}
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
-		// TODO open SignIn.fxml
 		System.out.println("LnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
@@ -138,6 +107,8 @@ public class PrincipleMenuBarController implements Initializable {
 	
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
-		// TODO I prefer it to be a menu button rather than back - Yonatan
+		System.out.println("btnPressBack");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+		ClientUI.mainStage.setWidth(600);
 	}
 }

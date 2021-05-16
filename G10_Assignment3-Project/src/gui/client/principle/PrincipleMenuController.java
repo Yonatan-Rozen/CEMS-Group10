@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,8 +49,8 @@ public class PrincipleMenuController implements Initializable{
  		
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
-		
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
+
+		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenu.css").toExternalForm());
  		
  	}
  	
@@ -68,24 +69,28 @@ public class PrincipleMenuController implements Initializable{
 	// ACTION METHODS *******************************************************
 	@FXML
 	public void btnPressViewRequest(ActionEvent event) throws Exception {
+		System.out.println("btnPressViewRequest");
 		pmbController.start();
 		pmbController.btnPressViewRequests(event);
 	}
 	
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws Exception {
+		System.out.println("btnPressViewInfo");
 		pmbController.start();
 		pmbController.btnPressViewInfo(event);
 	}
 	
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws Exception {
+		System.out.println("btnPressViewReports");
 		pmbController.start();
 		pmbController.btnPressViewReports(event);
 	}
 	
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws Exception {
+		System.out.println("btnPressSettings");
 		pmbController.start();
 		pmbController.btnPressSettings(event);
 	}
