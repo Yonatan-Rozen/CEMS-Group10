@@ -1,11 +1,14 @@
 package gui.client.student;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -14,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 
 public class StudentMenuBarController implements Initializable {
 
+	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private Button sbTakeExamBtn;
 
@@ -35,6 +39,7 @@ public class StudentMenuBarController implements Initializable {
 	@FXML
 	private BorderPane sbMainPaneBp;
 
+	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
@@ -42,8 +47,21 @@ public class StudentMenuBarController implements Initializable {
 	private static ImageView logoIv;
 	private static Button backBtn;
 	private static BorderPane mainPaneBp;
-	//	private static int loaded = 0;
+	
+	// START METHOD *********************************************************
+	/**
+	 * Opens StudentMenuBar.fxml
+	 * 
+	 * @throws Exception
+	 */
+	public void start() throws Exception {
+		
+		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
+		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenuBar.css").toExternalForm());
+	}
 
+	// INITIALIZE METHOD *********************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		takeExamBtn = sbTakeExamBtn;
@@ -55,38 +73,37 @@ public class StudentMenuBarController implements Initializable {
 		mainPaneBp = sbMainPaneBp;
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressBack(ActionEvent event) {
-		//TODO
+	void btnPressTakeAnExam(ActionEvent event) {
+		System.out.println("btnPressTakeAnExam");
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
 	}
 
 	@FXML
 	void btnPressSettings(ActionEvent event) {
-		//TODO go to settings of student
-	}
-
-	@FXML
-	void btnPressTakeAnExam(ActionEvent event) {
-		// TODO open StudentEnterCode.fxml
-		System.out.println("BtnPressTakeAnExam");
-		// uncomment if there are any methods that are used externally from the controller
-		// StudentEnterCodeController pvreqC = new StudentEnterCodeController();
-		//if (loaded != 4)
-		//	{
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("StudentEnterCode"));
-		//	loaded = 4;
-		//	System.out.println(loaded);
-		//	}
+		System.out.println("btnPressSettings");
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
 	void btnPressViewExamResults(ActionEvent event) {
-		//TODO go to student's exam results
+		System.out.println("btnPressViewExamResults");
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentViewExamResults"));
 	}
 
 	@FXML
-	void lnkPressLogout(ActionEvent event) {
-		//TODO go to log in screen
+	void lnkPressLogout(ActionEvent event) throws IOException {
+		System.out.println("lnkPressLogout");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
+		ClientUI.mainStage.setWidth(600);
 	}
 
+	@FXML
+	void btnPressBack(ActionEvent event) throws IOException {
+		System.out.println("btnPressBack");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+		ClientUI.mainStage.setWidth(600);
+	}
 }
