@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamSubmittedSuccessfullyController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="68.0" text="Exam Submission" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="90.0" layoutY="137.0" prefHeight="30.0" prefWidth="364.0" text="Your exam was submited successfully!" textAlignment="CENTER" underline="true">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="45.0" fitWidth="38.0" layoutX="446.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Desktop/הנדסת%20תכנה/סמסטר%205/שיטות/פרוייקט/הגשה%203/kisspng-check-mark-computer-icons-clip-art-5afb299c9bb047.0968523115264096286377.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="235.0" layoutY="180.0" prefHeight="25.0" prefWidth="143.0" text="Please Be Patient!">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="124.0" layoutY="207.0" prefHeight="20.0" prefWidth="280.0" text="You will be able to see your grade as well as">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="124.0" layoutY="227.0" prefHeight="20.0" prefWidth="297.0" text="get a copy of the exam in about 7 business days">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="sbBackToManuBtn" layoutX="333.0" layoutY="294.0" mnemonicParsing="false" onAction="#btnPressBackToMenu" text="Go back to the main menu">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="124.0" layoutY="247.0" prefHeight="20.0" prefWidth="297.0" text="under the 'Exam Results' Panel">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
