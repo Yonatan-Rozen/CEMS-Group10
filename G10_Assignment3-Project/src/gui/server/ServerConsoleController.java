@@ -70,7 +70,7 @@ public class ServerConsoleController implements Initializable {
 		consoleTa = sbConsoleTa;
 	}
 
-	// startServerBtn METHOD ************************************************
+	// ACTION METHOD ********************************************************
 	public void btnPressStartServer(ActionEvent event) {
 		int portNumber;
 		try {
