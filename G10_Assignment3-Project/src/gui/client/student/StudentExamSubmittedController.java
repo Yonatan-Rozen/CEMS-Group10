@@ -8,16 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-public class StudentExamSubmittedSuccessfullyController implements Initializable {
+public class StudentExamSubmittedController implements Initializable {
 
 	@FXML
-	private Button sbBackToManuBtn;
+	private Button sbBackToMenuBtn;
 
-	private static Button backToManuBtn;
+	private static Button backToMenuBtn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		backToManuBtn = sbBackToManuBtn;
+		backToMenuBtn = sbBackToMenuBtn;
 	}
 
 	@FXML
