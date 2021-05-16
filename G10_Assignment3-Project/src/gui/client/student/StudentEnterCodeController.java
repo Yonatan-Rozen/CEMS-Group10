@@ -6,38 +6,32 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 public class StudentEnterCodeController implements Initializable {
+	
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private MenuButton sbStartExamBtn;
+	private Button sbStartExamBtn;
 
 	@FXML
-	private MenuItem sbStartExamManuallyBtn;
+	private TextField sbCodeTf;
 
-	@FXML
-	private MenuItem sbStartExamComputerizedBtn;
+	// STATIC JAVAFX INSTANCES **********************************************
+	private static Button startExamBtn;
+	private static TextField codeTf;
 
-	private static MenuButton startExamBtn;
-	private static MenuItem startExamManuallyBtn;
-	private static MenuItem startExamComputerizedBtn;
-
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		startExamBtn = sbStartExamBtn;
-		startExamManuallyBtn = sbStartExamManuallyBtn;
-		startExamComputerizedBtn = sbStartExamComputerizedBtn;
+		codeTf = sbCodeTf;
 	}
+	
+	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressStartExamComputerized(ActionEvent event) {
-		//TODO go to computerized exam screen ( insert ID Screen)
+	void btnPressTakeExam(ActionEvent event) {
+		//TODO go to [Computerized / Manual] exam screen
 	}
-
-	@FXML
-	void btnPressStartExamManually(ActionEvent event) {
-		//TODO go to manual exam screen
-	}
-
-
 }
