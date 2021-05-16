@@ -3,6 +3,7 @@ package gui.client.student;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,6 +42,7 @@ public class StudentMenuBarController implements Initializable {
 	private static ImageView logoIv;
 	private static Button backBtn;
 	private static BorderPane mainPaneBp;
+	//	private static int loaded = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,7 +67,16 @@ public class StudentMenuBarController implements Initializable {
 
 	@FXML
 	void btnPressTakeAnExam(ActionEvent event) {
-		//TODO go to take exam options (+entercode)
+		// TODO open StudentEnterCode.fxml
+		System.out.println("BtnPressTakeAnExam");
+		// uncomment if there are any methods that are used externally from the controller
+		// StudentEnterCodeController pvreqC = new StudentEnterCodeController();
+		//if (loaded != 4)
+		//	{
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("StudentEnterCode"));
+		//	loaded = 4;
+		//	System.out.println(loaded);
+		//	}
 	}
 
 	@FXML
