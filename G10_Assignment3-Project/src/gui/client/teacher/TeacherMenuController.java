@@ -15,38 +15,42 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 
-public class TeacherMenuController implements Initializable{
-	//
+public class TeacherMenuController implements Initializable {
 
 	@FXML
-	private Hyperlink LableTeacherName;
+	private Hyperlink sbTeacherNameLnk;
 
 	@FXML
-	private Hyperlink btnLogoyt;
+	private Hyperlink sbLogoutLnk;
 
 	@FXML
-	private Button btnStartExam;
+	private Button sbStartExamBtn;
 
 	@FXML
-	private Button btnCreateQuestion;
+	private Button sbCreateQuestionBtn;
 
 	@FXML
-	private Button btnEditQuestion;
+	private Button sbEditQuestionBtn;
 
 	@FXML
-	private Button btnCrreateExam;
+	private Button sbCrreateExamBtn;
 
 	@FXML
-	private Button btnEditExam;
+	private Button sbEditExamBtn;
 
 	@FXML
-	private Button btnViewReport;
+	private Button sbViewReportBtn;
 
 	@FXML
-	private Button btnSettings;
+	private Button sbSettingsBtn;
 
 	@FXML
-	void LblTeacherName(ActionEvent event) {
+	void LnkLogout(ActionEvent event) {
+
+	}
+
+	@FXML
+	void LnkTeacherName(ActionEvent event) {
 
 	}
 
@@ -67,11 +71,6 @@ public class TeacherMenuController implements Initializable{
 
 	@FXML
 	void btnEditQuestion(ActionEvent event) {
-
-	}
-
-	@FXML
-	void btnLogout(ActionEvent event) {
 
 	}
 
@@ -120,6 +119,6 @@ public class TeacherMenuController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
