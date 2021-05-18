@@ -19,7 +19,7 @@
             <Insets />
          </VBox.margin>
       </Hyperlink>
-      <Label alignment="CENTER" prefHeight="45.0" prefWidth="300.0" text="Welcome, Teacher!" textAlignment="JUSTIFY">
+      <Label fx:id="sbWelcomeLbl" alignment="CENTER" prefHeight="45.0" prefWidth="300.0" text="Welcome, Teacher!" textAlignment="JUSTIFY">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
