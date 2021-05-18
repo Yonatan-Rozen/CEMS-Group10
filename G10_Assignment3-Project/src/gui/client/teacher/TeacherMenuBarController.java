@@ -126,10 +126,10 @@ public class TeacherMenuBarController implements Initializable {
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherSettings"));
 	}
 
-	@FXML
-	void btnPressStartExam(ActionEvent event) throws IOException {
-
-	}
+//	@FXML
+//	void btnPressStartExam(ActionEvent event) throws IOException {
+//
+//	}
 
 	@FXML
 	void btnPressViewReports(ActionEvent event) throws IOException {

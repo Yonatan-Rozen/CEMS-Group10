@@ -83,26 +83,29 @@ public class SignInController implements Initializable {
 		// TODO create USER object
 		// TODO send the object to the server
 		// TODO open the correct client window (student / teacher / principle)
-		// principle example : **********************************************
+		
+		
+//		// principle example : **********************************************
 //		PrincipleMenuController pmC = new PrincipleMenuController();
 //		try {
 //			pmC.start();
 //		} catch (Exception e) {
 //		}
+		
+		
 //		// student example : ************************************************
 //		StudentMenuController smC = new StudentMenuController();
 //		try {
 //			smC.start();
 //		} catch (Exception e) {
 //		}
-//		// ******************************************************************
 
-		// teacher example : ************************************************
-		TeacherMenuController tmC = new TeacherMenuController();
-		try {
-			tmC.start();
-		} catch (Exception e) {
-		}
-		// ******************************************************************
+		
+//		// teacher example : ************************************************
+//		TeacherMenuController tmC = new TeacherMenuController();
+//		try {
+//			tmC.start();
+//		} catch (Exception e) {
+//		}
 	}
 }

@@ -60,7 +60,7 @@ public class TeacherMenuController implements Initializable {
 	public static TeacherMenuBarController tmbController;
 	public Scene secscene;
 	public void start() throws Exception {
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (teacher)");
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 		secscene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 
