@@ -47,15 +47,15 @@ public class StudentMenuBarController implements Initializable {
 	private static ImageView logoIv;
 	private static Button backBtn;
 	private static BorderPane mainPaneBp;
-	
+
 	// START METHOD *********************************************************
 	/**
 	 * Opens StudentMenuBar.fxml
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		
+
 		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenuBar.css").toExternalForm());
@@ -89,7 +89,7 @@ public class StudentMenuBarController implements Initializable {
 	@FXML
 	void btnPressViewExamResults(ActionEvent event) {
 		System.out.println("btnPressViewExamResults");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentViewExamResults"));
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentExamResults"));
 	}
 
 	@FXML

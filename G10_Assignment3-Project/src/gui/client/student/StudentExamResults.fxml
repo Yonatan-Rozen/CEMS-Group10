@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamResultsController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="24.0" text="Exam Results" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <TableView layoutX="159.0" layoutY="91.0" prefHeight="200.0" prefWidth="283.0">
+         <columns>
+            <TableColumn prefWidth="197.0" text="Course Name" />
+            <TableColumn prefWidth="85.0" text="Grade" />
+         </columns>
+      </TableView>
+      <Button fx:id="sbGetCopyBtn" layoutX="376.0" layoutY="308.0" mnemonicParsing="false" onAction="#btnPressGetCopy" text="Get Copy" />
+      <Label fx:id="sbCommentExamResultLbl" layoutX="159.0" layoutY="311.0" text="comment :" textFill="#e41b1b">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
