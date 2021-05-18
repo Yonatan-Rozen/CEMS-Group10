@@ -1,10 +1,13 @@
 package gui.client.student;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -16,6 +19,7 @@ import javafx.scene.control.ToggleGroup;
 
 public class StudentTakeComputerizedExamController implements Initializable {
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
     private Label sbExamOfCourseLbl;
 
@@ -58,6 +62,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
     @FXML
     private Button sbSubmitBtn;
 
+    // STATIC JAVAFX INSTANCES **********************************************
 	private static Label examOfCourseLbl;
 	private static TextArea generalInfoTa;
 	private static Label scorelbl;
@@ -70,6 +75,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static RadioButton answer4Rb;
 	private static Button submitBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		examOfCourseLbl = sbExamOfCourseLbl;
@@ -85,23 +91,34 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		submitBtn = sbSubmitBtn;
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void rbPressAnswer1(ActionEvent event) {
-		
+		// TODO
 	}
 
 	@FXML
 	void rbPressAnswer2(ActionEvent event) {
-
+		// TODO
 	}
 
 	@FXML
 	void rbPressAnswer3(ActionEvent event) {
-
+		// TODO
 	}
 
 	@FXML
 	void rbPressAnswer4(ActionEvent event) {
-
+		// TODO
+	}
+	
+	@FXML
+	void btnPressSubmit(ActionEvent event) throws IOException {
+		// TODO
+		//successful submit example ***********************************
+		ClientUI.mainStage.setWidth(600);
+		ClientUI.mainStage.setHeight(400);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		//*************************************************************
 	}
 }

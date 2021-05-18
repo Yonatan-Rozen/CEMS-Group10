@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeComputerizedExamController">
    <children>
-      <Label fx:id="sbExamOfCourseLbl" layoutX="50.0" layoutY="22.0" text="Exam - Algebra 1" underline="true">
+      <Label fx:id="sbExamOfCourseLbl" layoutX="50.0" layoutY="22.0" text="Exam - Algebra 1" underline="true" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
@@ -94,7 +94,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button fx:id="sbSubmitBtn" layoutX="727.0" layoutY="556.0" mnemonicParsing="false" text="Submit &gt;&gt;&gt;">
+      <Button fx:id="sbSubmitBtn" layoutX="727.0" layoutY="556.0" mnemonicParsing="false" onAction="#btnPressSubmit" text="Submit &gt;&gt;&gt;">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
