@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeComputerizedExamController">
+   <children>
+      <Label fx:id="sbExamOfCourseLbl" layoutX="50.0" layoutY="22.0" text="Exam - Algebra 1" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="sbGeneralInfoTa" editable="false" focusTraversable="false" layoutX="50.0" layoutY="100.0" prefHeight="120.0" prefWidth="800.0" promptText="Allocated Time : 180 (minutes)...">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></TextArea>
+      <Label layoutX="50.0" layoutY="73.0" text="General information :" underline="true">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="53.0" layoutY="233.0" text="Questions :" underline="true">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="sbScorelbl" layoutX="50.0" layoutY="293.0" text="(score : 10) ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ScrollPane fx:id="sbQuestionSp" focusTraversable="false" layoutX="150.0" layoutY="232.0" prefHeight="70.0" prefWidth="700.0">
+        <content>
+          <AnchorPane>
+               <children>
+                  <ButtonBar fx:id="sbQuestionBarBb" buttonMinWidth="30.0" focusTraversable="false" layoutY="5.0" nodeOrientation="LEFT_TO_RIGHT" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane fx:id="sbAnswersSp" focusTraversable="false" layoutX="50.0" layoutY="321.0" prefHeight="230.0" prefWidth="800.0">
+         <content>
+            <VBox spacing="20.0">
+               <children>
+                  <Label fx:id="sbQuestionLbl" text="1) How much is 1+1?">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer1Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer1" text="Answer#1" AnchorPane.leftAnchor="10.0">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sbAnswerTg" />
+                           </toggleGroup>
+                           <font>
+                              <Font size="15.0" />
+                           </font></RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer2Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer2" text="Answer#2" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer3Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer3" text="Answer#3" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer4Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer4" text="Answer#4" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></RadioButton>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Button fx:id="sbSubmitBtn" layoutX="727.0" layoutY="556.0" mnemonicParsing="false" text="Submit &gt;&gt;&gt;">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
