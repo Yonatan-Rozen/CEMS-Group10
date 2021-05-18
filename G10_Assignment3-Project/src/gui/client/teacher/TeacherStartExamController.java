@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class TeacherStartExamController {
@@ -25,7 +23,15 @@ public class TeacherStartExamController {
     private TextField Text4Digits;
 
     @FXML
+    private Button ButtonConfirm;
+
+    @FXML
     void ComboBoxChooseExam(ActionEvent event) {
+
+    }
+
+    @FXML
+    void PressConfirm(ActionEvent event) {
 
     }
 
@@ -33,6 +39,8 @@ public class TeacherStartExamController {
     void btnBack(ActionEvent event) {
 
     }
+
+
     
     private static Stage currentStage;
     
