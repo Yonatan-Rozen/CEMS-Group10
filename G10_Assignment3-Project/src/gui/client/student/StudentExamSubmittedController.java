@@ -1,28 +1,21 @@
 package gui.client.student;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
-public class StudentExamSubmittedController implements Initializable {
+public class StudentExamSubmittedController {
 
 	@FXML
 	private Button sbBackToMenuBtn;
 
-	private static Button backToMenuBtn;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		backToMenuBtn = sbBackToMenuBtn;
-	}
-
 	@FXML
-	void btnPressBackToMenu(ActionEvent event) {
-		//TODO go to menu screen
+	void btnPressBackToMenu(ActionEvent event) throws IOException {
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 	}
 
 }

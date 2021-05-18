@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamSubmittedController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="14.0" text="Exam Submission" underline="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="14.0" text="Exam Submission" underline="true" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
@@ -33,7 +33,7 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="sbBackToMenuBtn" layoutX="344.0" layoutY="297.0" mnemonicParsing="false" onAction="#btnPressBackToMenu" text="Go back to the main menu">
+      <Button fx:id="sbBackToMenuBtn" layoutX="197.0" layoutY="278.0" mnemonicParsing="false" onAction="#btnPressBackToMenu" text="Go back to the main menu">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
