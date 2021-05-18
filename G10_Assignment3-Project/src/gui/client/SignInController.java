@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import gui.client.principle.PrincipleMenuController;
 import gui.client.student.StudentMenuController;
+import gui.client.teacher.TeacherMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,18 +83,29 @@ public class SignInController implements Initializable {
 		// TODO create USER object
 		// TODO send the object to the server
 		// TODO open the correct client window (student / teacher / principle)
-		// principle example : **********************************************
+		
+		
+//		// principle example : **********************************************
 //		PrincipleMenuController pmC = new PrincipleMenuController();
 //		try {
 //			pmC.start();
 //		} catch (Exception e) {
 //		}
-		// student example : ************************************************
-		StudentMenuController smC = new StudentMenuController();
-		try {
-			smC.start();
-		} catch (Exception e) {
-		}
-		// ******************************************************************
+		
+		
+//		// student example : ************************************************
+//		StudentMenuController smC = new StudentMenuController();
+//		try {
+//			smC.start();
+//		} catch (Exception e) {
+//		}
+
+		
+//		// teacher example : ************************************************
+//		TeacherMenuController tmC = new TeacherMenuController();
+//		try {
+//			tmC.start();
+//		} catch (Exception e) {
+//		}
 	}
 }
