@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import gui.client.principle.PrincipleMenuController;
 import gui.client.student.StudentMenuController;
+import gui.client.teacher.TeacherMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,10 +89,18 @@ public class SignInController implements Initializable {
 //			pmC.start();
 //		} catch (Exception e) {
 //		}
-		// student example : ************************************************
-		StudentMenuController smC = new StudentMenuController();
+//		// student example : ************************************************
+//		StudentMenuController smC = new StudentMenuController();
+//		try {
+//			smC.start();
+//		} catch (Exception e) {
+//		}
+//		// ******************************************************************
+
+		// teacher example : ************************************************
+		TeacherMenuController tmC = new TeacherMenuController();
 		try {
-			smC.start();
+			tmC.start();
 		} catch (Exception e) {
 		}
 		// ******************************************************************
