@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 
 public class TeacherMenuController implements Initializable {
 
+	// JAVAFX INSTANCES *****************************************************
 	@FXML
 	private Hyperlink sbTeacherNameLnk;
 
@@ -56,19 +57,12 @@ public class TeacherMenuController implements Initializable {
 	private static Button viewReportBtn;
 	private static Button settingsBtn;
 
-	// CONTROLLER INSTANCES
-	public static TeacherMenuBarController tmbController;
-	public Scene secscene;
+	// CONTROLLER INSTANCES *************************************************
+	protected static TeacherMenuBarController tmbController;
 
 	public void start() throws Exception {
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
-		try {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("hello");
-		//secscene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 	}
 
 	@Override
