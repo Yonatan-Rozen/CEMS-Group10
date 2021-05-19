@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
@@ -44,7 +45,6 @@ public class StudentMenuBarController implements Initializable {
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
-	private static ImageView logoIv;
 	private static Button backBtn;
 	private static BorderPane mainPaneBp;
 
@@ -68,9 +68,9 @@ public class StudentMenuBarController implements Initializable {
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		logoutLnk = sbLogoutLnk;
-		logoIv = sbLogoIv;
 		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
+		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
 	}
 
 	// ACTION METHODS *******************************************************
