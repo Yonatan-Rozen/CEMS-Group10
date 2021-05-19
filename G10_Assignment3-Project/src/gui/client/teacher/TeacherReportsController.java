@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
+import gui.client.principle.PrincipleMenuBarController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,6 +60,7 @@ public class TeacherReportsController implements Initializable {
 	public void start() throws IOException {
 		// TODO Auto-generated method stub
 		//example **************************************
+		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherReports"));
 		//**********************************************
 	}
 
