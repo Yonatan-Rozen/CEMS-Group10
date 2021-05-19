@@ -21,7 +21,7 @@
          </font>
       </Label>
       <ComboBox fx:id="sbChoseExamCb" layoutX="297.0" layoutY="136.0" onAction="#cbPressChoseExam" prefHeight="25.0" prefWidth="114.0" promptText="Chose exam" />
-      <TextField fx:id="sbCodeTf" layoutX="334.0" layoutY="175.0" minWidth="40.0" prefHeight="25.0" prefWidth="40.0" promptText="****" />
+      <TextField fx:id="sbCodeTf" layoutX="334.0" layoutY="175.0" prefHeight="25.0" prefWidth="60.0" promptText="   ****" />
       <Label layoutX="192.0" layoutY="177.0" text="Insert 4 digit code:">
          <font>
             <Font name="System Bold" size="15.0" />
