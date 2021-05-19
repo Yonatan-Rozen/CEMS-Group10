@@ -36,7 +36,7 @@ public class PrincipleMenuController implements Initializable{
     private static Button settingsBtn;
     
     // CONTROLLER INSTANCES
-    public static PrincipleMenuBarController pmbController;
+    protected static PrincipleMenuBarController pmbController;
     
     // START METHOD *********************************************************
  	/**

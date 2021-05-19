@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 
 public class PrincipleViewReportsController implements Initializable{
 
+	// JAVAFX INSTANCES ******************************************************
     @FXML
     private TextField sbTeacherNameTf;
 
@@ -30,6 +31,7 @@ public class PrincipleViewReportsController implements Initializable{
     @FXML
     private Button sbProduceByStudentBtn;
     
+ // STATIC JAVAFX INSTANCES **********************************************
     private static TextField teacherNameTf;
     private static Button produceByTeacherBtn;
     private static TextField courseNameTf;
@@ -37,7 +39,8 @@ public class PrincipleViewReportsController implements Initializable{
     private static TextField studentNameTf;
     private static Button produceByStudentBtn;
 
-    private static ReportsController rController;
+    // CONTROLLER INSTANCES
+    protected static PrincipleReportsController prController;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		teacherNameTf = sbTeacherNameTf;
@@ -46,14 +49,15 @@ public class PrincipleViewReportsController implements Initializable{
 		produceByCourseBtn = sbProduceByCourseBtn;
 		studentNameTf = sbStudentNameTf;
 		produceByStudentBtn = sbProduceByStudentBtn;
-		rController = new ReportsController();
+		prController = new PrincipleReportsController();
 	}
 
+	// ACTION METHODS *******************************************************
     @FXML
     void btnPressProduceByCourse(ActionEvent event) throws IOException {
     	// TODO show exam reports by course
     	// example *********************************************
-    	rController.start();
+    	prController.start();
     	// *****************************************************
     	
     }
