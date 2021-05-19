@@ -2,8 +2,14 @@ package common;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.function.UnaryOperator;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.Pane;
 
 public class CommonMethodsHandler {
@@ -35,17 +41,15 @@ public class CommonMethodsHandler {
 				case "principle":
 				case "teacher":
 					path.append("client/").append(packageName).append("/").append(fxmlName).append(".fxml");
-					//fileUrl = getClass().getResource("/gui/client/" + packageName + "/" + fxmlName + ".fxml");
 					break;
 				case "client":
 				case "server":
 					path.append(packageName).append("/").append(fxmlName).append(".fxml");
-					//fileUrl = getClass().getResource("/gui/"+ packageName +"/" + fxmlName + ".fxml");
 					break;
 				default:
 					break;
 			}
-			System.out.println(path.toString());
+			//System.out.println(path.toString());
 			fileUrl = getClass().getClassLoader().getResource(path.toString());
 			if (fileUrl == null) {
 				throw new FileNotFoundException(fxmlName + ".fxml could not be found!");
@@ -55,5 +59,22 @@ public class CommonMethodsHandler {
 			System.out.println("could not load " + fxmlName);
 		}
 		return pane;
+	}
+	
+	/**
+	 * limits a text field component to a specified maximum amount of character
+	 * @param tf the text field component
+	 * @param maxLength the maximum length of characters
+	 */
+	public void addTextLimiter(final TextField tf, final int maxLength) {
+	    tf.textProperty().addListener(new ChangeListener<String>() {
+	        @Override
+	        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+	            if (tf.getText().length() > maxLength) {
+	                String s = tf.getText().substring(0, maxLength);
+	                tf.setText(s);
+	            }
+	        }
+	    });
 	}
 }
