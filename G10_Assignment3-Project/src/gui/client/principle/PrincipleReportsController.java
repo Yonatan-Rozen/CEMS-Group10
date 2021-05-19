@@ -14,7 +14,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class ReportsController implements Initializable {
+public class PrincipleReportsController implements Initializable {
 
 	@FXML
 	private BarChart<?, ?> sbHistogramBc;
@@ -57,7 +57,7 @@ public class ReportsController implements Initializable {
 	public void start() throws IOException {
 		// TODO Auto-generated method stub
 		//example **************************************
-		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "Reports"));
+		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleReports"));
 		//**********************************************
 	}
 
