@@ -9,11 +9,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
 public class StudentMenuController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
+    @FXML
+    private Hyperlink sbStudentLnk;
+
+    @FXML
+    private Hyperlink sbLogoutLnk;
+    
     @FXML
     private Label sbWelcomeLbl;
     
@@ -27,6 +34,8 @@ public class StudentMenuController implements Initializable {
 	private Button sbSettingsBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
+	private static Hyperlink studentLnk;
+    private static Hyperlink logoutLnk;
     private static Label welcomeLbl;
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
@@ -45,37 +54,47 @@ public class StudentMenuController implements Initializable {
 
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
+		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenu.css").toExternalForm());
 
 	}
-
+	
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		studentLnk = sbStudentLnk;
+		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
 		takeExamBtn = sbTakeExamBtn;
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
+		
 		smbController = new StudentMenuBarController();
+	}
+	
+	// ACTION METHODS *******************************************************
+	@FXML
+	void lnkPressLogout(ActionEvent event) throws Exception {
+		System.out.println("StudentMenuBar::LnkLogout");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 
 	@FXML
 	void btnPressSettings(ActionEvent event) throws Exception {
-		System.out.println("btnPressSettings");
+		System.out.println("StudentMenuBar::btnPressSettings/lnkStudentName");
 		smbController.start();
 		smbController.btnPressSettings(event);
 	}
 
 	@FXML
 	void btnPressTakeExam(ActionEvent event) throws Exception {
-		System.out.println("btnPressTakeExam");
+		System.out.println("StudentMenuBar::btnPressTakeExam");
 		smbController.start();
 		smbController.btnPressTakeAnExam(event);
 	}
 
 	@FXML
 	void btnPressViewExamResults(ActionEvent event) throws Exception {
-		System.out.println("btnPressViewExamResults");
+		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		smbController.start();
 		smbController.btnPressViewExamResults(event);
 	}

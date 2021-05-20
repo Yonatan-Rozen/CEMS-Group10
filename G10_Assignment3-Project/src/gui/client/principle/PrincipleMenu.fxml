@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleMenuController">
    <children>
-      <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="14.0" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="14.0">
+      <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="21.0" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="213.0" layoutY="100.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
+      <VBox alignment="CENTER" layoutX="300.0" layoutY="135.0" prefWidth="150.0" spacing="10.0">
          <children>
             <Button fx:id="sbViewRequestsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewRequest" text="View requests" />
             <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewInfo" text="View general info" />
@@ -21,5 +22,7 @@
             <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="Settings" />
          </children>
       </VBox>
+      <Hyperlink fx:id="sbStudentLnk" layoutX="34.0" layoutY="34.0" onAction="#btnPressSettings" text="PrincipleName" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Hyperlink fx:id="sbLogoutLnk" layoutX="35.0" layoutY="52.0" onAction="#lnkPressLogout" text="Logout" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="32.0" />
    </children>
 </AnchorPane>
