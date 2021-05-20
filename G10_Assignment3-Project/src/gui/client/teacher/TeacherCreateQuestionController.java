@@ -5,56 +5,24 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 
 public class TeacherCreateQuestionController implements Initializable {
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private RadioButton sbchoose1RadioBtn;
+	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	private RadioButton sbchoose2RadioBtn;
-
-	@FXML
-	private RadioButton sbchoose3RadioBtn;
-
-	@FXML
-	private RadioButton sbchoose4RadioBtn;
-
-	@FXML
-	private Label sbAns2Text;
-
-	@FXML
-	private Label sbAns3Text;
-
-	@FXML
-	private Label sbAns4Text;
-
-	@FXML
-	private Label sbAns1Text;
-
-	@FXML
-	private Button sbDiscardQuestion2Btn;
-
-	@FXML
-	private Button sbSaveQuestionBtn;
-
-	@FXML
-	private Label sbInsertBodyText;
+	private ComboBox<String> sbQuestionBankCb;
 
 	@FXML
 	private Button sbDiscardQuestionBtn;
@@ -63,105 +31,169 @@ public class TeacherCreateQuestionController implements Initializable {
 	private Button sbCreateQuestionBtn;
 
 	@FXML
-	private Hyperlink sbAddNewProffesionLnk;
+	private Hyperlink sbAddBankLnk;
 
 	@FXML
-	private Hyperlink sbRemoveSelectedProfessionLnk;
+	private Hyperlink sbRemoveBankLnk;
 
 	@FXML
-	private ComboBox<?> sbChooseQuestionBankComboBox;
+	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	void ComboBoxChooseQuestionBank(ActionEvent event) {
-
-	}
+	private TextArea sbQuestionBodyTa;
 
 	@FXML
-	void LnkAddNewProffesion(ActionEvent event) {
-
-	}
+	private ToggleGroup sbAnswersTg;
 
 	@FXML
-	void LnkRemoveSelectedProfession(ActionEvent event) {
-
-	}
+	private RadioButton sbMarkAnswer1Rb;
 
 	@FXML
-	void btnCreateQuestion(ActionEvent event) {
-
-	}
+	private RadioButton sbMarkAnswer2Rb;
 
 	@FXML
-	void btnDiscardQuestion(ActionEvent event) {
-
-	}
+	private RadioButton sbMarkAnswer3Rb;
 
 	@FXML
-	void btnDiscardQuestion2(ActionEvent event) {
-
-	}
+	private RadioButton sbMarkAnswer4Rb;
 
 	@FXML
-	void btnSaveQuestion(ActionEvent event) {
-
-	}
+	private TextArea sbAnswer1Ta;
 
 	@FXML
-	void radioBtnchoose1(ActionEvent event) {
-
-	}
+	private TextArea sbAnswer2Ta;
 
 	@FXML
-	void radioBtnchoose2(ActionEvent event) {
-
-	}
+	private TextArea sbAnswer3Ta;
 
 	@FXML
-	void radioBtnchoose3(ActionEvent event) {
-
-	}
+	private TextArea sbAnswer4Ta;
 
 	@FXML
-	void radioBtnchoose4(ActionEvent event) {
+	private Button sbChangeBankBtn;
 
-	}
+	@FXML
+	private Button sbSaveQuestionBtn;
 
-	private static Stage currentStage;
+	// STATIC JAVAFX INSTANCES **********************************************
+	private static AnchorPane topPanelAp;
+	private static ComboBox<String> questionBankCb;
+	private static Button discardQuestionBtn;
+	private static Button createQuestionBtn;
+	private static Hyperlink addBankLnk;
+	private static Hyperlink removeBankLnk;
+	private static AnchorPane botPanelAp;
+	private static TextArea questionBodyTa;
+	private static ToggleGroup answersTg;
+	private static RadioButton markAnswer1Rb;
+	private static RadioButton markAnswer2Rb;
+	private static RadioButton markAnswer3Rb;
+	private static RadioButton markAnswer4Rb;
+	private static TextArea answer1Ta;
+	private static TextArea answer2Ta;
+	private static TextArea answer3Ta;
+	private static TextArea answer4Ta;
+	private static Button changeBankBtn;
+	private static Button saveQuestionBtn;
 
-	public void start(Stage mainStage) {
-		try {
-			currentStage = mainStage;
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
-			Scene scene = new Scene(root);
-			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
-			mainStage.setTitle("Student Settings");
-			mainStage.setScene(scene);
-			mainStage.setResizable(false);
-			mainStage.setOnCloseRequest(e -> {
-				// ClientUI.chat.accept("client disconnected");
-				mainStage.hide();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Client disconnected");
-				alert.setHeaderText("You have been disconnected from the server(StudentSettings)");
-				alert.setContentText("Press ok to continue...");
-				alert.showAndWait();
-				System.exit(0);
-			});
-			mainStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-//	public void getBtn(ActionEvent event) throws Exception {
-//		Point windowPosition = new Point(currentStage.getX(), currentStage.getY());
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		edic = new ExamDataInfoController();
-//		edic.start(new Stage(), windowPosition);
-//	}
-
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// first panel
+		topPanelAp = sbTopPanelAp;
+		questionBankCb = sbQuestionBankCb;
+		removeBankLnk = sbRemoveBankLnk;
+		addBankLnk = sbAddBankLnk;
+		discardQuestionBtn = sbDiscardQuestionBtn;
+		createQuestionBtn = sbCreateQuestionBtn;
+
+		// second panel
+		botPanelAp = sbBotPanelAp;
+		botPanelAp.setDisable(true);
+		questionBodyTa = sbQuestionBodyTa;
+		answersTg = sbAnswersTg;
+		markAnswer1Rb = sbMarkAnswer1Rb;
+		markAnswer2Rb = sbMarkAnswer2Rb;
+		markAnswer3Rb = sbMarkAnswer3Rb;
+		markAnswer4Rb = sbMarkAnswer4Rb;
+		answer1Ta = sbAnswer1Ta;
+		answer2Ta = sbAnswer2Ta;
+		answer3Ta = sbAnswer3Ta;
+		answer4Ta = sbAnswer4Ta;
+		changeBankBtn = sbChangeBankBtn;
+		saveQuestionBtn = sbSaveQuestionBtn;
+	}
+
+	// ACTION METHODS *******************************************************
+	@FXML
+	void cbPressQuestionBank(ActionEvent event) {
+
+	}
+
+	@FXML
+	void lnkPressRemoveBank(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressDiscardQuestion(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressCreateQuestion(ActionEvent event) {
+		// example ***********************************************************
+		// first panel
+		topPanelAp.setDisable(true);
+		// second panel
+		botPanelAp.setDisable(false);
+		// *******************************************************************
+	}
+
+	@FXML
+	void lnkPressAddBank(ActionEvent event) {
+
+	}
+
+	@FXML
+	void rbPressMarkAnswer1(ActionEvent event) {
+
+	}
+
+	@FXML
+	void rbPressMarkAnswer2(ActionEvent event) {
+
+	}
+
+	@FXML
+	void rbPressMarkAnswer3(ActionEvent event) {
+
+	}
+
+	@FXML
+	void rbPressMarkAnswer4(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressChangeBank(ActionEvent event) {
+		// example ***********************************************************
+		// first panel
+		topPanelAp.setDisable(false);
+		// second panel
+		botPanelAp.setDisable(true);
+		questionBodyTa.setText("");
+		answer1Ta.setText("");
+		answer2Ta.setText("");
+		answer3Ta.setText("");
+		answer4Ta.setText("");
+		markAnswer1Rb.setSelected(true);
+		// *******************************************************************
+	}
+
+	@FXML
+	void btnPressSaveQuestion(ActionEvent event) {
+
 	}
 
 }
