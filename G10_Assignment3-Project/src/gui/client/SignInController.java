@@ -71,6 +71,7 @@ public class SignInController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(600);
 		usernameTf = sbUsernameTf;
 		passwordTf = sbPasswordTf;
 		messagelbl = sbMessagelbl;
@@ -85,7 +86,7 @@ public class SignInController implements Initializable {
 		// TODO open the correct client window (student / teacher / principle)
 		
 		// example : ********************************************************
-		
+		ClientUI.mainStage.setWidth(750);
 		String x = usernameTf.getText();
 		switch(x)
 		{

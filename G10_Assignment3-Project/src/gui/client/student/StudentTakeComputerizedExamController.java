@@ -78,6 +78,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(900);
+		ClientUI.mainStage.setHeight(650);
 		examOfCourseLbl = sbExamOfCourseLbl;
 		generalInfoTa = sbGeneralInfoTa;
 		scorelbl = sbScorelbl;
@@ -116,8 +118,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	void btnPressSubmit(ActionEvent event) throws IOException {
 		// TODO
 		//successful submit example ***********************************
-		ClientUI.mainStage.setWidth(600);
-		ClientUI.mainStage.setHeight(400);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		//*************************************************************
 	}

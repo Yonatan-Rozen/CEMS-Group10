@@ -103,13 +103,11 @@ public class PrincipleMenuBarController implements Initializable {
 		System.out.println("LnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
-		ClientUI.mainStage.setWidth(600);
 	}
 
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
 		System.out.println("btnPressBack");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
-		ClientUI.mainStage.setWidth(600);
 	}
 }

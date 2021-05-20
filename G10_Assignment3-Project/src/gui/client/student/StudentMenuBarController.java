@@ -76,34 +76,32 @@ public class StudentMenuBarController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressTakeAnExam(ActionEvent event) {
-		System.out.println("btnPressTakeAnExam");
+		System.out.println("StudentMenuBar::btnPressTakeAnExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
 	}
 
 	@FXML
 	void btnPressSettings(ActionEvent event) {
-		System.out.println("btnPressSettings");
+		System.out.println("StudentMenuBar::btnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
 	void btnPressViewExamResults(ActionEvent event) {
-		System.out.println("btnPressViewExamResults");
+		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentExamResults"));
 	}
 
 	@FXML
 	void lnkPressLogout(ActionEvent event) throws IOException {
-		System.out.println("lnkPressLogout");
+		System.out.println("StudentMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
-		ClientUI.mainStage.setWidth(600);
 	}
 
 	@FXML
 	void btnPressBack(ActionEvent event) throws IOException {
-		System.out.println("btnPressBack");
+		System.out.println("StudentMenuBar::btnPressBack");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-		ClientUI.mainStage.setWidth(600);
 	}
 }
