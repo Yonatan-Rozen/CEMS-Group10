@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuController">
    <children>
-      <Hyperlink fx:id="sbTeacherNameLnk" layoutX="14.0" layoutY="14.0" onAction="#LnkTeacherName" text="TeacheName" />
-      <Hyperlink fx:id="sbLogoutLnk" layoutX="15.0" layoutY="32.0" onAction="#LnkLogout" text="Logout" />
-      <Label fx:id="sbWelcomeLbl" alignment="CENTER" text="Welcome, Teacher!" textAlignment="JUSTIFY" underline="true" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="20.0">
+      <Hyperlink fx:id="sbTeacherNameLnk" layoutX="14.0" layoutY="14.0" onAction="#btnPressSettings" text="TeacheName" />
+      <Hyperlink fx:id="sbLogoutLnk" layoutX="15.0" layoutY="32.0" onAction="#lnkPressLogout" text="Logout" />
+      <Label fx:id="sbWelcomeLbl" alignment="CENTER" layoutX="242.0" layoutY="20.0" text="Welcome, Teacher!" textAlignment="JUSTIFY" underline="true" AnchorPane.topAnchor="20.0">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -20,7 +20,7 @@
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-      <VBox layoutX="225.0" layoutY="83.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
+      <VBox layoutX="300.0" layoutY="83.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
          <children>
             <Button fx:id="sbStartExamBtn" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="25.0" prefWidth="150.0" text="Start Exam" textAlignment="JUSTIFY" />
             <Button fx:id="sbCreateQuestionBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressCreateQuestion" prefHeight="25.0" prefWidth="150.0" text="Create Question" />

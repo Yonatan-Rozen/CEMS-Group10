@@ -94,7 +94,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressBack(ActionEvent event) throws IOException {
 		System.out.println("btnPressBack");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-		ClientUI.mainStage.setWidth(600);
 	}
 
 	@FXML
@@ -144,6 +143,5 @@ public class TeacherMenuBarController implements Initializable {
 		System.out.println("lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
-		ClientUI.mainStage.setWidth(600);
 	}
 }
