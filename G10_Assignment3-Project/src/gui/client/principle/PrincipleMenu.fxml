@@ -6,15 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gui.client.principle.PrincipleMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleMenuController">
    <children>
-      <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="14.0" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.topAnchor="14.0">
+      <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="14.0" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="213.0" layoutY="100.0" prefHeight="200.0" prefWidth="175.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="213.0" layoutY="100.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
          <children>
             <Button fx:id="sbViewRequestsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewRequest" text="View requests" />
             <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewInfo" text="View general info" />
