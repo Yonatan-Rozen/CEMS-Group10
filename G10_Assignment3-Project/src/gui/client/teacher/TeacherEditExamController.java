@@ -5,83 +5,137 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
-public class TeacherEditExamController implements Initializable {
+public class TeacherEditExamController implements Initializable{
 
-	@FXML
-	private Button sbBackBtn;
+	// JAVAFX INSTNCES ******************************************************
+    @FXML
+    private AnchorPane sbBotPanelAp;
 
-	@FXML
-	private ComboBox<?> sbChooseExamComboBox;
+    @FXML
+    private Button sbEditSelectedExamBtn;
 
-	@FXML
-	private Button sbEdit;
+    @FXML
+    private Button sbChangeCourseBtn;
 
-	@FXML
-	void ComboBoxChooseExam(ActionEvent event) {
+    @FXML
+    private TableView<String> sbExamsTv;
 
-	}
+    @FXML
+    private TableColumn<?, String> sbExamIDTc;
 
-	@FXML
-	void btnBack(ActionEvent event) {
+    @FXML
+    private Button sbPreviewExamBtn;
 
-	}
+    @FXML
+    private AnchorPane sbMidPanelAp;
 
-	@FXML
-	void btnEdit(ActionEvent event) {
+    @FXML
+    private ComboBox<String> sbChooseCourseCb;
 
-	}
+    @FXML
+    private Button sbContinue2Btn;
 
-	private static Stage currentStage;
+    @FXML
+    private Button sbChangeBankBtn;
 
-	public void start(Stage mainStage) {
-		try {
-			currentStage = mainStage;
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
-			Scene scene = new Scene(root);
-			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
-			mainStage.setTitle("Student Settings");
-			mainStage.setScene(scene);
-			mainStage.setResizable(false);
-			mainStage.setOnCloseRequest(e -> {
-				// ClientUI.chat.accept("client disconnected");
-				mainStage.hide();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Client disconnected");
-				alert.setHeaderText("You have been disconnected from the server(StudentSettings)");
-				alert.setContentText("Press ok to continue...");
-				alert.showAndWait();
-				System.exit(0);
-			});
-			mainStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @FXML
+    private AnchorPane sbTopPanelAp;
 
-//	public void getBtn(ActionEvent event) throws Exception {
-//		Point windowPosition = new Point(currentStage.getX(), currentStage.getY());
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		edic = new ExamDataInfoController();
-//		edic.start(new Stage(), windowPosition);
-//	}
+    @FXML
+    private ComboBox<String> sbChooseBankCb;
 
+    @FXML
+    private Button sbContinue1Btn;
+    
+    // STATIC JAVAFX INSTANCES **********************************************
+    private static AnchorPane botPanelAp;
+    private static Button editSelectedExamBtn;
+    private static Button changeCourseBtn;
+    private static TableView<String> examsTv;
+    private static TableColumn<?, String> examIDTc;
+    private static Button previewExamBtn;
+    private static AnchorPane midPanelAp;
+    private static ComboBox<String> chooseCourseCb;
+    private static Button continue2Btn;
+    private static Button changeBankBtn;
+    private static AnchorPane topPanelAp;
+    private static ComboBox<String> chooseBankCb;
+    private static Button continue1Btn;
+
+    // INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		botPanelAp = sbBotPanelAp;
+		botPanelAp.setDisable(true);
+	    editSelectedExamBtn = sbEditSelectedExamBtn;
+	    changeCourseBtn = sbChangeCourseBtn;
+	    examsTv = sbExamsTv;
+	    examIDTc = sbExamIDTc;
+	    previewExamBtn = sbPreviewExamBtn;
+	    midPanelAp = sbMidPanelAp;
+	    midPanelAp.setDisable(true);
+	    chooseCourseCb = sbChooseCourseCb;
+	    continue2Btn = sbContinue2Btn;
+	    changeBankBtn = sbChangeBankBtn;
+	    topPanelAp = sbTopPanelAp;
+	    chooseBankCb = sbChooseBankCb;
+	    continue1Btn = sbContinue1Btn;
 	}
+
+    @FXML
+    void cbPressChooseBank(ActionEvent event) {
+    	System.out.println("TeacherEditExam::cbPressChooseBank");
+
+    }
+
+    @FXML
+    void btnPressContinue1(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressContinue1");
+    	topPanelAp.setDisable(true);
+    	midPanelAp.setDisable(false);
+    }
+
+    @FXML
+    void btnPressChangeBank(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressChangeBank");
+    	topPanelAp.setDisable(false);
+    	midPanelAp.setDisable(true);
+    }
+
+    @FXML
+    void btnPressContinue2(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressContinue2");
+    	midPanelAp.setDisable(true);
+    	botPanelAp.setDisable(false);
+    }
+
+    @FXML
+    void btnPressChangeCourse(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressChangeCourse");
+    	midPanelAp.setDisable(false);
+    	botPanelAp.setDisable(true);
+    }
+
+    @FXML
+    void btnPressEditSelectedExam(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressEditSelectedExam");
+    }
+
+    @FXML
+    void btnPressPreviewExam(ActionEvent event) {
+    	System.out.println("TeacherEditExam::btnPressPreviewExam");
+    }
+
+    @FXML
+    void cbPressChooseCourse(ActionEvent event) {
+    	System.out.println("TeacherEditExam::cbPressChooseCourse");
+    }
 
 }

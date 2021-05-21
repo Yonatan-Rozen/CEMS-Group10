@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
-   <top>
-      <Label text="Edit Exam" underline="true" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets top="5.0" />
-         </BorderPane.margin>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
+   <children>
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="36.0" layoutY="156.0" prefHeight="230.0" prefWidth="528.0">
+         <children>
+            <Button fx:id="sbEditSelectedExamBtn" layoutX="388.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnPressEditSelectedExam" text="Edit selected exam&gt;&gt;&gt;" AnchorPane.rightAnchor="0.0" />
+            <Button fx:id="sbChangeCourseBtn" layoutY="204.0" mnemonicParsing="false" onAction="#btnPressChangeCourse" text="&lt;&lt;&lt;change course" />
+            <TableView fx:id="sbExamsTv" layoutX="130.0" layoutY="31.0" prefHeight="170.0" prefWidth="150.0">
+              <columns>
+                <TableColumn fx:id="sbExamIDTc" prefWidth="156.0" text="Exam ID" />
+              </columns>
+            </TableView>
+            <Label layoutX="132.0" layoutY="4.0" text="select an exam to edit :" underline="true">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="sbPreviewExamBtn" accessibleText="wtf" layoutX="291.0" layoutY="90.0" mnemonicParsing="false" onAction="#btnPressPreviewExam" prefHeight="51.0" prefWidth="143.0" text="preview 👁" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sbMidPanelAp" layoutX="40.0" layoutY="111.0">
+         <children>
+            <Label layoutX="130.0" layoutY="3.0" text="choose exam course :" underline="true">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="sbChooseCourseCb" layoutX="280.0" layoutY="2.0" onAction="#cbPressChooseCourse" promptText="choose course" />
+            <Button fx:id="sbContinue2Btn" layoutX="433.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="continue&gt;&gt;&gt;" />
+            <Button fx:id="sbChangeBankBtn" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt;change bank" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="40.0" layoutY="65.0">
+         <children>
+            <Label layoutX="130.0" layoutY="3.0" text="choose exam bank :" underline="true">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="sbChooseBankCb" layoutX="280.0" layoutY="2.0" onAction="#cbPressChooseBank" prefHeight="25.0" prefWidth="118.0" promptText="choose bank" />
+            <Button fx:id="sbContinue1Btn" layoutX="433.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="continue&gt;&gt;&gt;" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="230.0" layoutY="20.0" text="Edit Exam" underline="true">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-   </top>
-   <bottom>
-      <Button fx:id="sbBackBtn" mnemonicParsing="false" onAction="#btnBack" text="&lt; Back" BorderPane.alignment="CENTER_LEFT">
-         <BorderPane.margin>
-            <Insets bottom="5.0" left="5.0" />
-         </BorderPane.margin>
-      </Button>
-   </bottom>
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="78.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Choose Exam:">
-                     <VBox.margin>
-                        <Insets left="10.0" top="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <ComboBox fx:id="sbChooseExamComboBox" onAction="#ComboBoxChooseExam" prefWidth="150.0">
-                     <VBox.margin>
-                        <Insets left="10.0" top="5.0" />
-                     </VBox.margin>
-                  </ComboBox>
-               </children>
-            </VBox>
-            <Button fx:id="sbEdit" mnemonicParsing="false" onAction="#btnEdit" text="Edit" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
-   </center>
-</BorderPane>
+      <Line endX="290.0" layoutX="300.0" layoutY="100.0" startX="-290.0" />
+      <Line endX="290.0" layoutX="300.0" layoutY="150.0" startX="-290.0" />
+   </children>
+</AnchorPane>
