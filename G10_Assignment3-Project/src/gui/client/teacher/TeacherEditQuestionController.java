@@ -5,102 +5,114 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 public class TeacherEditQuestionController implements Initializable {
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private Button sbEditQuestion1btn;
-
-	@FXML
-	private ComboBox<?> sbChooseQuestionComboBox;
+	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	private Button sbDiscard1btn;
+	private Button sbEditQuestionBtn;
 
 	@FXML
-	private Button sbEditQuestion2btn;
+	private TableView<String> sbAvailableQuestionsTv;
 
 	@FXML
-	private Button sbDiscard2btn;
+	private TableColumn<?, String> sbQuestionIDTc;
 
 	@FXML
-	private TableView<?> sbAvailableQuestionsTable;
+	private Button sbChangeBankBtn;
 
 	@FXML
-	void ComboBoxChooseQuestion(ActionEvent event) {
-
-	}
+	private Button sbPreviewQuestionBtn;
 
 	@FXML
-	void btnDiscard1(ActionEvent event) {
-
-	}
+	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	void btnDiscard2(ActionEvent event) {
-
-	}
+	private ComboBox<String> sbChooseBankCb;
 
 	@FXML
-	void btnEditQuestion1(ActionEvent event) {
-
-	}
+	private Button sbShowQuestionsByBankBtn;
 
 	@FXML
-	void btnEditQuestion2(ActionEvent event) {
+	private Button sbDiscardChangesBtn;
 
-	}
+	// STATIC JAVAFX INSTANCES **********************************************
+	private static AnchorPane botPanelAp;
+	private static Button editQuestionBtn;
+	private static TableView<String> availableQuestionsTv;
+	private static TableColumn<?, String> questionIDTc;
+	private static Button changeBankBtn;
+	private static Button previewQuestionBtn;
+	private static AnchorPane topPanelAp;
+	private static ComboBox<String> chooseBankCb;
+	private static Button showQuestionsByBankBtn;
+	private static Button discardChangesBtn;
 
-	private static Stage currentStage;
-
-	public void start(Stage mainStage) {
-		try {
-			currentStage = mainStage;
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
-			Scene scene = new Scene(root);
-			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
-			mainStage.setTitle("Student Settings");
-			mainStage.setScene(scene);
-			mainStage.setResizable(false);
-			mainStage.setOnCloseRequest(e -> {
-				// ClientUI.chat.accept("client disconnected");
-				mainStage.hide();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Client disconnected");
-				alert.setHeaderText("You have been disconnected from the server(StudentSettings)");
-				alert.setContentText("Press ok to continue...");
-				alert.showAndWait();
-				System.exit(0);
-			});
-			mainStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-//	public void getBtn(ActionEvent event) throws Exception {
-//		Point windowPosition = new Point(currentStage.getX(), currentStage.getY());
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		edic = new ExamDataInfoController();
-//		edic.start(new Stage(), windowPosition);
-//	}
-
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		topPanelAp = sbTopPanelAp;
+		chooseBankCb = sbChooseBankCb;
+		discardChangesBtn = sbDiscardChangesBtn;
+		showQuestionsByBankBtn = sbShowQuestionsByBankBtn;
+		botPanelAp = sbBotPanelAp;
+		botPanelAp.setDisable(true);
+		editQuestionBtn = sbEditQuestionBtn;
+		availableQuestionsTv = sbAvailableQuestionsTv;
+		questionIDTc = sbQuestionIDTc;
+		changeBankBtn = sbChangeBankBtn;
+		previewQuestionBtn = sbPreviewQuestionBtn;
+	}
+
+	// ACTION METHODS *******************************************************
+	@FXML
+	void cbPressChooseBank(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressDiscardChanges(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressShowQuestionsByBank(ActionEvent event) {
+		//example ***********************************************************
+		// first panel
+		topPanelAp.setDisable(true);
+		// second panel
+		botPanelAp.setDisable(false);
+		//*******************************************************************
+	}
+
+	@FXML
+	void btnPressPreviewQuestion(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressChangeBank(ActionEvent event) {
+		//example ***********************************************************
+		// first panel
+		topPanelAp.setDisable(false);
+		// second panel
+		botPanelAp.setDisable(true);
+		//*******************************************************************
+
+	}
+
+	@FXML
+	void btnPressEditQuestion(ActionEvent event) {
+
 	}
 
 }

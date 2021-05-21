@@ -96,7 +96,6 @@ public class StudentMenuBarController implements Initializable {
 	void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("StudentMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 	}
 
 	@FXML

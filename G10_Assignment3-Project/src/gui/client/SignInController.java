@@ -52,7 +52,6 @@ public class SignInController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml"));
 		ClientUI.mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setScene(ClientUI.mainScene);
 		ClientUI.mainStage.setResizable(false);
 		ClientUI.mainStage.setOnCloseRequest(e -> {
@@ -71,6 +70,7 @@ public class SignInController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setWidth(600);
 		usernameTf = sbUsernameTf;
 		passwordTf = sbPasswordTf;
