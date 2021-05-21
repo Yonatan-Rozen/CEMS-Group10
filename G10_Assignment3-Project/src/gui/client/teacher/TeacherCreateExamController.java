@@ -5,129 +5,156 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 public class TeacherCreateExamController implements Initializable {
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private Button sbBackBtn;
+	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	private ComboBox<?> sbChooseCourseComboBox;
+	private Button sbContinue2Btn;
 
 	@FXML
-	private Button sbEditExistingExamsBtn;
+	private Button sbChangeBankBtn;
 
 	@FXML
-	private ComboBox<?> sbChooseExamBankComboBox;
+	private Button sbPreviewExam1Btn;
 
 	@FXML
-	private Button sbContinueBtn;
+	private TableView<?> sbAvailableQuestionsTv;
 
 	@FXML
-	private Button sbCancelCreationBtn;
+	private TableColumn<?, ?> sbQuestionID1Tc;
 
 	@FXML
-	private TableView<?> sbAvailableQuestionsTable;
+	private TableColumn<?, ?> sbAddToExamTc;
 
 	@FXML
 	private TableView<?> sbCurrentQuestionsTable;
 
 	@FXML
-	private Button sbChangeQuestionBankBtn;
+	private TableColumn<?, ?> sbQuestionID2Tc;
 
 	@FXML
-	private Button sbFinishContinueBtn;
+	private TableColumn<?, ?> sbRemoveFromExamTc;
 
 	@FXML
-	void ComboBoxChooseCourse(ActionEvent event) {
-
-	}
+	private ComboBox<?> sbChooseCourseBtn;
 
 	@FXML
-	void ComboBoxChooseExamBank(ActionEvent event) {
-
-	}
+	private Button sbEditExamsBtn;
 
 	@FXML
-	void btnBack(ActionEvent event) {
-
-	}
+	private Button sbPreviewExam2Btn;
 
 	@FXML
-	void btnCancelCreation(ActionEvent event) {
-
-	}
+	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	void btnChangeQuestionBank(ActionEvent event) {
-
-	}
+	private Button sbContinue1Btn;
 
 	@FXML
-	void btnContinue(ActionEvent event) {
-
-	}
+	private Button sbCancelCreationBtn;
 
 	@FXML
-	void btnEditExistingExams(ActionEvent event) {
+	private ComboBox<?> sbChooseBankCb;
 
-	}
-
-	@FXML
-	void btnFinishContinue(ActionEvent event) {
-
-	}
-
-	private static Stage currentStage;
-
-	public void start(Stage mainStage) {
-		try {
-			currentStage = mainStage;
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/StudentSettings.fxml"));
-			Scene scene = new Scene(root);
-			// scene.getStylesheets().add(getClass().getResource("/gui/StudentSettings.css").toExternalForm());
-			mainStage.setTitle("Student Settings");
-			mainStage.setScene(scene);
-			mainStage.setResizable(false);
-			mainStage.setOnCloseRequest(e -> {
-				// ClientUI.chat.accept("client disconnected");
-				mainStage.hide();
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Client disconnected");
-				alert.setHeaderText("You have been disconnected from the server(StudentSettings)");
-				alert.setContentText("Press ok to continue...");
-				alert.showAndWait();
-				System.exit(0);
-			});
-			mainStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-//	public void getBtn(ActionEvent event) throws Exception {
-//		Point windowPosition = new Point(currentStage.getX(), currentStage.getY());
-//		((Node) event.getSource()).getScene().getWindow().hide();
-//		edic = new ExamDataInfoController();
-//		edic.start(new Stage(), windowPosition);
-//	}
-
+	// STATIC JAVAFX INSTANCES **********************************************
+	private static AnchorPane botPanelAp;
+	private static Button continue2Btn;
+	private static Button changeBankBtn;
+	private static Button previewExam1Btn;
+	private static TableView<?> availableQuestionsTv;
+	private static TableColumn<?, ?> questionID1Tc;
+	private static TableColumn<?, ?> addToExamTc;
+	private static TableView<?> currentQuestionsTable;
+	private static TableColumn<?, ?> questionID2Tc;
+	private static TableColumn<?, ?> removeFromExamTc;
+	private static ComboBox<?> chooseCourseBtn;
+	private static Button editExamsBtn;
+	private static Button previewExam2Btn;
+	private static AnchorPane topPanelAp;
+	private static Button continue1Btn;
+	private static Button cancelCreationBtn;
+	private static ComboBox<?> chooseBankCb;
+	
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		botPanelAp = sbBotPanelAp;
+		sbBotPanelAp.setDisable(true);
+		continue2Btn = sbContinue2Btn;
+		changeBankBtn = sbChangeBankBtn;
+		previewExam1Btn = sbPreviewExam1Btn;
+		availableQuestionsTv = sbAvailableQuestionsTv;
+		questionID1Tc = sbQuestionID1Tc;
+		addToExamTc = sbAddToExamTc;
+		currentQuestionsTable = sbCurrentQuestionsTable;
+		questionID2Tc = sbQuestionID2Tc;
+		removeFromExamTc = sbRemoveFromExamTc;
+		chooseCourseBtn = sbChooseCourseBtn;
+		editExamsBtn = sbEditExamsBtn;
+		previewExam2Btn = sbPreviewExam2Btn;
+		topPanelAp = sbTopPanelAp;
+		continue1Btn = sbContinue1Btn;
+		cancelCreationBtn = sbCancelCreationBtn;
+		chooseBankCb = sbChooseBankCb;
 	}
 
+	// ACTION METHODS *******************************************************
+	@FXML
+	void btnPressCancelCreation(ActionEvent event) {
+		
+	}
+
+	@FXML
+	void btnPressChangeBank(ActionEvent event) {
+		sbTopPanelAp.setDisable(false);
+		
+		sbBotPanelAp.setDisable(true);
+	}
+
+	@FXML
+	void btnPressChooseCourse(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressContinue1(ActionEvent event) {
+		sbTopPanelAp.setDisable(true);
+		
+		sbBotPanelAp.setDisable(false);
+	}
+
+	@FXML
+	void btnPressContinue2(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressEditExams(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressPreviewExam1(ActionEvent event) {
+
+	}
+
+	@FXML
+	void btnPressPreviewExam2(ActionEvent event) {
+
+	}
+
+	@FXML
+	void cbPressChooseBank(ActionEvent event) {
+
+	}
 }

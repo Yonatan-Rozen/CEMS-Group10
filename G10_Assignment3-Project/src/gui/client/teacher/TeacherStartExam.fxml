@@ -9,7 +9,6 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
    <children>
-      <Button fx:id="sbBackBtn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#btnPressBack" text="&lt; Back" />
       <Label layoutX="224.0" layoutY="20.0" text="Start Exam" underline="true" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
@@ -21,7 +20,7 @@
          </font>
       </Label>
       <ComboBox fx:id="sbChoseExamCb" layoutX="297.0" layoutY="136.0" onAction="#cbPressChoseExam" prefHeight="25.0" prefWidth="114.0" promptText="Chose exam" />
-      <TextField fx:id="sbCodeTf" layoutX="334.0" layoutY="175.0" prefHeight="25.0" prefWidth="60.0" promptText="   ****" />
+      <TextField fx:id="sbCodeTf" layoutX="334.0" layoutY="175.0" prefHeight="25.0" prefWidth="60.0" promptText="  * * * *" />
       <Label layoutX="192.0" layoutY="177.0" text="Insert 4 digit code:">
          <font>
             <Font name="System Bold" size="15.0" />

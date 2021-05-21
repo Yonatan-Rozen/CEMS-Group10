@@ -17,9 +17,6 @@ public class TeacherStartExamController implements Initializable {
 
 	// JAVAFX INSTANCES *****************************************************
 	@FXML
-	private Button sbBackBtn;
-
-	@FXML
 	private ComboBox<?> sbChoseExamCb;
 
 	@FXML
@@ -29,7 +26,6 @@ public class TeacherStartExamController implements Initializable {
 	private Button sbStartBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private Button backBtn;
 	private ComboBox<?> choseExamCb;
 	private TextField codeTf;
 	private Button startBtn;
@@ -39,15 +35,10 @@ public class TeacherStartExamController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		backBtn = sbBackBtn;
 		choseExamCb = sbChoseExamCb;
 		codeTf = sbCodeTf;
 		CommonMethodsHandler.getInstance().addTextLimiter(codeTf, 4);
 		startBtn = sbStartBtn;
-	}
-
-	@FXML
-	void btnPressBack(ActionEvent event) {
 	}
 
 	@FXML
