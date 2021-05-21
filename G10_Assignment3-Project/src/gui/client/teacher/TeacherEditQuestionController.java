@@ -76,43 +76,37 @@ public class TeacherEditQuestionController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void cbPressChooseBank(ActionEvent event) {
-
+		System.out.println("TeacherEditQuestion::cbPressChooseBank");
 	}
 
 	@FXML
 	void btnPressDiscardChanges(ActionEvent event) {
-
+		System.out.println("TeacherEditQuestion::btnPressDiscardChanges");
 	}
 
 	@FXML
 	void btnPressShowQuestionsByBank(ActionEvent event) {
-		//example ***********************************************************
-		// first panel
+		System.out.println("TeacherEditQuestion::btnPressShowQuestionsByBank");
 		topPanelAp.setDisable(true);
-		// second panel
 		botPanelAp.setDisable(false);
-		//*******************************************************************
 	}
 
 	@FXML
 	void btnPressPreviewQuestion(ActionEvent event) {
-
+		System.out.println("TeacherEditQuestion::btnPressPreviewQuestion");
 	}
 
 	@FXML
 	void btnPressChangeBank(ActionEvent event) {
-		//example ***********************************************************
-		// first panel
+		System.out.println("TeacherEditQuestion::btnPressChangeBank");
 		topPanelAp.setDisable(false);
-		// second panel
 		botPanelAp.setDisable(true);
-		//*******************************************************************
 
 	}
 
 	@FXML
 	void btnPressEditQuestion(ActionEvent event) {
-
+		System.out.println("TeacherEditQuestion::btnPressEditQuestion");
 	}
 
 }

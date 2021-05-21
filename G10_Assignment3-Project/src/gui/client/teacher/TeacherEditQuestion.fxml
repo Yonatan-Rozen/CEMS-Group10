@@ -21,7 +21,7 @@
                </columns>
             </TableView>
             <Button fx:id="sbChangeBankBtn" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt;change bank" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-            <Label layoutX="109.0" text="availiable questions:" underline="true">
+            <Label layoutX="119.0" layoutY="-2.0" text="availiable questions:" underline="true">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font>
@@ -33,10 +33,10 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="39.0" layoutY="80.0" prefHeight="69.0" prefWidth="522.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="39.0" layoutY="71.0" prefHeight="69.0" prefWidth="522.0">
          <children>
-            <ComboBox fx:id="sbChooseBankCb" layoutX="268.0" layoutY="1.0" onAction="#cbPressChooseBank" promptText="choose bank" />
-            <Label layoutX="111.0" layoutY="4.0" text="choose question bank :" textAlignment="JUSTIFY" underline="true">
+            <ComboBox fx:id="sbChooseBankCb" layoutX="283.0" layoutY="2.0" onAction="#cbPressChooseBank" promptText="choose bank" />
+            <Label layoutX="121.0" layoutY="4.0" text="choose question bank :" textAlignment="JUSTIFY" underline="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -53,6 +53,6 @@
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-      <Line endX="292.0" layoutX="300.0" layoutY="150.0" startX="-290.0" />
+      <Line endX="292.0" layoutX="300.0" layoutY="149.0" startX="-290.0" />
    </children>
 </AnchorPane>
