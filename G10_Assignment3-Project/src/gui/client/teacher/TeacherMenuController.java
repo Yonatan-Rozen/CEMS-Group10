@@ -66,7 +66,6 @@ public class TeacherMenuController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/teacher/TeacherMenu.css").toExternalForm());
 	}
@@ -74,6 +73,7 @@ public class TeacherMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
 		teacherNameLnk = sbTeacherNameLnk;
 		logoutLnk = sbLogoutLnk;
 		startExamBtn = sbStartExamBtn;
