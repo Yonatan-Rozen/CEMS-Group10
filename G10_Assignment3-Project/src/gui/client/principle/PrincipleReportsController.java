@@ -77,11 +77,13 @@ public class PrincipleReportsController implements Initializable {
 	@FXML
 	void BtnPressPrevousRep(ActionEvent event) {
 		// TODO show the next report
+		System.out.println("PrincipleReports::BtnPressPrevousRep");
 	}
 
 	@FXML
 	void btnPressNextRep(ActionEvent event) {
 		// TODO show the previous report
+		System.out.println("PrincipleReports::btnPressNextRep");
 	}
 
 }

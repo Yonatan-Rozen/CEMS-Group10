@@ -51,8 +51,6 @@ public class StudentMenuController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenu.css").toExternalForm());
 
@@ -61,13 +59,13 @@ public class StudentMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
 		studentLnk = sbStudentLnk;
 		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
 		takeExamBtn = sbTakeExamBtn;
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
-		
 		smbController = new StudentMenuBarController();
 	}
 	

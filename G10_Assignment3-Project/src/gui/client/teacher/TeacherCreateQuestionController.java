@@ -127,60 +127,55 @@ public class TeacherCreateQuestionController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void cbPressQuestionBank(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::cbPressQuestionBank");
 	}
 
 	@FXML
 	void lnkPressRemoveBank(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::lnkPressRemoveBank");
 	}
 
 	@FXML
 	void btnPressDiscardQuestion(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::btnPressDiscardQuestion");
 	}
 
 	@FXML
 	void btnPressCreateQuestion(ActionEvent event) {
-		// example ***********************************************************
-		// first panel
+		System.out.println("TeacherCreateQuestion::btnPressCreateQuestion");
 		topPanelAp.setDisable(true);
-		// second panel
 		botPanelAp.setDisable(false);
-		// *******************************************************************
 	}
 
 	@FXML
 	void lnkPressAddBank(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::lnkPressAddBank");
 	}
 
 	@FXML
 	void rbPressMarkAnswer1(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer1");
 	}
 
 	@FXML
 	void rbPressMarkAnswer2(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer2");
 	}
 
 	@FXML
 	void rbPressMarkAnswer3(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer3");
 	}
 
 	@FXML
 	void rbPressMarkAnswer4(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer4");
 	}
 
 	@FXML
 	void btnPressChangeBank(ActionEvent event) {
-		// example ***********************************************************
-		// first panel
+		System.out.println("TeacherCreateQuestion::btnPressChangeBank");
 		topPanelAp.setDisable(false);
-		// second panel
 		botPanelAp.setDisable(true);
 		questionBodyTa.setText("");
 		answer1Ta.setText("");
@@ -188,12 +183,11 @@ public class TeacherCreateQuestionController implements Initializable {
 		answer3Ta.setText("");
 		answer4Ta.setText("");
 		markAnswer1Rb.setSelected(true);
-		// *******************************************************************
 	}
 
 	@FXML
 	void btnPressSaveQuestion(ActionEvent event) {
-
+		System.out.println("TeacherCreateQuestion::btnPressSaveQuestion");
 	}
 
 }

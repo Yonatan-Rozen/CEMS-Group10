@@ -56,15 +56,14 @@ public class PrincipleMenuBarController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
-
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenuBar.css").toExternalForm());
 	}
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(750);
 		viewRequestsBtn = sbViewRequestsBtn; 
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn; 
@@ -77,36 +76,36 @@ public class PrincipleMenuBarController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
-		System.out.println("BtnPressViewRequests");
+		System.out.println("PrincipleMenuBar::BtnPressViewRequests");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewRequests"));
 	}
 
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
-		System.out.println("BtnPressViewInfo");
+		System.out.println("PrincipleMenuBar::BtnPressViewInfo");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
 
 	}
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
-		System.out.println("BtnPressViewReports");
+		System.out.println("PrincipleMenuBar::BtnPressViewReports");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
 	}
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
-		System.out.println("BtnPressSettings");
+		System.out.println("PrincipleMenuBar::BtnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
-		System.out.println("LnkPressLogout");
+		System.out.println("PrincipleMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
-		System.out.println("btnPressBack");
+		System.out.println("PrincipleMenuBar::btnPressBack");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
 	}
 }

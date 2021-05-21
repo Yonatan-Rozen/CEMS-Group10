@@ -22,8 +22,8 @@
             <TableColumn fx:id="sbNewTimeTc" minWidth="2.0" prefWidth="131.0" text="New Allocated Time" />
         </columns>
       </TableView>
-      <Button fx:id="sbAcceptRequestBtn" layoutX="371.0" layoutY="328.0" mnemonicParsing="false" onAction="#BtnPressAcceptRequest" text="Accept selected request" />
-      <Button fx:id="sbDeclineRequestBtn" layoutX="87.0" layoutY="328.0" mnemonicParsing="false" onAction="#BtnPressDeclineRequest" text="Decline selected request" />
+      <Button fx:id="sbAcceptRequestBtn" layoutX="371.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnPressAcceptRequest" text="Accept selected request" />
+      <Button fx:id="sbDeclineRequestBtn" layoutX="87.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnPressDeclineRequest" text="Decline selected request" />
       <Label layoutX="86.0" layoutY="77.0" text="Active requests :" underline="true">
          <font>
             <Font name="System Bold Italic" size="18.0" />

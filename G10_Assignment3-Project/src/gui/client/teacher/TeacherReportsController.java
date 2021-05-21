@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
 import common.CommonMethodsHandler;
-import gui.client.principle.PrincipleMenuBarController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -58,7 +55,6 @@ public class TeacherReportsController implements Initializable {
 	
 
 	public void start() throws IOException {
-		// TODO Auto-generated method stub
 		//example **************************************
 		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherReports"));
 		//**********************************************
@@ -79,11 +75,13 @@ public class TeacherReportsController implements Initializable {
 
 	@FXML
 	void BtnPressPrevousRep(ActionEvent event) {
+		System.out.println("TeacherReports::BtnPressPrevousRep");
 		// TODO show the next report
 	}
 
 	@FXML
 	void btnPressNextRep(ActionEvent event) {
+		System.out.println("TeacherReports::btnPressNextRep");
 		// TODO show the previous report
 	}
 

@@ -34,15 +34,18 @@ public class PrincipleViewInfoController implements Initializable {
     @FXML
     void btnPressViewExams(ActionEvent event) {
     	// TODO get exams data info from the database
+    	System.out.println("PrincipleViewInfo::btnPressViewExams");
     }
 
     @FXML
     void btnPressViewQuestions(ActionEvent event) {
     	// TODO get questions data info from the database
+    	System.out.println("PrincipleViewInfo::btnPressViewQuestions");
     }
 
     @FXML
     void btnPressViewUsers(ActionEvent event) {
     	// TODO get users data info from the database
+    	System.out.println("PrincipleViewInfo::btnPressViewUsers");
     }
 }

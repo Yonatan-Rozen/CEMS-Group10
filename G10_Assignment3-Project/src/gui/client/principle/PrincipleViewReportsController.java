@@ -56,6 +56,7 @@ public class PrincipleViewReportsController implements Initializable{
     @FXML
     void btnPressProduceByCourse(ActionEvent event) throws IOException {
     	// TODO show exam reports by course
+    	System.out.println("PrincipleViewReports::btnPressProduceByCourse");
     	// example *********************************************
     	prController.start();
     	// *****************************************************
@@ -65,10 +66,12 @@ public class PrincipleViewReportsController implements Initializable{
     @FXML
     void btnPressProduceByStudent(ActionEvent event) {
     	// TODO show exam reports by student
+    	System.out.println("PrincipleViewReports::btnPressProduceByStudent");
     }
 
     @FXML
     void btnPressProduceByTeacher(ActionEvent event) {
     	// TODO show exam reports by teacher
+    	System.out.println("PrincipleViewReports::btnPressProduceByTeacher");
     }
 }

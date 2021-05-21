@@ -43,9 +43,11 @@ public class TeacherStartExamController implements Initializable {
 
 	@FXML
 	void btnPressStart(ActionEvent event) {
+		System.out.println("TeacherStartExam::btnPressStart");
 	}
 
 	@FXML
 	void cbPressChoseExam(ActionEvent event) {
+		System.out.println("TeacherStartExam::cbPressChoseExam");
 	}
 }

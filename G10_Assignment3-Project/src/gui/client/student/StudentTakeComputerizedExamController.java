@@ -96,27 +96,27 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void rbPressAnswer1(ActionEvent event) {
-		// TODO
+		System.out.println("StudentTakeComputerizedExam::rbPressAnswer1");
 	}
 
 	@FXML
 	void rbPressAnswer2(ActionEvent event) {
-		// TODO
+		System.out.println("StudentTakeComputerizedExam::rbPressAnswer2");
 	}
 
 	@FXML
 	void rbPressAnswer3(ActionEvent event) {
-		// TODO
+		System.out.println("StudentTakeComputerizedExam::rbPressAnswer3");
 	}
 
 	@FXML
 	void rbPressAnswer4(ActionEvent event) {
-		// TODO
+		System.out.println("StudentTakeComputerizedExam::rbPressAnswer4");
 	}
 	
 	@FXML
 	void btnPressSubmit(ActionEvent event) throws IOException {
-		// TODO
+		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
 		//successful submit example ***********************************
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		//*************************************************************

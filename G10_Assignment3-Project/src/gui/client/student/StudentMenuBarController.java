@@ -55,8 +55,6 @@ public class StudentMenuBarController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-
-		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenuBar.css").toExternalForm());
 	}
@@ -64,6 +62,7 @@ public class StudentMenuBarController implements Initializable {
 	// INITIALIZE METHOD *********************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(750);
 		takeExamBtn = sbTakeExamBtn;
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;

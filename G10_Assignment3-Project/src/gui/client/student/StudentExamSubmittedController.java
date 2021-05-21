@@ -13,18 +13,22 @@ import javafx.scene.control.Button;
 
 public class StudentExamSubmittedController implements Initializable{
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Button sbBackToMenuBtn;
 
-	@FXML
-	void btnPressBackToMenu(ActionEvent event) throws IOException {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-	}
-
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainStage.setHeight(400);
+	}
+	
+	// ACTION METHODS *******************************************************
+	@FXML
+	void btnPressBackToMenu(ActionEvent event) throws IOException {
+		System.out.println("StudentExamSubmitted::btnPressBackToMenu");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 	}
 
 }

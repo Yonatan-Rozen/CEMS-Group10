@@ -111,50 +111,51 @@ public class TeacherCreateExamController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressCancelCreation(ActionEvent event) {
+		System.out.println("TeacherCreateExam::btnPressCancelCreation");
 		
 	}
 
 	@FXML
 	void btnPressChangeBank(ActionEvent event) {
+		System.out.println("TeacherCreateExam::btnPressChangeBank");
 		sbTopPanelAp.setDisable(false);
-		
 		sbBotPanelAp.setDisable(true);
 	}
 
 	@FXML
 	void btnPressChooseCourse(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::btnPressChooseCourse");
 	}
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
+		System.out.println("TeacherCreateExam::btnPressContinue1");
 		sbTopPanelAp.setDisable(true);
-		
 		sbBotPanelAp.setDisable(false);
 	}
 
 	@FXML
 	void btnPressContinue2(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::btnPressContinue2");
 	}
 
 	@FXML
 	void btnPressEditExams(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::btnPressEditExams");
 	}
 
 	@FXML
 	void btnPressPreviewExam1(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::btnPressPreviewExam1");
 	}
 
 	@FXML
 	void btnPressPreviewExam2(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
 	}
 
 	@FXML
 	void cbPressChooseBank(ActionEvent event) {
-
+		System.out.println("TeacherCreateExam::cbPressChooseBank");
 	}
 }

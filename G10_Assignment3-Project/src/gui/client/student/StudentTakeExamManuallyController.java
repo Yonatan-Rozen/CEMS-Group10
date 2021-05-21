@@ -11,23 +11,28 @@ import javafx.scene.control.Hyperlink;
 
 public class StudentTakeExamManuallyController implements Initializable {
 
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Hyperlink sbDownloadExamFileLnk;
 
 	@FXML
 	private Button sbSubmitExamBtn;
 
+	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink downloadExamFileLnk;
 	private static Button submitExamBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		downloadExamFileLnk = sbDownloadExamFileLnk;
 		submitExamBtn = sbSubmitExamBtn;
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressSubmitExam(ActionEvent event) {
+		System.out.println("StudentTakeExamManually::btnPressSubmitExam");
 		//TODO take care of pane for uploading BLOB file
 		//TODO prompt message "Are you sure you want to submit?"
 		//TODO go to "exam submitted successfully"
@@ -36,6 +41,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 	@FXML
 	void lnkPressDownloadExamFile(ActionEvent event) {
+		System.out.println("StudentTakeExamManually::lnkPressDownloadExamFile");
 		//TODO BLOB stuff
 	}
 }

@@ -37,7 +37,7 @@ public class StudentEnterCodeController implements Initializable {
 	void btnPressStartExam(ActionEvent event) throws IOException {
 		//TODO go to [Computerized / Manual] exam screen
 		//computerized examp example ****************************************
-		
+		System.out.println("StudentEnterCode::btnPressStartExam");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 		
 		//*******************************************************************

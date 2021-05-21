@@ -55,8 +55,6 @@ public class PrincipleMenuController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
 
@@ -65,6 +63,7 @@ public class PrincipleMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		principleLnk = sbPrincipleLnk;
 		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
@@ -108,6 +107,7 @@ public class PrincipleMenuController implements Initializable {
 
 	@FXML
 	void lnkPressLogout(ActionEvent event) throws Exception {
+		System.out.println("PrincipleMenu::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 

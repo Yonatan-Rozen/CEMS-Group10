@@ -57,12 +57,14 @@ public class PrincipleViewRequestsController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void BtnPressAcceptRequest(ActionEvent event) {
+	void btnPressAcceptRequest(ActionEvent event) {
 		// TODO send change allocated time request to server
+		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 	}
 
 	@FXML
-	void BtnPressDeclineRequest(ActionEvent event) {
+	void btnPressDeclineRequest(ActionEvent event) {
 		// TODO send message "request declined" to teacher
+		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 	}
 }
