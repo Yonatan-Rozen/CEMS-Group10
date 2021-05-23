@@ -24,13 +24,11 @@ public class EchoServer extends AbstractServer{
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		ServerUI.serverConsole.println(">>> " + msg + " from " + client);
-		DBconnector.getInstance().parseData(msg);
-		
 		// send message back to client
 		try {
-			client.sendToClient(msg);
+			DBconnector.getInstance().parseData(msg, client);
 		} catch (IOException e) {
-			ServerUI.serverConsole.println("ERROR - Could not send message back to client");
+			ServerUI.serverConsole.println("ERROR - Could not answer client");
 		}
 	}
 	
