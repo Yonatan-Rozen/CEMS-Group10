@@ -3,6 +3,7 @@ package gui.client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,21 +33,16 @@ public class UserSettingsController implements Initializable {
 	
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink changePassLnk;
-	private static Label usernameLbl;
-	private static Label fullnameLbl;
-	private static Label phoneLbl;
-	private static Label emailLbl;
-	private static Label accountTypeLbl;
 	
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		changePassLnk = sbChangePassLnk;
-		usernameLbl = sbUsernameLbl;
-		fullnameLbl = sbFullnameLbl;
-		phoneLbl = sbPhoneLbl;
-		emailLbl = sbEmailLbl;
-		accountTypeLbl = sbAccountTypeLbl;
+		sbUsernameLbl.setText(ChatClient.user.getUsername());
+		sbFullnameLbl.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
+		sbPhoneLbl.setText(ChatClient.user.getPhonenumber());
+		sbEmailLbl.setText(ChatClient.user.getEmail());
+		sbAccountTypeLbl.setText(ChatClient.user.getType());
 	}
 
 	// ACTION METHODS *******************************************************
