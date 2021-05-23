@@ -3,6 +3,7 @@ package gui.client.principle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,6 +64,7 @@ public class PrincipleMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		principleLnk = sbPrincipleLnk;
 		logoutLnk = sbLogoutLnk;
@@ -72,7 +74,6 @@ public class PrincipleMenuController implements Initializable {
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
-		
 		pmbController = new PrincipleMenuBarController();
 	}
 

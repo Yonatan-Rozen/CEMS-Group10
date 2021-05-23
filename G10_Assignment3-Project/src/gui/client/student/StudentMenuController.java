@@ -3,6 +3,7 @@ package gui.client.student;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,6 +60,7 @@ public class StudentMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.setWidth(750);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
 		studentLnk = sbStudentLnk;
 		logoutLnk = sbLogoutLnk;
