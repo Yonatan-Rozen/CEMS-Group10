@@ -3,6 +3,7 @@ package gui.client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import gui.client.principle.PrincipleMenuController;
 import gui.client.student.StudentMenuController;
@@ -17,17 +18,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
 
 public class SignInController implements Initializable {
 	public static SignInController signInController;
+	private static String errorMsg;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private TextField sbUsernameTf;
 
 	@FXML
-	private TextField sbPasswordTf;
+	private PasswordField sbPasswordPf;
 
 	@FXML
 	private Label sbMessagelbl;
@@ -37,7 +40,7 @@ public class SignInController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField usernameTf;
-	private static TextField passwordTf;
+	private static PasswordField passwordPf;
 	private static Label messagelbl;
 	private static Button signInBtn;
 
@@ -72,49 +75,59 @@ public class SignInController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setWidth(600);
+		ChatClient.user = null;
 		usernameTf = sbUsernameTf;
-		passwordTf = sbPasswordTf;
+		passwordPf = sbPasswordPf;
 		messagelbl = sbMessagelbl;
 		signInBtn = sbSignInBtn;
 	}
 
 	// signInBtn METHOD *****************************************************
 	public void btnPressSignIn(ActionEvent event) {
-		// TODO get info from text fields
-		// TODO create USER object
-		// TODO send the object to the server
-		// TODO open the correct client window (student / teacher / principle)
+		ClientUI.chat.accept(new String[] {"btnPressSignIn",usernameTf.getText(),passwordPf.getText()}); // sets ChatClient.user
+		try {
+			switch(ChatClient.user.getType())
+			{
+			case "Principle":
+				// principle example : **********************************************
+				PrincipleMenuController pmC = new PrincipleMenuController();
+				try {
+					pmC.start();
+				} catch (Exception e) {
+				}
+				break;
+			case "Student":
+				// student example : ************************************************
+				StudentMenuController smC = new StudentMenuController();
+				try {
+					smC.start();
+				} catch (Exception e) {
+				}
+				break;
+			case "Teacher":
+				// teacher example : ************************************************
+				TeacherMenuController tmC = new TeacherMenuController();
+				try {
+					tmC.start();
+				} catch (Exception e) {
+				}
+				break;
+			default:
+				System.out.println("error! this type doesn't exist");
+				break;
+			}
+		}catch(NullPointerException e) {
 		
-		// example : ********************************************************
-		ClientUI.mainStage.setWidth(750);
-		String x = usernameTf.getText();
-		switch(x)
-		{
-		case "1":
-			// principle example : **********************************************
-			PrincipleMenuController pmC = new PrincipleMenuController();
-			try {
-				pmC.start();
-			} catch (Exception e) {
-			}
-			break;
-		case "2":
-			// student example : ************************************************
-			StudentMenuController smC = new StudentMenuController();
-			try {
-				smC.start();
-			} catch (Exception e) {
-			}
-			break;
-		case "3":
-		default:
-			// teacher example : ************************************************
-			TeacherMenuController tmC = new TeacherMenuController();
-			try {
-				tmC.start();
-			} catch (Exception e) {
-			}
-			break;
-		}
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error message");
+		alert.setHeaderText(null);
+		alert.setContentText(errorMsg);
+		alert.showAndWait();}
 	}
+
+	public void setErrorMsg(String errorMsg) {
+		SignInController.errorMsg = errorMsg;
+	}
+	
+	
 }
