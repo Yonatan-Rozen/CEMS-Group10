@@ -2,8 +2,10 @@ package client;
 
 import java.io.IOException;
 
+import gui.client.SignInController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import logic.User;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient {
@@ -16,7 +18,7 @@ public class ChatClient extends AbstractClient {
 	 */
 	ChatIF ClientController;
 	public static boolean awaitResponse = false;
-
+	public static User user;
 	// Constructors ****************************************************
 
 	/**
@@ -41,17 +43,28 @@ public class ChatClient extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		
+		
 		if (msg instanceof String)
-			ClientController.display(msg.toString());
+		{
+			String message = (String)msg;
+			if (msg.toString().contains("SignIn ERROR - ")) {
+				SignInController.signInController.setErrorMsg(((String)msg).substring(15));
+			}
+		}
+		if (msg instanceof User) {
+			user = (User)msg;
+		}
+		
 		awaitResponse = false;
 
 	}
 
-	public void handleMessageFromClientUI(String message) {
+	public void handleMessageFromClientUI(Object obj) {
 		try {
 			openConnection();// in order to send more than one message
 			awaitResponse = true;
-			sendToServer(message);
+			sendToServer(obj);
 			// wait for response
 			while (awaitResponse) {
 				try {
