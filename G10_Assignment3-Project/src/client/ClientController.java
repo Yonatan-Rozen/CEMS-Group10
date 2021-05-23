@@ -40,8 +40,8 @@ public class ClientController implements ChatIF{
 		 * This method waits for input from the console. Once it is received, it sends
 		 * it to the client's message handler.
 		 */
-		public void accept(String str) {
-			client.handleMessageFromClientUI(str);
+		public void accept(Object obj) {
+			client.handleMessageFromClientUI(obj);
 		}
 
 		@Override
