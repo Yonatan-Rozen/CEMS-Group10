@@ -7,23 +7,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamResultsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamResultsController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="207.0" layoutY="20.0" text="Exam Results" underline="true" AnchorPane.topAnchor="20.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="14.0" text="Exam Results" underline="true" AnchorPane.topAnchor="14.0">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TableView layoutX="150.0" layoutY="91.0" prefHeight="200.0" prefWidth="300.0" AnchorPane.bottomAnchor="109.0" AnchorPane.topAnchor="91.0">
+      <TableView layoutX="150.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-font-size: 18;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
          <columns>
-            <TableColumn prefWidth="150.0" text="Course Name" />
-            <TableColumn prefWidth="150.0" text="Grade" />
+            <TableColumn prefWidth="300.0" text="Course Name" />
+            <TableColumn prefWidth="300.0" text="Grade" />
          </columns>
       </TableView>
-      <Button fx:id="sbGetCopyBtn" layoutX="384.0" layoutY="311.0" mnemonicParsing="false" onAction="#btnPressGetCopy" text="Get Copy" />
-      <Label fx:id="sbCommentExamResultLbl" layoutX="159.0" layoutY="291.0" text="* failed " textFill="#e41b1b">
+      <Button fx:id="sbGetCopyBtn" layoutX="648.0" layoutY="525.0" mnemonicParsing="false" onAction="#btnPressGetCopy" text="Get Copy">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Label fx:id="sbCommentExamResultLbl" layoutX="150.0" layoutY="510.0" text="* failed " textFill="#e41b1b">
+         <font>
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
    </children>

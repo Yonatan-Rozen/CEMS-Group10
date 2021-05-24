@@ -6,22 +6,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentEnterCodeController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentEnterCodeController">
    <children>
-      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="14.0" text="Take Exam" underline="true" AnchorPane.topAnchor="20.0">
+      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="358.0" layoutY="14.0" text="Take Exam" underline="true" AnchorPane.topAnchor="14.0">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="144.0" text="Enter 4 digits code to continue :" underline="true">
+      <Label layoutX="111.0" layoutY="238.0" text="Enter 4 digits code to continue :" underline="true">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <TextField fx:id="sbCodeTf" layoutX="516.0" layoutY="231.0" prefHeight="50.0" prefWidth="110.0" promptText=" *  *  *  *">
+         <font>
+            <Font name="System Italic" size="21.0" />
+         </font>
+      </TextField>
+      <Button fx:id="sbStartExamBtn" layoutX="374.0" layoutY="324.0" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="45.0" prefWidth="154.0" text="START EXAM">
          <font>
             <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="sbCodeTf" layoutX="377.0" layoutY="145.0" prefHeight="25.0" prefWidth="46.0" promptText="* * * *" />
-      <Button fx:id="sbStartExamBtn" layoutX="223.0" layoutY="186.0" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="45.0" prefWidth="154.0" text="Start Exam">
-         <font>
-            <Font name="System Bold" size="15.0" />
          </font>
       </Button>
    </children>

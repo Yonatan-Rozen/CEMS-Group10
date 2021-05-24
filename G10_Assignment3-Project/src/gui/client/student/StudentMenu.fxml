@@ -4,24 +4,46 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentMenuController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentMenuController">
    <children>
-      <Label fx:id="welcomeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="14.0" text="Welcome, Israel" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="20.0">
-         <font>
-            <Font name="System Bold Italic" size="30.0" />
-         </font>
-      </Label>
-      <VBox alignment="CENTER" layoutX="213.0" layoutY="145.0" prefHeight="110.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
+      <HBox alignment="CENTER" layoutX="316.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Button fx:id="sbTakeExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressTakeExam" text="Take an exam" />
-            <Button fx:id="sbViewExamResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewExamResults" text="View exam results" />
-            <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="Settings" />
+            <Label fx:id="welcomeLbl" alignment="CENTER" contentDisplay="CENTER" text="Welcome, Israel" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutX="325.0" layoutY="227.0" prefHeight="137.0" prefWidth="250.0" spacing="15.0">
+         <children>
+            <Button fx:id="sbTakeExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressTakeExam" text="TAKE AN EXAM">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbViewExamResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewExamResults" text="VIEW EXAM RESULTS">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="SETTINGS">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
          </children>
       </VBox>
-      <Hyperlink fx:id="sbStudentLnk" layoutX="24.0" layoutY="24.0" onAction="#btnPressSettings" text="StudentName" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <Hyperlink fx:id="sbLogoutLnk" layoutX="25.0" layoutY="42.0" onAction="#lnkPressLogout" text="Logout" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="32.0" />
+      <Hyperlink fx:id="sbLogoutLnk" layoutX="24.0" layoutY="51.0" onAction="#lnkPressLogout" text="Logout" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink fx:id="sbStudentLnk" layoutX="24.0" layoutY="24.0" onAction="#btnPressSettings" text="StudentName" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Hyperlink>
    </children>
 </AnchorPane>
