@@ -20,8 +20,8 @@ public class StudentExamSubmittedController implements Initializable{
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
-		ClientUI.mainStage.setHeight(400);
+		ClientUI.mainStage.setWidth(1100);
+		ClientUI.mainStage.setHeight(600);
 	}
 	
 	// ACTION METHODS *******************************************************

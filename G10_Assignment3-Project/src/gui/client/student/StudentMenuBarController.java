@@ -62,7 +62,8 @@ public class StudentMenuBarController implements Initializable {
 	// INITIALIZE METHOD *********************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainStage.setWidth(1150);
+		ClientUI.mainStage.setHeight(650);
 		takeExamBtn = sbTakeExamBtn;
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
