@@ -74,7 +74,8 @@ public class TeacherMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainStage.setWidth(900);
+		ClientUI.mainStage.setHeight(600);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
 		teacherNameLnk = sbTeacherNameLnk;
 		logoutLnk = sbLogoutLnk;
@@ -90,55 +91,55 @@ public class TeacherMenuController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void lnkPressLogout(ActionEvent event) throws Exception {
+	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::LnkLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 
 	@FXML
-	void btnPressCreateExam(ActionEvent event) throws Exception {
+	public void btnPressCreateExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateExam");
 		tmbController.start();
 		tmbController.btnPressCreateExam(event);
 	}
 
 	@FXML
-	void btnPressCreateQuestion(ActionEvent event) throws Exception {
+	public void btnPressCreateQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateQuestion");
 		tmbController.start();
 		tmbController.btnPressCreateQuestion(event);
 	}
 
 	@FXML
-	void btnPressEditExam(ActionEvent event) throws Exception {
+	public void btnPressEditExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditExam");
 		tmbController.start();
 		tmbController.btnPressEditExam(event);
 	}
 
 	@FXML
-	void btnPressEditQuestion(ActionEvent event) throws Exception {
+	public void btnPressEditQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditQuestion");
 		tmbController.start();
 		tmbController.btnPressEditQuestion(event);
 	}
 
 	@FXML
-	void btnPressSettings(ActionEvent event) throws Exception {
+	public void btnPressSettings(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressSettings/lnkTeacherName");
 		tmbController.start();
 		tmbController.btnPressSettings(event);
 	}
 
 	@FXML
-	void btnPressStartExam(ActionEvent event) throws Exception {
+	public void btnPressStartExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressStartExam");
 		tmbController.start();
 		tmbController.btnPressStartExam(event);
 	}
 
 	@FXML
-	void btnPressViewReport(ActionEvent event) throws Exception {
+	public void btnPressViewReport(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressViewReport");
 		tmbController.start();
 		tmbController.btnPressViewReports(event);

@@ -74,31 +74,31 @@ public class StudentMenuBarController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressTakeAnExam(ActionEvent event) {
+	public void btnPressTakeAnExam(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressTakeAnExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
 	}
 
 	@FXML
-	void btnPressSettings(ActionEvent event) {
+	public void btnPressSettings(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
-	void btnPressViewExamResults(ActionEvent event) {
+	public void btnPressViewExamResults(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentExamResults"));
 	}
 
 	@FXML
-	void lnkPressLogout(ActionEvent event) throws IOException {
+	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("StudentMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 
 	@FXML
-	void btnPressBack(ActionEvent event) throws IOException {
+	public void btnPressBack(ActionEvent event) throws IOException {
 		System.out.println("StudentMenuBar::btnPressBack");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 	}

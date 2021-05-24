@@ -64,7 +64,8 @@ public class PrincipleMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainStage.setWidth(900);
+		ClientUI.mainStage.setHeight(600);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		principleLnk = sbPrincipleLnk;
 		logoutLnk = sbLogoutLnk;
@@ -107,9 +108,10 @@ public class PrincipleMenuController implements Initializable {
 	}
 
 	@FXML
-	void lnkPressLogout(ActionEvent event) throws Exception {
+	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::lnkPressLogout");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
+		pmbController.start();
+		pmbController.lnkPressLogout(event);
 	}
 
 }

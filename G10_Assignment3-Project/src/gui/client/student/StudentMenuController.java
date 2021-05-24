@@ -60,7 +60,8 @@ public class StudentMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainStage.setWidth(900);
+		ClientUI.mainStage.setHeight(600);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
 		studentLnk = sbStudentLnk;
 		logoutLnk = sbLogoutLnk;
@@ -73,27 +74,28 @@ public class StudentMenuController implements Initializable {
 	
 	// ACTION METHODS *******************************************************
 	@FXML
-	void lnkPressLogout(ActionEvent event) throws Exception {
+	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::LnkLogout");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
+		smbController.start();
+		smbController.lnkPressLogout(event);
 	}
 
 	@FXML
-	void btnPressSettings(ActionEvent event) throws Exception {
+	public void btnPressSettings(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::btnPressSettings/lnkStudentName");
 		smbController.start();
 		smbController.btnPressSettings(event);
 	}
 
 	@FXML
-	void btnPressTakeExam(ActionEvent event) throws Exception {
+	public void btnPressTakeExam(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::btnPressTakeExam");
 		smbController.start();
 		smbController.btnPressTakeAnExam(event);
 	}
 
 	@FXML
-	void btnPressViewExamResults(ActionEvent event) throws Exception {
+	public void btnPressViewExamResults(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		smbController.start();
 		smbController.btnPressViewExamResults(event);
