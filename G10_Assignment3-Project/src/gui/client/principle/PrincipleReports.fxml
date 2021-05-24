@@ -9,56 +9,62 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleReportsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleReportsController">
    <children>
-      <BarChart fx:id="sbHistogramBc" layoutX="50.0" layoutY="137.0" prefHeight="210.0" prefWidth="500.0">
+      <BarChart fx:id="sbHistogramBc" layoutX="50.0" layoutY="198.0" prefHeight="336.0" prefWidth="800.0">
         <xAxis>
-          <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="15.0" prefWidth="441.0" side="BOTTOM">
+          <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
                <tickLabelFont>
-                  <Font size="12.0" />
+                  <Font name="Pristina" size="20.0" />
                </tickLabelFont>
             </CategoryAxis>
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="sbNumberAxis" label="amount of students" prefHeight="160.0" prefWidth="50.0" side="LEFT" upperBound="50.0">
+          <NumberAxis fx:id="sbNumberAxis" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
                <tickLabelFont>
-                  <Font size="12.0" />
+                  <Font name="Pristina" size="20.0" />
                </tickLabelFont></NumberAxis>
         </yAxis>
       </BarChart>
-      <Line endX="-149.0" endY="254.0" layoutX="199.0" layoutY="93.0" startX="-148.5" startY="5.5" />
-      <Line endX="-159.0" endY="261.0" layoutX="209.0" layoutY="86.0" startX="341.0" startY="261.0" />
-      <Line endX="-147.0" endY="254.0" layoutX="697.0" layoutY="93.0" startX="-146.5" startY="6.5" />
-      <Line endX="-159.0" endY="262.0" layoutX="210.0" layoutY="-163.0" startX="340.0" startY="262.0" />
-      <Label layoutX="169.0" layoutY="14.0" text="View exam reports" textAlignment="JUSTIFY" underline="true">
+      <Line endX="50.0" endY="260.0" layoutY="-135.0" startX="850.0" startY="260.0" />
+      <Label layoutX="293.0" layoutY="14.0" text="View exam reports" textAlignment="JUSTIFY" underline="true">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="sbReportsByLbl" layoutX="159.0" layoutY="59.0" text="Reports by course : Algerbra 1" textAlignment="JUSTIFY" underline="true">
+      <Label fx:id="sbReportsByLbl" layoutX="270.0" layoutY="76.0" text="Reports by course : Algerbra 1" textAlignment="JUSTIFY" underline="true">
          <font>
-            <Font name="System Italic" size="22.0" />
+            <Font name="System Italic" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="sbExamIDLbl" layoutX="58.0" layoutY="107.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
+      <Label fx:id="sbExamIDLbl" layoutX="106.0" layoutY="136.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
          <font>
-            <Font name="System Italic" size="18.0" />
+            <Font name="System Italic" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="sbMedianLbl" layoutX="320.0" layoutY="107.0" text="Median : 80">
+      <Label fx:id="sbMedianLbl" layoutX="536.0" layoutY="136.0" text="Median : 80">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="sbAverageLbl" layoutX="697.0" layoutY="136.0" text="Average : 80">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Line endX="48.0" endY="262.0" layoutX="476.0" layoutY="-88.0" startX="374.0" startY="262.0" />
+      <Line endX="204.5" endY="33.5" layoutX="485.0" layoutY="140.0" startX="204.5" startY="-14.5" />
+      <Button fx:id="sbNextRepBtn" layoutX="736.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnPressNextRep" text="NEXT &gt;&gt;&gt;">
          <font>
             <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="sbAverageLbl" layoutX="440.0" layoutY="107.0" text="Average : 80">
+         </font></Button>
+      <Button fx:id="sbPreviousRepBtn" layoutX="50.0" layoutY="547.0" mnemonicParsing="false" onAction="#BtnPressPrevousRep" text="&lt;&lt;&lt; PREVIOUS">
          <font>
             <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Line endX="94.0" endY="262.0" layoutX="216.0" layoutY="-123.0" startX="332.29290771484375" startY="262.0" />
-      <Line endX="204.5" endY="27.5" layoutX="105.0" layoutY="111.0" startX="204.5" startY="-11.5" />
-      <Line endX="204.5" endY="27.5" layoutX="225.0" layoutY="111.0" startX="204.5" startY="-11.5" />
-      <Button fx:id="sbNextRepBtn" layoutX="420.0" layoutY="359.0" mnemonicParsing="false" onAction="#btnPressNextRep" prefHeight="25.0" prefWidth="117.0" text="Next &gt;&gt;&gt;" />
-      <Button fx:id="sbPreviousRepBtn" layoutX="68.0" layoutY="359.0" mnemonicParsing="false" onAction="#BtnPressPrevousRep" prefHeight="25.0" prefWidth="117.0" text="&lt;&lt;&lt; Previous" />
+         </font></Button>
+      <Line endX="-150.0" endY="535.5" layoutX="999.5" startX="-150.0" startY="124.5" />
+      <Line endX="50.0" endY="260.0" layoutY="275.0" startX="850.0" startY="260.0" />
+      <Line endX="-150.0" endY="535.5" layoutX="200.5" startX="-150.0" startY="124.5" />
+      <Line endX="204.5" endY="33.5" layoutX="319.0" layoutY="140.0" startX="204.5" startY="-14.5" />
    </children>
 </AnchorPane>

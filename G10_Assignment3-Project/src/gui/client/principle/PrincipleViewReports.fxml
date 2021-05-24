@@ -8,56 +8,65 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewReportsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewReportsController">
    <children>
-      <Label layoutX="169.0" layoutY="14.0" text="View exam reports" underline="true">
+      <Label layoutX="293.0" layoutY="14.0" text="View exam reports" underline="true">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutY="82.0" prefHeight="300.0" prefWidth="600.0" spacing="5.0">
+      <VBox alignment="CENTER" layoutY="131.0" prefHeight="300.0" prefWidth="600.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Line endX="500.0" startX="-80.0" />
+            <Line endX="890.0" />
             <Label text="by teacher name :" underline="true">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <TextField fx:id="sbTeacherNameTf" maxWidth="120.0" minWidth="10.0" prefHeight="25.0" prefWidth="120.0" promptText="Insert teacher name" />
-            <Button fx:id="sbProduceByTeacherBtn" mnemonicParsing="false" onAction="#btnPressProduceByTeacher" prefHeight="25.0" prefWidth="120.0" text="produce">
+            <TextField fx:id="sbTeacherNameTf" maxWidth="200.0" promptText="Insert teacher name">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font size="18.0" />
+               </font></TextField>
+            <Button fx:id="sbProduceByTeacherBtn" mnemonicParsing="false" onAction="#btnPressProduceByTeacher" prefHeight="25.0" prefWidth="200.0" text="produce">
+               <font>
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Line endX="500.0" startX="-80.0" />
+            <Line endX="890.0" />
             <Label text="by course name :" underline="true">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <TextField fx:id="sbCourseNameTf" maxWidth="120.0" minWidth="10.0" prefHeight="25.0" prefWidth="120.0" promptText="Insert course name" />
-            <Button fx:id="sbProduceByCourseBtn" mnemonicParsing="false" onAction="#btnPressProduceByCourse" prefHeight="25.0" prefWidth="120.0" text="produce">
+            <TextField fx:id="sbCourseNameTf" maxWidth="200.0" promptText="Insert course name">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font size="18.0" />
+               </font></TextField>
+            <Button fx:id="sbProduceByCourseBtn" mnemonicParsing="false" onAction="#btnPressProduceByCourse" prefHeight="25.0" prefWidth="200.0" text="produce">
+               <font>
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Line endX="500.0" startX="-80.0" />
+            <Line endX="890.0" />
             <Label text="by student name :" underline="true">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <TextField fx:id="sbStudentNameTf" maxWidth="120.0" minWidth="10.0" prefHeight="25.0" prefWidth="120.0" promptText="Insert student name" />
-            <Button fx:id="sbProduceByStudentBtn" mnemonicParsing="false" onAction="#btnPressProduceByStudent" prefHeight="25.0" prefWidth="120.0" text="produce">
+            <TextField fx:id="sbStudentNameTf" maxWidth="200.0" promptText="Insert student name">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font size="18.0" />
+               </font></TextField>
+            <Button fx:id="sbProduceByStudentBtn" mnemonicParsing="false" onAction="#btnPressProduceByStudent" prefHeight="25.0" prefWidth="200.0" text="produce">
+               <font>
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <Label layoutX="60.0" layoutY="60.0" text="produce reports :" underline="true">
+      <Label layoutX="50.0" layoutY="83.0" text="produce reports :" underline="true">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="System Italic" size="28.0" />
          </font>
       </Label>
    </children>
