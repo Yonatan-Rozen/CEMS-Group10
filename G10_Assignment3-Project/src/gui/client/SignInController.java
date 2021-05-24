@@ -75,6 +75,7 @@ public class SignInController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setWidth(600);
+		ClientUI.mainStage.setHeight(400);
 		ChatClient.user = null;
 		usernameTf = sbUsernameTf;
 		passwordPf = sbPasswordPf;
