@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
@@ -37,9 +36,13 @@ public class PrincipleMenuBarController implements Initializable {
 
 	@FXML
 	private ImageView sbLogoIv;
+	
+	@FXML
+	private Button sbBackBtn;
 
 	@FXML
 	private BorderPane sbMainPaneBp;
+
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button viewRequestsBtn; 
@@ -47,6 +50,7 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button viewReportsBtn; 
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
+	private Button backBtn;
 	protected static BorderPane mainPaneBp;
 
 	// START METHOD *********************************************************
@@ -63,12 +67,14 @@ public class PrincipleMenuBarController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
+		ClientUI.mainStage.setWidth(1150);
+		ClientUI.mainStage.setHeight(650);
 		viewRequestsBtn = sbViewRequestsBtn; 
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn; 
 		settingsBtn = sbSettingsBtn; 
 		logoutLnk = sbLogoutLnk;
+		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
 		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
 	}
