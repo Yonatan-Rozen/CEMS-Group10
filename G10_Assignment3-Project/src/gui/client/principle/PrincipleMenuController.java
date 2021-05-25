@@ -64,12 +64,14 @@ public class PrincipleMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(900);
-		ClientUI.mainStage.setHeight(600);
+		ClientUI.mainStage.setWidth(1150);
+		ClientUI.mainStage.setHeight(650);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Principle)");
 		principleLnk = sbPrincipleLnk;
+		principleLnk.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
 		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
+		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		// TODO welcomeLbl should be set with a name (e.x : 'welcome, Ron')
 		viewRequestsBtn = sbViewRequestsBtn;
 		viewInfoBtn = sbViewInfoBtn;

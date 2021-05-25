@@ -49,6 +49,7 @@ public class TeacherMenuController implements Initializable {
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink teacherNameLnk;
 	private static Hyperlink logoutLnk;
+	private static Label welcomeLbl;
 	private static Button startExamBtn;
 	private static Button createQuestionBtn;
 	private static Button editQuestionBtn;
@@ -74,11 +75,14 @@ public class TeacherMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(900);
-		ClientUI.mainStage.setHeight(600);
+		ClientUI.mainStage.setWidth(1150);
+		ClientUI.mainStage.setHeight(650);
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
 		teacherNameLnk = sbTeacherNameLnk;
+		teacherNameLnk.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
 		logoutLnk = sbLogoutLnk;
+		welcomeLbl = sbWelcomeLbl;
+		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		startExamBtn = sbStartExamBtn;
 		createQuestionBtn = sbCreateQuestionBtn;
 		editQuestionBtn = sbEditQuestionBtn;
