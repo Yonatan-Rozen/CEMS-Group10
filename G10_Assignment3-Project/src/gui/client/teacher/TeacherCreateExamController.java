@@ -15,23 +15,30 @@ import javafx.scene.layout.AnchorPane;
 public class TeacherCreateExamController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
+
+	@FXML
+	private AnchorPane sbTopPanelAp;
+
+	@FXML
+	private ComboBox<String> sbChooseBankCb;
+
+	@FXML
+	private Button sbContinue1Btn;
+
 	@FXML
 	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	private Button sbContinue2Btn;
-
-	@FXML
-	private Button sbChangeBankBtn;
-
-	@FXML
-	private Button sbPreviewExam1Btn;
+	private ComboBox<String> sbChooseCourseBtn;
 
 	@FXML
 	private TableView<?> sbAvailableQuestionsTv;
 
 	@FXML
 	private TableColumn<?, ?> sbQuestionID1Tc;
+
+	@FXML
+	private TableColumn<?, ?> sbPreview1Tc;
 
 	@FXML
 	private TableColumn<?, ?> sbAddToExamTc;
@@ -43,76 +50,60 @@ public class TeacherCreateExamController implements Initializable {
 	private TableColumn<?, ?> sbQuestionID2Tc;
 
 	@FXML
+	private TableColumn<?, ?> sbPreview2Tc;
+
+	@FXML
 	private TableColumn<?, ?> sbRemoveFromExamTc;
 
 	@FXML
-	private ComboBox<?> sbChooseCourseBtn;
+	private Button sbChangeBankBtn;
 
 	@FXML
-	private Button sbEditExamsBtn;
-
-	@FXML
-	private Button sbPreviewExam2Btn;
-
-	@FXML
-	private AnchorPane sbTopPanelAp;
-
-	@FXML
-	private Button sbContinue1Btn;
-
-	@FXML
-	private Button sbCancelCreationBtn;
-
-	@FXML
-	private ComboBox<?> sbChooseBankCb;
+	private Button sbContinue2Btn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
+	private static AnchorPane topPanelAp;
+	private static ComboBox<String> chooseBankCb;
+	private static Button continue1Btn;
 	private static AnchorPane botPanelAp;
-	private static Button continue2Btn;
-	private static Button changeBankBtn;
-	private static Button previewExam1Btn;
+	private static ComboBox<String> chooseCourseBtn;
 	private static TableView<?> availableQuestionsTv;
 	private static TableColumn<?, ?> questionID1Tc;
+	private static TableColumn<?, ?> preview1Tc;
 	private static TableColumn<?, ?> addToExamTc;
 	private static TableView<?> currentQuestionsTable;
 	private static TableColumn<?, ?> questionID2Tc;
+	private static TableColumn<?, ?> preview2Tc;
 	private static TableColumn<?, ?> removeFromExamTc;
-	private static ComboBox<?> chooseCourseBtn;
-	private static Button editExamsBtn;
-	private static Button previewExam2Btn;
-	private static AnchorPane topPanelAp;
-	private static Button continue1Btn;
-	private static Button cancelCreationBtn;
-	private static ComboBox<?> chooseBankCb;
-	
+	private static Button changeBankBtn;
+	private static Button continue2Btn;
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		topPanelAp = sbTopPanelAp;
+		chooseBankCb = sbChooseBankCb;
+		continue1Btn = sbContinue1Btn;
 		botPanelAp = sbBotPanelAp;
-		sbBotPanelAp.setDisable(true);
-		continue2Btn = sbContinue2Btn;
-		changeBankBtn = sbChangeBankBtn;
-		previewExam1Btn = sbPreviewExam1Btn;
+		botPanelAp.setDisable(true);
+		chooseCourseBtn = sbChooseCourseBtn;
 		availableQuestionsTv = sbAvailableQuestionsTv;
 		questionID1Tc = sbQuestionID1Tc;
+		preview1Tc = sbPreview1Tc;
 		addToExamTc = sbAddToExamTc;
 		currentQuestionsTable = sbCurrentQuestionsTable;
 		questionID2Tc = sbQuestionID2Tc;
+		preview2Tc = sbPreview2Tc;
 		removeFromExamTc = sbRemoveFromExamTc;
-		chooseCourseBtn = sbChooseCourseBtn;
-		editExamsBtn = sbEditExamsBtn;
-		previewExam2Btn = sbPreviewExam2Btn;
-		topPanelAp = sbTopPanelAp;
-		continue1Btn = sbContinue1Btn;
-		cancelCreationBtn = sbCancelCreationBtn;
-		chooseBankCb = sbChooseBankCb;
+		changeBankBtn = sbChangeBankBtn;
+		continue2Btn = sbContinue2Btn;
 	}
 
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressCancelCreation(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressCancelCreation");
-		
+
 	}
 
 	@FXML
