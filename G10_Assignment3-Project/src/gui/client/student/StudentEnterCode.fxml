@@ -23,7 +23,7 @@
             <Font name="System Italic" size="21.0" />
          </font>
       </TextField>
-      <Button fx:id="sbStartExamBtn" layoutX="374.0" layoutY="324.0" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="45.0" prefWidth="154.0" text="START EXAM">
+      <Button fx:id="sbStartExamBtn" layoutX="373.0" layoutY="326.0" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="45.0" prefWidth="154.0" text="TAKE EXAM">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

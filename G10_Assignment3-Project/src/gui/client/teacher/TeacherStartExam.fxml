@@ -7,25 +7,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
    <children>
-      <Label layoutX="224.0" layoutY="20.0" text="Start Exam" underline="true" AnchorPane.topAnchor="20.0">
+      <Label layoutX="365.0" layoutY="14.0" text="Start Exam" underline="true" AnchorPane.topAnchor="14.0">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="192.0" layoutY="138.0" text="Choose Exam:">
+      <Label layoutX="271.0" layoutY="206.0" text="Choose Exam :" underline="true">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <ComboBox fx:id="sbChoseExamCb" layoutX="297.0" layoutY="136.0" onAction="#cbPressChoseExam" prefHeight="25.0" prefWidth="114.0" promptText="Chose exam" />
-      <TextField fx:id="sbCodeTf" layoutX="334.0" layoutY="175.0" prefHeight="25.0" prefWidth="60.0" promptText="  * * * *" />
-      <Label layoutX="192.0" layoutY="177.0" text="Insert 4 digit code:">
+      <ComboBox fx:id="sbChoseExamCb" layoutX="464.0" layoutY="205.0" onAction="#cbPressChoseExam" promptText="Chose exam" style="-fx-font-size: 18; -fx-font-weight: Bold;" />
+      <TextField fx:id="sbCodeTf" layoutX="519.0" layoutY="268.0" prefHeight="50.0" prefWidth="110.0" promptText=" *  *  *  *">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font size="21.0" />
+         </font></TextField>
+      <Label layoutX="271.0" layoutY="275.0" text="Insert 4 digit code :" underline="true">
+         <font>
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="sbStartBtn" layoutX="241.0" layoutY="231.0" mnemonicParsing="false" onAction="#btnPressStart" prefWidth="120.0" text="Start" />
+      <Button fx:id="sbStartBtn" layoutX="410.0" layoutY="357.0" mnemonicParsing="false" onAction="#btnPressStart" text="START EXAM">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
    </children>
 </AnchorPane>

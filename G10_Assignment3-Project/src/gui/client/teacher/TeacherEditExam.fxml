@@ -9,58 +9,73 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="36.0" layoutY="156.0" prefHeight="230.0" prefWidth="528.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="284.0" prefHeight="291.0" prefWidth="800.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <Button fx:id="sbEditSelectedExamBtn" layoutX="388.0" layoutY="204.0" mnemonicParsing="false" onAction="#btnPressEditSelectedExam" text="Edit selected exam&gt;&gt;&gt;" AnchorPane.rightAnchor="0.0" />
-            <Button fx:id="sbChangeCourseBtn" layoutY="204.0" mnemonicParsing="false" onAction="#btnPressChangeCourse" text="&lt;&lt;&lt;change course" />
-            <TableView fx:id="sbExamsTv" layoutX="130.0" layoutY="31.0" prefHeight="170.0" prefWidth="150.0">
+            <Button fx:id="sbEditSelectedExamBtn" layoutX="379.0" layoutY="296.0" mnemonicParsing="false" onAction="#btnPressEditSelectedExam" text="EDIT SELECTED EXAM &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbChangeCourseBtn" layoutY="296.0" mnemonicParsing="false" onAction="#btnPressChangeCourse" text="&lt;&lt;&lt; CHANGE COURSE" AnchorPane.bottomAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <TableView fx:id="sbExamsTv" layoutX="233.0" layoutY="45.0" prefHeight="214.0" prefWidth="216.0" AnchorPane.bottomAnchor="32.0">
               <columns>
-                <TableColumn fx:id="sbExamIDTc" prefWidth="156.0" text="Exam ID" />
+                <TableColumn fx:id="sbExamIDTc" prefWidth="215.0" style="-fx-font-size: 17;" text="Exam ID" />
               </columns>
             </TableView>
-            <Label layoutX="132.0" layoutY="4.0" text="select an exam to edit :" underline="true">
+            <Label layoutX="232.0" layoutY="14.0" text="select an exam to edit :" underline="true" AnchorPane.bottomAnchor="246.0">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbPreviewExamBtn" accessibleText="wtf" layoutX="291.0" layoutY="90.0" mnemonicParsing="false" onAction="#btnPressPreviewExam" prefHeight="51.0" prefWidth="143.0" text="preview 👁" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="sbPreviewExamBtn" accessibleText="wtf" layoutX="456.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnPressPreviewExam" prefHeight="51.0" prefWidth="143.0" text="preview 👁" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="120.0">
                <font>
                   <Font name="System Italic" size="24.0" />
                </font>
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbMidPanelAp" layoutX="40.0" layoutY="111.0">
+      <AnchorPane fx:id="sbMidPanelAp" layoutX="30.0" layoutY="179.0" prefHeight="97.0" prefWidth="841.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <Label layoutX="130.0" layoutY="3.0" text="choose exam course :" underline="true">
+            <Label layoutX="244.0" layoutY="33.0" text="choose exam course :" underline="true">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ComboBox fx:id="sbChooseCourseCb" layoutX="280.0" layoutY="2.0" onAction="#cbPressChooseCourse" promptText="choose course" />
-            <Button fx:id="sbContinue2Btn" layoutX="433.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="continue&gt;&gt;&gt;" />
-            <Button fx:id="sbChangeBankBtn" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt;change bank" />
+            <ComboBox fx:id="sbChooseCourseCb" layoutX="453.0" layoutY="36.0" onAction="#cbPressChooseCourse" promptText="choose course" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <Button fx:id="sbContinue2Btn" layoutX="591.0" layoutY="6.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="29.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbChangeBankBtn" layoutY="22.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="29.0" AnchorPane.topAnchor="29.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="40.0" layoutY="65.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="30.0" layoutY="70.0" prefHeight="97.0" prefWidth="841.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <Label layoutX="130.0" layoutY="3.0" text="choose exam bank :" underline="true">
+            <Label layoutX="243.0" layoutY="33.0" text="choose exam bank :" underline="true">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ComboBox fx:id="sbChooseBankCb" layoutX="280.0" layoutY="2.0" onAction="#cbPressChooseBank" prefHeight="25.0" prefWidth="118.0" promptText="choose bank" />
-            <Button fx:id="sbContinue1Btn" layoutX="433.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="continue&gt;&gt;&gt;" />
+            <ComboBox fx:id="sbChooseBankCb" layoutX="451.0" layoutY="36.0" onAction="#cbPressChooseBank" prefHeight="31.0" prefWidth="148.0" promptText="choose bank" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <Button fx:id="sbContinue1Btn" layoutX="674.0" layoutY="22.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="29.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
          </children>
       </AnchorPane>
-      <Label layoutX="230.0" layoutY="20.0" text="Edit Exam" underline="true">
+      <Line endX="450.0" layoutX="450.0" layoutY="284.0" startX="-450.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="179.0" startX="-450.0" />
+      <Label layoutX="366.0" layoutY="14.0" text="Edit Exam" underline="true">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Line endX="290.0" layoutX="300.0" layoutY="100.0" startX="-290.0" />
-      <Line endX="290.0" layoutX="300.0" layoutY="150.0" startX="-290.0" />
    </children>
 </AnchorPane>

@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleMenuController">
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleMenuController">
    <children>
-      <HBox alignment="CENTER" layoutX="330.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+      <HBox alignment="CENTER" layoutY="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
             <Label fx:id="sbWelcomeLbl" alignment="CENTER" contentDisplay="CENTER" text="Welcome, Ron" textAlignment="JUSTIFY" textOverrun="CENTER_WORD_ELLIPSIS" underline="true">
                <font>
@@ -19,27 +19,7 @@
             </Label>
          </children>
       </HBox>
-      <VBox alignment="CENTER" layoutX="325.0" layoutY="200.0" prefWidth="250.0" spacing="15.0">
-         <children>
-            <Button fx:id="sbViewRequestsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewRequest" text="VIEW REQUESTS">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-            <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewInfo" text="VIEW INFO">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-            <Button fx:id="sbViewReportsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReports" text="VIEW REPORTS">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-            <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="SETTINGS">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-         </children>
-      </VBox>
-      <Hyperlink fx:id="sbStudentLnk" layoutX="14.0" layoutY="14.0" onAction="#btnPressSettings" text="PrincipleName" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <Hyperlink fx:id="sbPrincipleLnk" layoutX="14.0" layoutY="14.0" onAction="#btnPressSettings" text="PrincipleName" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Hyperlink>
@@ -47,5 +27,33 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Hyperlink>
+      <HBox alignment="CENTER" layoutY="200.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefWidth="250.0" spacing="15.0">
+               <children>
+                  <Button fx:id="sbViewRequestsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewRequest" text="VIEW REQUESTS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbViewInfoBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewInfo" text="VIEW INFO">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbViewReportsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReports" text="VIEW REPORTS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="SETTINGS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

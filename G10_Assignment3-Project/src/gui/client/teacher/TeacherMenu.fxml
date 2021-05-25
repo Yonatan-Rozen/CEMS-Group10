@@ -5,31 +5,74 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuController">
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuController">
    <children>
-      <Hyperlink fx:id="sbTeacherNameLnk" layoutX="14.0" layoutY="14.0" onAction="#btnPressSettings" text="TeacheName" />
-      <Hyperlink fx:id="sbLogoutLnk" layoutX="15.0" layoutY="32.0" onAction="#lnkPressLogout" text="Logout" />
-      <Label fx:id="sbWelcomeLbl" alignment="CENTER" layoutX="242.0" layoutY="20.0" text="Welcome, Teacher!" textAlignment="JUSTIFY" underline="true" AnchorPane.topAnchor="20.0">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <font>
-            <Font name="System Bold Italic" size="30.0" />
-         </font>
-      </Label>
-      <VBox layoutX="300.0" layoutY="83.0" prefWidth="150.0" spacing="10.0" AnchorPane.leftAnchor="300.0">
+      <HBox alignment="CENTER" layoutY="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
-            <Button fx:id="sbStartExamBtn" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressStartExam" prefHeight="25.0" prefWidth="150.0" text="Start Exam" textAlignment="JUSTIFY" />
-            <Button fx:id="sbCreateQuestionBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressCreateQuestion" prefHeight="25.0" prefWidth="150.0" text="Create Question" />
-            <Button fx:id="sbEditQuestionBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressEditQuestion" prefHeight="25.0" prefWidth="150.0" text="Edit Question" />
-            <Button fx:id="sbCreateExamBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressCreateExam" prefHeight="25.0" prefWidth="150.0" text="Create Exam" />
-            <Button fx:id="sbEditExamBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressEditExam" prefHeight="25.0" prefWidth="150.0" text="Edit Exam" />
-            <Button fx:id="sbViewReportBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressViewReport" prefHeight="25.0" prefWidth="150.0" text="View Report" />
-            <Button fx:id="sbSettingsBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnPressSettings" prefHeight="25.0" prefWidth="150.0" text="Settings" />
+            <Label fx:id="sbWelcomeLbl" alignment="CENTER" text="Welcome, Teacher!" textAlignment="JUSTIFY" underline="true">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
          </children>
-      </VBox>
+      </HBox>
+      <Hyperlink fx:id="sbTeacherNameLnk" layoutX="193.0" layoutY="314.0" onAction="#btnPressSettings" text="TeacheName" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Hyperlink>
+      <Hyperlink fx:id="sbLogoutLnk" layoutX="194.0" layoutY="332.0" onAction="#lnkPressLogout" text="Logout" underline="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Hyperlink>
+      <HBox alignment="CENTER" layoutY="166.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefWidth="250.0" spacing="15.0">
+               <children>
+                  <Button fx:id="sbStartExamBtn" alignment="TOP_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressStartExam" text="START EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbCreateQuestionBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="CREATE QUESTION">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbEditQuestionBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressEditQuestion" text="EDIT QUESTION">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbCreateExamBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCreateExam" text="CREATE EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbEditExamBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressEditExam" text="EDIT EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbViewReportBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReport" text="VIEW REPORT">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="sbSettingsBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="SETTINGS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

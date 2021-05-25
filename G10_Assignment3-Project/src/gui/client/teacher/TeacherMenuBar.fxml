@@ -7,28 +7,56 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.29797979797979796" minHeight="400.0" minWidth="750.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuBarController">
+<SplitPane dividerPositions="0.13934426229508196" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuBarController">
    <items>
-      <AnchorPane maxHeight="400.0" maxWidth="150.0" minHeight="0.0" minWidth="150.0" prefHeight="400.0" prefWidth="150.0">
+      <AnchorPane minHeight="600.0" minWidth="200.0" prefHeight="600.0" prefWidth="200.0">
          <children>
-            <VBox alignment="CENTER" layoutX="5.0" layoutY="100.0" prefHeight="255.0" prefWidth="140.0" spacing="10.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">
+            <VBox alignment="CENTER" layoutX="8.0" layoutY="155.0" spacing="15.0">
                <children>
-                  <Button fx:id="sbStartExamBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressStartExam" text="Start exam" />
-                  <Button fx:id="sbCreateQuestionBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="Create question" />
-                  <Button fx:id="sbEditQuestionBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressEditQuestion" text="Edit question" />
-                  <Button fx:id="sbCreateExamBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressCreateExam" text="Create exam" />
-                  <Button fx:id="sbEditExamBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressEditExam" text="Edit exam" />
-                  <Button fx:id="sbViewReportsBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressViewReports" text="View reports" />
-                  <Button fx:id="sbSettingsBtn" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressSettings" text="Settings" />
+                  <Button fx:id="sbStartExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressStartExam" text="START EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbCreateQuestionBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="CREATE QUESTION">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbEditQuestionBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressEditQuestion" text="EDIT QUESTION">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbCreateExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCreateExam" text="CREATE EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbEditExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressEditExam" text="EDIT EXAM">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbViewReportsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReports" text="VIEW REPORTS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="sbSettingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressSettings" text="SETTINGS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
                </children>
             </VBox>
-            <Hyperlink fx:id="sbLogoutLnk" layoutX="14.0" layoutY="360.0" onAction="#lnkPressLogout" text="logout" AnchorPane.bottomAnchor="15.0" />
-            <ImageView fx:id="sbLogoIv" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="sbBackBtn" layoutX="84.0" layoutY="359.0" mnemonicParsing="false" onAction="#btnPressBack" text="&lt; Back" />
+            <Hyperlink fx:id="sbLogoutLnk" layoutX="14.0" layoutY="360.0" onAction="#lnkPressLogout" text="logout" underline="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Hyperlink>
+            <ImageView fx:id="sbLogoIv" fitHeight="134.0" fitWidth="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="12.0" />
+            <Button fx:id="sbBackBtn" layoutX="101.0" layoutY="543.0" mnemonicParsing="false" onAction="#btnPressBack" text="MENU" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0">
          <children>
             <BorderPane fx:id="sbMainPaneBp" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>

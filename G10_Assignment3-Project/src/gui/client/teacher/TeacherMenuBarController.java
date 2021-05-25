@@ -74,7 +74,6 @@ public class TeacherMenuBarController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.mainStage.setWidth(750);
 		startExamBtn = sbStartExamBtn;
 		createQuestionBtn = sbCreateQuestionBtn;
 		editQuestionBtn = sbEditQuestionBtn;

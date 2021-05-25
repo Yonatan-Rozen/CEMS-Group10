@@ -14,22 +14,25 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateQuestionController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateQuestionController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="30.0" layoutY="118.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="177.0" prefHeight="388.0" prefWidth="801.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <Label layoutX="5.0" text="Insert body:" underline="true" wrapText="true" AnchorPane.leftAnchor="5.0">
+            <Label layoutX="5.0" layoutY="-1.0" text="Insert body:" underline="true" wrapText="true" AnchorPane.leftAnchor="5.0">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbQuestionBodyTa" layoutX="20.0" layoutY="21.0" prefHeight="40.0" prefWidth="530.0" promptText="insert body..." />
+            <TextArea fx:id="sbQuestionBodyTa" layoutX="125.0" layoutY="1.0" prefHeight="60.0" prefWidth="650.0" promptText="insert body...">
+               <font>
+                  <Font size="14.0" />
+               </font></TextArea>
             <Label layoutX="5.0" layoutY="58.0" text="Insert 4 answers and mark ONE as the correct answer :" underline="true" AnchorPane.leftAnchor="5.0">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <GridPane layoutY="80.0" prefHeight="169.0" prefWidth="550.0" vgap="2.0">
+            <GridPane layoutX="25.0" layoutY="89.0" prefHeight="254.0" prefWidth="740.0" vgap="6.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
@@ -49,35 +52,61 @@
                   <RadioButton fx:id="sbMarkAnswer2Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer2" toggleGroup="$sbAnswersTg" GridPane.rowIndex="1" />
                   <RadioButton fx:id="sbMarkAnswer3Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer3" toggleGroup="$sbAnswersTg" GridPane.rowIndex="2" />
                   <RadioButton fx:id="sbMarkAnswer4Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer4" toggleGroup="$sbAnswersTg" GridPane.rowIndex="3" />
-                  <TextArea fx:id="sbAnswer1Ta" promptText="Insert answer #1..." GridPane.columnIndex="1" />
-                  <TextArea fx:id="sbAnswer2Ta" promptText="Insert answer #2..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextArea fx:id="sbAnswer3Ta" promptText="Insert answer #3..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextArea fx:id="sbAnswer4Ta" promptText="Insert answer #4..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextArea fx:id="sbAnswer1Ta" promptText="Insert answer #1..." GridPane.columnIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextArea>
+                  <TextArea fx:id="sbAnswer2Ta" promptText="Insert answer #2..." GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextArea>
+                  <TextArea fx:id="sbAnswer3Ta" promptText="Insert answer #3..." GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextArea>
+                  <TextArea fx:id="sbAnswer4Ta" promptText="Insert answer #4..." GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextArea>
                </children>
             </GridPane>
-            <Button fx:id="sbChangeBankBtn" layoutX="6.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt;change bank" />
-            <Button fx:id="sbSaveQuestionBtn" layoutX="436.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnPressSaveQuestion" text="save question&gt;&gt;&gt;" />
+            <Button fx:id="sbChangeBankBtn" layoutX="5.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbSaveQuestionBtn" layoutX="623.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressSaveQuestion" text="SAVE QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="25.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="30.0" layoutY="55.0" prefHeight="59.0" prefWidth="550.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="75.0" layoutY="64.0" prefHeight="97.0" prefWidth="801.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0">
          <children>
-            <Label layoutX="4.0" layoutY="1.0" text="choose question bank :" underline="true" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label layoutX="83.0" layoutY="14.0" text="choose question bank :" underline="true" wrapText="true" AnchorPane.leftAnchor="83.0" AnchorPane.topAnchor="14.0">
                <font>
-                  <Font name="System Italic" size="15.0" />
+                  <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ComboBox fx:id="sbQuestionBankCb" layoutX="160.0" layoutY="-1.0" onAction="#cbPressQuestionBank" promptText="choose bank" />
-            <Button fx:id="sbDiscardQuestionBtn" layoutX="4.0" layoutY="27.0" mnemonicParsing="false" onAction="#btnPressDiscardQuestion" prefHeight="25.0" prefWidth="128.0" text="&lt;&lt;&lt;discard question" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-            <Button fx:id="sbCreateQuestionBtn" layoutX="425.0" layoutY="27.0" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="create question&gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Hyperlink fx:id="sbAddBankLnk" layoutX="285.0" layoutY="11.0" onAction="#lnkPressAddBank" text="+ add new proffestion" underline="true" />
-            <Hyperlink fx:id="sbRemoveBankLnk" layoutX="285.0" layoutY="-7.0" onAction="#lnkPressRemoveBank" text="- Remove selected proffesion" underline="true" />
+            <ComboBox fx:id="sbQuestionBankCb" layoutX="298.0" layoutY="14.0" onAction="#cbPressQuestionBank" promptText="choose bank" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <Button fx:id="sbCreateQuestionBtn" layoutX="425.0" layoutY="27.0" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="CREATE QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Hyperlink fx:id="sbAddBankLnk" layoutX="83.0" layoutY="61.0" onAction="#lnkPressAddBank" text="+ Add new bank" underline="true">
+               <font>
+                  <Font size="17.0" />
+               </font></Hyperlink>
+            <Hyperlink fx:id="sbRemoveBankLnk" layoutX="241.0" layoutY="61.0" onAction="#lnkPressRemoveBank" text="- Remove selected bank" underline="true">
+               <font>
+                  <Font size="17.0" />
+               </font></Hyperlink>
          </children>
       </AnchorPane>
-      <Label layoutX="187.0" layoutY="14.0" text="Qestion Creation" underline="true" AnchorPane.topAnchor="14.0">
+      <Label layoutX="308.0" layoutY="14.0" text="Qestion Creation" underline="true" AnchorPane.topAnchor="14.0">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Line endX="280.0" layoutX="315.0" layoutY="117.0" startX="-300.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="169.0" startX="-450.0" />
    </children>
 </AnchorPane>
