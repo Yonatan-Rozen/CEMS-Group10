@@ -67,12 +67,12 @@ public class SignInController implements Initializable {
 			alert.showAndWait();
 			System.exit(0);
 		});
-		ClientUI.mainStage.show();
 	}
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.mainStage.hide();
 		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setWidth(600);
 		ClientUI.mainStage.setHeight(400);
@@ -81,54 +81,46 @@ public class SignInController implements Initializable {
 		passwordPf = sbPasswordPf;
 		messagelbl = sbMessagelbl;
 		signInBtn = sbSignInBtn;
+		ClientUI.mainStage.show();
 	}
 
 	// signInBtn METHOD *****************************************************
 	public void btnPressSignIn(ActionEvent event) {
-		ClientUI.chat.accept(new String[] {"btnPressSignIn",usernameTf.getText(),passwordPf.getText()}); // sets ChatClient.user
+		ClientUI.chat.accept(new String[] { "btnPressSignIn", usernameTf.getText(), passwordPf.getText() }); // sets
+																												// ChatClient.user
 		try {
-			switch(ChatClient.user.getType())
-			{
+			switch (ChatClient.user.getType()) {
 			case "Principle":
-				// principle example : **********************************************
-				PrincipleMenuController pmC = new PrincipleMenuController();
-				try {
-					pmC.start();
-				} catch (Exception e) {
-				}
+				ClientUI.mainStage.hide();
+				try { ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+				} catch (Exception e) { e.printStackTrace(); }
 				break;
 			case "Student":
-				// student example : ************************************************
-				StudentMenuController smC = new StudentMenuController();
-				try {
-					smC.start();
-				} catch (Exception e) {
-				}
+				ClientUI.mainStage.hide();
+				try { ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+				} catch (Exception e) { e.printStackTrace(); }
 				break;
 			case "Teacher":
-				// teacher example : ************************************************
-				TeacherMenuController tmC = new TeacherMenuController();
-				try {
-					tmC.start();
-				} catch (Exception e) {
-				}
+				ClientUI.mainStage.hide();
+				try { ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+				} catch (Exception e) { e.printStackTrace(); }
 				break;
 			default:
 				System.out.println("error! this type doesn't exist");
 				break;
 			}
-		}catch(NullPointerException e) {
-		
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Error message");
-		alert.setHeaderText(null);
-		alert.setContentText(errorMsg);
-		alert.showAndWait();}
+		} catch (NullPointerException e) {
+
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error message");
+			alert.setHeaderText(null);
+			alert.setContentText(errorMsg);
+			alert.showAndWait();
+		}
 	}
 
 	public void setErrorMsg(String errorMsg) {
 		SignInController.errorMsg = errorMsg;
 	}
-	
-	
+
 }
