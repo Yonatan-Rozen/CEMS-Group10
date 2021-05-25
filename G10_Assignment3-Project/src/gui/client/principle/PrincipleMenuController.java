@@ -76,6 +76,7 @@ public class PrincipleMenuController implements Initializable {
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
 		pmbController = new PrincipleMenuBarController();
+		ClientUI.mainStage.show();
 	}
 
 	// ACTION METHODS *******************************************************

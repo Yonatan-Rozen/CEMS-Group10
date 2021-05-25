@@ -87,6 +87,7 @@ public class TeacherMenuController implements Initializable {
 		viewReportBtn = sbViewReportBtn;
 		settingsBtn = sbSettingsBtn;
 		tmbController = new TeacherMenuBarController();
+		ClientUI.mainStage.show();
 	}
 
 	// ACTION METHODS *******************************************************

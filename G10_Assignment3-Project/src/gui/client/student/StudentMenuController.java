@@ -70,6 +70,7 @@ public class StudentMenuController implements Initializable {
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		smbController = new StudentMenuBarController();
+		ClientUI.mainStage.show();
 	}
 	
 	// ACTION METHODS *******************************************************
