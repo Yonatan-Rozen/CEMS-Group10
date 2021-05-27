@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 
+import gui.client.ChangePasswordController;
 import gui.client.SignInController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -50,6 +51,14 @@ public class ChatClient extends AbstractClient {
 			String message = (String)msg;
 			if (msg.toString().contains("SignIn ERROR - ")) {
 				SignInController.signInController.setErrorMsg(((String)msg).substring(15));
+			}
+			else if(msg.toString().contains("ChangePassword ERROR - ")) {
+				System.out.println(((String)msg).substring(23));
+				ChangePasswordController.changePasswordController.badChangePassword(((String)msg).substring(23));
+			}
+			else if(msg.toString().contains("ChangePassword SUCCESS - ")) {
+				System.out.println(((String)msg).substring(25));
+				ChangePasswordController.changePasswordController.succesfullChangePassword(((String)msg).substring(25));
 			}
 		}
 		if (msg instanceof User) {
