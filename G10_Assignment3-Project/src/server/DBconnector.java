@@ -3,12 +3,14 @@ package server;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.ChatClient;
 import logic.User;
 import ocsf.server.ConnectionToClient;
 
@@ -66,11 +68,41 @@ public class DBconnector {
 			case "btnPressSignIn":
 				getUserInfoByUsernameAndPassword(request[1], request[2], client);
 				break;
+			case "btnPressConfirmChange":
+				setNewPasswordByusername(request[1], request[2], request[3], request[4], request[5], client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
 				break;
 			}
 		}
+	}
+
+	private void setNewPasswordByusername(String username, String actaulPass, String tryPass, String newPass, String reNewPass, ConnectionToClient client) throws IOException {
+	   	if (!actaulPass.equals(tryPass)) {
+	   		client.sendToClient("ChangePassword ERROR - Wrong current password input!");
+	   		return;
+		}
+		
+		if (tryPass.equals("") || newPass.equals("") || reNewPass.equals("")) {
+			client.sendToClient("ChangePassword ERROR - All fields are required!");
+			return;
+		}
+		else if (!newPass.equals(reNewPass)) {
+			client.sendToClient("ChangePassword ERROR - RePassword must be the same as NewPassword!");
+			return;
+		}
+		
+		PreparedStatement stmt;
+		try { //update flights set scheduled = "15:00" where from1 "Paris" and scheduled < "15:00"
+			stmt = con.prepareStatement("UPDATE users SET Password =? WHERE Username =?");
+			stmt.setString(1,newPass);
+			stmt.setString(2,username);
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {e.printStackTrace();}
+		
+		client.sendToClient("ChangePassword SUCCESS - Your password was set successfully!");
 	}
 
 	// QUERY METHODS
