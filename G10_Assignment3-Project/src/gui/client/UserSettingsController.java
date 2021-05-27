@@ -1,5 +1,6 @@
 package gui.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,8 +48,9 @@ public class UserSettingsController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void lnkPressChangePass(ActionEvent event) {
-
+	void lnkPressChangePass(ActionEvent event) throws IOException  {
+		ChangePasswordController cpc = new ChangePasswordController();
+		cpc.start();
 	}
 
 }
