@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherPreviewQuestionController">
+   <children>
+      <HBox alignment="CENTER" layoutX="202.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <Label fx:id="sbPreviewQuestionLbl" text="Preview for question #00000" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <ScrollPane layoutX="242.0" layoutY="65.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0">
+         <content>
+            <VBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label fx:id="sbQuestionBodyLbl" text="QuestionBody">
+                     <font>
+                        <Font name="System Italic" size="19.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="sbAnswer1Rb" mnemonicParsing="false" mouseTransparent="true" selected="true" text="Answer1">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="sbAnswersTg" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="sbAnswer2Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer2" toggleGroup="$sbAnswersTg">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="sbAnswer3Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer3" toggleGroup="$sbAnswersTg">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="sbAnswer4Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer4" toggleGroup="$sbAnswersTg">
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Button fx:id="sbOKBtn" layoutX="515.0" layoutY="293.0" mnemonicParsing="false" onAction="#btnPressOK" prefHeight="25.0" prefWidth="60.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="25.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
