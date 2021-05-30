@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ChangePasswordController implements Initializable{
-	public static ChangePasswordController changePasswordController;
+	public static ChangePasswordController cpController;
     @FXML
     private PasswordField sbCurrentPasswordPf;
 
@@ -49,8 +49,14 @@ public class ChangePasswordController implements Initializable{
     private static String msg;
     private static String title;
     
+	// START METHOD *********************************************************
+	/**
+	 * Opens ChangePasswordController.fxml
+	 * 
+	 * @throws Exception
+	 */
 	public void start() throws IOException{
-		changePasswordController = this;
+		cpController = this;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/ChangePassword.fxml"));
 		Scene scene = new Scene(root);
 		stage = new Stage();
