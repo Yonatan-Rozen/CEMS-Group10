@@ -1,9 +1,11 @@
 package client;
 
 import java.io.IOException;
+import java.util.List;
 
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
+import gui.client.teacher.TeacherCreateQuestionController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
@@ -24,7 +26,6 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * Constructs an instance of the chat client.
-	 *
 	 * @param host     The server to connect to.
 	 * @param port     The port number to connect on.
 	 * @param clientUI The interface type variable.
@@ -39,36 +40,65 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * This method handles all data that comes in from the server.
-	 *
 	 * @param msg The message from the server.
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		
+		/**** short execution checks ***/
+		if (msg instanceof User) { // SignIn Success
+			user = (User) msg;
+		} 
 		
-		if (msg instanceof String)
-		{
-			String message = (String)msg;
-			if (msg.toString().contains("SignIn ERROR - ")) {
-				SignInController.signInController.setErrorMsg(((String)msg).substring(15));
-			}
-			else if(msg.toString().contains("ChangePassword ERROR - ")) {
-				System.out.println(((String)msg).substring(23));
-				ChangePasswordController.changePasswordController.badChangePassword(((String)msg).substring(23));
-			}
-			else if(msg.toString().contains("ChangePassword SUCCESS - ")) {
-				System.out.println(((String)msg).substring(25));
-				ChangePasswordController.changePasswordController.succesfullChangePassword(((String)msg).substring(25));
-			}
+		/**** method execution handling ****/
+		else if (msg instanceof String) {
+			handleStringMessagesFromServer((String) msg);
 		}
-		if (msg instanceof User) {
-			user = (User)msg;
+		else if (msg instanceof List) {
+			handleListMessagesFromserver((List<?>)msg);
 		}
 		
+		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
-
 	}
-
+	
+	/**
+	 * Handle with (String) type messages.
+	 * @param msg The (String) object.
+	 */
+	private void handleStringMessagesFromServer(String msg) {
+		
+		if (msg.contains("SignIn ERROR - ")) { // SignIn Errors
+			SignInController.siController.setErrorMsg((msg).substring("SignIn ERROR - ".length()));
+		} 
+		else if (msg.contains("ChangePassword ERROR - ")) { // ChangePassword Errors
+			ChangePasswordController.cpController.badChangePassword((msg).substring("ChangePassword ERROR - ".length()));
+		} 
+		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
+			ChangePasswordController.cpController.succesfullChangePassword((msg).substring("ChangePassword SUCCESS - ".length()));
+		}
+	}
+	
+	/**
+	 * Handles with (List<?>) type messages.
+	 * @param msg The (List<?>) object. first parameter 
+	 */
+	private void handleListMessagesFromserver(List<?> msg) {
+		String s = (String) msg.get(0);
+		msg.remove(0);
+		switch (s) {
+		case "getSubjectsByUsername":
+			TeacherCreateQuestionController.tcqController.setSubjectChoiceBox((List<String>)msg);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Handles with messages that the client sends to the server
+	 * @param obj The message to send
+	 */
 	public void handleMessageFromClientUI(Object obj) {
 		try {
 			openConnection();// in order to send more than one message
@@ -100,8 +130,7 @@ public class ChatClient extends AbstractClient {
 	public void quit() {
 		try {
 			closeConnection();
-		} catch (IOException e) {
-		}
+		} catch (IOException e) { }
 		System.exit(0);
 	}
 
