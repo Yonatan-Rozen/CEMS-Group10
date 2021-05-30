@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ChatClient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import logic.User;
 import ocsf.server.ConnectionToClient;
 
@@ -18,18 +20,18 @@ import ocsf.server.ConnectionToClient;
 public class DBconnector {
 	public static Connection con;
 	private static DBconnector dbCinstance;
-	private static int counter = 0;
-
-	private DBconnector() {
-	}
+	// ***********************************************************************************************
+	private DBconnector() { }
 
 	public static DBconnector getInstance() {
 		if (dbCinstance == null)
 			dbCinstance = new DBconnector();
 		return dbCinstance;
 	}
-
-	// Handles with the connection to the database
+	// ***********************************************************************************************
+	/**
+	 *  Handles with the connection to the database
+	 */
 	public void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -48,19 +50,17 @@ public class DBconnector {
 		}
 
 	}
-
+	// ***********************************************************************************************
 	/**
 	 * Parses any object that can be deserialized
-	 * 
-	 * @param client
-	 * 
-	 * @param msg    the data to parse
-	 * @throws IOException
+	 * @param data 		The data to parse
+	 * @param client 	The user who sent the message to the server
+	 * @throws IOException if an I/O error occur when sending the message.
 	 */
 	public void parseData(Object data, ConnectionToClient client) throws IOException {
 		if (data instanceof String)
 			client.sendToClient(data);
-		else if (data instanceof String[]){
+		else if (data instanceof String[]) {
 			
 			String[] request = (String[])data;
 			
@@ -71,30 +71,68 @@ public class DBconnector {
 			case "btnPressConfirmChange":
 				setNewPasswordByusername(request[1], request[2], request[3], request[4], request[5], client);
 				break;
+			case "GetSubjects":
+				getSubjectsByUsername(request[1], client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
 				break;
 			}
 		}
 	}
-
-	private void setNewPasswordByusername(String username, String actaulPass, String tryPass, String newPass, String reNewPass, ConnectionToClient client) throws IOException {
-	   	if (!actaulPass.equals(tryPass)) {
-	   		client.sendToClient("ChangePassword ERROR - Wrong current password input!");
-	   		return;
+	// ***********************************************************************************************
+	// QUERY METHODS
+	// ***********************************************************************************************
+	/**
+	 * Sends to the teacher an (ArrayList) of her subjects of study
+	 * @param username 	The username of the teacher
+	 * @param client 	The teacher
+	 */
+	private void getSubjectsByUsername(String username, ConnectionToClient client) {
+		List<String> bankList = new ArrayList<>();
+		bankList.add("getSubjectsByUsername");
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName FROM cems.subjects S, cems.subjects_of_teacher SOT "
+					+ "WHERE S.SubjectID = SOT.SubjectID AND SOT.Username = \""+ username +"\";");
+			
+			while(rs.next())
+				bankList.add(rs.getString(1));
+			client.sendToClient(bankList);
+			
+		} catch (SQLException | IOException e) {
+			// * This method should always work!!! ; Add Missing information if it doesn't*
+			e.printStackTrace();
 		}
-		
+	}
+	// ***********************************************************************************************
+	/**
+	 * Sets a new password for the user by his choice
+	 * @param username 		The username of the user
+	 * @param actaulPass 	The actaul password; retrived earlier from the DB
+	 * @param tryPass 		The current password; inputed by the user
+	 * @param newPass 		The new password; inputed by the user
+	 * @param reNewPass 	The retyped new password; inputed by the user
+	 * @param client 		The user which is requesting to change his password
+	 * @throws IOException if an I/O error occur when sending the message.
+	 */
+	private void setNewPasswordByusername(String username, String actaulPass, String tryPass, String newPass, String reNewPass, ConnectionToClient client) throws IOException {
+	   	
 		if (tryPass.equals("") || newPass.equals("") || reNewPass.equals("")) {
 			client.sendToClient("ChangePassword ERROR - All fields are required!");
 			return;
 		}
-		else if (!newPass.equals(reNewPass)) {
+		if (!actaulPass.equals(tryPass)) {
+	   		client.sendToClient("ChangePassword ERROR - Wrong current password input!");
+	   		return;
+		}
+		if (!newPass.equals(reNewPass)) {
 			client.sendToClient("ChangePassword ERROR - RePassword must be the same as NewPassword!");
 			return;
 		}
 		
 		PreparedStatement stmt;
-		try { //update flights set scheduled = "15:00" where from1 "Paris" and scheduled < "15:00"
+		try {
 			stmt = con.prepareStatement("UPDATE users SET Password =? WHERE Username =?");
 			stmt.setString(1,newPass);
 			stmt.setString(2,username);
@@ -104,10 +142,14 @@ public class DBconnector {
 		
 		client.sendToClient("ChangePassword SUCCESS - Your password was set successfully!");
 	}
-
-	// QUERY METHODS
 	// ***********************************************************************************************
-	// SELECT * FROM users WHERE Username = "1" AND Password = "1";
+	/**
+	 * Sends to the user all the details about his user (get stored in user thread)
+	 * @param username 	The username; inputed by the user
+	 * @param password 	The new password; inputed by the user
+	 * @param client 	A user of one of the following types : Student / Teacher / Principle
+	 * @throws IOException if an I/O error occur when sending the message.
+	 */
 	public void getUserInfoByUsernameAndPassword(String username, String password, ConnectionToClient client) throws IOException {
 
 		if (username.equals("") || password.equals(""))
@@ -115,12 +157,13 @@ public class DBconnector {
 			client.sendToClient("SignIn ERROR - All fields are required!");
 			return;
 		}
+		
 		int NumberOfColumns = 7;
 		List<String> userDetails = new ArrayList<>();
+		
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * From users WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"");
-			String s = "";
 
 			if (rs.next()) {
 				for (int i = 1; i <= NumberOfColumns; i++) {
@@ -136,4 +179,7 @@ public class DBconnector {
 			e.printStackTrace();
 		}
 	}
+	// ***********************************************************************************************
+	
+	
 }
