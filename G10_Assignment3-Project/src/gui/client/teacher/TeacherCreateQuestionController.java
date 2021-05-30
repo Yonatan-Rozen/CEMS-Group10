@@ -3,13 +3,14 @@ package gui.client.teacher;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
@@ -22,10 +23,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	private ComboBox<String> sbQuestionBankCb;
-
-	@FXML
-	private Button sbDiscardQuestionBtn;
+	private ChoiceBox<String> sbQuestionBankCb;
 
 	@FXML
 	private Button sbCreateQuestionBtn;
@@ -75,10 +73,11 @@ public class TeacherCreateQuestionController implements Initializable {
 	@FXML
 	private Button sbSaveQuestionBtn;
 
+	private static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
-	private static ComboBox<String> questionBankCb;
-	private static Button discardQuestionBtn;
+	private static ChoiceBox<String> questionBankCb;
 	private static Button createQuestionBtn;
 	private static Hyperlink addBankLnk;
 	private static Hyperlink removeBankLnk;
@@ -104,7 +103,6 @@ public class TeacherCreateQuestionController implements Initializable {
 		questionBankCb = sbQuestionBankCb;
 		removeBankLnk = sbRemoveBankLnk;
 		addBankLnk = sbAddBankLnk;
-		discardQuestionBtn = sbDiscardQuestionBtn;
 		createQuestionBtn = sbCreateQuestionBtn;
 
 		// second panel
@@ -122,58 +120,68 @@ public class TeacherCreateQuestionController implements Initializable {
 		answer4Ta = sbAnswer4Ta;
 		changeBankBtn = sbChangeBankBtn;
 		saveQuestionBtn = sbSaveQuestionBtn;
+
+		questionBankCb.setValue("----------");
+		questionBankCb.setItems(bankList);
+
 	}
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void cbPressQuestionBank(ActionEvent event) {
+	public void cbPressQuestionBank(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::cbPressQuestionBank");
+
 	}
 
 	@FXML
-	void lnkPressRemoveBank(ActionEvent event) {
+	public void lnkPressAddBank(ActionEvent event) {
+		System.out.println("TeacherCreateQuestion::lnkPressAddBank");
+		initBanks(FXCollections.observableArrayList("Math","Software"));
+		questionBankCb.getSelectionModel().select(1);
+	}
+
+	@FXML
+	public void lnkPressRemoveBank(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::lnkPressRemoveBank");
+		String selected = questionBankCb.getSelectionModel().getSelectedItem();
+		if (!selected.equals("----------"))
+		{
+			questionBankCb.getItems().remove(selected);
+			questionBankCb.getSelectionModel().select(0);
+			System.out.println(selected + " was removed");
+		}
+		else System.out.println("please select something!");
 	}
 
 	@FXML
-	void btnPressDiscardQuestion(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::btnPressDiscardQuestion");
-	}
-
-	@FXML
-	void btnPressCreateQuestion(ActionEvent event) {
+	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::btnPressCreateQuestion");
 		topPanelAp.setDisable(true);
 		botPanelAp.setDisable(false);
 	}
 
 	@FXML
-	void lnkPressAddBank(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::lnkPressAddBank");
-	}
-
-	@FXML
-	void rbPressMarkAnswer1(ActionEvent event) {
+	public void rbPressMarkAnswer1(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer1");
 	}
 
 	@FXML
-	void rbPressMarkAnswer2(ActionEvent event) {
+	public void rbPressMarkAnswer2(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer2");
 	}
 
 	@FXML
-	void rbPressMarkAnswer3(ActionEvent event) {
+	public void rbPressMarkAnswer3(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer3");
 	}
 
 	@FXML
-	void rbPressMarkAnswer4(ActionEvent event) {
+	public void rbPressMarkAnswer4(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::rbPressMarkAnswer4");
 	}
 
 	@FXML
-	void btnPressChangeBank(ActionEvent event) {
+	public void btnPressChangeBank(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::btnPressChangeBank");
 		topPanelAp.setDisable(false);
 		botPanelAp.setDisable(true);
@@ -186,8 +194,15 @@ public class TeacherCreateQuestionController implements Initializable {
 	}
 
 	@FXML
-	void btnPressSaveQuestion(ActionEvent event) {
+	public void btnPressSaveQuestion(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::btnPressSaveQuestion");
+	}
+	
+	// ADDITIONAL METHODS **************************************************
+	public void initBanks(ObservableList<String> availableBanks) {
+		for (String bankName : availableBanks) {
+			bankList.add(bankName);
+		}
 	}
 
 }
