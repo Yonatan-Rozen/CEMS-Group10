@@ -1,8 +1,12 @@
 package gui.client.teacher;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
+import client.ClientUI;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,14 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
 public class TeacherCreateQuestionController implements Initializable {
-
+	public static TeacherCreateQuestionController tcqController;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private AnchorPane sbTopPanelAp;
@@ -27,12 +30,6 @@ public class TeacherCreateQuestionController implements Initializable {
 
 	@FXML
 	private Button sbCreateQuestionBtn;
-
-	@FXML
-	private Hyperlink sbAddBankLnk;
-
-	@FXML
-	private Hyperlink sbRemoveBankLnk;
 
 	@FXML
 	private AnchorPane sbBotPanelAp;
@@ -73,14 +70,10 @@ public class TeacherCreateQuestionController implements Initializable {
 	@FXML
 	private Button sbSaveQuestionBtn;
 
-	private static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
-
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
 	private static ChoiceBox<String> questionBankCb;
 	private static Button createQuestionBtn;
-	private static Hyperlink addBankLnk;
-	private static Hyperlink removeBankLnk;
 	private static AnchorPane botPanelAp;
 	private static TextArea questionBodyTa;
 	private static ToggleGroup answersTg;
@@ -95,17 +88,41 @@ public class TeacherCreateQuestionController implements Initializable {
 	private static Button changeBankBtn;
 	private static Button saveQuestionBtn;
 
+	// STATIC INSTANCES *****************************************************
+	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// first panel
+		tcqController = new TeacherCreateQuestionController();
+		
+		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
+		//////////////////////////////////////////////////////
 		questionBankCb = sbQuestionBankCb;
-		removeBankLnk = sbRemoveBankLnk;
-		addBankLnk = sbAddBankLnk;
-		createQuestionBtn = sbCreateQuestionBtn;
+		// set "----------" as the first value of the choice box
+		questionBankCb.setValue("----------");
+		
+		// set the choice box to get it's items from 'bankList'
+		questionBankCb.setItems(bankList);
 
-		// second panel
+		// set up a listener that sets the disable value of 
+		// 'createQuestionBtn' acurding to the selected value
+		questionBankCb.getSelectionModel().selectedItemProperty().addListener(
+			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
+			{
+				if (newValue != null) {
+					if (newValue.equals("----------"))
+						createQuestionBtn.setDisable(true);
+					else
+						createQuestionBtn.setDisable(false);
+				}
+			});
+		//////////////////////////////////////////////////////
+		createQuestionBtn = sbCreateQuestionBtn;
+		createQuestionBtn.setDisable(true);
+
+		/**** Second panel ****/
 		botPanelAp = sbBotPanelAp;
 		botPanelAp.setDisable(true);
 		questionBodyTa = sbQuestionBodyTa;
@@ -121,37 +138,11 @@ public class TeacherCreateQuestionController implements Initializable {
 		changeBankBtn = sbChangeBankBtn;
 		saveQuestionBtn = sbSaveQuestionBtn;
 
-		questionBankCb.setValue("----------");
-		questionBankCb.setItems(bankList);
-
+		if (bankList.size() == 1) // add subjects only once
+			ClientUI.chat.accept(new String[] { "GetSubjects", ChatClient.user.getUsername() });
 	}
 
 	// ACTION METHODS *******************************************************
-	@FXML
-	public void cbPressQuestionBank(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::cbPressQuestionBank");
-
-	}
-
-	@FXML
-	public void lnkPressAddBank(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::lnkPressAddBank");
-		initBanks(FXCollections.observableArrayList("Math","Software"));
-		questionBankCb.getSelectionModel().select(1);
-	}
-
-	@FXML
-	public void lnkPressRemoveBank(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::lnkPressRemoveBank");
-		String selected = questionBankCb.getSelectionModel().getSelectedItem();
-		if (!selected.equals("----------"))
-		{
-			questionBankCb.getItems().remove(selected);
-			questionBankCb.getSelectionModel().select(0);
-			System.out.println(selected + " was removed");
-		}
-		else System.out.println("please select something!");
-	}
 
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) {
@@ -197,12 +188,11 @@ public class TeacherCreateQuestionController implements Initializable {
 	public void btnPressSaveQuestion(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::btnPressSaveQuestion");
 	}
-	
-	// ADDITIONAL METHODS **************************************************
-	public void initBanks(ObservableList<String> availableBanks) {
-		for (String bankName : availableBanks) {
-			bankList.add(bankName);
-		}
+
+	// EXTERNAL USE METHODS **************************************************
+	public void setSubjectChoiceBox(List<String> msg) {
+		System.out.println(msg.toString());
+		bankList.addAll(msg);
 	}
 
 }
