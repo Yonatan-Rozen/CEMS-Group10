@@ -96,43 +96,43 @@ public class TeacherMenuBarController implements Initializable {
 	}
 
 	@FXML
-	public void btnPressCreateExam(ActionEvent event) throws IOException {
+	public void btnPressCreateExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
 	}
 
 	@FXML
-	public void btnPressCreateQuestion(ActionEvent event) throws IOException {
+	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateQuestion");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
 	}
 
 	@FXML
-	public void btnPressEditExam(ActionEvent event) throws IOException {
+	public void btnPressEditExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressEditExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
 	}
 
 	@FXML
-	public void btnPressEditQuestion(ActionEvent event) throws IOException {
+	public void btnPressEditQuestion(ActionEvent event){
 		System.out.println("TeacherMenuBar::btnPressEditQuestion");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditQuestion"));
 	}
 
 	@FXML
-	public void btnPressSettings(ActionEvent event) throws IOException {
+	public void btnPressSettings(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
 	}
 
 	@FXML
-	public void btnPressStartExam(ActionEvent event) throws IOException {
+	public void btnPressStartExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressStartExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherStartExam"));
 	}
 
 	@FXML
-	public void btnPressViewReports(ActionEvent event) throws IOException {
+	public void btnPressViewReports(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressViewReports");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherReports"));
 	}
@@ -140,6 +140,8 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
+		TeacherCreateQuestionController.bankList.clear();
+		TeacherCreateQuestionController.bankList.add("----------");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 }
