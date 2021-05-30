@@ -5,9 +5,6 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
-import gui.client.principle.PrincipleMenuController;
-import gui.client.student.StudentMenuController;
-import gui.client.teacher.TeacherMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
 
 public class SignInController implements Initializable {
-	public static SignInController signInController;
+	public static SignInController siController;
 	private static String errorMsg;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -51,7 +48,7 @@ public class SignInController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		signInController = this;
+		siController = this;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml"));
 		ClientUI.mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
