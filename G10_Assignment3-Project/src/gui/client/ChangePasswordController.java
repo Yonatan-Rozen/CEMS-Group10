@@ -101,13 +101,12 @@ public class ChangePasswordController implements Initializable{
     	type = AlertType.ERROR;
     }
     
-    public void succesfullChangePassword(String Msg) {
+    public void successfulChangePassword(String Msg) {
     	System.out.println("succesfullChangePassword");
     	msg = Msg;
     	title = "Password changed";
     	type = AlertType.INFORMATION;
     	
     	ChatClient.user.setPassword(newPasswordPf.getText());
-    	System.out.println(ChatClient.user.getPassword());
     }
 }
