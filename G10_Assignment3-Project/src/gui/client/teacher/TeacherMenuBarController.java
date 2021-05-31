@@ -116,7 +116,7 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressEditQuestion(ActionEvent event){
 		System.out.println("TeacherMenuBar::btnPressEditQuestion");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditQuestion"));
+		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherChooseEditQuestion"));
 	}
 
 	@FXML
