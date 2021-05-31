@@ -140,8 +140,8 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
-		TeacherCreateQuestionController.bankList.clear();
-		TeacherCreateQuestionController.bankList.add("----------");
+		TeacherCreateQuestionController.subjectList.clear();
+		TeacherCreateQuestionController.subjectList.add("----------");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 }

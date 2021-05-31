@@ -81,7 +81,7 @@
                      </font></TextArea>
                </children>
             </GridPane>
-            <Button fx:id="sbChangeBankBtn" layoutX="5.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
+            <Button fx:id="sbChangeSubjectBtn" layoutX="5.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
@@ -93,7 +93,7 @@
       </AnchorPane>
       <AnchorPane fx:id="sbTopPanelAp" layoutX="140.5" layoutY="79.0" AnchorPane.rightAnchor="75.0">
          <children>
-            <Label layoutX="14.0" layoutY="8.0" text="choose question bank :" underline="true" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
+            <Label layoutX="14.0" layoutY="8.0" text="choose subject of study:" underline="true" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
@@ -102,7 +102,7 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <ChoiceBox fx:id="sbQuestionBankCb" layoutX="233.0" layoutY="8.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="240.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="308.0" layoutY="14.0" text="Qestion Creation" underline="true" AnchorPane.topAnchor="14.0">

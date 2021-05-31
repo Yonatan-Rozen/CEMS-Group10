@@ -34,7 +34,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	private ChoiceBox<String> sbQuestionBankCb;
+	private ChoiceBox<String> sbQuestionSubjectCb;
 
 	@FXML
 	private Button sbCreateQuestionBtn;
@@ -73,14 +73,14 @@ public class TeacherCreateQuestionController implements Initializable {
 	private TextArea sbAnswer4Ta;
 
 	@FXML
-	private Button sbChangeBankBtn;
+	private Button sbChangeSubjectBtn;
 
 	@FXML
 	private Button sbSaveQuestionBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
-	private static ChoiceBox<String> questionBankCb;
+	private static ChoiceBox<String> questionSubjectCb;
 	private static Button createQuestionBtn;
 	private static AnchorPane botPanelAp;
 	private static TextArea questionBodyTa;
@@ -94,7 +94,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	private static TextArea answer4Ta;
 
 	// STATIC INSTANCES *****************************************************
-	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> subjectList = FXCollections.observableArrayList("----------");
 	private static RadioButton selected;
 	private static String msg;
 	// INITIALIZE METHOD ****************************************************
@@ -105,16 +105,16 @@ public class TeacherCreateQuestionController implements Initializable {
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
 		//////////////////////////////////////////////////////
-		questionBankCb = sbQuestionBankCb;
+		questionSubjectCb = sbQuestionSubjectCb;
 		// set "----------" as the first value of the choice box
-		questionBankCb.setValue("----------");
+		questionSubjectCb.setValue("----------");
 		
-		// set the choice box to get it's items from 'bankList'
-		questionBankCb.setItems(bankList);
+		// set the choice box to get it's items from 'subjectList'
+		questionSubjectCb.setItems(subjectList);
 
 		// set up a listener that sets the disable value of 
 		// 'createQuestionBtn' acurding to the selected value
-		questionBankCb.getSelectionModel().selectedItemProperty().addListener(
+		questionSubjectCb.getSelectionModel().selectedItemProperty().addListener(
 			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
 			{
 				if (newValue != null) {
@@ -141,7 +141,7 @@ public class TeacherCreateQuestionController implements Initializable {
 		answer3Ta = sbAnswer3Ta;
 		answer4Ta = sbAnswer4Ta;
 
-		if (bankList.size() == 1) // add subjects only once
+		if (subjectList.size() == 1) // add subjects only once
 			ClientUI.chat.accept(new String[] { "GetSubjects", ChatClient.user.getUsername() });
 	}
 
@@ -179,11 +179,11 @@ public class TeacherCreateQuestionController implements Initializable {
 	}
 
 	@FXML
-	public void btnPressChangeBank(ActionEvent event) {
-		System.out.println("TeacherCreateQuestion::btnPressChangeBank");
+	public void btnPressChangeSubject(ActionEvent event) {
+		System.out.println("TeacherCreateQuestion::btnPressChangeSubject");
 		topPanelAp.setDisable(false);
 		botPanelAp.setDisable(true);
-		questionBankCb.setValue("----------");
+		questionSubjectCb.setValue("----------");
 	}
 
 	@FXML
@@ -217,7 +217,7 @@ public class TeacherCreateQuestionController implements Initializable {
 			alert.showAndWait();
 		}
 		else {
-			ClientUI.chat.accept(new String[] {"btnPressSaveQuestion", questionBankCb.getValue(), questionBodyTa.getText(), answer1Ta.getText(), 
+			ClientUI.chat.accept(new String[] {"btnPressSaveQuestion", questionSubjectCb.getValue(), questionBodyTa.getText(), answer1Ta.getText(), 
 				answer2Ta.getText(), answer3Ta.getText(), answer4Ta.getText(), correctAnswer, ChatClient.user.getUsername(), author});
 		
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -245,7 +245,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	// EXTERNAL USE METHODS **************************************************
 	public void setSubjectChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
-		bankList.addAll(msg);
+		subjectList.addAll(msg);
 	}
 
 	public void successfulCreateQuestion(String Msg) {
