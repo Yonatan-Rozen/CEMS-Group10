@@ -8,7 +8,7 @@ public class GuiTester extends Application{
 	public static Stage primaryStage;
 	public static void main(String args[]) throws Exception {
 		launch(args);
-		//BETTER Comment
+		//GREATEST Comment
 	}
 
 	@Override
