@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,39 +10,34 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditQuestionController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherChooseEditQuestionController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="237.0" prefHeight="302.0" prefWidth="801.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="218.0" prefHeight="394.0" prefWidth="801.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
             <Button fx:id="sbEditQuestionBtn" layoutX="409.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressEditQuestion" text="EDIT QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbAvailableQuestionsTv" layoutX="250.0" layoutY="39.0" prefHeight="224.0" prefWidth="183.0" style="-fx-font-size: 15;">
+            <TableView fx:id="sbAvailableQuestionsTv" layoutX="247.0" layoutY="38.0" prefHeight="318.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="38.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="182.0" text="Question ID" />
+                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="165.0" text="Question ID" />
+                  <TableColumn fx:id="sbPreviewTc" prefWidth="165.0" text="Preview 👁" />
                </columns>
             </TableView>
-            <Button fx:id="sbChangeBankBtn" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Button fx:id="sbChangeSubjectBtn" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE SUBJECT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="250.0" layoutY="-1.0" text="availiable questions:" underline="true">
+            <Label layoutX="247.0" layoutY="9.0" text="availiable questions:" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbPreviewQuestionBtn" accessibleText="wtf" layoutX="470.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnPressPreviewQuestion" prefHeight="65.0" prefWidth="183.0" text="preview 👁" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Italic" size="30.0" />
-               </font>
-            </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="39.0" layoutY="71.0" prefHeight="112.0" prefWidth="801.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="86.0" prefWidth="801.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <ComboBox fx:id="sbChooseBankCb" layoutX="423.0" layoutY="32.0" onAction="#cbPressChooseBank" promptText="choose bank" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
-            <Label layoutX="194.0" layoutY="32.0" text="choose question bank :" textAlignment="JUSTIFY" underline="true">
+            <Label layoutX="155.0" layoutY="6.0" text="choose subject of study :" textAlignment="JUSTIFY" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -50,10 +45,11 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbShowQuestionsByBankBtn" layoutX="399.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnPressShowQuestionsByBank" text="SHOW QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button fx:id="sbShowQuestionsBySubjectBtn" layoutX="582.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressShowQuestionsBySubject" text="SHOW QUESTIONS &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
+            <ChoiceBox fx:id="sbQuestionSubject" layoutX="380.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="337.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Edit Question" underline="true" AnchorPane.topAnchor="14.0">
@@ -61,6 +57,6 @@
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Line endX="450.0" layoutX="450.0" layoutY="215.0" startX="-450.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="148.0" startX="-450.0" />
    </children>
 </AnchorPane>
