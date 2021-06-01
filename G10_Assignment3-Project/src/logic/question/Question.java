@@ -3,23 +3,27 @@ package logic.question;
 import java.io.Serializable;
 
 public class Question implements Serializable {
-	
+
 	private String questionID;
+	//private String bankID;
 	private String questionBody;
 	private String answer1;
 	private String answer2;
 	private String answer3;
 	private String answer4;
 	private String correctAnswer;
+	//private String author;
 
 	public Question(String questionID, String questionBody, String answer1, String answer2, String answer3, String answer4, String correctAnswer) {
 		this.questionID = questionID;
+		//bankID="";
 		this.questionBody = questionBody;
 		this.answer1 = answer1;
 		this.answer2 = answer2;
 		this.answer3 = answer3;
 		this.answer4 = answer4;
 		this.correctAnswer = correctAnswer;
+		//author="";
 	}
 
 	public String getQuestionID() {
@@ -63,5 +67,10 @@ public class Question implements Serializable {
 	}
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %s %s %s %s %s ", questionID,questionBody,answer1,answer2,answer3,answer4,correctAnswer);
 	}
 }
