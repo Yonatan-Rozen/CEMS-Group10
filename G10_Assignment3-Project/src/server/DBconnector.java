@@ -263,8 +263,7 @@ public class DBconnector {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT * From users WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT * From users WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"");
 
 			if (rs.next()) {
 				for (int i = 1; i <= NumberOfColumns; i++) {
@@ -319,7 +318,7 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs =  stmt.executeQuery("SELECT HasBank From subjects_of_teacher "
-					+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
+											+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
 			if (rs.next())
 				hasBank = rs.getString(1);
 			System.out.println(hasBank);
@@ -336,7 +335,7 @@ public class DBconnector {
 			// insert (SubjectID & Username) into Banks and generate a new 'bankID'
 			try {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO Banks (SubjectID, Username)"
-						+ "VALUES (?,?)");
+															+ "VALUES (?,?)");
 				stmt.setString(1,subjectID);
 				stmt.setString(2,username);
 				stmt.executeUpdate();
@@ -349,7 +348,7 @@ public class DBconnector {
 			// update HasBank to TRUE in 'subjects_of_teacher' table
 			try {
 				PreparedStatement stmt = con.prepareStatement("UPDATE subjects_of_teacher SET HasBank = 'TRUE' "
-						+ "WHERE SubjectID = ? AND Username = ?");
+															+ "WHERE SubjectID = ? AND Username = ?");
 				stmt.setString(1, subjectID);
 				stmt.setString(2, username);
 				stmt.executeUpdate();
@@ -365,7 +364,7 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT BankID From Banks "
-					+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
+											+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
 			rs.next();
 			bankID = String.format("%02d", rs.getInt(1));
 			rs.close();
@@ -380,9 +379,9 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ExtractedQuestionID) as ID "
-					+ "FROM (SELECT SUBSTRING(QuestionID, 3) as ExtractedQuestionID "
-					+ "FROM question "
-					+ "WHERE QuestionID LIKE '" + subjectID + "%') as MaxID");
+											+ "FROM (SELECT SUBSTRING(QuestionID, 3) as ExtractedQuestionID "
+													+ "FROM question "
+													+ "WHERE QuestionID LIKE '" + subjectID + "%') as MaxID");
 			rs.next();
 			int currentMaxID = rs.getInt(1);
 			rs.close();
@@ -396,7 +395,7 @@ public class DBconnector {
 		// insert the new question into the database
 		try {
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO question (QuestionID,BankID,Body,Answer1,Answer2,Answer3,Answer4,CorrectAnswer,Author) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?)");
+														+ "VALUES (?,?,?,?,?,?,?,?,?)");
 			System.out.format("inserted question : (%s,%s,%s,%s,%s,%s,%s,%s,%s)\n", questionID, bankID, questionBody, answer1, answer2, answer3, answer4,correctAnswer, author);
 			stmt.setString(1, questionID);
 			stmt.setString(2, bankID);
