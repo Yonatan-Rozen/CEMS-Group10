@@ -1,26 +1,31 @@
 package gui.client.teacher;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
+import client.ClientUI;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
 public class TeacherCreateExamController implements Initializable {
+	public static TeacherCreateExamController tceController;
 
 	// JAVAFX INSTNCES ******************************************************
 
 	@FXML
 	private AnchorPane sbTopPanelAp;
-
-	@FXML
-	private ComboBox<String> sbChooseBankCb;
 
 	@FXML
 	private Button sbContinue1Btn;
@@ -29,7 +34,10 @@ public class TeacherCreateExamController implements Initializable {
 	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	private ComboBox<String> sbChooseCourseBtn;
+	private ChoiceBox<String> sbChooseCourseCb;
+
+	@FXML
+	private ChoiceBox<String> sbExamBankCb;
 
 	@FXML
 	private TableView<?> sbAvailableQuestionsTv;
@@ -63,10 +71,10 @@ public class TeacherCreateExamController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
-	private static ComboBox<String> chooseBankCb;
+	private static ChoiceBox<String> examBankCb;
 	private static Button continue1Btn;
 	private static AnchorPane botPanelAp;
-	private static ComboBox<String> chooseCourseBtn;
+	private static ChoiceBox<String> chooseCourseCb;
 	private static TableView<?> availableQuestionsTv;
 	private static TableColumn<?, ?> questionID1Tc;
 	private static TableColumn<?, ?> preview1Tc;
@@ -78,15 +86,29 @@ public class TeacherCreateExamController implements Initializable {
 	private static Button changeBankBtn;
 	private static Button continue2Btn;
 
+	// STATIC INSTANCES *****************************************************
+	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
+	private static String msg;
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tceController = new TeacherCreateExamController();
+
+		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
-		chooseBankCb = sbChooseBankCb;
+
+		examBankCb = sbExamBankCb;
+		// set "----------" as the first value of the choice box
+		examBankCb.setValue("----------");
+		// set the choice box to get it's items from 'bankList'
+		examBankCb.setItems(bankList);
+		
 		continue1Btn = sbContinue1Btn;
 		botPanelAp = sbBotPanelAp;
 		botPanelAp.setDisable(true);
-		chooseCourseBtn = sbChooseCourseBtn;
+		chooseCourseCb = sbChooseCourseCb;
 		availableQuestionsTv = sbAvailableQuestionsTv;
 		questionID1Tc = sbQuestionID1Tc;
 		preview1Tc = sbPreview1Tc;
@@ -97,25 +119,24 @@ public class TeacherCreateExamController implements Initializable {
 		removeFromExamTc = sbRemoveFromExamTc;
 		changeBankBtn = sbChangeBankBtn;
 		continue2Btn = sbContinue2Btn;
+
+		if (bankList.size() == 1) // add banks only once
+		ClientUI.chat.accept(new String[] {"GetBanks", ChatClient.user.getUsername() });
+
 	}
 
 	// ACTION METHODS *******************************************************
-	@FXML
-	void btnPressCancelCreation(ActionEvent event) {
-		System.out.println("TeacherCreateExam::btnPressCancelCreation");
-
-	}
+//	@FXML
+//	void btnPressCancelCreation(ActionEvent event) {
+//		System.out.println("TeacherCreateExam::btnPressCancelCreation");
+//	}
 
 	@FXML
 	void btnPressChangeBank(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressChangeBank");
 		sbTopPanelAp.setDisable(false);
 		sbBotPanelAp.setDisable(true);
-	}
-
-	@FXML
-	void btnPressChooseCourse(ActionEvent event) {
-		System.out.println("TeacherCreateExam::btnPressChooseCourse");
+		examBankCb.setValue("----------");
 	}
 
 	@FXML
@@ -123,6 +144,16 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
+		
+		chooseCourseCb.setValue("----------");
+		chooseCourseCb.setItems(CourseList);
+
+		String bankVal = examBankCb.getValue();
+		bankVal = "sub2";
+		//System.out.println(bankVal);
+		if (CourseList.size() == 1) // add course only once
+			ClientUI.chat.accept(new String[] {"GetCourseByBank", bankVal ,ChatClient.user.getUsername() });
+
 	}
 
 	@FXML
@@ -130,23 +161,25 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 	}
 
-	@FXML
-	void btnPressEditExams(ActionEvent event) {
-		System.out.println("TeacherCreateExam::btnPressEditExams");
+//	@FXML
+//	void btnPressPreviewExam1(ActionEvent event) {
+//		System.out.println("TeacherCreateExam::btnPressPreviewExam1");
+//	}
+//
+//	@FXML
+//	void btnPressPreviewExam2(ActionEvent event) {
+//		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
+//	}
+	
+	// EXTERNAL USE METHODS **************************************************
+	public void setBankChoiceBox(List<String> msg) {
+		System.out.println(msg.toString());
+		bankList.addAll(msg);
+	}
+	
+	public void setCourseChoiceBox(List<String> msg) {
+		System.out.println(msg.toString());
+		CourseList.addAll(msg);
 	}
 
-	@FXML
-	void btnPressPreviewExam1(ActionEvent event) {
-		System.out.println("TeacherCreateExam::btnPressPreviewExam1");
-	}
-
-	@FXML
-	void btnPressPreviewExam2(ActionEvent event) {
-		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
-	}
-
-	@FXML
-	void cbPressChooseBank(ActionEvent event) {
-		System.out.println("TeacherCreateExam::cbPressChooseBank");
-	}
 }

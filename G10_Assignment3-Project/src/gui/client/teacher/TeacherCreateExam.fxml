@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
    <children>
       <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="397.0" prefWidth="800.0">
          <children>
@@ -46,7 +46,7 @@
                </font>
             </Label>
             <Line endX="400.0" layoutX="398.0" layoutY="2.0" startX="-400.0" />
-            <ComboBox fx:id="sbChooseCourseBtn" layoutX="411.0" layoutY="13.0" onAction="#btnPressChooseCourse" promptText="choose course" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="412.0" layoutY="16.0" prefWidth="150.0" />
             <Label layoutX="263.0" layoutY="13.0" text="Choose course:" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
@@ -68,7 +68,7 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ComboBox fx:id="sbChooseBankCb" layoutX="417.0" layoutY="14.0" onAction="#cbPressChooseBank" promptText="choose bank" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <ChoiceBox fx:id="sbExamBankCb" layoutX="417.0" layoutY="17.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
       <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">

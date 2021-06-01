@@ -6,6 +6,7 @@ import java.util.List;
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -105,6 +106,12 @@ public class ChatClient extends AbstractClient {
 			switch (o.toString()) {
 			case "getSubjectsByUsername":
 				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox((List<String>)msg);
+				break;
+			case "getBanksByUsername":
+				TeacherCreateExamController.tceController.setBankChoiceBox((List<String>)msg);
+				break;
+			case "getGetCourseByBank":
+				TeacherCreateExamController.tceController.setCourseChoiceBox((List<String>)msg);
 				break;
 			default:
 				break;
