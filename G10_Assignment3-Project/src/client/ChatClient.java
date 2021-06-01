@@ -84,7 +84,7 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController.successfulChangePassword((msg).substring("ChangePassword SUCCESS - ".length()));
 		}
-		else if(msg.contains("courseName:")) {
+		else if(msg.contains("courseName:")) {//get exam's course name
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		}
 		else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
