@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class GuiTester extends Application{
-	public static Stage primaryStage;
 	public static void main(String args[]) throws Exception {
 		launch(args);
 		//GREATER than the "greatest" Comment
@@ -13,7 +12,6 @@ public class GuiTester extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		primaryStage = stage;
-		new TeacherPreviewQuestionController().start();
+		new TeacherPreviewQuestionController().start(stage);
 	}
 }
