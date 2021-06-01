@@ -40,8 +40,6 @@ public class ChangePasswordController implements Initializable{
     private static PasswordField currentPasswordPf;
     private static PasswordField newPasswordPf;
     private static PasswordField reNewPasswordPf;
-    private static Button confirmChangeBtn;
-    private static Button cancelBtn;
     
     private static Stage stage;
     
@@ -71,8 +69,6 @@ public class ChangePasswordController implements Initializable{
 		currentPasswordPf = sbCurrentPasswordPf;
 	    newPasswordPf = sbNewPasswordPf;
 	    reNewPasswordPf = sbReNewPasswordPf;
-	    confirmChangeBtn = sbConfirmChangeBtn;
-	    cancelBtn = sbCancelBtn;
 	}
 
     @FXML
