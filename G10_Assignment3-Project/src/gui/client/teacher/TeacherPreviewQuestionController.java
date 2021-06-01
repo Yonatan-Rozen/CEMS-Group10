@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 import logic.question.Question;
 
 public class TeacherPreviewQuestionController implements Initializable {
@@ -49,22 +50,23 @@ public class TeacherPreviewQuestionController implements Initializable {
 	private Button sbOKBtn;
 	
 	// STATIC JAVAFX INSTANCES **********************************************
-
+	private static Stage previewStage;
 	// START METHOD *********************************************************
-	public void start() throws IOException {
+	public void start(Stage stage) throws IOException {
 		tpqController = this;
+		previewStage = stage;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherPreviewQuestion.fxml"));
 		Scene mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
-		GuiTester.primaryStage.setScene(mainScene);
-		// primaryStage.setResizable(false);
-		GuiTester.primaryStage.setOnCloseRequest(e -> {
-			GuiTester.primaryStage.hide();
+		stage.setScene(mainScene);
+		stage.setResizable(false);
+		stage.setOnCloseRequest(e -> {
+			stage.hide();
 			System.out.println("Question preview window was closed");
-			GuiTester.primaryStage.close();
+			stage.close();
 		});
 
-		GuiTester.primaryStage.show();
+		stage.show();
 	}
 
 	// INITIALIZE METHOD ****************************************************
@@ -102,9 +104,9 @@ public class TeacherPreviewQuestionController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	public void btnPressOK(ActionEvent event) {
-		GuiTester.primaryStage.hide();
+		previewStage.hide();
 		System.out.println("Question preview window was closed");
-		GuiTester.primaryStage.close();
+		previewStage.close();
 	}
 
 	// EXTERNAL USE METHODS *************************************************
