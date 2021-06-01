@@ -19,17 +19,14 @@ import ocsf.server.ConnectionToClient;
 public class DBconnector {
 	public static Connection con;
 	private static DBconnector dbCinstance;
-
 	// ***********************************************************************************************
-	private DBconnector() {
-	}
+	private DBconnector() { }
 
 	public static DBconnector getInstance() {
 		if (dbCinstance == null)
 			dbCinstance = new DBconnector();
 		return dbCinstance;
 	}
-
 	// ***********************************************************************************************
 	/**
 	 * Handles with the connection to the database
@@ -80,14 +77,8 @@ public class DBconnector {
 				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client);
-				getExamsQuestionsByExamID(request[1], client);
-				break;
-			case "btnPressSaveQuestion":
-				insertNewQuestionToDB(request[1], request[2],request[3],request[4],request[5],request[6],request[7], request[8], request[9], client);
-				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
-				client.sendToClient(request[0] + " is not a valid case!");
 				break;
 			}
 		}
@@ -96,71 +87,51 @@ public class DBconnector {
 	// ***********************************************************************************************
 	// QUERY METHODS
 	// ***********************************************************************************************
-	private void getExamsQuestionsByExamID (String examID, ConnectionToClient client) throws IOException {
+	private void getExamByExamID(String examID, ConnectionToClient client) throws IOException {
 		List<Question> questionsOfExam = new ArrayList<>();
+		Exam exam;
 		Question temp;
 		// questionsOfExam.add("getSubjectsByUsername");
 		// get all the exam's questions into the arrayList according to the examID
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Q.* FROM questions_in_exam QOE, question Q WHERE QOE.QuestionID = Q.QuestionID AND QOE.ExamID = \"" + examID + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT Q.* FROM cems.questions_in_exam QOE, cems.question Q"
+					+ "WHERE QOE.QuestionID = Q.QuestionID AND QOE.ExamID = \"" + examID + "\";");
+
 			while (rs.next()) {
-				temp = new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+				temp = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7));
 				questionsOfExam.add(temp);
 			}
 			client.sendToClient(questionsOfExam);
-			rs.close();
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
 			client.sendToClient("sql exception");
 			e.printStackTrace();
-			return;
 		}
-	}
-	private void getExamByExamID (String examID, ConnectionToClient client) throws IOException {
+
 		// get all the exam's data according to the examID
-		Exam exam=null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM exam E WHERE E.ExamID = \"" + examID + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM cems.exam E " + "WHERE E.ExamID = \"" + examID + "\";");
 
-			while (rs.next()) {
-				exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7), rs.getString(8));
-			}
-			client.sendToClient(exam);
-			rs.close();
+			while (rs.next()) {}
+			//exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+			//	rs.getString(6), rs.getString(7), rs.getString(8));
 
+			//	client.sendToClient(exam);
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
 			client.sendToClient("sql exception");
 			e.printStackTrace();
-			return;
-		}
-
-		//get course name
-		try {
-			String courseName="";
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT C.courseName FROM courses C WHERE C.courseID = \"" + exam.getCourseID() +"\"");
-
-			if (rs.next()) {
-				courseName = rs.getString(1);
-			}
-			client.sendToClient("courseName:"+courseName);
-			rs.close();
-		} catch (SQLException e) {
-			// * This method should always work!!! ; Add Missing information if it doesn't*
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
 		}
 	}
 
 	/**
 	 * Sends to the teacher an (ArrayList) of her subjects of study
-	 * @param username 	The username of the teacher
-	 * @param client 	The teacher
+	 *
+	 * @param username The username of the teacher
+	 * @param client   The teacher
 	 * @throws IOException
 	 */
 	private void getSubjectsByUsername(String username, ConnectionToClient client) throws IOException {
@@ -175,12 +146,10 @@ public class DBconnector {
 				bankList.add(rs.getString(1));
 			client.sendToClient(bankList);
 
-			rs.close();
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
 			client.sendToClient("sql exception");
 			e.printStackTrace();
-			return;
 		}
 
 	}
@@ -213,16 +182,14 @@ public class DBconnector {
 			return;
 		}
 
+		PreparedStatement stmt;
 		try {
-			PreparedStatement stmt = con.prepareStatement("UPDATE users SET Password =? WHERE Username =?");
-			stmt.setString(1,newPass);
-			stmt.setString(2,username);
+			stmt = con.prepareStatement("UPDATE users SET Password =? WHERE Username =?");
+			stmt.setString(1, newPass);
+			stmt.setString(2, username);
 			stmt.executeUpdate();
-		}
-		catch (SQLException e) {
-			client.sendToClient("sql exception");
+		} catch (SQLException e) {
 			e.printStackTrace();
-			return;
 		}
 
 		client.sendToClient("ChangePassword SUCCESS - Your password was set successfully!");
@@ -265,144 +232,9 @@ public class DBconnector {
 			} else
 				client.sendToClient("SignIn ERROR - Wrong username or password!");
 		} catch (SQLException e) {
-			client.sendToClient("sql exception");
 			e.printStackTrace();
-			return;
 		}
 	}
 	// ***********************************************************************************************
-	/**
-	 * inserts a new question into the database
-	 * @param subjectName The study of subject of the question
-	 * @param questionBody The body of the question
-	 * @param answer1 1st answer
-	 * @param answer2 2nd answer
-	 * @param answer3 3rd answer
-	 * @param answer4 4th answer
-	 * @param correctAnswer
-	 * @param username
-	 * @param author
-	 * @param client
-	 * @throws IOException
-	 */
-	private void insertNewQuestionToDB(String subjectName, String questionBody, String answer1, String answer2, String answer3,
-			String answer4, String correctAnswer, String username, String author, ConnectionToClient client) throws IOException {
 
-		// get subjectID by subjectName
-		String subjectID = null;
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs=  stmt.executeQuery("SELECT SubjectID From subjects WHERE SubjectName = \""+ subjectName + "\"");
-			if (rs.next())
-				subjectID = rs.getString(1);
-			rs.close();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		// check if HasBank is set to 'TRUE' in subjects_of_teacher by (SubjectID & Username)
-		String hasBank = null;
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs =  stmt.executeQuery("SELECT HasBank From subjects_of_teacher "
-					+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
-			if (rs.next())
-				hasBank = rs.getString(1);
-			System.out.println(hasBank);
-			rs.close();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		// if bank was not yet created for (SubjectID & Username)
-		if (hasBank.equals("FALSE")) {
-
-			// insert (SubjectID & Username) into Banks and generate a new 'bankID'
-			try {
-				PreparedStatement stmt = con.prepareStatement("INSERT INTO Banks (SubjectID, Username)"
-						+ "VALUES (?,?)");
-				stmt.setString(1,subjectID);
-				stmt.setString(2,username);
-				stmt.executeUpdate();
-			} catch (SQLException e) {
-				client.sendToClient("sql exception");
-				e.printStackTrace();
-				return;
-			}
-
-			// update HasBank to TRUE in 'subjects_of_teacher' table
-			try {
-				PreparedStatement stmt = con.prepareStatement("UPDATE subjects_of_teacher SET HasBank = 'TRUE' "
-						+ "WHERE SubjectID = ? AND Username = ?");
-				stmt.setString(1, subjectID);
-				stmt.setString(2, username);
-				stmt.executeUpdate();
-			}catch (SQLException e) {
-				client.sendToClient("sql exception");
-				e.printStackTrace();
-				return;
-			}
-		}
-
-		String bankID = null;
-		// get bankID from 'banks' by (SubjectID & Username)
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT BankID From Banks "
-					+ "WHERE SubjectID = \""+ subjectID + "\" AND Username = \""+ username + "\"");
-			rs.next();
-			bankID = String.format("%02d", rs.getInt(1));
-			rs.close();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		// create questionID by subjectID
-		String questionID = null;
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT MAX(ExtractedQuestionID) as ID "
-					+ "FROM (SELECT SUBSTRING(QuestionID, 3) as ExtractedQuestionID "
-					+ "FROM question "
-					+ "WHERE QuestionID LIKE '" + subjectID + "%') as MaxID");
-			rs.next();
-			int currentMaxID = rs.getInt(1);
-			rs.close();
-			questionID = String.format("%s%03d", subjectID, currentMaxID + 1 );
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		// insert the new question into the database
-		try {
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO question (QuestionID,BankID,Body,Answer1,Answer2,Answer3,Answer4,CorrectAnswer,Author) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?)");
-			System.out.format("inserted question : (%s,%s,%s,%s,%s,%s,%s,%s,%s)\n", questionID, bankID, questionBody, answer1, answer2, answer3, answer4,correctAnswer, author);
-			stmt.setString(1, questionID);
-			stmt.setString(2, bankID);
-			stmt.setString(3, questionBody);
-			stmt.setString(4, answer1);
-			stmt.setString(5, answer2);
-			stmt.setString(6, answer3);
-			stmt.setString(7, answer4);
-			stmt.setString(8, correctAnswer);
-			stmt.setString(9, author);
-			stmt.executeUpdate();
-
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		client.sendToClient("CreateQuestion SUCCESS - Question " + String.format("#%s", questionID) + " was created successfully!");
-	}
 }
