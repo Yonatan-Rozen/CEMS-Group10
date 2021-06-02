@@ -115,11 +115,7 @@ public class DBconnector {
 	// QUERY METHODS
 	// ***********************************************************************************************
 	/**
-<<<<<<< HEAD
 	 * Sends the student the questions (an ArrayList) of the exam he is taking
-=======
-	 * sends the student the questions (an ArrayList) of the exam he is taking
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	 * 
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
@@ -153,11 +149,7 @@ public class DBconnector {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Sends to the student the exam he is taking and the course of the exam
-=======
-	 * sends to the student the exam he is taking and the course of the exam
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	 * 
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
@@ -367,6 +359,8 @@ public class DBconnector {
 	 * @param string
 	 * @param client
 	 * @throws IOException
+	 * 
+	 * @author Michael
 	 */
 	private void getManualExamFileByExamID(String examID, ConnectionToClient client) throws IOException {
 		// TODO Auto-generated method stub
@@ -393,8 +387,7 @@ public class DBconnector {
 	 * 
 	 * @param username The username; inputed by the user
 	 * @param password The new password; inputed by the user
-	 * @param client   A user of one of the following types : Student / Teacher /
-	 *                 Principle
+	 * @param client   A user of one of the following types : Student / Teacher / Principle
 	 * @throws IOException if an I/O error occur when sending the message.
 	 * 
 	 * @author Yonatan Rozen
@@ -434,8 +427,8 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-<<<<<<< HEAD
-	 * @author Yonatan Rozen inserts a new question into the database
+	 * Inserts a new question into the database
+	 * 
 	 * @param subjectName   The study of subject of the question
 	 * @param questionBody  The body of the question
 	 * @param answer1       1st answer
@@ -447,21 +440,8 @@ public class DBconnector {
 	 * @param author		The full name of the teacher
 	 * @param client 		The clienty
 	 * @throws IOException if an I/O error occur when sending the message.
-=======
-	 * inserts a new question into the database
 	 * 
-	 * @param subjectName   The study of subject of the question
-	 * @param questionBody  The body of the question
-	 * @param answer1       1st answer
-	 * @param answer2       2nd answer
-	 * @param answer3       3rd answer
-	 * @param answer4       4th answer
-	 * @param correctAnswer
-	 * @param username
-	 * @param author
-	 * @param client
-	 * @throws IOException
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * @author Yonatan Rozen 
 	 */
 	private void insertNewQuestionToDB(String subjectName, String questionBody, String answer1, String answer2,
 			String answer3, String answer4, String correctAnswer, String username, String author,
@@ -592,8 +572,9 @@ public class DBconnector {
 	 * 
 	 * @param subjectID		  The choosen subject
 	 * @param username		  The username of the teacher
-	 * @author Yonatan Rozen
 	 * @throws IOException 
+	 * 
+	 * @author Yonatan Rozen
 	 */
 	private void getSubjectWithExistingBanks(String username, ConnectionToClient client) throws IOException {
 		List<String> bankList = new ArrayList<>();
@@ -623,8 +604,9 @@ public class DBconnector {
 	 * 
 	 * @param subjectID			The choosen subject
 	 * @param username			The username of the teacher
-	 * @author Yonatan Rozen
 	 * @throws IOException 
+	 * 
+	 * @author Yonatan Rozen
 	 */
 	private void getQuestionsBySubjectAndUsername(String subjectName, String username, ConnectionToClient client) throws IOException {
 		List<Question> questionList = new ArrayList<>();
