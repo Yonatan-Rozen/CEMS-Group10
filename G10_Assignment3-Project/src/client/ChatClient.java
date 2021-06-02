@@ -104,6 +104,7 @@ public class ChatClient extends AbstractClient {
 	 * Handles with (List<?>) type messages.
 	 * @param msg The (List<?>) object. first parameter
 	 */
+	@SuppressWarnings("unchecked")
 	private void handleListMessagesFromserver(List<?> msg) {
 		Object obj = msg.get(0);
 		msg.remove(0);
