@@ -20,8 +20,8 @@
                </font></Button>
             <TableView fx:id="sbAvailableQuestionsTv" layoutX="247.0" layoutY="38.0" prefHeight="318.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="38.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="165.0" text="Question ID" />
-                  <TableColumn fx:id="sbPreviewTc" prefWidth="165.0" text="Preview 👁" />
+                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="164.0" text="Question ID" />
+                  <TableColumn fx:id="sbPreviewTc" prefWidth="164.0" text="Preview" />
                </columns>
             </TableView>
             <Button fx:id="sbChangeSubjectBtn" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE SUBJECT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -49,7 +49,7 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <ChoiceBox fx:id="sbQuestionSubject" layoutX="380.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="380.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="337.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Edit Question" underline="true" AnchorPane.topAnchor="14.0">
