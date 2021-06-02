@@ -81,7 +81,7 @@
                      </font></TextArea>
                </children>
             </GridPane>
-            <Button fx:id="sbChangeSubjectBtn" layoutX="5.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
+            <Button fx:id="sbChangeSubjectBtn" layoutX="5.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE SUBJECT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
