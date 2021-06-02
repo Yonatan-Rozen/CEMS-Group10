@@ -14,7 +14,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
 public class TeacherMenuController implements Initializable {
-
+	public static TeacherMenuBarController tmbController;
 	// JAVAFX INSTANCES *****************************************************
 	@FXML
 	private Hyperlink sbTeacherNameLnk;
@@ -58,9 +58,6 @@ public class TeacherMenuController implements Initializable {
 	private static Button viewReportBtn;
 	private static Button settingsBtn;
 
-	// CONTROLLER INSTANCES *************************************************
-	protected static TeacherMenuBarController tmbController;
-
 	// START METHOD *********************************************************
 	/**
 	 * Opens PrincipleMenu.fxml
@@ -77,7 +74,7 @@ public class TeacherMenuController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.setWidth(1150);
 		ClientUI.mainStage.setHeight(650);
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Teacher)");
+		ClientUI.mainStage.setTitle("Computerized Exam Management System (Teacher)");
 		teacherNameLnk = sbTeacherNameLnk;
 		teacherNameLnk.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
 		logoutLnk = sbLogoutLnk;
