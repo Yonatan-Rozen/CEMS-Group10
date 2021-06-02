@@ -81,12 +81,12 @@ public class DBconnector {
 			case "GetBanks":
 				getBanksByUsername(request[1], client);
 				break;
-			case "GetCourseByBank":
-				ServerUI.serverConsole.println("1 = " + request[2]);
-				getGetCourseByBank(request[1], request[2], client); //2->subject
-				ServerUI.serverConsole.println("2 = " + request[2]);
-
+			case "GetCourseBySubject":
+				getCourseBySubject(request[1], request[2], client); // 2->subject
 				break;
+//			case "GetQuestionsByBank":
+//				getQuestionsByBank(request[1] , client);
+//				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client);
 				getExamsQuestionsByExamID(request[1], client);
@@ -217,6 +217,28 @@ public class DBconnector {
 		}
 
 	}
+	
+//	private void getQuestionsByBank(String username, ConnectionToClient client) throws IOException {
+//		List<String> bankList = new ArrayList<>();
+//		bankList.add("getQuestionsByBank");
+//		try {
+//			Statement stmt = con.createStatement();
+//			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName FROM cems.subjects S, cems.subjects_of_teacher SOT "
+//					+ "WHERE S.SubjectID = SOT.SubjectID AND SOT.Username = \"" + username + "\";");
+//
+//			while (rs.next())
+//				bankList.add(rs.getString(1));
+//			client.sendToClient(bankList);
+//
+//			rs.close();
+//		} catch (SQLException e) {
+//			// * This method should always work!!! ; Add Missing information if it doesn't*
+//			client.sendToClient("sql exception");
+//			e.printStackTrace();
+//			return;
+//		}
+//
+//	}
 
 	/**
 	 * Sends to the teacher an (ArrayList) of her subjects of study
@@ -230,8 +252,8 @@ public class DBconnector {
 		bankList.add("getBanksByUsername");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT B.SubjectID FROM cems.banks B, cems.banks_of_teacher BOT "
-					+ "WHERE B.BankID = BOT.BankID AND BOT.Username = \"" + username + "\";");
+			ResultSet rs = stmt
+					.executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
 
 			while (rs.next())
 				bankList.add(rs.getString(1));
@@ -239,7 +261,6 @@ public class DBconnector {
 
 			rs.close();
 
-			ServerUI.serverConsole.println((bankList.get(0)));
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
 			client.sendToClient("sql exception");
@@ -248,34 +269,27 @@ public class DBconnector {
 		}
 	}
 
-	private void getGetCourseByBank(String username, String subjectid, ConnectionToClient client) throws IOException {
+	private void getCourseBySubject(String username, String subjectid, ConnectionToClient client) throws IOException {
 		List<String> CourseList = new ArrayList<>();
-		CourseList.add("getGetCourseByBank");
+		CourseList.add("getCourseBySubject");
+		System.out.format("inserted question : %s \n", subjectid);
+		System.out.println("with zero: " + subjectid);
+		String SubjectIDwithZero = "0" + subjectid;
+		System.out.println(SubjectIDwithZero);
+
 		try {
-			ServerUI.serverConsole.println("3 = " + subjectid);
-
-//			
-//			Statement stmt = con.createStatement();
-//			// get bankid again by subjectid
-//			ResultSet rs = stmt.executeQuery("SELECT B.BankID FROM cems.banks B "
-//					+ "WHERE B.SubjectID = \"" + "sub2" + "\";");
-//
-//			// save bank id
-//			String bankIDString = rs.getString(1); //first value is bankid
-//			System.out.println(bankIDString);
-//			ServerUI.serverConsole.println(bankIDString);
-
-			// get courses with bankid
+			// get courses with subjectid
 			Statement stmt2 = con.createStatement();
 			ResultSet rs2 = stmt2.executeQuery(
-					"SELECT CourseName FROM cems.courses C " + "WHERE C.BankID = \"" + "02" + "\";");
+					"SELECT courseName FROM cems.courses C " + "WHERE C.SubjectID = \"" + SubjectIDwithZero + "\";");
 
 			while (rs2.next())
 				CourseList.add(rs2.getString(1));
 			client.sendToClient(CourseList);
 
-			//rs.close();
+			// rs.close();
 			rs2.close();
+
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
 			client.sendToClient("sql exception");
@@ -340,9 +354,9 @@ public class DBconnector {
 			con.createBlob();
 			client.sendToClient(rs.getBlob(4));
 			rs.close();
-			//maybe send as a stream?
-			//https://coderanch.com/t/305876/databases/convert-Blob-Type-File
-			
+			// maybe send as a stream?
+			// https://coderanch.com/t/305876/databases/convert-Blob-Type-File
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			client.sendToClient("sql exception");

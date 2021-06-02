@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import logic.question.Question;
 
 public class TeacherCreateExamController implements Initializable {
 	public static TeacherCreateExamController tceController;
@@ -40,10 +42,10 @@ public class TeacherCreateExamController implements Initializable {
 	private ChoiceBox<String> sbExamBankCb;
 
 	@FXML
-	private TableView<?> sbAvailableQuestionsTv;
+	private TableView<Question> sbAvailableQuestionsTv;
 
 	@FXML
-	private TableColumn<?, ?> sbQuestionID1Tc;
+	private TableColumn<Question, String> sbQuestionID1Tc;
 
 	@FXML
 	private TableColumn<?, ?> sbPreview1Tc;
@@ -52,10 +54,10 @@ public class TeacherCreateExamController implements Initializable {
 	private TableColumn<?, ?> sbAddToExamTc;
 
 	@FXML
-	private TableView<?> sbCurrentQuestionsTable;
+	private TableView<Question> sbCurrentQuestionsTable;
 
 	@FXML
-	private TableColumn<?, ?> sbQuestionID2Tc;
+	private TableColumn<Question, String> sbQuestionID2Tc;
 
 	@FXML
 	private TableColumn<?, ?> sbPreview2Tc;
@@ -75,11 +77,11 @@ public class TeacherCreateExamController implements Initializable {
 	private static Button continue1Btn;
 	private static AnchorPane botPanelAp;
 	private static ChoiceBox<String> chooseCourseCb;
-	private static TableView<?> availableQuestionsTv;
+	private static TableView<Question> availableQuestionsTv;
 	private static TableColumn<?, ?> questionID1Tc;
 	private static TableColumn<?, ?> preview1Tc;
 	private static TableColumn<?, ?> addToExamTc;
-	private static TableView<?> currentQuestionsTable;
+	private static TableView<Question> currentQuestionsTable;
 	private static TableColumn<?, ?> questionID2Tc;
 	private static TableColumn<?, ?> preview2Tc;
 	private static TableColumn<?, ?> removeFromExamTc;
@@ -104,7 +106,7 @@ public class TeacherCreateExamController implements Initializable {
 		examBankCb.setValue("----------");
 		// set the choice box to get it's items from 'bankList'
 		examBankCb.setItems(bankList);
-		
+
 		continue1Btn = sbContinue1Btn;
 		botPanelAp = sbBotPanelAp;
 		botPanelAp.setDisable(true);
@@ -121,7 +123,7 @@ public class TeacherCreateExamController implements Initializable {
 		continue2Btn = sbContinue2Btn;
 
 		if (bankList.size() == 1) // add banks only once
-		ClientUI.chat.accept(new String[] {"GetBanks", ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() });
 
 	}
 
@@ -144,15 +146,17 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
-		
+
 		chooseCourseCb.setValue("----------");
+
+		if (CourseList.size() == 1) // add course only once
+			ClientUI.chat.accept(
+					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
+
 		chooseCourseCb.setItems(CourseList);
 
-		String bankVal = examBankCb.getValue();
-		bankVal = "sub2";
-		//System.out.println(bankVal);
-		if (CourseList.size() == 1) // add course only once
-			ClientUI.chat.accept(new String[] {"GetCourseByBank", bankVal ,ChatClient.user.getUsername() });
+//		ClientUI.chat
+//				.accept(new String[] { "GetQuestionsByBank", examBankCb.getValue(), ChatClient.user.getUsername() });
 
 	}
 
@@ -170,16 +174,17 @@ public class TeacherCreateExamController implements Initializable {
 //	void btnPressPreviewExam2(ActionEvent event) {
 //		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
 //	}
-	
+
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		bankList.addAll(msg);
 	}
-	
+
 	public void setCourseChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		CourseList.addAll(msg);
+		System.out.println("5=" + CourseList);
 	}
 
 }

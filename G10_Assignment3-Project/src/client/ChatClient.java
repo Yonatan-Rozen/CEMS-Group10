@@ -110,7 +110,7 @@ public class ChatClient extends AbstractClient {
 			case "getBanksByUsername":
 				TeacherCreateExamController.tceController.setBankChoiceBox((List<String>)msg);
 				break;
-			case "getGetCourseByBank":
+			case "getCourseBySubject":
 				TeacherCreateExamController.tceController.setCourseChoiceBox((List<String>)msg);
 				break;
 			default:
