@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import gui.GuiTester;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,17 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import logic.question.Question;
 
 public class TeacherPreviewQuestionController implements Initializable {
 	public static TeacherPreviewQuestionController tpqController;
-	public static Question question = new Question("01023", "How much is 1+1?", "3", "2", "11", "12", "2");
-	//public static Question question;
 	// JAVAFX INSTANCES ******************************************************
-	
-
 	@FXML
 	private Label sbPreviewQuestionLbl;
 
@@ -35,9 +29,6 @@ public class TeacherPreviewQuestionController implements Initializable {
 	private RadioButton sbAnswer1Rb;
 
 	@FXML
-	private ToggleGroup sbAnswersTg;
-
-	@FXML
 	private RadioButton sbAnswer2Rb;
 
 	@FXML
@@ -45,12 +36,21 @@ public class TeacherPreviewQuestionController implements Initializable {
 
 	@FXML
 	private RadioButton sbAnswer4Rb;
-	
+
 	@FXML
 	private Button sbOKBtn;
-	
+
 	// STATIC JAVAFX INSTANCES **********************************************
+	private static Label previewQuestionLbl;
+	private static Label questionBodyLbl;
+	private static RadioButton answer1Rb;
+	private static RadioButton answer2Rb;
+	private static RadioButton answer3Rb;
+	private static RadioButton answer4Rb;
+
+	// STATIC INSTANCES ****************************************************
 	private static Stage previewStage;
+
 	// START METHOD *********************************************************
 	public void start(Stage stage) throws IOException {
 		tpqController = this;
@@ -62,55 +62,57 @@ public class TeacherPreviewQuestionController implements Initializable {
 		stage.setResizable(false);
 		stage.setOnCloseRequest(e -> {
 			stage.hide();
-			System.out.println("Question preview window was closed");
+			TeacherMenuBarController.mainPaneBp.setDisable(false);
+			TeacherMenuBarController.menuBarAp.setDisable(false);
 			stage.close();
 		});
-
 		stage.show();
 	}
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		sbPreviewQuestionLbl.setText("Preview Question #" + question.getQuestionID());
-		sbQuestionBodyLbl.setText(question.getQuestionBody());
-		sbAnswer1Rb.setText(question.getAnswer1());
-		sbAnswer2Rb.setText(question.getAnswer2());
-		sbAnswer3Rb.setText(question.getAnswer3());
-		sbAnswer4Rb.setText(question.getAnswer4());
-
-		switch (question.getCorrectAnswer()) {
-		case "1":
-			sbAnswer1Rb.setSelected(true);
-			break;
-		case "2":
-			sbAnswer2Rb.setSelected(true);
-			break;
-		case "3":
-			sbAnswer3Rb.setSelected(true);
-			break;
-		case "4":
-			sbAnswer4Rb.setSelected(true);
-			break;
-		default:
-			break;
-		}
-		
-		System.out.println("Everything was set (Preview Question Controller)");
+		previewQuestionLbl = sbPreviewQuestionLbl;
+		questionBodyLbl = sbQuestionBodyLbl;
+		answer1Rb = sbAnswer1Rb;
+		answer2Rb = sbAnswer2Rb;
+		answer3Rb = sbAnswer3Rb;
+		answer4Rb = sbAnswer4Rb;
 	}
-	
-	
+
 	// ACTION METHODS *******************************************************
 	@FXML
 	public void btnPressOK(ActionEvent event) {
 		previewStage.hide();
-		System.out.println("Question preview window was closed");
+		TeacherMenuBarController.mainPaneBp.setDisable(false);
+		TeacherMenuBarController.menuBarAp.setDisable(false);
 		previewStage.close();
 	}
 
 	// EXTERNAL USE METHODS *************************************************
 	public void setQuestion(Question question) {
-		this.question = question;
+		previewQuestionLbl.setText("Preview Question #" + question.getQuestionID());
+		questionBodyLbl.setText(question.getQuestionBody());
+		answer1Rb.setText(question.getAnswer1());
+		answer2Rb.setText(question.getAnswer2());
+		answer3Rb.setText(question.getAnswer3());
+		answer4Rb.setText(question.getAnswer4());
+
+		switch (question.getCorrectAnswer()) {
+		case "1":
+			answer1Rb.setSelected(true);
+			break;
+		case "2":
+			answer2Rb.setSelected(true);
+			break;
+		case "3":
+			answer3Rb.setSelected(true);
+			break;
+		case "4":
+			answer4Rb.setSelected(true);
+			break;
+		default:
+			break;
+		}
 	}
 }
