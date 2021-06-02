@@ -3,6 +3,7 @@ package gui.server;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,9 +47,10 @@ public class ServerConsoleController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/server/ServerConsole.fxml"));
 		Scene scene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui.server/ServerConsole.css").toExternalForm());
-		mainStage.setTitle("CEMS - Computerized Exam Management System (Server)");
+		mainStage.setTitle("Computerized Exam Management System (Server)");
 		mainStage.setScene(scene);
 		mainStage.setResizable(false);
+		mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		mainStage.setOnCloseRequest(e -> {
 			mainStage.hide();
 			Alert alert = new Alert(AlertType.INFORMATION);

@@ -2,17 +2,18 @@ package common;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.function.UnaryOperator;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 public class CommonMethodsHandler {
+	public static final Image CEMS_LOGO = new Image("/logo.png");
+	public static final Image CEMS_ICON = new Image("/icon_black.png");
+	
 	private static CommonMethodsHandler commonMethodsHandler;
 
 	private CommonMethodsHandler() {

@@ -62,7 +62,7 @@ public class StudentMenuController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.setWidth(1150);
 		ClientUI.mainStage.setHeight(650);
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Student)");
+		ClientUI.mainStage.setTitle("Computerized Exam Management System (Student)");
 		studentLnk = sbStudentLnk;
 		studentLnk.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
 		logoutLnk = sbLogoutLnk;

@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,6 +55,7 @@ public class SignInController implements Initializable {
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
 		ClientUI.mainStage.setScene(ClientUI.mainScene);
 		ClientUI.mainStage.setResizable(false);
+		ClientUI.mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		ClientUI.mainStage.setOnCloseRequest(e -> {
 			ClientUI.mainStage.hide();
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -70,7 +72,7 @@ public class SignInController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.hide();
-		ClientUI.mainStage.setTitle("CEMS - Computerized Exam Management System (Client)");
+		ClientUI.mainStage.setTitle("Computerized Exam Management System (Client)");
 		ClientUI.mainStage.setWidth(600);
 		ClientUI.mainStage.setHeight(400);
 		ChatClient.user = null;
