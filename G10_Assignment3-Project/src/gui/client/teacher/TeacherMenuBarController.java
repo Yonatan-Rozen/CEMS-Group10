@@ -14,11 +14,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 public class TeacherMenuBarController implements Initializable {
-
 	// JAVAFX INSTANCES ******************************************************
+    @FXML
+    private AnchorPane sbMenuBarAp;
+    
 	@FXML
 	private Button sbStartExamBtn;
 
@@ -53,6 +56,7 @@ public class TeacherMenuBarController implements Initializable {
 	private BorderPane sbMainPaneBp;
 
 	// STATIC JAVAFX INSTANCES **********************************************
+	protected static AnchorPane menuBarAp;
 	private static Button startExamBtn;
 	private static Button createQuestionBtn;
 	private static Button editQuestionBtn;
@@ -74,6 +78,7 @@ public class TeacherMenuBarController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		menuBarAp = sbMenuBarAp;
 		startExamBtn = sbStartExamBtn;
 		createQuestionBtn = sbCreateQuestionBtn;
 		editQuestionBtn = sbEditQuestionBtn;
@@ -85,7 +90,7 @@ public class TeacherMenuBarController implements Initializable {
 		logoIv = sbLogoIv;
 		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
-		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
+		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
 
 	// ACTION METHODS *******************************************************
@@ -142,6 +147,8 @@ public class TeacherMenuBarController implements Initializable {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
 		TeacherCreateQuestionController.subjectList.clear();
 		TeacherCreateQuestionController.subjectList.add("----------");
+		TeacherChooseEditQuestionController.subjectList.clear();
+		TeacherChooseEditQuestionController.subjectList.add("----------");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 }
