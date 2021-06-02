@@ -6,6 +6,7 @@ import java.util.List;
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -47,9 +48,11 @@ public class ChatClient extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-
+		if (msg == null) {
+			ClientController.display("fatal error");
+		}
 		/**** short execution checks ***/
-		if (msg instanceof User) { // SignIn Success
+		else if (msg instanceof User) { // SignIn Success
 			user = (User) msg;
 		}
 
@@ -76,19 +79,22 @@ public class ChatClient extends AbstractClient {
 	private void handleStringMessagesFromServer(String msg) {
 
 		if (msg.contains("SignIn ERROR - ")) { // SignIn Errors
-			SignInController.siController.setErrorMsg((msg).substring("SignIn ERROR - ".length()));
+			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
 		}
 		else if (msg.contains("ChangePassword ERROR - ")) { // ChangePassword Errors
-			ChangePasswordController.cpController.badChangePassword((msg).substring("ChangePassword ERROR - ".length()));
+			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
 		}
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
-			ChangePasswordController.cpController.successfulChangePassword((msg).substring("ChangePassword SUCCESS - ".length()));
+			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		}
-		else if(msg.contains("courseName:")) {//get exam's course name
+		else if(msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		}
 		else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
-			TeacherCreateQuestionController.tcqController.successfulCreateQuestion((msg).substring("CreateQuestion SUCCESS - ".length()));
+			TeacherCreateQuestionController.tcqController.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+		}
+		else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
+			TeacherChooseEditQuestionController.tceqController.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		}
 		else ClientController.display(msg);
 	}
@@ -99,19 +105,36 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (List<?>) object. first parameter
 	 */
 	private void handleListMessagesFromserver(List<?> msg) {
-		Object o=msg.get(0);
-		if(o instanceof String) {
-			msg.remove(0);
-			switch (o.toString()) {
+		Object obj = msg.get(0);
+		msg.remove(0);
+		if(obj instanceof String) { // list of String
+			List<String> list = ((List<String>)msg);
+			switch (obj.toString()) {
 			case "getSubjectsByUsername":
-				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox((List<String>)msg);
-				break;
+				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(list);
+				return;
+			case "getSubjectWithExistingBanks":
+				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(list);
+				return;
 			default:
+				ClientController.display(obj.toString() + " is missing!");
 				break;
 			}
 		}
-		else if(o instanceof Question) {
-			StudentTakeComputerizedExamController.stceController.setQuestionsOfExam((List<Question>)msg);
+		else if(obj instanceof Question) { // list of questions
+			List<Question> questionList = (List<Question>) msg;
+			System.out.println(questionList);
+			switch(((Question) obj).getQuestionID()) {
+			case "getExamsQuestionsByExamID":
+				StudentTakeComputerizedExamController.stceController.setQuestionsOfExam(questionList);
+				return;
+			case "getQuestionsBySubjectAndUsername":
+				TeacherChooseEditQuestionController.tceqController.setQuestionTableView(questionList);
+				return;
+			default:
+				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
+				break;
+			}
 		}
 	}
 
