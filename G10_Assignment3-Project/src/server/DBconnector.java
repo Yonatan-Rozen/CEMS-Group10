@@ -95,6 +95,9 @@ public class DBconnector {
 				insertNewQuestionToDB(request[1], request[2], request[3], request[4], request[5], request[6],
 						request[7], request[8], request[9], client);
 				break;
+			case "lnkPressDownloadExamFile":
+				getManualExamFileByExamID(request[1], client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
 				client.sendToClient(request[0] + " is not a valid case!");
@@ -321,6 +324,31 @@ public class DBconnector {
 		}
 
 		client.sendToClient("ChangePassword SUCCESS - Your password was set successfully!");
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @param client
+	 * @throws IOException
+	 */
+	private void getManualExamFileByExamID(String examID, ConnectionToClient client) throws IOException {
+		// TODO Auto-generated method stub
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT examFile FROM manual_exams WHERE examID = \"" + examID + "\"");
+			con.createBlob();
+			client.sendToClient(rs.getBlob(4));
+			rs.close();
+			//maybe send as a stream?
+			//https://coderanch.com/t/305876/databases/convert-Blob-Type-File
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
 	}
 
 	// ***********************************************************************************************
