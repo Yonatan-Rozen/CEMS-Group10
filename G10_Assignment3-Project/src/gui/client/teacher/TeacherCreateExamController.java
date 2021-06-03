@@ -148,21 +148,22 @@ public class TeacherCreateExamController implements Initializable {
 		sbBotPanelAp.setDisable(false);
 
 		chooseCourseCb.setValue("----------");
-
 		if (CourseList.size() == 1) // add course only once
 			ClientUI.chat.accept(
 					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
 
 		chooseCourseCb.setItems(CourseList);
 
-//		ClientUI.chat
-//				.accept(new String[] { "GetQuestionsByBank", examBankCb.getValue(), ChatClient.user.getUsername() });
+		ClientUI.chat
+				.accept(new String[] { "GetQuestionsByBank", ChatClient.user.getUsername() });
 
 	}
 
 	@FXML
 	void btnPressContinue2(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
+
+		// create new exam with list of question
 	}
 
 //	@FXML
@@ -185,6 +186,11 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println(msg.toString());
 		CourseList.addAll(msg);
 		System.out.println("5=" + CourseList);
+	}
+	
+	public void setQuestion(List<String> msg) {
+		System.out.println(msg.toString());
+
 	}
 
 }

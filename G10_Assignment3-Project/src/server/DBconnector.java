@@ -82,11 +82,11 @@ public class DBconnector {
 				getBanksByUsername(request[1], client);
 				break;
 			case "GetCourseBySubject":
-				getCourseBySubject(request[1], request[2], client); // 2->subject
+				getCourseBySubject(request[1], request[2], client); // 1->subject
 				break;
-//			case "GetQuestionsByBank":
-//				getQuestionsByBank(request[1] , client);
-//				break;
+			case "GetQuestionsByBank":
+//				getQuestionsByBank(request[1], client);
+				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client);
 				getExamsQuestionsByExamID(request[1], client);
@@ -99,7 +99,7 @@ public class DBconnector {
 				getQuestionsBySubjectAndUsername(request[1], request[2], client);
 				break;
 			case "GetExistingBanks":
-				getSubjectWithExistingBanks(request[1],client);
+				getSubjectWithExistingBanks(request[1], client);
 				break;
 			case "lnkPressDownloadExamFile":
 				getManualExamFileByExamID(request[1], client);
@@ -131,13 +131,12 @@ public class DBconnector {
 		// get all the exam's questions into the arrayList according to the examID
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery( "SELECT Q.* "
-												+ "FROM questions_in_exam QOE, question Q "
-												+ "WHERE QOE.QuestionID = Q.QuestionID AND QOE.ExamID = \"" + examID + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT Q.* " + "FROM questions_in_exam QOE, question Q "
+					+ "WHERE QOE.QuestionID = Q.QuestionID AND QOE.ExamID = \"" + examID + "\"");
 
 			while (rs.next()) {
-				questionsOfExam.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), 
-						rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+				questionsOfExam.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getString(8)));
 			}
 			client.sendToClient(questionsOfExam);
 			rs.close();
@@ -227,22 +226,45 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-
 	}
-	
+
 //	private void getQuestionsByBank(String username, ConnectionToClient client) throws IOException {
-//		List<String> bankList = new ArrayList<>();
-//		bankList.add("getQuestionsByBank");
-//		try {
-//			Statement stmt = con.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName FROM cems.subjects S, cems.subjects_of_teacher SOT "
-//					+ "WHERE S.SubjectID = SOT.SubjectID AND SOT.Username = \"" + username + "\";");
+////		List<String> bankList2 = new ArrayList<>();
+////		bankList2.add("getBanksByUsername");
+//		List<Question> QuestionList = new ArrayList<>();
+//		QuestionList.add(new Question("getQuestionsByBank", "", "", "", "", "", ""));
 //
-//			while (rs.next())
-//				bankList.add(rs.getString(1));
-//			client.sendToClient(bankList);
+//		try {
+////			Statement stmt = con.createStatement();
+////			ResultSet rs = stmt
+////					.executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
+////
+////			while (rs.next())
+////				bankList2.add(rs.getString(1));
+////			
+////			//
+//			String TempBank = "01";
+//			
+//
+//			ResultSet rs2 = stmt.executeQuery("SELECT Q.QuestionID FROM cems.question Q " + "WHERE Q.BankID = \"" + TempBank + "\";");
+//
+//			
+//			while (rs2.next()) {
+////				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+////						rs.getString(6), rs.getString(7), rs.getString(8)));
+////			}
+////			rs.close();
+////			client.sendToClient(questionList);
+//				
+//				
+//			while (rs2.next())
+//				QuestionList.add(rs2.getString(1));
+//			
+//			client.sendToClient(QuestionList);
 //
 //			rs.close();
+//			rs2.close();
+//
 //		} catch (SQLException e) {
 //			// * This method should always work!!! ; Add Missing information if it doesn't*
 //			client.sendToClient("sql exception");
@@ -252,13 +274,7 @@ public class DBconnector {
 //
 //	}
 
-	/**
-	 * Sends to the teacher an (ArrayList) of her subjects of study
-	 * 
-	 * @param username The username of the teacher
-	 * @param client   The teacher
-	 * @throws IOException
-	 */
+///////////////////////////
 	private void getBanksByUsername(String username, ConnectionToClient client) throws IOException {
 		List<String> bankList = new ArrayList<>();
 		bankList.add("getBanksByUsername");
@@ -281,19 +297,16 @@ public class DBconnector {
 		}
 	}
 
-	private void getCourseBySubject(String username, String subjectid, ConnectionToClient client) throws IOException {
+	////////////////////////
+	private void getCourseBySubject(String subjectid, String username, ConnectionToClient client) throws IOException {
 		List<String> CourseList = new ArrayList<>();
-		CourseList.add("getCourseBySubject");
-		System.out.format("inserted question : %s \n", subjectid);
-		System.out.println("with zero: " + subjectid);
-		String SubjectIDwithZero = "0" + subjectid;
-		System.out.println(SubjectIDwithZero);
 
+		CourseList.add("getCourseBySubject");
 		try {
 			// get courses with subjectid
 			Statement stmt2 = con.createStatement();
 			ResultSet rs2 = stmt2.executeQuery(
-					"SELECT courseName FROM cems.courses C " + "WHERE C.SubjectID = \"" + SubjectIDwithZero + "\";");
+					"SELECT courseName FROM cems.courses C " + "WHERE C.SubjectID = \"" + subjectid + "\";");
 
 			while (rs2.next())
 				CourseList.add(rs2.getString(1));
@@ -353,7 +366,7 @@ public class DBconnector {
 
 		client.sendToClient("ChangePassword SUCCESS - Your password was set successfully!");
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string
@@ -387,7 +400,8 @@ public class DBconnector {
 	 * 
 	 * @param username The username; inputed by the user
 	 * @param password The new password; inputed by the user
-	 * @param client   A user of one of the following types : Student / Teacher / Principle
+	 * @param client   A user of one of the following types : Student / Teacher /
+	 *                 Principle
 	 * @throws IOException if an I/O error occur when sending the message.
 	 * 
 	 * @author Yonatan Rozen
@@ -436,12 +450,12 @@ public class DBconnector {
 	 * @param answer3       3rd answer
 	 * @param answer4       4th answer
 	 * @param correctAnswer The correct answer
-	 * @param username		The username of the teacher
-	 * @param author		The full name of the teacher
-	 * @param client 		The clienty
+	 * @param username      The username of the teacher
+	 * @param author        The full name of the teacher
+	 * @param client        The clienty
 	 * @throws IOException if an I/O error occur when sending the message.
 	 * 
-	 * @author Yonatan Rozen 
+	 * @author Yonatan Rozen
 	 */
 	private void insertNewQuestionToDB(String subjectName, String questionBody, String answer1, String answer2,
 			String answer3, String answer4, String correctAnswer, String username, String author,
@@ -565,14 +579,14 @@ public class DBconnector {
 		client.sendToClient(
 				"CreateQuestion SUCCESS - Question " + String.format("#%s", questionID) + " was created successfully!");
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an ArrayList of subjects with existing bank
 	 * 
-	 * @param subjectID		  The choosen subject
-	 * @param username		  The username of the teacher
-	 * @throws IOException 
+	 * @param subjectID The choosen subject
+	 * @param username  The username of the teacher
+	 * @throws IOException
 	 * 
 	 * @author Yonatan Rozen
 	 */
@@ -581,16 +595,16 @@ public class DBconnector {
 		bankList.add("getSubjectWithExistingBanks");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName "
-											+ "FROM subjects S, banks B "
-											+ "WHERE B.Username = \"" + username + "\" AND S.SubjectID = B.SubjectID");
+			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName " + "FROM subjects S, banks B "
+					+ "WHERE B.Username = \"" + username + "\" AND S.SubjectID = B.SubjectID");
 			while (rs.next()) {
 				bankList.add(rs.getString(1));
 			}
 			rs.close();
 			if (bankList.size() > 1)
 				client.sendToClient(bankList);
-			else client.sendToClient("GetSubjectsWithBank ERROR - Please note that you should create a question first!");
+			else
+				client.sendToClient("GetSubjectsWithBank ERROR - Please note that you should create a question first!");
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
@@ -602,13 +616,14 @@ public class DBconnector {
 	/**
 	 * Sends to the teacher an ArrayList of questions under the same subject
 	 * 
-	 * @param subjectID			The choosen subject
-	 * @param username			The username of the teacher
-	 * @throws IOException 
+	 * @param subjectID The choosen subject
+	 * @param username  The username of the teacher
+	 * @throws IOException
 	 * 
 	 * @author Yonatan Rozen
 	 */
-	private void getQuestionsBySubjectAndUsername(String subjectName, String username, ConnectionToClient client) throws IOException {
+	private void getQuestionsBySubjectAndUsername(String subjectName, String username, ConnectionToClient client)
+			throws IOException {
 		List<Question> questionList = new ArrayList<>();
 		questionList.add(new Question("getQuestionsBySubjectAndUsername", "", "", "", "", "", ""));
 		try {
@@ -617,8 +632,8 @@ public class DBconnector {
 					+ "	(SELECT B.BankID FROM banks B WHERE B.Username = \"" + username + "\" AND B.SubjectID = "
 					+ "	(SELECT S.SubjectID FROM subjects S  WHERE S.SubjectName = \"" + subjectName + "\"))");
 			while (rs.next()) {
-				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4),
-						rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getString(8)));
 			}
 			rs.close();
 			client.sendToClient(questionList);
