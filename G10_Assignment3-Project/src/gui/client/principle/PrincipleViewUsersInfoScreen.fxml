@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewUsersInfoScreenController">
+   <children>
+      <Label layoutX="370.0" layoutY="14.0" text="View info" textAlignment="CENTER" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
+         <children>
+            <TableView prefHeight="492.0" prefWidth="856.0">
+              <columns>
+                <TableColumn prefWidth="77.0" text="User Name" />
+                <TableColumn minWidth="0.0" prefWidth="111.0" text="Last name" />
+                  <TableColumn prefWidth="124.0" text="First Name" />
+                  <TableColumn prefWidth="161.0" text="Phone Number" />
+                  <TableColumn prefWidth="268.0" text="Email Address" />
+                  <TableColumn prefWidth="114.0" text="Status" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
