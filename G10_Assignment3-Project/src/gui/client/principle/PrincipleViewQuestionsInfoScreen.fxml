@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewQuestionsInfoScreenController">
+   <children>
+      <Label layoutX="370.0" layoutY="14.0" text="View info" textAlignment="CENTER" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
+         <children>
+            <TableView prefHeight="492.0" prefWidth="856.0">
+               <columns>
+                  <TableColumn fx:id="sbQuestionIDClm" prefWidth="93.0" text="Serial Number" />
+                  <TableColumn fx:id="sbQuestionsBodyClm" minWidth="0.0" prefWidth="169.0" text="Body" />
+                  <TableColumn fx:id="sbAns1Clm" prefWidth="76.0" text="Answer 1" />
+                  <TableColumn fx:id="sbAns2Clm" prefWidth="76.0" text="Answer 2" />
+                  <TableColumn fx:id="sbAns3Clm" prefWidth="76.0" text="Answer 3" />
+                  <TableColumn fx:id="sbAns4Clm" prefWidth="76.0" text="Answer 4" />
+                  <TableColumn fx:id="sbCorrectAnswerClm" prefWidth="95.0" text="Correct Answer" />
+                  <TableColumn fx:id="sbAuthorClm" maxWidth="306.0" prefWidth="183.0" text="Created By" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
-

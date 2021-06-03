@@ -17,12 +17,12 @@
          <children>
             <TableView prefHeight="492.0" prefWidth="856.0">
               <columns>
-                <TableColumn prefWidth="77.0" text="User Name" />
-                <TableColumn minWidth="0.0" prefWidth="111.0" text="Last name" />
-                  <TableColumn prefWidth="124.0" text="First Name" />
-                  <TableColumn prefWidth="161.0" text="Phone Number" />
-                  <TableColumn prefWidth="268.0" text="Email Address" />
-                  <TableColumn prefWidth="114.0" text="Status" />
+                <TableColumn fx:id="sbUsernameClm" prefWidth="77.0" text="User Name" />
+                <TableColumn fx:id="sbLastNameClm" minWidth="0.0" prefWidth="111.0" text="Last name" />
+                  <TableColumn fx:id="sbFirstNameClm" prefWidth="124.0" text="First Name" />
+                  <TableColumn fx:id="sbPhoneNumberClm" prefWidth="161.0" text="Phone Number" />
+                  <TableColumn fx:id="sbEmailAddClm" prefWidth="268.0" text="Email Address" />
+                  <TableColumn fx:id="sbUserTypeClm" prefWidth="114.0" text="Status" />
               </columns>
             </TableView>
          </children>
