@@ -100,6 +100,7 @@ public class DBconnector {
 				break;
 			case "GetExistingBanks":
 				getSubjectWithExistingBanks(request[1],client);
+				break;
 			case "lnkPressDownloadExamFile":
 				getManualExamFileByExamID(request[1], client);
 				break;
@@ -355,7 +356,6 @@ public class DBconnector {
 	
 	// ***********************************************************************************************
 	/**
-	 * 
 	 * @param string
 	 * @param client
 	 * @throws IOException
