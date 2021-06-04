@@ -15,7 +15,7 @@
       </Label>
       <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
          <children>
-            <TableView prefHeight="492.0" prefWidth="856.0">
+            <TableView fx:id="tblVusersDetails" prefHeight="492.0" prefWidth="856.0">
               <columns>
                 <TableColumn fx:id="sbUsernameClm" prefWidth="77.0" text="User Name" />
                 <TableColumn fx:id="sbLastNameClm" minWidth="0.0" prefWidth="111.0" text="Last name" />
