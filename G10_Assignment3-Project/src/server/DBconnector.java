@@ -85,7 +85,7 @@ public class DBconnector {
 				getCourseBySubject(request[1], request[2], client); // 1->subject
 				break;
 			case "GetQuestionsByBank":
-//				getQuestionsByBank(request[1], client);
+				//				getQuestionsByBank(request[1], client);
 				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client);
@@ -104,6 +104,9 @@ public class DBconnector {
 			case "lnkPressDownloadExamFile":
 				getManualExamFileByExamID(request[1], client);
 				break;
+			case "sbViewUsersBtn":
+				getUsersTableViewInfo(client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
 				client.sendToClient(request[0] + " is not a valid case!");
@@ -117,11 +120,11 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends the student the questions (an ArrayList) of the exam he is taking
-	 * 
+	 *
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Meitar El-Ezra
 	 */
 	private void getExamsQuestionsByExamID(String examID, ConnectionToClient client) throws IOException {
@@ -150,11 +153,11 @@ public class DBconnector {
 
 	/**
 	 * Sends to the student the exam he is taking and the course of the exam
-	 * 
+	 *
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Meitar El-Ezra
 	 */
 	private void getExamByExamID(String examID, ConnectionToClient client) throws IOException {
@@ -200,11 +203,11 @@ public class DBconnector {
 
 	/**
 	 * Sends to the teacher an (ArrayList) of her subjects of study
-	 * 
+	 *
 	 * @param username The username of the teacher
 	 * @param client   The teacher
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void getSubjectsByUsername(String username, ConnectionToClient client) throws IOException {
@@ -228,53 +231,53 @@ public class DBconnector {
 		}
 	}
 
-//	private void getQuestionsByBank(String username, ConnectionToClient client) throws IOException {
-////		List<String> bankList2 = new ArrayList<>();
-////		bankList2.add("getBanksByUsername");
-//		List<Question> QuestionList = new ArrayList<>();
-//		QuestionList.add(new Question("getQuestionsByBank", "", "", "", "", "", ""));
-//
-//		try {
-////			Statement stmt = con.createStatement();
-////			ResultSet rs = stmt
-////					.executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
-////
-////			while (rs.next())
-////				bankList2.add(rs.getString(1));
-////			
-////			//
-//			String TempBank = "01";
-//			
-//
-//			ResultSet rs2 = stmt.executeQuery("SELECT Q.QuestionID FROM cems.question Q " + "WHERE Q.BankID = \"" + TempBank + "\";");
-//
-//			
-//			while (rs2.next()) {
-////				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-////						rs.getString(6), rs.getString(7), rs.getString(8)));
-////			}
-////			rs.close();
-////			client.sendToClient(questionList);
-//				
-//				
-//			while (rs2.next())
-//				QuestionList.add(rs2.getString(1));
-//			
-//			client.sendToClient(QuestionList);
-//
-//			rs.close();
-//			rs2.close();
-//
-//		} catch (SQLException e) {
-//			// * This method should always work!!! ; Add Missing information if it doesn't*
-//			client.sendToClient("sql exception");
-//			e.printStackTrace();
-//			return;
-//		}
-//
-//	}
+	//	private void getQuestionsByBank(String username, ConnectionToClient client) throws IOException {
+	////		List<String> bankList2 = new ArrayList<>();
+	////		bankList2.add("getBanksByUsername");
+	//		List<Question> QuestionList = new ArrayList<>();
+	//		QuestionList.add(new Question("getQuestionsByBank", "", "", "", "", "", ""));
+	//
+	//		try {
+	////			Statement stmt = con.createStatement();
+	////			ResultSet rs = stmt
+	////					.executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
+	////
+	////			while (rs.next())
+	////				bankList2.add(rs.getString(1));
+	////
+	////			//
+	//			String TempBank = "01";
+	//
+	//
+	//			ResultSet rs2 = stmt.executeQuery("SELECT Q.QuestionID FROM cems.question Q " + "WHERE Q.BankID = \"" + TempBank + "\";");
+	//
+	//
+	//			while (rs2.next()) {
+	////				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+	////						rs.getString(6), rs.getString(7), rs.getString(8)));
+	////			}
+	////			rs.close();
+	////			client.sendToClient(questionList);
+	//
+	//
+	//			while (rs2.next())
+	//				QuestionList.add(rs2.getString(1));
+	//
+	//			client.sendToClient(QuestionList);
+	//
+	//			rs.close();
+	//			rs2.close();
+	//
+	//		} catch (SQLException e) {
+	//			// * This method should always work!!! ; Add Missing information if it doesn't*
+	//			client.sendToClient("sql exception");
+	//			e.printStackTrace();
+	//			return;
+	//		}
+	//
+	//	}
 
-///////////////////////////
+	///////////////////////////
 	private void getBanksByUsername(String username, ConnectionToClient client) throws IOException {
 		List<String> bankList = new ArrayList<>();
 		bankList.add("getBanksByUsername");
@@ -326,7 +329,7 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sets a new password for the user by his choice
-	 * 
+	 *
 	 * @param username   The username of the user
 	 * @param actaulPass The actaul password; retrived earlier from the DB
 	 * @param tryPass    The current password; inputed by the user
@@ -334,7 +337,7 @@ public class DBconnector {
 	 * @param reNewPass  The retyped new password; inputed by the user
 	 * @param client     The user which is requesting to change his password
 	 * @throws IOException if an I/O error occur when sending the message.
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void setNewPasswordByusername(String username, String actaulPass, String tryPass, String newPass,
@@ -372,7 +375,7 @@ public class DBconnector {
 	 * @param string
 	 * @param client
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Michael
 	 */
 	private void getManualExamFileByExamID(String examID, ConnectionToClient client) throws IOException {
@@ -397,13 +400,13 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends to the user all the details about his user (get stored in user thread)
-	 * 
+	 *
 	 * @param username The username; inputed by the user
 	 * @param password The new password; inputed by the user
 	 * @param client   A user of one of the following types : Student / Teacher /
 	 *                 Principle
 	 * @throws IOException if an I/O error occur when sending the message.
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	public void getUserInfoByUsernameAndPassword(String username, String password, ConnectionToClient client)
@@ -442,7 +445,7 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Inserts a new question into the database
-	 * 
+	 *
 	 * @param subjectName   The study of subject of the question
 	 * @param questionBody  The body of the question
 	 * @param answer1       1st answer
@@ -454,7 +457,7 @@ public class DBconnector {
 	 * @param author        The full name of the teacher
 	 * @param client        The clienty
 	 * @throws IOException if an I/O error occur when sending the message.
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void insertNewQuestionToDB(String subjectName, String questionBody, String answer1, String answer2,
@@ -583,11 +586,11 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an ArrayList of subjects with existing bank
-	 * 
+	 *
 	 * @param subjectID The choosen subject
 	 * @param username  The username of the teacher
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void getSubjectWithExistingBanks(String username, ConnectionToClient client) throws IOException {
@@ -615,11 +618,11 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an ArrayList of questions under the same subject
-	 * 
+	 *
 	 * @param subjectID The choosen subject
 	 * @param username  The username of the teacher
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void getQuestionsBySubjectAndUsername(String subjectName, String username, ConnectionToClient client)
@@ -637,6 +640,38 @@ public class DBconnector {
 			}
 			rs.close();
 			client.sendToClient(questionList);
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	// ***********************************************************************************************
+	/**
+	 * Sends to the principle all the users' details for View Info option
+
+	 * @throws IOException if an I/O error occur when sending the message.
+	 *
+	 * @author Meitar El-Ezra
+	 */
+	public void getUsersTableViewInfo(ConnectionToClient client)
+			throws IOException {
+
+		int NumberOfColumns = 7;
+		List<User> userDetails = new ArrayList<>();
+		userDetails.add(new User("getUsersTableViewInfo", "", "", "", "", "", ""));
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT Username, Lastname, Firstname, Phonenumber, Email, AccountType From users");
+
+			while (rs.next()) {
+				//	public User(String username, String password, String firstname, String lastname, String phonenumber, String email, String string) {
+				userDetails.add(new User(rs.getString(1), "", rs.getString(3), rs.getString(2), rs.getString(4), rs.getString(5), rs.getString(6)));
+			}
+			client.sendToClient(userDetails);
+			rs.close();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
