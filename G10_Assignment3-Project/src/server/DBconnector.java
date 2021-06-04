@@ -85,7 +85,7 @@ public class DBconnector {
 				getCourseBySubject(request[1], request[2], client); // 1->subject
 				break;
 			case "GetQuestionsByBank":
-				//				getQuestionsByBank(request[1], client);
+				// getQuestionsByBank(request[1], client);
 				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client);
@@ -106,6 +106,12 @@ public class DBconnector {
 				break;
 			case "sbViewUsersBtn":
 				getUsersTableViewInfo(client);
+				break;
+			case "sbViewQuestionsBtn":
+				getQuestionsTableViewInfo(client);
+				break;
+			case "sbViewExamsBtn":
+				getExamsTableViewInfo(client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
@@ -129,7 +135,7 @@ public class DBconnector {
 	 */
 	private void getExamsQuestionsByExamID(String examID, ConnectionToClient client) throws IOException {
 		List<Question> questionsOfExam = new ArrayList<>();
-		questionsOfExam.add(new Question("getExamsQuestionsByExamID", "", "", "", "", "", ""));
+		questionsOfExam.add(new Question("getExamsQuestionsByExamID", "", "", "", "", "", "", ""));
 		// questionsOfExam.add("getSubjectsByUsername");
 		// get all the exam's questions into the arrayList according to the examID
 		try {
@@ -139,7 +145,7 @@ public class DBconnector {
 
 			while (rs.next()) {
 				questionsOfExam.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7), rs.getString(8)));
+						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
 			}
 			client.sendToClient(questionsOfExam);
 			rs.close();
@@ -231,51 +237,56 @@ public class DBconnector {
 		}
 	}
 
-	//	private void getQuestionsByBank(String username, ConnectionToClient client) throws IOException {
-	////		List<String> bankList2 = new ArrayList<>();
-	////		bankList2.add("getBanksByUsername");
-	//		List<Question> QuestionList = new ArrayList<>();
-	//		QuestionList.add(new Question("getQuestionsByBank", "", "", "", "", "", ""));
+	// private void getQuestionsByBank(String username, ConnectionToClient client)
+	// throws IOException {
+	//// List<String> bankList2 = new ArrayList<>();
+	//// bankList2.add("getBanksByUsername");
+	// List<Question> QuestionList = new ArrayList<>();
+	// QuestionList.add(new Question("getQuestionsByBank", "", "", "", "", "", ""));
 	//
-	//		try {
-	////			Statement stmt = con.createStatement();
-	////			ResultSet rs = stmt
-	////					.executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
+	// try {
+	//// Statement stmt = con.createStatement();
+	//// ResultSet rs = stmt
+	//// .executeQuery("SELECT B.SubjectID FROM cems.banks B " + "WHERE B.Username =
+	// \"" + username + "\";");
 	////
-	////			while (rs.next())
-	////				bankList2.add(rs.getString(1));
+	//// while (rs.next())
+	//// bankList2.add(rs.getString(1));
 	////
-	////			//
-	//			String TempBank = "01";
+	//// //
+	// String TempBank = "01";
 	//
 	//
-	//			ResultSet rs2 = stmt.executeQuery("SELECT Q.QuestionID FROM cems.question Q " + "WHERE Q.BankID = \"" + TempBank + "\";");
+	// ResultSet rs2 = stmt.executeQuery("SELECT Q.QuestionID FROM cems.question Q "
+	// + "WHERE Q.BankID = \"" + TempBank + "\";");
 	//
 	//
-	//			while (rs2.next()) {
-	////				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-	////						rs.getString(6), rs.getString(7), rs.getString(8)));
-	////			}
-	////			rs.close();
-	////			client.sendToClient(questionList);
+	// while (rs2.next()) {
+	//// questionList.add(new Question(rs.getString(1), rs.getString(3),
+	// rs.getString(4), rs.getString(5),
+	//// rs.getString(6), rs.getString(7), rs.getString(8)));
+	//// }
+	//// rs.close();
+	//// client.sendToClient(questionList);
 	//
 	//
-	//			while (rs2.next())
-	//				QuestionList.add(rs2.getString(1));
+	// while (rs2.next())
+	// QuestionList.add(rs2.getString(1));
 	//
-	//			client.sendToClient(QuestionList);
+	// client.sendToClient(QuestionList);
 	//
-	//			rs.close();
-	//			rs2.close();
+	// rs.close();
+	// rs2.close();
 	//
-	//		} catch (SQLException e) {
-	//			// * This method should always work!!! ; Add Missing information if it doesn't*
-	//			client.sendToClient("sql exception");
-	//			e.printStackTrace();
-	//			return;
-	//		}
+	// } catch (SQLException e) {
+	// // * This method should always work!!! ; Add Missing information if it
+	// doesn't*
+	// client.sendToClient("sql exception");
+	// e.printStackTrace();
+	// return;
+	// }
 	//
-	//	}
+	// }
 
 	///////////////////////////
 	private void getBanksByUsername(String username, ConnectionToClient client) throws IOException {
@@ -628,7 +639,7 @@ public class DBconnector {
 	private void getQuestionsBySubjectAndUsername(String subjectName, String username, ConnectionToClient client)
 			throws IOException {
 		List<Question> questionList = new ArrayList<>();
-		questionList.add(new Question("getQuestionsBySubjectAndUsername", "", "", "", "", "", ""));
+		questionList.add(new Question("getQuestionsBySubjectAndUsername", "", "", "", "", "", "", ""));
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Q.* FROM question Q WHERE Q.bankID = "
@@ -636,7 +647,7 @@ public class DBconnector {
 					+ "	(SELECT S.SubjectID FROM subjects S  WHERE S.SubjectName = \"" + subjectName + "\"))");
 			while (rs.next()) {
 				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7), rs.getString(8)));
+						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
 			}
 			rs.close();
 			client.sendToClient(questionList);
@@ -650,27 +661,73 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends to the principle all the users' details for View Info option
-
+	 *
 	 * @throws IOException if an I/O error occur when sending the message.
 	 *
 	 * @author Meitar El-Ezra
 	 */
-	public void getUsersTableViewInfo(ConnectionToClient client)
-			throws IOException {
+	public void getUsersTableViewInfo(ConnectionToClient client) throws IOException {
 
-		int NumberOfColumns = 7;
 		List<User> userDetails = new ArrayList<>();
 		userDetails.add(new User("getUsersTableViewInfo", "", "", "", "", "", ""));
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT Username, Lastname, Firstname, Phonenumber, Email, AccountType From users");
+			ResultSet rs = stmt
+					.executeQuery("SELECT Username, Lastname, Firstname, Phonenumber, Email, AccountType From users");
 
 			while (rs.next()) {
-				//	public User(String username, String password, String firstname, String lastname, String phonenumber, String email, String string) {
-				userDetails.add(new User(rs.getString(1), "", rs.getString(3), rs.getString(2), rs.getString(4), rs.getString(5), rs.getString(6)));
+				// public User(String username, String password, String firstname, String
+				// lastname, String phonenumber, String email, String string) {
+				userDetails.add(new User(rs.getString(1), "", rs.getString(3), rs.getString(2), rs.getString(4),
+						rs.getString(5), rs.getString(6)));
 			}
 			client.sendToClient(userDetails);
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void getQuestionsTableViewInfo(ConnectionToClient client) throws IOException {
+		List<Question> questionsDetails = new ArrayList<>();
+		questionsDetails.add(new Question("getQuestionsTableViewInfo", "", "", "", "", "", "", ""));
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * From question");
+
+			while (rs.next()) {
+				// public Question(String questionID, String questionBody, String answer1,
+				// String answer2, String answer3, String answer4, String correctAnswer,String
+				// author) {
+				questionsDetails.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+			}
+			client.sendToClient(questionsDetails);
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void getExamsTableViewInfo(ConnectionToClient client) throws IOException {
+		List<Exam> examsDetails = new ArrayList<>();
+		examsDetails.add(new Exam("getExamsTableViewInfo", "", "", "", "", "", "", ""));
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * From exam");
+
+			while (rs.next()) {
+				// public Exam(String examID, String username, String bankID, String courseID,
+				// String allocatedTime, String scores, String studentComments, String
+				// teacherComments) {
+				examsDetails.add(new Exam(rs.getString(1), rs.getString(2), "", rs.getString(4), rs.getString(5), "",
+						rs.getString(7), rs.getString(8)));
+			}
+			client.sendToClient(examsDetails);
 			rs.close();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
