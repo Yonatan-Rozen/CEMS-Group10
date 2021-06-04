@@ -5,6 +5,8 @@ import java.util.List;
 
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
+import gui.client.principle.PrincipleViewExamsInfoScreenController;
+import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
@@ -142,6 +144,9 @@ public class ChatClient extends AbstractClient {
 			case "getQuestionsBySubjectAndUsername":
 				TeacherChooseEditQuestionController.tceqController.setQuestionTableView(questionList);
 				return;
+			case "getQuestionsTableViewInfo":
+				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
+				return;
 			default:
 				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
 				break;
@@ -156,6 +161,18 @@ public class ChatClient extends AbstractClient {
 				return;
 			default:
 				ClientController.display(((User) obj).getUsername() + " is missing!");
+				break;
+			}
+		}
+		else if(obj instanceof Exam) { // List of exams
+			List<Exam> examsList = (List<Exam>) msg;
+			System.out.println(examsList);
+			switch (((Exam) obj).getExamID()) {
+			case "getExamsTableViewInfo":
+				PrincipleViewExamsInfoScreenController.pveisController.setExamsInfoList(examsList);
+				return;
+			default:
+				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
 			}
 		}
