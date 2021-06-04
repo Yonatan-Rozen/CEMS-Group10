@@ -1,5 +1,6 @@
 package gui.client.teacher;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,13 +13,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 import logic.question.Question;
 
 public class TeacherCreateExamController implements Initializable {
@@ -48,10 +56,10 @@ public class TeacherCreateExamController implements Initializable {
 	private TableColumn<Question, String> sbQuestionID1Tc;
 
 	@FXML
-	private TableColumn<?, ?> sbPreview1Tc;
+	private TableColumn<Question, Void> sbPreview1Tc;
 
 	@FXML
-	private TableColumn<?, ?> sbAddToExamTc;
+	private TableColumn<Question, Void> sbAddToExamTc;
 
 	@FXML
 	private TableView<Question> sbCurrentQuestionsTable;
@@ -60,10 +68,10 @@ public class TeacherCreateExamController implements Initializable {
 	private TableColumn<Question, String> sbQuestionID2Tc;
 
 	@FXML
-	private TableColumn<?, ?> sbPreview2Tc;
+	private TableColumn<Question, Void> sbPreview2Tc;
 
 	@FXML
-	private TableColumn<?, ?> sbRemoveFromExamTc;
+	private TableColumn<Question, Void> sbRemoveFromExamTc;
 
 	@FXML
 	private Button sbChangeBankBtn;
@@ -78,19 +86,20 @@ public class TeacherCreateExamController implements Initializable {
 	private static AnchorPane botPanelAp;
 	private static ChoiceBox<String> chooseCourseCb;
 	private static TableView<Question> availableQuestionsTv;
-	private static TableColumn<?, ?> questionID1Tc;
-	private static TableColumn<?, ?> preview1Tc;
-	private static TableColumn<?, ?> addToExamTc;
+	private static TableColumn<Question, String> questionID1Tc;
+	private static TableColumn<Question, Void> preview1Tc;
+	private static TableColumn<Question, Void> addToExamTc;
 	private static TableView<Question> currentQuestionsTable;
-	private static TableColumn<?, ?> questionID2Tc;
-	private static TableColumn<?, ?> preview2Tc;
-	private static TableColumn<?, ?> removeFromExamTc;
+	private static TableColumn<Question, String> questionID2Tc;
+	private static TableColumn<Question, Void> preview2Tc;
+	private static TableColumn<Question, Void> removeFromExamTc;
 	private static Button changeBankBtn;
 	private static Button continue2Btn;
 
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
+	private static List<Question> questionList;
 	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
@@ -122,9 +131,9 @@ public class TeacherCreateExamController implements Initializable {
 		changeBankBtn = sbChangeBankBtn;
 		continue2Btn = sbContinue2Btn;
 
-		if (bankList.size() == 1) // add banks only once
+		if (bankList.size() == 1) { // add banks only once
 			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() });
-
+		}
 	}
 
 	// ACTION METHODS *******************************************************
@@ -143,19 +152,58 @@ public class TeacherCreateExamController implements Initializable {
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
+		CourseList.clear();
+
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
-
-		chooseCourseCb.setValue("----------");
-		if (CourseList.size() == 1) // add course only once
-			ClientUI.chat.accept(
-					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
+//		chooseCourseCb.setValue("----------");
+		ClientUI.chat
+				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
 
 		chooseCourseCb.setItems(CourseList);
+		ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject" , "Math", "2" , ChatClient.user.getUsername() });
 
-		ClientUI.chat
-				.accept(new String[] { "GetQuestionsByBank", ChatClient.user.getUsername() });
+		// set up table view
+		questionID1Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+		questionID1Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			@Override
+			public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
+				final TableCell<Question, Void> cell = new TableCell<Question, Void>() {
+
+					private final Button btn = new Button();
+					private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						btn.setStyle("-fx-background-color: transparent;");
+						btn.setPrefSize(40, 20);
+						previewEye.setPreserveRatio(true);
+						previewEye.setFitHeight(40);
+						previewEye.setFitWidth(20);
+						btn.setGraphic(previewEye);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							btn.setOnAction(e -> {
+								Question question = getTableRow().getItem();
+								TeacherMenuBarController.mainPaneBp.setDisable(true);
+								TeacherMenuBarController.menuBarAp.setDisable(true);
+								chooseQuestionToPreview(question);
+							});
+							setGraphic(btn);
+						}
+
+					}
+
+				};
+				cell.setAlignment(Pos.CENTER);
+				return cell;
+			}
+		};
+		preview1Tc.setCellFactory(btnCellFactory);
 
 	}
 
@@ -187,10 +235,22 @@ public class TeacherCreateExamController implements Initializable {
 		CourseList.addAll(msg);
 		System.out.println("5=" + CourseList);
 	}
-	
-	public void setQuestion(List<String> msg) {
-		System.out.println(msg.toString());
 
+	public void chooseQuestionToPreview(Question question) {
+		try {
+			new TeacherPreviewQuestionController().start(new Stage());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(question);
+		TeacherPreviewQuestionController.tpqController.setQuestion(question);
+	}
+
+	public void setQuestionTableView(List<Question> questions) {
+		questionList = questions;
+		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
+		questionObservableList.addAll(questions);
+		availableQuestionsTv.setItems(questionObservableList);
 	}
 
 }
