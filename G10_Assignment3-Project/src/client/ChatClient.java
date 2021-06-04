@@ -126,9 +126,6 @@ public class ChatClient extends AbstractClient {
 			case "getCourseBySubject":
 				TeacherCreateExamController.tceController.setCourseChoiceBox(list);
 				return;
-//			case "getQuestiosByUsername":
-//				TeacherCreateExamController.tceController.setQuestion(list);
-//				return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
