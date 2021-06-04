@@ -8,21 +8,21 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewExamsInfoScreenController">
    <children>
-      <Label layoutX="370.0" layoutY="14.0" text="View info" textAlignment="CENTER" underline="true">
+      <Label layoutX="305.0" layoutY="14.0" text="View Exams' Info" textAlignment="CENTER" underline="true">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
       <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
          <children>
-            <TableView prefHeight="492.0" prefWidth="856.0">
+            <TableView fx:id="tblVExamsDetails" prefHeight="492.0" prefWidth="856.0">
                <columns>
-                  <TableColumn fx:id="sbExamsIDClm" prefWidth="93.0" text="Serail Number" />
-                  <TableColumn fx:id="sbUserNameClm" minWidth="0.0" prefWidth="185.0" text="Created By" />
-                  <TableColumn fx:id="sbCourseIDClm" prefWidth="127.0" text="Course Serial Number" />
-                  <TableColumn fx:id="sbAllocatedTimeClm" prefWidth="91.0" text="Allocated Time" />
-                  <TableColumn fx:id="sbStudentsCommentsClm" prefWidth="159.0" text="Comments for examinees" />
-                  <TableColumn fx:id="sbTeachersCommentsClm" prefWidth="200.0" text="Comments for examaning teacher" />
+                  <TableColumn fx:id="sbExamsIDClm" prefWidth="105.0" style="-fx-alignment: CENTER; -fx-font-weight: BOLD;" text="ID" />
+                  <TableColumn fx:id="sbUserNameClm" minWidth="0.0" prefWidth="173.0" style="-fx-alignment: CENTER;" text="Created By" />
+                  <TableColumn fx:id="sbCourseIDClm" prefWidth="95.0" style="-fx-alignment: CENTER;" text="Course ID" />
+                  <TableColumn fx:id="sbAllocatedTimeClm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Allocated Time" />
+                  <TableColumn fx:id="sbStudentsCommentsClm" prefWidth="192.0" style="-fx-alignment: CENTER;" text="Comments for examinees" />
+                  <TableColumn fx:id="sbTeachersCommentsClm" prefWidth="200.0" style="-fx-alignment: CENTER;" text="Comments for examaning teacher" />
                </columns>
             </TableView>
          </children>

@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logic.User;
 
-public class PrincipleViewUsersInfoScreenController implements Initializable{
+public class PrincipleViewUsersInfoScreenController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -63,9 +63,9 @@ public class PrincipleViewUsersInfoScreenController implements Initializable{
 
 	// EXTERNAL USE METHODS *************************************************
 
-	/*
-	 *
-	 * @param rowInExamTable
+	/**
+	 * This method puts the tuples of the users from the DB into the tableView
+	 * @param usersList List<User> of the users in the table from DB
 	 */
 	//public void addExamToObservableList(List<String> rowInUsersTable)
 	public void setUsersInfoList(List<User> usersList) {
@@ -75,15 +75,5 @@ public class PrincipleViewUsersInfoScreenController implements Initializable{
 				usersDetails.add(row);
 			tblE.setItems(usersDetails);
 		}
-
-
-		/**
-		 *
-		 * @param usersList
-		 */
-		//	public void setUsersInfoList(List<User> usersList) {
-		//		usersDetails=usersList;
-		//	}
-
 	}
 }

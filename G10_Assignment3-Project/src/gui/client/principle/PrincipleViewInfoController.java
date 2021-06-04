@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 public class PrincipleViewInfoController implements Initializable {
-
+	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Button sbViewUsersBtn;
 
@@ -20,6 +20,7 @@ public class PrincipleViewInfoController implements Initializable {
 	@FXML
 	private Button sbViewQuestionsBtn;
 
+	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button viewUsersBtn;
 	private static Button viewExamsBtn;
 	private static Button viewQuestionsBtn;
@@ -36,23 +37,22 @@ public class PrincipleViewInfoController implements Initializable {
 	void btnPressViewExams(ActionEvent event) throws Exception {
 		// TODO get exams data info from the database
 		System.out.println("PrincipleViewInfo::btnPressViewExams");
-
+		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewExamsInfoScreen"));
 	}
 
 	@FXML
 	void btnPressViewQuestions(ActionEvent event) {
-		// TODO get questions data info from the database
 		System.out.println("PrincipleViewInfo::btnPressViewQuestions");
+		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewQuestionsInfoScreen"));
 	}
+
 
 	@FXML
 	void btnPressViewUsers(ActionEvent event) throws Exception {
-		// TODO get users data info from the database
 		System.out.println("PrincipleViewInfo::btnPressViewUsers");
-		// take care of menu bar
 		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewUsersInfoScreen"));
-
-		//ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleViewUsersInfoScreen.fxml")));
-
 	}
+
+	// EXTERNAL USE METHODS *************************************************
+
 }
