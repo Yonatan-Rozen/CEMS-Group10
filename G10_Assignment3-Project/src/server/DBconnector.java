@@ -131,11 +131,12 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends the student the questions (an ArrayList) of the exam he is taking
-<<<<<<< HEAD
+	 * <<<<<<< HEAD
 	 * 
-=======
+	 * =======
 	 *
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * >>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * 
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
 	 * @throws IOException
@@ -167,12 +168,13 @@ public class DBconnector {
 	}
 
 	/**
-	 * Sends to the student the exam he is taking and the course of the exam
-<<<<<<< HEAD
+	 * Sends to the student the exam he is taking and the course of the exam <<<<<<<
+	 * HEAD
 	 * 
-=======
+	 * =======
 	 *
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * >>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * 
 	 * @param examID identifier for the exam, gotten from teacher
 	 * @param client the student
 	 * @throws IOException
@@ -256,8 +258,8 @@ public class DBconnector {
 		bankList.add("getBanksByUsername");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT B.BankID FROM cems.banks B " + "WHERE B.Username = \"" + username + "\";");
+			ResultSet rs = stmt.executeQuery("SELECT S.SubjectName FROM cems.subjects S, cems.subjects_of_teacher SOT "
+					+ "WHERE S.SubjectID = SOT.SubjectID AND SOT.UsernameT = \"" + username + "\";");
 
 			while (rs.next())
 				bankList.add(rs.getString(1));
@@ -274,9 +276,10 @@ public class DBconnector {
 	}
 
 	////////////////////////
-	private void getCourseBySubject(String bankid, String username, ConnectionToClient client) throws IOException {
+	private void getCourseBySubject(String SubjectName, String username, ConnectionToClient client) throws IOException {
 		List<String> CourseList = new ArrayList<>();
-		String fixBankID = bankid;
+		String fixBankID = SubjectName;
+
 		if (!fixBankID.startsWith("0"))
 			fixBankID = "0" + fixBankID;
 
@@ -284,8 +287,9 @@ public class DBconnector {
 		try {
 			// get courses with bankid
 			Statement stmt2 = con.createStatement();
-			ResultSet rs2 = stmt2
-					.executeQuery("SELECT courseName FROM cems.courses C " + "WHERE C.BankID = \"" + fixBankID + "\";");
+			ResultSet rs2 = stmt2.executeQuery(
+					"SELECT C.CourseName FROM cems.courses C WHERE SubjectID = (SELECT S.SubjectID FROM cems.subjects S WHERE SubjectName = \""
+							+ SubjectName + "\");");
 
 			while (rs2.next())
 				CourseList.add(rs2.getString(1));
@@ -432,12 +436,13 @@ public class DBconnector {
 	 * @param username      The username of the teacher
 	 * @param author        The full name of the teacher
 	 * @param client        The clienty
-	 * @throws IOException if an I/O error occur when sending the message.
-<<<<<<< HEAD
+	 * @throws IOException if an I/O error occur when sending the message. <<<<<<<
+	 *                     HEAD
 	 * 
-=======
+	 *                     =======
 	 *
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 *                     >>>>>>> branch 'master' of
+	 *                     https://github.com/DeathSource/Group10.git
 	 * @author Yonatan Rozen
 	 */
 	private void insertNewQuestionToDB(String subjectName, String questionBody, String answer1, String answer2,
@@ -565,20 +570,20 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-	 * Sends to the teacher an ArrayList of subjects with existing bank
-<<<<<<< HEAD
+	 * Sends to the teacher an ArrayList of subjects with existing bank <<<<<<< HEAD
 	 * 
 	 * @param subjectID The choosen subject
 	 * @param username  The username of the teacher
 	 * @throws IOException
 	 * 
-=======
+	 *                     =======
 	 *
 	 * @param subjectID The choosen subject
 	 * @param username  The username of the teacher
 	 * @throws IOException
 	 *
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 *                     >>>>>>> branch 'master' of
+	 *                     https://github.com/DeathSource/Group10.git
 	 * @author Yonatan Rozen
 	 */
 	private void getSubjectWithExistingBanks(String username, ConnectionToClient client) throws IOException {
@@ -606,8 +611,8 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an ArrayList of questions under the same subject
-
 	 *
+	 * 
 	 * @param subjectID The choosen subject
 	 * @param username  The username of the teacher
 	 * @throws IOException
@@ -620,7 +625,6 @@ public class DBconnector {
 		List<Question> questionList = new ArrayList<>();
 		System.out.println(num);
 
-		
 		if (num.equals("2")) {
 			questionList.add(new Question("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", ""));
 
@@ -630,9 +634,9 @@ public class DBconnector {
 		}
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Q.* FROM question Q WHERE Q.bankID = "
-					+ "	(SELECT B.BankID FROM banks B WHERE B.Username = \"" + username + "\" AND B.SubjectID = "
-					+ "	(SELECT S.SubjectID FROM subjects S  WHERE S.SubjectName = \"" + subjectName + "\"))");
+			ResultSet rs = stmt.executeQuery("SELECT Q.* FROM questions Q WHERE Q.bankID = "
+					+ "	(SELECT B.BankID FROM banks B WHERE B.UsernameT = \"" + username + "\" AND B.SubjectID = "
+					+ "	(SELECT S.SubjectID FROM subjects S WHERE S.SubjectName = \"" + subjectName + "\"))");
 			while (rs.next()) {
 				questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
 						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
@@ -647,12 +651,11 @@ public class DBconnector {
 		}
 	}
 
-
 	/**
 	 * Sends Arraylist of courses back to the teacher
 	 * 
-	 * @param userName 	user name of the teacher
-	 * @param client   	the teacher
+	 * @param userName user name of the teacher
+	 * @param client   the teacher
 	 * 
 	 * @author Danielle sarusi
 	 * @throws IOException
@@ -664,10 +667,10 @@ public class DBconnector {
 		// Returns the list of course names taught by the teacher
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT DISTINCT C.courseName FROM courses C," + " (SELECT E.CourseID, B.SubjectID FROM banks B, exam E"
-							+ "	WHERE B.username = \"" + userName + "\" AND B.BankID = E.BankID) as CS "
-							+ "WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.courseName FROM courses C,"
+					+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exam E" + "	WHERE B.username = \"" + userName
+					+ "\" AND B.BankID = E.BankID) as CS "
+					+ "WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 			while (rs.next()) {
 				coursesList.add(rs.getString(1));
 			}
@@ -679,52 +682,49 @@ public class DBconnector {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 * 
 	 * @param userName course name that the teacher teaches
-	 * @param userName 	user name of the teacher
+	 * @param userName user name of the teacher
 	 * @param client   the teacher
 	 * 
 	 * @author Danielle sarusi
 	 * @throws IOException
 	 */
 
-	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, ConnectionToClient client) throws IOException {
-		List <ExamResults> examResultsList= new ArrayList <> ();
-		examResultsList.add(new ExamResults ("getExamDetails", "0"));
-		String lastExamID="";
+	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName,
+			ConnectionToClient client) throws IOException {
+		List<ExamResults> examResultsList = new ArrayList<>();
+		examResultsList.add(new ExamResults("getExamDetails", "0"));
+		String lastExamID = "";
 		ExamResults er = null;
-		
+
 		try {
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(
-				"SELECT E.ExamID,grade "
-				+"FROM exam E, courses C , banks B, grades_of_exam GOE "
-				+"WHERE C.CourseID=E.CourseID and C.courseName= \"" + courseName +"\" "
-				+ "and B.Username= \""+ userName +"\"and B.BankID=E.BankID and GOE.ExamID=E.ExamID "
-				+ "ORDER BY E.ExamID");
-		while (rs.next()) {
-			if(!lastExamID.equals(rs.getString(1))) {
-				er=new ExamResults(rs.getString(1),rs.getString(2));
-				examResultsList.add(er);
-				lastExamID=rs.getString(1);
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT E.ExamID,grade "
+					+ "FROM exam E, courses C , banks B, grades_of_exam GOE "
+					+ "WHERE C.CourseID=E.CourseID and C.courseName= \"" + courseName + "\" " + "and B.Username= \""
+					+ userName + "\"and B.BankID=E.BankID and GOE.ExamID=E.ExamID " + "ORDER BY E.ExamID");
+			while (rs.next()) {
+				if (!lastExamID.equals(rs.getString(1))) {
+					er = new ExamResults(rs.getString(1), rs.getString(2));
+					examResultsList.add(er);
+					lastExamID = rs.getString(1);
+				} else
+					er.addGrade(rs.getString(2));
 			}
-			else
-				er.addGrade(rs.getString(2));	
+
+			rs.close();
+			client.sendToClient(examResultsList);
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
 		}
-		
-		rs.close();
-		client.sendToClient(examResultsList);
-	} catch (SQLException e) {
-		client.sendToClient("sql exception");
-		e.printStackTrace();
-		return;
+
 	}
-
-}
-
 
 	// ***********************************************************************************************
 	/**

@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,8 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -184,10 +181,10 @@ public class TeacherCreateExamController implements Initializable {
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
 						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
+						btn.setPrefSize(25, 15);
 						previewEye.setPreserveRatio(true);
-						previewEye.setFitHeight(40);
-						previewEye.setFitWidth(20);
+						previewEye.setFitHeight(15);
+						previewEye.setFitWidth(25);
 						btn.setGraphic(previewEye);
 						if (empty) {
 							setGraphic(null);
@@ -210,8 +207,9 @@ public class TeacherCreateExamController implements Initializable {
 
 		// set button cells for the 'Update Time' Column
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory2 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+
 			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
+			public TableCell<Question, Void> call(final TableColumn<Question, Void> param2) {
 				final TableCell<Question, Void> cell = new TableCell<Question, Void>() {
 
 					private final Button btn = new Button();
@@ -221,17 +219,17 @@ public class TeacherCreateExamController implements Initializable {
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
 						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
+						btn.setPrefSize(25, 15);
 						addicon.setPreserveRatio(true);
-						addicon.setFitHeight(40);
-						addicon.setFitWidth(20);
+						addicon.setFitHeight(15);
+						addicon.setFitWidth(25);
 						btn.setGraphic(addicon);
 						if (empty) {
 							setGraphic(null);
 						} else {
 							btn.setOnAction(e -> {
 								Question question = getTableRow().getItem();
-								addQuestionToExan(question);
+								// addQuestionToExam(question);
 //								// updateSelectedExamAllocatedTime(exam);
 							});
 							setGraphic(btn);
@@ -283,8 +281,8 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println(question);
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
-	
-	public void addQuestionToExan(Question question) {
+
+	public void addQuestionToExam(Question question) {
 		try {
 			new TeacherPreviewQuestionController().start(new Stage());
 		} catch (IOException e) {
