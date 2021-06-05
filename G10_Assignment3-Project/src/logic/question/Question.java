@@ -12,9 +12,9 @@ public class Question implements Serializable {
 	private String answer3;
 	private String answer4;
 	private String correctAnswer;
-	//private String author;
+	private String author;
 
-	public Question(String questionID, String questionBody, String answer1, String answer2, String answer3, String answer4, String correctAnswer) {
+	public Question(String questionID, String questionBody, String answer1, String answer2, String answer3, String answer4, String correctAnswer,String author) {
 		this.questionID = questionID;
 		//bankID="";
 		this.questionBody = questionBody;
@@ -23,7 +23,7 @@ public class Question implements Serializable {
 		this.answer3 = answer3;
 		this.answer4 = answer4;
 		this.correctAnswer = correctAnswer;
-		//author="";
+		this.author=author;
 	}
 
 	public String getQuestionID() {
@@ -69,8 +69,18 @@ public class Question implements Serializable {
 		this.correctAnswer = correctAnswer;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("%s %s %s %s %s %s %s ", questionID,questionBody,answer1,answer2,answer3,answer4,correctAnswer);
+		return String.format("%s %s %s %s %s %s %s %s", questionID,questionBody,answer1,answer2,answer3,answer4,correctAnswer,author);
 	}
+
+
 }
