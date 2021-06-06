@@ -79,7 +79,7 @@ public class ChatClient extends AbstractClient {
 			handleArraysMessagesFromServer((Object[]) msg);
 		else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		else if (msg instanceof ManualExam)
+		//else if (msg instanceof ManualExam)
 			//StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
 
 		// releases 'handleMessageFromClientUI' to continue getting new input
