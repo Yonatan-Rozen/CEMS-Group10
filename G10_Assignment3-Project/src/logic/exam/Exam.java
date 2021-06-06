@@ -2,71 +2,63 @@ package logic.exam;
 
 import java.io.Serializable;
 
-public class Exam implements Serializable{
+public class Exam implements Serializable,IExam{
 	private String examID;
-	private String username;
+	private String author;
 	private String bankID;
 	private String courseID;
 	private String allocatedTime;
-	//is it necessary?
-	private String scores;// " x|y|z "
-	private String studentComments;
-	private String teacherComments;
+	private String type;
 
-	public Exam(String examID, String username, String bankID, String courseID, String allocatedTime, String scores,
-			String studentComments, String teacherComments) {
+	public Exam(String examID, String bankID, String courseID, String allocatedTime, String author,String type) {
 		this.examID = examID;
-		this.username = username;
+		this.author = author;
+		this.type = type;
 		this.bankID = bankID;
 		this.courseID = courseID;
 		this.allocatedTime = allocatedTime;
-		this.scores = scores;
-		this.studentComments = studentComments;
-		this.teacherComments = teacherComments;
+
 	}
 
+	@Override
 	public String getAllocatedTime() {
 		return allocatedTime;
 	}
 
+	@Override
 	public void setAllocatedTime(String allocatedTime) {
 		this.allocatedTime = allocatedTime;
 	}
 
-	public String getScores() {
-		return scores;
-	}
-
-	public void setScores(String scores) {
-		this.scores = scores;
-	}
-
+	@Override
 	public String getExamID() {
 		return examID;
 	}
 
-	public String getTeacherComments() {
-		return teacherComments;
-	}
-
-	public String getStudentComments() {
-		return studentComments;
-	}
-
+	@Override
 	public String getCourseID() {
 		return courseID;
 	}
 
+	@Override
 	public String getBankID() {
 		return bankID;
 	}
 
-	public String getUsername() {
-		return username;
+	@Override
+	public String getAuthor() {
+		return author;
 	}
 
 	@Override
+	public String getType() {
+		return type;
+	}
+
+
+
+	@Override
 	public String toString() {
-		return String.format("%s %s %s %s %s %s %s %s",examID,username,bankID,courseID,allocatedTime,scores,studentComments,teacherComments);
+		return String.format("%s %s %s %s %s %s ",examID,bankID,courseID,allocatedTime,author,type);
 	}
 }
