@@ -97,6 +97,9 @@ public class ChatClient extends AbstractClient {
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
 			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+		} else if (msg.contains("CreateExam SUCCESS - ")) { // CreateExam Success
+			TeacherCreateExamController.tceController
+			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
 			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
