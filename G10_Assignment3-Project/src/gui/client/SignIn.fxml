@@ -19,7 +19,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="sbUsernameTf" layoutX="317.0" layoutY="139.0" maxWidth="100.0" prefHeight="29.0" prefWidth="98.0" promptText="000000000" />
+      <TextField fx:id="sbUsernameTf" layoutX="317.0" layoutY="139.0" maxWidth="100.0" onKeyPressed="#enterPressSignIn" prefHeight="29.0" prefWidth="98.0" promptText="000000000" />
+      <PasswordField fx:id="sbPasswordPf" layoutX="317.0" layoutY="175.0" onKeyPressed="#enterPressSignIn" prefHeight="29.0" prefWidth="98.0" promptText="*****************" />
       <Label alignment="CENTER_RIGHT" layoutX="174.0" layoutY="176.0" prefHeight="27.0" prefWidth="126.0" text="Password :" textAlignment="RIGHT">
          <font>
             <Font size="18.0" />
@@ -30,11 +31,5 @@
             <Font name="Calibri Bold" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="sbMessagelbl" layoutX="254.0" layoutY="209.0" text="All fields are requried!" textFill="RED" visible="false">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <PasswordField fx:id="sbPasswordPf" layoutX="317.0" layoutY="175.0" prefHeight="29.0" prefWidth="98.0" promptText="*****************" />
    </children>
 </AnchorPane>
