@@ -328,21 +328,9 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-
 		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam",chooseCourseCb.getValue(),examBankCb.getValue(),author, ChatClient.user.getUsername() });
-
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherExamType.fxml")));
 	}
-
-//	@FXML
-//	void btnPressPreviewExam1(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressPreviewExam1");
-//	}
-//
-//	@FXML
-//	void btnPressPreviewExam2(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
-//	}
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {

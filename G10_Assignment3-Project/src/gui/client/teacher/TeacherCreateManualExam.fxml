@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
+   <children>
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="397.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="sbContinue2Btn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbChangeBankBtn" layoutX="108.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE QUESTION BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Line endX="400.0" layoutX="398.0" layoutY="2.0" startX="-400.0" />
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="412.0" layoutY="16.0" prefWidth="150.0" />
+            <Label layoutX="263.0" layoutY="13.0" text="Choose course:" underline="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <Line endX="400.0" layoutX="404.0" layoutY="344.0" startX="-400.0" />
+            <Line endX="400.0" layoutX="398.0" layoutY="53.0" startX="-400.0" />
+            <Label layoutX="133.0" layoutY="100.0" text="Upload File:">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <TextField layoutX="133.0" layoutY="144.0" prefHeight="39.0" prefWidth="404.0" />
+            <Button layoutX="562.0" layoutY="144.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="82.0" text="Button" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="67.0" prefHeight="84.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="sbContinue1Btn" layoutX="652.5" layoutY="41.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Button>
+            <Label layoutX="222.0" layoutY="11.0" text="choose exam bank :" underline="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="sbExamBankCb" layoutX="417.0" layoutY="17.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
