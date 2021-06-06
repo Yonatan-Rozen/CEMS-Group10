@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewQuestionsInfoScreenController">
+   <children>
+      <Label layoutX="277.0" layoutY="14.0" text="View Questions' Info" textAlignment="CENTER" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
+         <children>
+            <TableView fx:id="tblVQuestionsDetails" prefHeight="492.0" prefWidth="856.0" style="-fx-font-size: 15;">
+               <columns>
+                  <TableColumn fx:id="sbQuestionIDClm" prefWidth="108.0" style="-fx-alignment: CENTER; -fx-font-weight: BOLD;" text="ID" />
+                  <TableColumn fx:id="sbQuestionsBodyClm" minWidth="0.0" prefWidth="154.0" style="-fx-alignment: CENTER;" text="Body" />
+                  <TableColumn fx:id="sbAns1Clm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="A" />
+                  <TableColumn fx:id="sbAns2Clm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="B" />
+                  <TableColumn fx:id="sbAns3Clm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="C" />
+                  <TableColumn fx:id="sbAns4Clm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="D" />
+                  <TableColumn fx:id="sbCorrectAnswerClm" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Answer" />
+                  <TableColumn fx:id="sbAuthorClm" maxWidth="306.0" prefWidth="177.0" style="-fx-alignment: CENTER;" text="Created By" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

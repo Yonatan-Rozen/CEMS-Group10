@@ -6,14 +6,19 @@ import java.util.List;
 import common.CommonMethodsHandler;
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
+import gui.client.principle.PrincipleViewExamsInfoScreenController;
+import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
+import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
+import gui.client.teacher.TeacherReportsController;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.Exam;
+import logic.exam.ExamResults;
 import logic.question.Question;
 import ocsf.client.AbstractClient;
 
@@ -33,6 +38,7 @@ public class ChatClient extends AbstractClient {
 	/**
 	 * Constructs an instance of the chat client.
 	 * 
+	 *
 	 * @param host     The server to connect to.
 	 * @param port     The port number to connect on.
 	 * @param clientUI The interface type variable.
@@ -47,7 +53,7 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * This method handles all data that comes in from the server.
-	 * 
+	 *
 	 * @param msg The message from the server.
 	 */
 	@Override
@@ -124,7 +130,7 @@ public class ChatClient extends AbstractClient {
 		
 		else if (msg.contains("courseName:")) // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
-		
+
 		else if (msg.contains("CreateQuestion SUCCESS - ")) // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
 		
@@ -152,20 +158,21 @@ public class ChatClient extends AbstractClient {
 			case "getSubjectWithExistingBanks":
 				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
+			case "getCoursesByUserName":
+				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 			case "getBanksByUsername":
 				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
 				return;
 			case "getCourseBySubject":
 				TeacherCreateExamController.tceController.setCourseChoiceBox(stringList);
 				return;
-			case "getQuestiosByUsername":
-				TeacherCreateExamController.tceController.setQuestion(stringList);
-				return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
 			}
-		} else if (obj instanceof Question) { // list of questions
+
+		}
+		else if (obj instanceof Question) { // list of questions
 			List<Question> questionList = (List<Question>) msg;
 			System.out.println(questionList);
 			switch (((Question) obj).getQuestionID()) {
@@ -175,8 +182,49 @@ public class ChatClient extends AbstractClient {
 			case "getQuestionsBySubjectAndUsername":
 				TeacherChooseEditQuestionController.tceqController.setQuestionTableView(questionList);
 				return;
+			case "getQuestionsBySubjectAndUsername2":
+				TeacherCreateExamController.tceController.setQuestionTableView(questionList);
+				return;
+			case "getQuestionsTableViewInfo":
+				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
+				return;
 			default:
 				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
+				break;
+			}
+		} else if (obj instanceof ExamResults) {
+			List<ExamResults> examResultsList = (List<ExamResults>) msg;
+			System.out.println(examResultsList);
+			switch (((ExamResults) obj).getExamID()) {
+			case "getExamDetails":
+				TeacherReportsController.trController.setExamResultsDetails(examResultsList);
+				break;
+			default:
+				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
+				break;
+			}
+		}
+		else if(obj instanceof User) { // List of users
+			List<User> usersList = (List<User>) msg;
+			System.out.println(usersList);
+			switch (((User) obj).getUsername()) {
+			case "getUsersTableViewInfo":
+				PrincipleViewUsersInfoScreenController.pvuisController.setUsersInfoList(usersList);
+				return;
+			default:
+				ClientController.display(((User) obj).getUsername() + " is missing!");
+				break;
+			}
+		}
+		else if(obj instanceof Exam) { // List of exams
+			List<Exam> examsList = (List<Exam>) msg;
+			System.out.println(examsList);
+			switch (((Exam) obj).getExamID()) {
+			case "getExamsTableViewInfo":
+				PrincipleViewExamsInfoScreenController.pveisController.setExamsInfoList(examsList);
+				return;
+			default:
+				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
 			}
 		}
@@ -184,7 +232,7 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * Handles with messages that the client sends to the server
-	 * 
+
 	 * @param obj The message to send
 	 */
 	public void handleMessageFromClientUI(Object obj) {

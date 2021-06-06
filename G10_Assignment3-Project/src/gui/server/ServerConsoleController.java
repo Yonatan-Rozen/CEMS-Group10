@@ -67,6 +67,8 @@ public class ServerConsoleController implements Initializable {
 		portTf = sbPortTf;
 		startServerBtn = sbStartServerBtn;
 		consoleTa = sbConsoleTa;
+		btnPressStartServer(new ActionEvent()); // Automatic login
+
 	}
 
 	// ACTION METHOD ********************************************************
@@ -88,7 +90,7 @@ public class ServerConsoleController implements Initializable {
 	private int getPort() throws NumberFormatException {
 		return Integer.parseInt(portTf.getText());
 	}
-	
+
 	public void setDisable(boolean value) {
 		portTf.setDisable(value);
 		startServerBtn.setDisable(value);

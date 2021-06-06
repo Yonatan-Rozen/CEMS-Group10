@@ -138,7 +138,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		topPanelAp.setDisable(true);
 		botPanelAp.setDisable(false);
 		//--------------------------------
-		ClientUI.chat.accept(new String[] {"btnPressShowQuestionsBySubject",questionSubjectCb.getValue(), ChatClient.user.getUsername()});
+		ClientUI.chat.accept(new String[] {"btnPressShowQuestionsBySubject",questionSubjectCb.getValue(),"1", ChatClient.user.getUsername()});
 		// set up table view
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory
