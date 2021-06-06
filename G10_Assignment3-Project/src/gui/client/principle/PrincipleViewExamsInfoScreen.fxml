@@ -15,14 +15,15 @@
       </Label>
       <AnchorPane layoutX="22.0" layoutY="94.0" prefHeight="492.0" prefWidth="856.0">
          <children>
-            <TableView fx:id="tblVExamsDetails" prefHeight="492.0" prefWidth="856.0">
+            <TableView fx:id="tblVExamsDetails" prefHeight="492.0" prefWidth="856.0" style="-fx-font-size: 10;">
                <columns>
-                  <TableColumn fx:id="sbExamsIDClm" prefWidth="105.0" style="-fx-alignment: CENTER; -fx-font-weight: BOLD;" text="ID" />
-                  <TableColumn fx:id="sbUserNameClm" minWidth="0.0" prefWidth="173.0" style="-fx-alignment: CENTER;" text="Created By" />
-                  <TableColumn fx:id="sbCourseIDClm" prefWidth="95.0" style="-fx-alignment: CENTER;" text="Course ID" />
-                  <TableColumn fx:id="sbAllocatedTimeClm" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Allocated Time" />
-                  <TableColumn fx:id="sbStudentsCommentsClm" prefWidth="192.0" style="-fx-alignment: CENTER;" text="Comments for examinees" />
+                  <TableColumn fx:id="sbExamsIDClm" prefWidth="83.0" style="-fx-alignment: CENTER; -fx-font-weight: BOLD;" text="ID" />
+                  <TableColumn fx:id="sbUserNameClm" minWidth="0.0" prefWidth="129.0" style="-fx-alignment: CENTER;" text="Created By" />
+                  <TableColumn fx:id="sbCourseIDClm" prefWidth="78.0" style="-fx-alignment: CENTER;" text="Course ID" />
+                  <TableColumn fx:id="sbAllocatedTimeClm" prefWidth="76.0" style="-fx-alignment: CENTER;" text="Allocated Time" />
+                  <TableColumn fx:id="sbStudentsCommentsClm" prefWidth="200.0" style="-fx-alignment: CENTER;" text="Comments for examinees" />
                   <TableColumn fx:id="sbTeachersCommentsClm" prefWidth="200.0" style="-fx-alignment: CENTER;" text="Comments for examaning teacher" />
+                  <TableColumn fx:id="sbExamTypeClm" prefWidth="87.0" text="Type" />
                </columns>
             </TableView>
          </children>
