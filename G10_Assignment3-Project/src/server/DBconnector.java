@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import logic.User;
@@ -383,20 +384,18 @@ public class DBconnector {
 	////////////////////////
 	private void getCourseBySubject(String SubjectName, String username, ConnectionToClient client) throws IOException {
 		List<String> CourseList = new ArrayList<>();
-		String fixBankID = SubjectName;
-
-		if (!fixBankID.startsWith("0"))
-			fixBankID = "0" + fixBankID;
-
 		CourseList.add("getCourseBySubject");
 		try {
 			// get courses with bankid
 			Statement stmt2 = con.createStatement();
-			ResultSet rs2 = stmt2.executeQuery( "SELECT C.CourseName FROM cems.courses C WHERE SubjectID = "
-					+ "(SELECT S.SubjectID FROM cems.subjects S WHERE SubjectName = '"+ SubjectName + "'");
+			ResultSet rs2 = stmt2.executeQuery(
+					"SELECT C.CourseName FROM cems.courses C WHERE SubjectID = (SELECT S.SubjectID FROM cems.subjects S WHERE SubjectName = \""
+							+ SubjectName + "\");");
+			
 
 			while (rs2.next())
 				CourseList.add(rs2.getString(1));
+
 			client.sendToClient(CourseList);
 
 			// rs.close();
@@ -712,7 +711,6 @@ public class DBconnector {
 	private void getQuestionsBySubjectAndUsername(String subjectName, String num, String username,
 			ConnectionToClient client) throws IOException { // num for using in create exam
 		List<Question> questionList = new ArrayList<>();
-		System.out.println(num);
 
 		if (num.equals("2")) {
 			questionList.add(new Question("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", ""));
@@ -731,7 +729,6 @@ public class DBconnector {
 						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
 			}
 			rs.close();
-			System.out.println("checkList = " + questionList);
 			client.sendToClient(questionList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");

@@ -353,7 +353,7 @@ public class TeacherCreateExamController implements Initializable {
 	public void setCourseChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		CourseList.addAll(msg);
-		System.out.println("5=" + CourseList);
+		System.out.println(CourseList);
 	}
 
 	public void chooseQuestionToPreview(Question question) {
