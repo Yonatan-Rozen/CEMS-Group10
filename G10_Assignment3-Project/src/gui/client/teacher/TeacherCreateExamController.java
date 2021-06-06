@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -97,6 +98,7 @@ public class TeacherCreateExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<Question> questionList;
+	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
@@ -150,6 +152,8 @@ public class TeacherCreateExamController implements Initializable {
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		CourseList.clear(); // clear list
+		
+		
 
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 		sbTopPanelAp.setDisable(true);
@@ -160,9 +164,8 @@ public class TeacherCreateExamController implements Initializable {
 
 		chooseCourseCb.setItems(CourseList);
 
-		// ex: math
-		ClientUI.chat
-				.accept(new String[] { "btnPressShowQuestionsBySubject", "Math", "2", ChatClient.user.getUsername() });
+		ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2",
+				ChatClient.user.getUsername() });
 
 		// set up table view
 		questionID1Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
@@ -172,7 +175,7 @@ public class TeacherCreateExamController implements Initializable {
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 			@Override
 			public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
-				final TableCell<Question, Void> cell = new TableCell<Question, Void>() {
+				final TableCell<Question, Void> cell1 = new TableCell<Question, Void>() {
 
 					private final Button btn = new Button();
 					private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
@@ -181,10 +184,10 @@ public class TeacherCreateExamController implements Initializable {
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
 						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(25, 15);
+						btn.setPrefSize(40, 20);
 						previewEye.setPreserveRatio(true);
-						previewEye.setFitHeight(15);
-						previewEye.setFitWidth(25);
+						previewEye.setFitHeight(20);
+						previewEye.setFitWidth(40);
 						btn.setGraphic(previewEye);
 						if (empty) {
 							setGraphic(null);
@@ -199,8 +202,8 @@ public class TeacherCreateExamController implements Initializable {
 						}
 					}
 				};
-				cell.setAlignment(Pos.CENTER);
-				return cell;
+				cell1.setAlignment(Pos.CENTER);
+				return cell1;
 			}
 		};
 		preview1Tc.setCellFactory(btnCellFactory);
@@ -210,7 +213,7 @@ public class TeacherCreateExamController implements Initializable {
 
 			@Override
 			public TableCell<Question, Void> call(final TableColumn<Question, Void> param2) {
-				final TableCell<Question, Void> cell = new TableCell<Question, Void>() {
+				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
 
 					private final Button btn = new Button();
 					private final ImageView addicon = new ImageView(new Image("/icon_add.png"));
@@ -219,46 +222,115 @@ public class TeacherCreateExamController implements Initializable {
 					public void updateItem(Void item, boolean empty) {
 						super.updateItem(item, empty);
 						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(25, 15);
+						btn.setPrefSize(40, 20);
 						addicon.setPreserveRatio(true);
-						addicon.setFitHeight(15);
-						addicon.setFitWidth(25);
+						addicon.setFitHeight(20);
+						addicon.setFitWidth(40);
 						btn.setGraphic(addicon);
 						if (empty) {
 							setGraphic(null);
 						} else {
 							btn.setOnAction(e -> {
 								Question question = getTableRow().getItem();
-								// addQuestionToExam(question);
-//								// updateSelectedExamAllocatedTime(exam);
+								addQuestionToCurrentQuestions(question);
 							});
 							setGraphic(btn);
 						}
 					}
 				};
-				cell.setAlignment(Pos.CENTER);
-				return cell;
+				cell2.setAlignment(Pos.CENTER);
+				return cell2;
 			}
 		};
 		addToExamTc.setCellFactory(btnCellFactory2);
+
+		
+		// set up current table view
+		questionID2Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+		questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+
+		// set preview col
+		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory3 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			@Override
+			public TableCell<Question, Void> call(final TableColumn<Question, Void> param3) {
+				final TableCell<Question, Void> cell3 = new TableCell<Question, Void>() {
+
+					private final Button btn = new Button();
+					private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						btn.setStyle("-fx-background-color: transparent;");
+						btn.setPrefSize(40, 20);
+						previewEye.setPreserveRatio(true);
+						previewEye.setFitHeight(20);
+						previewEye.setFitWidth(40);
+						btn.setGraphic(previewEye);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							btn.setOnAction(e -> {
+								Question question = getTableRow().getItem();
+								TeacherMenuBarController.mainPaneBp.setDisable(true);
+								TeacherMenuBarController.menuBarAp.setDisable(true);
+								chooseQuestionToPreview(question);
+							});
+							setGraphic(btn);
+						}
+					}
+				};
+				cell3.setAlignment(Pos.CENTER);
+				return cell3;
+			}
+		};
+		preview2Tc.setCellFactory(btnCellFactory3);
+
+		// set button cells for the 'Update Time' Column
+		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory4 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+
+			@Override
+			public TableCell<Question, Void> call(final TableColumn<Question, Void> param4) {
+				final TableCell<Question, Void> cell4 = new TableCell<Question, Void>() {
+
+					private final Button btn = new Button();
+					private final ImageView removeicon = new ImageView(new Image("/icon_remove.png"));
+
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						btn.setStyle("-fx-background-color: transparent;");
+						btn.setPrefSize(40, 20);
+						removeicon.setPreserveRatio(true);
+						removeicon.setFitHeight(20);
+						removeicon.setFitWidth(40);
+						btn.setGraphic(removeicon);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							btn.setOnAction(e -> {
+								Question question = getTableRow().getItem();
+								removeQuestionFromCurrentQuestions(question);
+							});
+							setGraphic(btn);
+						}
+					}
+				};
+				cell4.setAlignment(Pos.CENTER);
+				return cell4;
+			}
+		};
+		sbRemoveFromExamTc.setCellFactory(btnCellFactory4);
 	}
 
 	@FXML
-	void btnPressContinue2(ActionEvent event) {
+	void btnPressContinue2(ActionEvent event) throws Exception {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
+		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		// create new exam with list of question
+		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam",chooseCourseCb.getValue(),examBankCb.getValue(),author, ChatClient.user.getUsername() });
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherExamType.fxml")));
 	}
-
-//	@FXML
-//	void btnPressPreviewExam1(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressPreviewExam1");
-//	}
-//
-//	@FXML
-//	void btnPressPreviewExam2(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressPreviewExam2");
-//	}
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
@@ -269,7 +341,7 @@ public class TeacherCreateExamController implements Initializable {
 	public void setCourseChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		CourseList.addAll(msg);
-		System.out.println("5=" + CourseList);
+		System.out.println(CourseList);
 	}
 
 	public void chooseQuestionToPreview(Question question) {
@@ -282,21 +354,25 @@ public class TeacherCreateExamController implements Initializable {
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
 
-	public void addQuestionToExam(Question question) {
-		try {
-			new TeacherPreviewQuestionController().start(new Stage());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(question);
-		TeacherPreviewQuestionController.tpqController.setQuestion(question);
+	public void addQuestionToCurrentQuestions(Question question) {
+		questionObservableList.add(question);
+		currentQuestionsTable.setItems(questionObservableList);
 	}
-
+	
+	public void removeQuestionFromCurrentQuestions(Question question) {
+		questionObservableList.remove(question);
+		currentQuestionsTable.setItems(questionObservableList);
+	}
+	
 	public void setQuestionTableView(List<Question> questions) {
 		questionList = questions;
 		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 		questionObservableList.addAll(questions);
 		availableQuestionsTv.setItems(questionObservableList);
+	}
+	
+	public void successfulCreateExam(String Msg) {
+		msg = Msg;
 	}
 
 }

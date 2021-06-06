@@ -79,10 +79,8 @@ public class DBconnector {
 	 * @throws IOException if an I/O error occur when sending the message.
 	 */
 	public void parseData(Object data, ConnectionToClient client) throws IOException {
-		// return simple messages
 		if (data instanceof String)
 			client.sendToClient(data);
-
 		// parse clients requests
 		else if (data instanceof String[]) {
 
@@ -97,16 +95,17 @@ public class DBconnector {
 				break;
 			case "btnPressConfirmChange": // setNewPasswordByusername(username, actaulPass, tryPass, newPass, reNewPass,
 				// client)
+
 				setNewPasswordByusername(request[1], request[2], request[3], request[4], request[5], client);
 				break;
-			case "GetSubjects": // getSubjectsByUsername(username, client)
+			case "GetSubjects":
 				getSubjectsByUsername(request[1], client);
 				break;
-			case "GetBanks": // getBanksByUsername(username, client)
+			case "GetBanks":
 				getBanksByUsername(request[1], client);
 				break;
-			case "GetCourseBySubject": // getCourseBySubject(subjectid, username, client)
-				getCourseBySubject(request[1], request[2], client);
+			case "GetCourseBySubject":
+				getCourseBySubject(request[1], request[2], client); // 1->subject
 				break;
 			case "btnPressStartExam":
 				getExamByExamID(request[1], client); // getExamByExamID(examID, client)
@@ -120,10 +119,13 @@ public class DBconnector {
 			case "btnPressShowQuestionsBySubject": // getQuestionsBySubjectAndUsername(subjectName, username, client)
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
-			case "GetExistingBanks": // getSubjectWithExistingBanks(username, client)
+			case "btnPressContinue2CreateExam":
+				insertNewExamToDB(request[1], request[2], request[3], client);
+				break;
+			case "GetExistingBanks":
 				getSubjectWithExistingBanks(request[1], client);
 				break;
-			case "lnkPressDownloadExamFile": // getManualExamFileByExamID(examID, client)
+			case "lnkPressDownloadExamFile":
 				getManualExamFileByExamID(request[1], client);
 				break;
 			case "CheckQuestionExistsInExam": // checkQuestionExistsInExam(questionID, client)
@@ -169,9 +171,69 @@ public class DBconnector {
 		}
 	}
 
+	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
+			throws IOException {
+
+		// get CourseID by CourseName
+		String CourseID = null;
+		String SubjectID = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = \"" + CourseName + "\"");
+			if (rs.next()) {
+				CourseID = rs.getString(1);
+				SubjectID = rs.getString(2);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		// get bankID by subjectid
+		String BankID = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT BankID From banks WHERE SubjectID = \"" + SubjectID + "\"");
+			if (rs.next())
+				BankID = rs.getString(1);
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		String type ="C"; //computer - M-> Manually
+		String examID = "01"; //need to generate numbers
+		// insert new exam into exams and generate a new 'examID'
+		try {
+			PreparedStatement stmt = con
+					.prepareStatement("INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type)" + "VALUES (?,?,?,?,?,?)");
+			stmt.setString(1, examID);
+			stmt.setString(2, BankID);
+			stmt.setString(3, CourseID);
+			stmt.setString(4, "000"); //not null
+			stmt.setString(5, author);
+			stmt.setString(6, type);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		client.sendToClient("CreateExam SUCCESS - Exam "+String.format("#%s",examID)+" was created successfully!");
+	}
+
+
+
 	// ***********************************************************************************************
 	// QUERY METHODS
 	// ***********************************************************************************************
+
 
 	/**
 	 * Disconnect the current client from the server
@@ -338,24 +400,17 @@ public class DBconnector {
 	////////////////////////
 	private void getCourseBySubject(String SubjectName, String username, ConnectionToClient client) throws IOException {
 		List<String> CourseList = new ArrayList<>();
-		String fixBankID = SubjectName;
-
-		if (!fixBankID.startsWith("0"))
-			fixBankID = "0" + fixBankID;
-
 		CourseList.add("getCourseBySubject");
 		try {
 			// get courses with bankid
 			Statement stmt2 = con.createStatement();
-			ResultSet rs2 = stmt2.executeQuery("SELECT C.CourseName FROM cems.courses C WHERE SubjectID = "
-					+ "(SELECT S.SubjectID FROM cems.subjects S WHERE SubjectName = '" + SubjectName + "'");
+			ResultSet rs = stmt2.executeQuery("SELECT C.CourseName FROM courses C WHERE SubjectID = "
+					+ "(SELECT S.SubjectID FROM subjects S WHERE SubjectName = '" + SubjectName + "'");
+			while (rs.next())
+				CourseList.add(rs.getString(1));
 
-			while (rs2.next())
-				CourseList.add(rs2.getString(1));
 			client.sendToClient(CourseList);
-
-			// rs.close();
-			rs2.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
@@ -673,7 +728,6 @@ public class DBconnector {
 	private void getQuestionsBySubjectAndUsername(String subjectName, String num, String username,
 			ConnectionToClient client) throws IOException { // num for using in create exam
 		List<Question> questionList = new ArrayList<>();
-		System.out.println(num);
 
 		if (num.equals("2")) {
 			questionList.add(new Question("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", ""));
@@ -692,7 +746,6 @@ public class DBconnector {
 						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
 			}
 			rs.close();
-			System.out.println("checkList = " + questionList);
 			client.sendToClient(questionList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -875,16 +928,16 @@ public class DBconnector {
 		// Returns the list of course names taught by the teacher
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.courseName FROM courses C,"
-					+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E" + "	WHERE B.username = \"" + userName
-					+ "\" AND B.BankID = E.BankID) as CS "
-					+ "WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
-
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
+					+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E WHERE B.UsernameT = '"
+					+ userName +"' AND B.BankID = E.BankID) as CS "
+					+" WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 			while (rs.next()) {
 				coursesList.add(rs.getString(1));
 			}
 			rs.close();
 			client.sendToClient(coursesList);
+
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
@@ -912,10 +965,11 @@ public class DBconnector {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.ExamID,grade "
-					+ "FROM exams E, courses C , banks B, grades_of_exam GOE "
-					+ "WHERE C.CourseID=E.CourseID and C.courseName= \"" + courseName + "\" " + "and B.Username= \""
-					+ userName + "\"and B.BankID=E.BankID and GOE.ExamID=E.ExamID " + "ORDER BY E.ExamID");
+			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+					+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
+					+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'"
+					+ " and B.UsernameT= '" + userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID "
+					+ " ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
