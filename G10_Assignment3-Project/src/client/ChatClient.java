@@ -169,6 +169,7 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(list);
+				return;
 			case "getBanksByUsername":
 				TeacherCreateExamController.tceController.setBankChoiceBox(list);
 				return;
