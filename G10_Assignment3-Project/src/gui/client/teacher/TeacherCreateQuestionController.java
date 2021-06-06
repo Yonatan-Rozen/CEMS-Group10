@@ -14,9 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -25,7 +23,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.StageStyle;
 
 public class TeacherCreateQuestionController implements Initializable {
 	public static TeacherCreateQuestionController tcqController;
@@ -97,6 +94,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	public static ObservableList<String> subjectList = FXCollections.observableArrayList("----------");
 	private static RadioButton selected;
 	private static String msg;
+	
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -146,7 +144,6 @@ public class TeacherCreateQuestionController implements Initializable {
 	}
 
 	// ACTION METHODS *******************************************************
-
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherCreateQuestion::btnPressCreateQuestion");
@@ -191,53 +188,34 @@ public class TeacherCreateQuestionController implements Initializable {
 		System.out.println("TeacherCreateQuestion::btnPressSaveQuestion");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 		
-		switch (selected.getText()) {
-		case "a":
-			correctAnswer = "1";
-			break;
-		case "b":
-			correctAnswer = "2";
-			break;
-		case "c":
-			correctAnswer = "3";
-			break;
-		case "d":
-		default:
-			correctAnswer = "4";
-			break;
-		}
+		correctAnswer = CommonMethodsHandler.getInstance().getSelectedAnswer(selected);
 		
 		if (questionBodyTa.getText().equals("") || answer1Ta.getText().equals("") || 
 				answer2Ta.getText().equals("") || answer3Ta.getText().equals("") || answer4Ta.getText().equals("")) {
-			Alert alert = new Alert(AlertType.ERROR);
-	    	alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("Error message");
-			alert.setHeaderText(null);
-			alert.setContentText("All fields are required!");
-			alert.showAndWait();
+			
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+					"Missing questions","All fields are required!").showAndWait();
 		}
 		else {
 			ClientUI.chat.accept(new String[] {"btnPressSaveQuestion", questionSubjectCb.getValue(), questionBodyTa.getText(), answer1Ta.getText(), 
 				answer2Ta.getText(), answer3Ta.getText(), answer4Ta.getText(), correctAnswer, ChatClient.user.getUsername(), author});
 		
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-	    	alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("Successful question creation");
-			alert.setHeaderText(msg);
-			alert.setContentText("would you like to create another question?");
-			
-			ButtonType buttonYes = new ButtonType("Yes");
-			ButtonType buttonNo = new ButtonType("No");
-			alert.getButtonTypes().setAll(buttonYes, buttonNo);
-			Optional<ButtonType> result = alert.showAndWait();
+			ButtonType buttonYes = new ButtonType("Yes - Same Subject");
+			ButtonType buttonNo = new ButtonType("No - Change Subject");
+			Optional<ButtonType> result = CommonMethodsHandler.getInstance().getNewAlert(AlertType.CONFIRMATION, 
+					"Successful question creation",msg,"Create another question under the same subject?",buttonYes,buttonNo).showAndWait();
 			if (result.get() == buttonYes){
-			    // ... user chose "Yes"
 				System.out.println("alert::Yes");
-				TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
+				questionBodyTa.setText("");
+				markAnswer1Rb.setSelected(true);
+				selected = markAnswer1Rb;
+				answer1Ta.setText("");
+				answer2Ta.setText("");
+				answer3Ta.setText("");
+				answer4Ta.setText("");
 			} else if (result.get() == buttonNo) {
-			    // ... user chose "No & go to main menu"
-				System.out.println("alert::No & go to main menu");
-				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+				System.out.println("alert::No");
+				TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
 			}
 		}
 	}
