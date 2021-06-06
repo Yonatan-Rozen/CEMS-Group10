@@ -2,9 +2,6 @@ package server;
 
 import java.io.IOException;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.StageStyle;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -28,6 +25,7 @@ public class EchoServer extends AbstractServer{
 		try {
 			DBconnector.getInstance().parseData(msg, client);
 		} catch (IOException e) {
+			e.printStackTrace();
 			ServerUI.serverConsole.println("ERROR - Could not answer client");
 		}
 	}
