@@ -905,10 +905,10 @@ public class DBconnector {
 		// Returns the list of course names taught by the teacher
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.courseName FROM courses C,"
-					+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exam E" + "	WHERE B.username = \"" + userName
-					+ "\" AND B.BankID = E.BankID) as CS "
-					+ "WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
+					+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E" + "	WHERE B.UsernameT = '" + userName 
+					+ "AND B.BankID = E.BankID) as CS "
+					+"' WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 			while (rs.next()) {
 				coursesList.add(rs.getString(1));
 			}
@@ -941,10 +941,11 @@ public class DBconnector {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.ExamID,grade "
-					+ "FROM exam E, courses C , banks B, grades_of_exam GOE "
-					+ "WHERE C.CourseID=E.CourseID and C.courseName= \"" + courseName + "\" " + "and B.Username= \""
-					+ userName + "\"and B.BankID=E.BankID and GOE.ExamID=E.ExamID " + "ORDER BY E.ExamID");
+			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+					+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
+					+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'"
+					+ "and B.UsernameT= '" + userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID "
+					+ "ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
