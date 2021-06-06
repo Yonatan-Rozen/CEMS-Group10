@@ -10,13 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import server.EchoServer;
 import server.ServerUI;
 
 public class ServerConsoleController implements Initializable {
@@ -51,14 +50,12 @@ public class ServerConsoleController implements Initializable {
 		mainStage.setScene(scene);
 		mainStage.setResizable(false);
 		mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
-		mainStage.setOnCloseRequest(e -> {
+		mainStage.setOnCloseRequest(event -> {
 			mainStage.hide();
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("Server shut down");
-			alert.setHeaderText("The server has been shut down");
-			alert.setContentText("Press ok to continue.");
-			alert.showAndWait();
+			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+			methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
+					"The server has been shut down\n(All client will be terminated shortly after...)","Press ok to continue.").showAndWait();
+			EchoServer.es.sendToAllClients("TerminateClient");
 			System.exit(0);
 		});
 		mainStage.show();
@@ -80,11 +77,8 @@ public class ServerConsoleController implements Initializable {
 		try {
 			portNumber = getPort();
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Wrong input");
-			alert.setHeaderText("You must enter a port number!");
-			alert.setContentText("Press ok to continue...");
-			alert.showAndWait();
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Wrong input",
+					"You must enter a port number!","Press ok to continue.").showAndWait();
 			return;
 		}
 

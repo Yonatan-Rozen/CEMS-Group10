@@ -43,7 +43,7 @@
                 <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <RadioButton fx:id="sbMarkAnswer1Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer1" selected="true" text="a">
+                  <RadioButton fx:id="sbMarkAnswer1Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer1" selected="true" text="A">
                      <toggleGroup>
                         <ToggleGroup fx:id="sbAnswersTg" />
                      </toggleGroup>
@@ -51,15 +51,15 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer2Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer2" text="b" toggleGroup="$sbAnswersTg" GridPane.rowIndex="1">
+                  <RadioButton fx:id="sbMarkAnswer2Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer2" text="B" toggleGroup="$sbAnswersTg" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer3Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer3" text="c" toggleGroup="$sbAnswersTg" GridPane.rowIndex="2">
+                  <RadioButton fx:id="sbMarkAnswer3Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer3" text="C" toggleGroup="$sbAnswersTg" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer4Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer4" text="d" toggleGroup="$sbAnswersTg" GridPane.rowIndex="3">
+                  <RadioButton fx:id="sbMarkAnswer4Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer4" text="D" toggleGroup="$sbAnswersTg" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>

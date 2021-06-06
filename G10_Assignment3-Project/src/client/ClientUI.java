@@ -16,7 +16,7 @@ public class ClientUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		chat = new ClientController("localhost", 5555); 
-		chat.accept("client connected successfully");
+		chat.accept("checking if server is up...");
 		mainStage = primaryStage;
 		SignInController siC = new SignInController();
 		siC.start();
