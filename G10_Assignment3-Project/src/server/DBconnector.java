@@ -93,6 +93,9 @@ public class DBconnector {
 				insertNewQuestionToDB(request[1], request[2], request[3], request[4], request[5], request[6],
 						request[7], request[8], request[9], client);
 				break;
+			case "btnPressContinue2CreateExam":
+				insertNewExamToDB(request[1], request[2], request[3], client);
+				break;
 			case "btnPressShowQuestionsBySubject":
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
@@ -126,6 +129,65 @@ public class DBconnector {
 		}
 	}
 
+	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
+			throws IOException {
+
+		// get CourseID by CourseName
+		String CourseID = null;
+		String SubjectID = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = \"" + CourseName + "\"");
+			if (rs.next()) {
+				CourseID = rs.getString(1);
+				SubjectID = rs.getString(2);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		// get bankID by subjectid
+		String BankID = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT BankID From banks WHERE SubjectID = \"" + SubjectID + "\"");
+			if (rs.next())
+				BankID = rs.getString(1);
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		String type ="C"; //computer - M-> Manually
+		String examID = "01"; //need to generate numbers
+		// insert new exam into exams and generate a new 'examID'
+		try {
+			PreparedStatement stmt = con
+					.prepareStatement("INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type)" + "VALUES (?,?,?,?,?,?)");
+			stmt.setString(1, examID);
+			stmt.setString(2, BankID);
+			stmt.setString(3, CourseID);
+			stmt.setString(4, "000"); //not null
+			stmt.setString(5, author);
+			stmt.setString(6, type);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+	client.sendToClient("CreateExam SUCCESS - Exam "+String.format("#%s",examID)+" was created successfully!");
+	}
+
+	
+	
 	// ***********************************************************************************************
 	// QUERY METHODS
 	// ***********************************************************************************************
@@ -623,7 +685,6 @@ public class DBconnector {
 	private void getQuestionsBySubjectAndUsername(String subjectName, String num, String username,
 			ConnectionToClient client) throws IOException { // num for using in create exam
 		List<Question> questionList = new ArrayList<>();
-		System.out.println(num);
 
 		if (num.equals("2")) {
 			questionList.add(new Question("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", ""));
@@ -642,7 +703,6 @@ public class DBconnector {
 						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
 			}
 			rs.close();
-			System.out.println("checkList = " + questionList);
 			client.sendToClient(questionList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
