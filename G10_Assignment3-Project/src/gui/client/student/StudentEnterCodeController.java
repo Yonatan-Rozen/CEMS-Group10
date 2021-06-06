@@ -5,15 +5,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.StageStyle;
 
 public class StudentEnterCodeController implements Initializable {
 
@@ -25,7 +24,6 @@ public class StudentEnterCodeController implements Initializable {
 	private TextField sbCodeTf;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private static Button startExamBtn;
 	private static TextField codeTf;
 
 	// STATIC  INSTANCES ****************************************************
@@ -35,7 +33,6 @@ public class StudentEnterCodeController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		startExamBtn = sbStartExamBtn;
 		codeTf = sbCodeTf;
 	}
 
@@ -57,12 +54,8 @@ public class StudentEnterCodeController implements Initializable {
 
 		// if the student didn't insert the correct code
 		else {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("Code inserting failed");
-			alert.setHeaderText("the code you inserted is wrong");
-			alert.setContentText("Please try again");
-			alert.showAndWait();
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
+					"the code you inserted is wrong","Please try again").showAndWait();
 			codeTf.setText("");
 		}
 
