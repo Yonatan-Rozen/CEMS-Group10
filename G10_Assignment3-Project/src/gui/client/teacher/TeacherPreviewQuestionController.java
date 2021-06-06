@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,6 +60,7 @@ public class TeacherPreviewQuestionController implements Initializable {
 		Scene mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
 		stage.setScene(mainScene);
+		stage.initOwner(ClientUI.mainStage);
 		stage.setResizable(false);
 		stage.setOnCloseRequest(e -> {
 			stage.hide();
