@@ -3,10 +3,12 @@ package gui.client.teacher;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +16,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +28,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import logic.question.Question;
 
@@ -57,6 +57,9 @@ public class TeacherChooseEditQuestionController implements Initializable {
 
 	@FXML
 	private Button sbChangeSubjectBtn;
+	
+	@FXML
+	private Button sbDeleteSelectedBtn;
 
 	@FXML
 	private Button sbEditQuestionBtn;
@@ -69,19 +72,19 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	private static TableView<Question> availableQuestionsTv;
 	private static TableColumn<Question, String> questionIDTc;
 	private static TableColumn<Question, Void> previewTc;
-	private static Button changeSubjectBtn;
-	private static Button editQuestionBtn;
 	
 	// STATIC INSTANCES *****************************************************
-	public static ObservableList<String> subjectList = FXCollections.observableArrayList("----------");
-	private static List<Question> questionList;
-	private static RadioButton selected;
+	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
 	private static String msg;
+	private static boolean deletable = true;
 	
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tceqController = new TeacherChooseEditQuestionController();
+		subjectList.clear();
+		subjectList.add("----------");
+		
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
 		
@@ -116,27 +119,21 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		availableQuestionsTv = sbAvailableQuestionsTv;
 		questionIDTc = sbQuestionIDTc;
 		previewTc = sbPreviewTc;
-		changeSubjectBtn = sbChangeSubjectBtn;
-		editQuestionBtn = sbEditQuestionBtn;
 		//----------------------------------
 		if (subjectList.size() == 1) // add subjects only once
 		{
 			ClientUI.chat.accept(new String[]{"GetExistingBanks", ChatClient.user.getUsername()});
 			
 			if (subjectList.size() == 1) { // if still empty after query show an alert
-				Alert alert = new Alert(AlertType.WARNING);
-		    	alert.initStyle(StageStyle.UTILITY);
-				alert.setTitle("Missing questions");
-				alert.setHeaderText(null);
-				alert.setContentText(msg);
-				alert.show();
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Code inserting failed",
+						"Missing questions",msg).showAndWait();
 			}
 		}
 	}
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressShowQuestionsBySubject(ActionEvent event) {
+	public void btnPressShowQuestionsBySubject(ActionEvent event) {
 		System.out.println("TeacherEditQuestion::btnPressShowQuestionsByBank");
 		topPanelAp.setDisable(true);
 		botPanelAp.setDisable(false);
@@ -144,7 +141,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		ClientUI.chat.accept(new String[] {"btnPressShowQuestionsBySubject",questionSubjectCb.getValue(), ChatClient.user.getUsername()});
 		// set up table view
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
-		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory
         = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 		    @Override
@@ -184,7 +180,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	}
 
 	@FXML
-	void btnPressChangeSubject(ActionEvent event) {
+	public void btnPressChangeSubject(ActionEvent event) {
 		System.out.println("TeacherEditQuestion::btnPressChangeBank");
 		topPanelAp.setDisable(false);
 		botPanelAp.setDisable(true);
@@ -192,11 +188,56 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		availableQuestionsTv.getItems().clear();
 		questionSubjectCb.setValue("----------");
 	}
+	
+	@FXML
+	public void btnPressDeleteSelected(ActionEvent event) {
+		Question question = availableQuestionsTv.getSelectionModel().getSelectedItem();
+		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+
+		if (!showAlertIfNotSelected()) {
+			ClientUI.chat.accept(new String[] {"CheckQuestionExistsInExam", question.getQuestionID()});
+			System.out.println("deletable : " + deletable);
+			if (deletable) {
+				ButtonType buttonYes = new ButtonType("Yes");
+				ButtonType buttonCancel = new ButtonType("Cancel");
+				Optional <ButtonType> result = methodsHandler.getNewAlert(AlertType.CONFIRMATION,"Question Deletion",
+						"Are you sure you want to delete the selected question?", buttonYes, buttonCancel).showAndWait();
+				if (result.get() == buttonYes) {
+					// remove the question from the database & tableView
+					ClientUI.chat.accept(new String[] {"RemoveQuestionFromDatabase", question.getQuestionID(), questionSubjectCb.getValue(), ChatClient.user.getUsername()});
+					availableQuestionsTv.getItems().remove(availableQuestionsTv.getSelectionModel().getSelectedItem());
+					if (availableQuestionsTv.getItems().size() == 0) {
+						methodsHandler.getNewAlert(AlertType.INFORMATION,"Question Removed" ,"Subject " + questionSubjectCb.getValue() + " is now empty from questions", "press ok to continue.").showAndWait();
+						TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherChooseEditQuestion"));
+					}
+				}
+			}
+			else methodsHandler.getNewAlert(AlertType.WARNING,"Deletion Canceled",
+					"Sorry, but the chosen question cannot be deleted!",
+					"(This question is part of one or more exams)").showAndWait();
+		}
+	}
 
 	@FXML
-	void btnPressEditQuestion(ActionEvent event) {
+	public void btnPressEditQuestion(ActionEvent event) {
 		System.out.println("TeacherEditQuestion::btnPressEditQuestion");
+		if (!showAlertIfNotSelected()) {
+			TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditQuestion"));
+			TeacherEditQuestionController.teqController.setQuestion(availableQuestionsTv.getSelectionModel().getSelectedItem());
+		}
 	}
+	// INTERNAL USE METHODS **************************************************
+	private boolean showAlertIfNotSelected() {
+		if (availableQuestionsTv.getSelectionModel().getSelectedItem() == null)
+		{
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Select Question" ,"Please select a row from the table above!").showAndWait();
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	// EXTERNAL USE METHODS **************************************************
 	public void setSubjectChoiceBox(List<String> subjects) {
@@ -204,10 +245,14 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	}
 	
 	public void setQuestionTableView(List<Question> questions) {
-		questionList = questions;
 		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 		questionObservableList.addAll(questions);
 		availableQuestionsTv.setItems(questionObservableList);
+	}
+	
+	public void setQuestionDeletable(String existsInExam) {
+		if (existsInExam.equals("1"))
+			deletable = false;
 	}
 	
 	public void chooseQuestionToPreview(Question question) {

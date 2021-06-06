@@ -18,9 +18,9 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbAvailableQuestionsTv" layoutX="247.0" layoutY="38.0" prefHeight="318.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="38.0">
+            <TableView fx:id="sbAvailableQuestionsTv" layoutX="247.0" layoutY="38.0" prefHeight="300.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="56.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="164.0" text="Question ID" />
+                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="164.0" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Question ID" />
                   <TableColumn fx:id="sbPreviewTc" prefWidth="164.0" text="Preview" />
                </columns>
             </TableView>
@@ -28,11 +28,16 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="247.0" layoutY="9.0" text="availiable questions:" underline="true">
+            <Label layoutX="247.0" layoutY="7.0" text="availiable questions:" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
+            <Button fx:id="sbDeleteSelectedBtn" layoutX="325.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnPressDeleteSelected" text="DELETE SELECTED" AnchorPane.bottomAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="86.0" prefWidth="801.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
