@@ -10,6 +10,7 @@ import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.student.StudentTakeExamManuallyController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
@@ -17,8 +18,11 @@ import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
+import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
 import logic.exam.ExamResults;
+import logic.exam.IExam;
+import logic.exam.ManualExam;
 import logic.question.Question;
 import ocsf.client.AbstractClient;
 
@@ -37,7 +41,7 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * Constructs an instance of the chat client.
-	 * 
+	 *
 	 *
 	 * @param host     The server to connect to.
 	 * @param port     The port number to connect on.
@@ -60,7 +64,7 @@ public class ChatClient extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		if (msg == null)
 			ClientController.display("fatal error");
-		
+
 		else if (msg instanceof User) { // SignIn Success
 			user = (User) msg;
 			ClientController.display("user ["+user.getUsername()+"] has connected successfully!");
@@ -68,15 +72,18 @@ public class ChatClient extends AbstractClient {
 		/**** method execution handling ****/
 		else if (msg instanceof String)
 			handleStringMessagesFromServer((String) msg);
-		
+
 		else if (msg instanceof List)
 			handleListMessagesFromserver((List<?>) msg);
-		
+
 		else if (msg instanceof Object[])
 			handleArraysMessagesFromServer((Object[])msg);
-		
-		else if (msg instanceof Exam)
-			StudentTakeComputerizedExamController.stceController.setExam((Exam) msg);
+
+		else if (msg instanceof ComputerizedExam)
+			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
+
+		else if (msg instanceof ManualExam)
+			StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
 
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
@@ -84,12 +91,12 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * Handles with (Object[]) type messages.
-	 * 
+	 *
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
 		Object obj = msg[0];
-		
+
 		if (obj instanceof String) {
 			String[] stringArray = (String[]) msg;
 			switch(stringArray[0]) {
@@ -101,19 +108,19 @@ public class ChatClient extends AbstractClient {
 				break;
 			}
 		}
-		
+
 	}
 
 	/**
 	 * Handle with (String) type messages.
-	 * 
+	 *
 	 * @param msg The (String) object.
 	 */
 	private void handleStringMessagesFromServer(String msg) {
 		/**** handle connection ****/
 		if (msg.equals("Disconnect")) return; // Client is disconnecting
 		if (msg.equals("TerminateClient")) quit(); // Terminates the current client
-		
+
 		else if (msg.contains("UpdatedQuestion")) { // Question has been updated
 			System.out.println("UpdatedQuestion");
 			TeacherEditQuestionController.teqController.successfulEditQuestion("The question has been edited successfully!");
@@ -121,28 +128,28 @@ public class ChatClient extends AbstractClient {
 		/**** handle return message to client ****/
 		else if (msg.contains("SignIn ERROR - ")) // SignIn Errors
 			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
-		
+
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
-		
+
 		else if (msg.contains("ChangePassword SUCCESS - ")) // ChangePassword Success
 			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-		
+
 		else if (msg.contains("courseName:")) // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 
 		else if (msg.contains("CreateQuestion SUCCESS - ")) // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
-		
+
 		else if (msg.contains("GetSubjectsWithBank ERROR - ")) // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
-		
+
 		else ClientController.display(msg);
 	}
 
 	/**
 	 * Handles with (List<?>) type messages.
-	 * 
+	 *
 	 * @param msg The (List<?>) object
 	 */
 	@SuppressWarnings("unchecked")
@@ -216,8 +223,8 @@ public class ChatClient extends AbstractClient {
 				break;
 			}
 		}
-		else if(obj instanceof Exam) { // List of exams
-			List<Exam> examsList = (List<Exam>) msg;
+		else if(obj instanceof IExam) { // List of exams
+			List<IExam> examsList = (List<IExam>) msg;
 			System.out.println(examsList);
 			switch (((Exam) obj).getExamID()) {
 			case "getExamsTableViewInfo":
@@ -253,7 +260,7 @@ public class ChatClient extends AbstractClient {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Connection Issues",
 					"It seems like you have connection issues with the server!",
 					"Sorry for the inconvenience. Please try agian at a later time...").showAndWait();
-			
+
 			quit();
 		}
 	}
