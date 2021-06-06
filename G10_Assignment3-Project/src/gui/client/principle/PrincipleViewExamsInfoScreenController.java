@@ -12,36 +12,39 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.exam.Exam;
+import logic.exam.IExam;
 
 public class PrincipleViewExamsInfoScreenController implements Initializable{
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private TableView<Exam> tblVExamsDetails;
+	private TableView<IExam> tblVExamsDetails;
 
 	@FXML
-	private TableColumn<Exam, String> sbExamsIDClm;
+	private TableColumn<IExam, String> sbExamsIDClm;
 
 	@FXML
-	private TableColumn<Exam, String> sbUserNameClm;
+	private TableColumn<IExam, String> sbUserNameClm;
 
 	@FXML
-	private TableColumn<Exam, String> sbCourseIDClm;
+	private TableColumn<IExam, String> sbCourseIDClm;
 
 	@FXML
-	private TableColumn<Exam, String> sbAllocatedTimeClm;
+	private TableColumn<IExam, String> sbAllocatedTimeClm;
 
 	@FXML
-	private TableColumn<Exam, String> sbStudentsCommentsClm;
+	private TableColumn<IExam, String> sbStudentsCommentsClm;
 
 	@FXML
-	private TableColumn<Exam, String> sbTeachersCommentsClm;
+	private TableColumn<IExam, String> sbTeachersCommentsClm;
+
+	@FXML
+	private TableColumn<IExam, String> sbExamTypeClm;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private static TableView <Exam> tblE;
+	private static TableView <IExam> tblE;
 	public static PrincipleViewExamsInfoScreenController pveisController;
-	private static ObservableList<Exam> examsDetails;// = new ArrayList<>();
+	private static ObservableList<IExam> examsDetails;// = new ArrayList<>();
 
 
 	@Override
@@ -50,12 +53,13 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 		examsDetails= FXCollections.observableArrayList();
 		pveisController=new PrincipleViewExamsInfoScreenController();
 		// set up columns
-		sbExamsIDClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
-		sbUserNameClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("username"));
-		sbCourseIDClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("courseID"));
-		sbAllocatedTimeClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("allocatedTime"));
-		sbStudentsCommentsClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("studentComments"));
-		sbTeachersCommentsClm.setCellValueFactory(new PropertyValueFactory<Exam, String>("teacherComments"));
+		sbExamsIDClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("examID"));
+		sbUserNameClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("author"));
+		sbCourseIDClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("courseID"));
+		sbAllocatedTimeClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("allocatedTime"));
+		sbStudentsCommentsClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("studentComments"));
+		sbTeachersCommentsClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("teacherComments"));
+		sbExamTypeClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("type"));
 
 		ClientUI.chat.accept(new String[] { "sbViewExamsBtn" });
 	}
@@ -67,11 +71,9 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 	 * @param usersList List<Exam> of the exams in the table from DB
 	 */
 	//public void addExamToObservableList(List<String> rowInUsersTable)
-	public void setExamsInfoList(List<Exam> examsList) {
+	public void setExamsInfoList(List<IExam> examsList) {
 		{
-			//	ObservableList<User> users = FXCollections.observableArrayList();
-			for (Exam row : examsList)
-				examsDetails.add(row);
+			examsDetails.addAll(examsList);
 			tblE.setItems(examsDetails);
 		}
 	}

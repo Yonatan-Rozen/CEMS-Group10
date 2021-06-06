@@ -20,7 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-import logic.exam.Exam;
+import logic.exam.ComputerizedExam;
 import logic.question.Question;
 
 public class StudentTakeComputerizedExamController implements Initializable {
@@ -98,7 +98,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	// STATIC INSTANCES **********************************************
 	private static String examID; // get from teacher somehow
-	private static Exam exam;
+	private static ComputerizedExam exam;
 	private static List<Question> questionsOfExam;// = new ArrayList<>();
 	private static int currentQuestionIndex;
 	private static String[] scoresOfQuestions;
@@ -107,7 +107,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		stceController=new StudentTakeComputerizedExamController();
+		stceController = new StudentTakeComputerizedExamController();
 		ClientUI.mainStage.setWidth(900);
 		ClientUI.mainStage.setHeight(650);
 		examOfCourseLbl = sbExamOfCourseLbl;
@@ -122,14 +122,14 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		answer4Rb = sbAnswer4Rb;
 		submitBtn = sbSubmitBtn;
 		studentIDTf = sbStudentIDTf;
-		alertCoreectIDLbl=sbAlertCoreectIDLbl;
+		alertCoreectIDLbl = sbAlertCoreectIDLbl;
 		examContainerAp = sbExamContainerAp;
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
 		setExamID(null); // default value for now
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
 		scoresOfQuestions = exam.getScores().split("\\|");
-		answersOfStudent= new String [scoresOfQuestions.length];
+		answersOfStudent = new String[scoresOfQuestions.length];
 	}
 
 	// ACTION METHODS *******************************************************
@@ -137,12 +137,12 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	void btnPressStartExam(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::btnPressStartExam");
 		Button b;
-		//may be check if it's repressed and if it was pressed again-delete all progress? (boolean?)
-		if(questionBarBb.getButtons().size()==0)
-		{
-			for(int questionIndex=1; questionIndex<=questionsOfExam.size();questionIndex++) {
-				b=new Button(questionIndex+"");
-				setQuestionButton(questionIndex,b);
+		// may be check if it's repressed and if it was pressed again-delete all
+		// progress? (boolean?)
+		if (questionBarBb.getButtons().size() == 0) {
+			for (int questionIndex = 1; questionIndex <= questionsOfExam.size(); questionIndex++) {
+				b = new Button(questionIndex + "");
+				setQuestionButton(questionIndex, b);
 				questionBarBb.getButtons().add(b);
 			}
 		}
@@ -152,41 +152,40 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	@FXML
 	void rbPressAnswer1(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::rbPressAnswer1");
-		answersOfStudent[currentQuestionIndex]="1";
+		answersOfStudent[currentQuestionIndex] = "1";
 	}
 
 	@FXML
 	void rbPressAnswer2(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::rbPressAnswer2");
-		answersOfStudent[currentQuestionIndex]="2";
+		answersOfStudent[currentQuestionIndex] = "2";
 	}
 
 	@FXML
 	void rbPressAnswer3(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::rbPressAnswer3");
-		answersOfStudent[currentQuestionIndex]="3";
+		answersOfStudent[currentQuestionIndex] = "3";
 	}
 
 	@FXML
 	void rbPressAnswer4(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::rbPressAnswer4");
-		answersOfStudent[currentQuestionIndex]="4";
+		answersOfStudent[currentQuestionIndex] = "4";
 	}
 
 	@FXML
 	void btnPressSubmit(ActionEvent event) throws IOException {
 		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
 		/*
-		//why does it print the pointer address ?!?
-		System.out.println(answersOfStudent.);
-		/*
-		System.out.println("/nthe answers:");
-		for(int i=0;i<answersOfStudent.length;i++)
-			System.out.print(answersOfStudent[i]+", ");
+		 * //why does it print the pointer address ?!?
+		 * System.out.println(answersOfStudent.); /*
+		 * System.out.println("/nthe answers:"); for(int
+		 * i=0;i<answersOfStudent.length;i++)
+		 * System.out.print(answersOfStudent[i]+", ");
 		 */
 
 		// successful submit example ***********************************
-		//TODO maybe add alert "are you sure you want to submit?"
+		// TODO maybe add alert "are you sure you want to submit?"
 		ClientUI.mainScene
 		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		// *************************************************************
@@ -196,27 +195,33 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	/**
 	 * *
+	 *
 	 * @param examIDFromTeacher the running exam ID sent from the teacher
 	 */
 	public void setExamID(String examIDFromTeacher) {
-		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")  )
-			//TODO get examID from teacher to all connected students
+		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
+			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
-		else examID="010301"; // default exam
+		}
+
+		else {
+			examID = "010301"; // default exam
+		}
+
 	}
 
 	/**
 	 *
 	 * @param examTupple one exam from the exams table, with all it's fields
 	 */
-	public void setExam(Exam examTupple) {
+	public void setExam(ComputerizedExam examTupple) {
 		exam = examTupple;
 	}
 
 	/**
 	 *
-	 * @param questionsOfExamlist an arrayList of questions of all the
-	 * 		  questions of the running exam
+	 * @param questionsOfExamlist an arrayList of questions of all the questions of
+	 *                            the running exam
 	 */
 	public void setQuestionsOfExam(List<Question> questionsOfExamlist) {
 		questionsOfExam = questionsOfExamlist;
@@ -232,24 +237,25 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	/**
 	 *
-	 * @param questionIndex the current pressed question's index in the
-	 * 		  exam's questions bar
-	 * @param b a button for the button bar of questions to be defined
-	 *			as the button of the questionIndex's question
+	 * @param questionIndex the current pressed question's index in the exam's
+	 *                      questions bar
+	 * @param b             a button for the button bar of questions to be defined
+	 *                      as the button of the questionIndex's question
 	 */
-	void setQuestionButton(int questionIndex,Button b) {
-		b.setOnAction( new EventHandler <ActionEvent> () {
+	void setQuestionButton(int questionIndex, Button b) {
+		b.setOnAction(new EventHandler<ActionEvent>() {
 			Question q;
+
 			@Override
 			public void handle(ActionEvent event) {
-				currentQuestionIndex = questionIndex-1;
-				q=questionsOfExam.get(questionIndex-1);
-				questionLbl.setText(questionIndex+") "+q.getQuestionBody());
+				currentQuestionIndex = questionIndex - 1;
+				q = questionsOfExam.get(questionIndex - 1);
+				questionLbl.setText(questionIndex + ") " + q.getQuestionBody());
 				answer1Rb.setText(q.getAnswer1());
 				answer2Rb.setText(q.getAnswer2());
 				answer3Rb.setText(q.getAnswer3());
 				answer4Rb.setText(q.getAnswer4());
-				scorelbl.setText("(score : "+scoresOfQuestions[questionIndex-1]+")");
+				scorelbl.setText("(score : " + scoresOfQuestions[questionIndex - 1] + ")");
 			}
 		});
 	}
