@@ -141,6 +141,11 @@ public class DBconnector {
 			case "GetExamDetails":
 				getExamsIDAndGradesByUsernameAndCourseName(request[1], request[2], client);
 				break;
+			case "GetAllExamID's":
+				getAllExamIDs(client);
+			case "GetFullComputerizedExamInfoByExamID":
+				getFullComputerizedExamDetailsByID(request[1],client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case!");
 				client.sendToClient(request[0] + " is not a valid case!");
@@ -864,7 +869,7 @@ public class DBconnector {
 	 * Updates the details of a specific question
 	 * 
 	 * @param question The question
-	 * @param client The teacher requestion the change
+	 * @param client The teacher requesting the change
 	 * @throws IOException 
 	 * 
 	 * @author Yonatan Rozen
@@ -888,6 +893,58 @@ public class DBconnector {
 			return;
 		}
 	}
+	
+	/**
+	 * Sends to the teacher all exam IDs
+	 * @param client The teacher requesting the exam IDs
+	 * @throws IOException 
+	 *
+	 * @author Yonatan Rozen
+	 */
+	private void getAllExamIDs(ConnectionToClient client) throws IOException {
+		List<String> examIDs = new ArrayList<>();
+		examIDs.add("SetAllExamIDs");
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT ExamID FROM exams ORDER BY ExamID");
+			while (rs.next())
+				examIDs.add(rs.getString(1));
+			rs.close();
+			client.sendToClient(examIDs);
+		}catch(SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+
+	/**
+	 * Send computerized exam details to the teacher
+	 * 
+	 * @param examID The exam's ID
+	 * @param client The teacher
+	 * @throws IOException 
+	 * 
+	 * @author Yonatan Rozen
+	 */
+	private void getFullComputerizedExamDetailsByID(String examID, ConnectionToClient client) throws IOException {
+		List<String> examIDs = new ArrayList<>();
+		examIDs.add("SetAllExamIDs");
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT ExamID FROM exams ORDER BY ExamID");
+			while (rs.next())
+				examIDs.add(rs.getString(1));
+			rs.close();
+			client.sendToClient(examIDs);
+		}catch(SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
 
 	/**
 	 * Sends Arraylist of courses back to the teacher

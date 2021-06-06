@@ -15,6 +15,7 @@ import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
+import gui.client.teacher.TeacherStartExamController;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.Exam;
@@ -159,23 +160,26 @@ public class ChatClient extends AbstractClient {
 		Object obj = msg.get(0);
 		msg.remove(0);
 		if (obj instanceof String) { // list of String
-			List<String> list = ((List<String>) msg);
+			List<String> stringList = ((List<String>) msg);
 			switch (obj.toString()) {
 			case "getSubjectsByUsername":
-				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(list);
+				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getSubjectWithExistingBanks":
-				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(list);
+				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getCoursesByUserName":
-				TeacherReportsController.trController.setCoursesCoiseBox(list);
+				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				return;
 			case "getBanksByUsername":
-				TeacherCreateExamController.tceController.setBankChoiceBox(list);
+				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
 				return;
 			case "getCourseBySubject":
-				TeacherCreateExamController.tceController.setCourseChoiceBox(list);
+				TeacherCreateExamController.tceController.setCourseChoiceBox(stringList);
 				return;
+			case "SetAllExamIDs":
+				TeacherStartExamController.tseController.setExamIDs(stringList);
+				break;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
