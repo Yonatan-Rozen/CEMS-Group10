@@ -6,20 +6,21 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class ChangePasswordController implements Initializable{
+	
+	// JAVAFX INSTNCES ******************************************************
 	public static ChangePasswordController cpController;
     @FXML
     private PasswordField sbCurrentPasswordPf;
@@ -36,13 +37,13 @@ public class ChangePasswordController implements Initializable{
     @FXML
     private Button sbCancelBtn;
     
-    
+    // JAVAFX STATIC INSTNCES ***********************************************
     private static PasswordField currentPasswordPf;
     private static PasswordField newPasswordPf;
     private static PasswordField reNewPasswordPf;
-    
     private static Stage stage;
     
+    // STATIC INSTANCES *****************************************************
     private static AlertType type;
     private static String msg;
     private static String title;
@@ -63,7 +64,7 @@ public class ChangePasswordController implements Initializable{
 		stage.show();
 	}
 	
-	
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		currentPasswordPf = sbCurrentPasswordPf;
@@ -80,16 +81,10 @@ public class ChangePasswordController implements Initializable{
     void btnPressConfirmChange(ActionEvent event) {
     	
     	ClientUI.chat.accept(new String[] {"btnPressConfirmChange" ,ChatClient.user.getUsername(), ChatClient.user.getPassword(), currentPasswordPf.getText(), newPasswordPf.getText(), reNewPasswordPf.getText()});
-
-    	Alert alert = new Alert(type);
-    	alert.initStyle(StageStyle.UTILITY);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(msg);
-		alert.showAndWait();
+    	CommonMethodsHandler.getInstance().getNewAlert(type, title, msg).showAndWait();
     }
     
-    // only server get to this methods through ChatClient's handleMessageFromServer
+    // EXTERNAL USE METHODS **************************************************
     public void badChangePassword(String Msg) {
     	System.out.println("badChangePassword");
     	msg = Msg;
@@ -103,6 +98,7 @@ public class ChangePasswordController implements Initializable{
     	title = "Password changed";
     	type = AlertType.INFORMATION;
     	
+    	// save the new password in ChatClient.user
     	ChatClient.user.setPassword(newPasswordPf.getText());
     }
 }
