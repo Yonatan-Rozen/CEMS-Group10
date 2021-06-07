@@ -105,7 +105,7 @@ public class TeacherMenuBarController implements Initializable {
 		System.out.println("TeacherMenuBar::btnPressCreateExam");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherExamType"));
 	}
-
+	
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateQuestion");
