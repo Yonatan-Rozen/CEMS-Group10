@@ -91,12 +91,13 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
+		
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
-		case "setRequestedExamInfo":
-			TeacherStartExamController.tseController.setReadyExam((IExam) msg[1]);
+		case "setTypeAndOptionalTeacherComments":
+			TeacherStartExamController.tseController.setTypeAndOptionalComments(msg[1].toString()+"|"+msg[2].toString());
 			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
@@ -195,9 +196,6 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "getQuestionsTableViewInfo":
 				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
-				return;
-			case "setQuestionInExam":
-				TeacherStartExamController.tseController.setExamQuestions(questionList);
 				return;
 			default:
 				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
