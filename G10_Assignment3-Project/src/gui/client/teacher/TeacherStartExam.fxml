@@ -1,37 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
    <children>
+      <AnchorPane fx:id="sbTopAp" layoutX="149.0" layoutY="75.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="29.0" spacing="35.0">
+               <children>
+                  <Label text="Choose Exam :" underline="true">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label text="Insert 4 charcter code :" underline="true">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <ChoiceBox fx:id="sbChooseExamCb" layoutX="203.0" layoutY="29.0" prefHeight="39.0" prefWidth="429.0" style="-fx-font-size: 18; -fx-font-weight: Bold;" />
+            <TextField fx:id="sbCodeTf" layoutX="309.0" layoutY="92.0" prefHeight="45.0" prefWidth="146.0" promptText="   *   *   *   *">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </TextField>
+            <Button fx:id="sbStartBtn" layoutX="478.0" layoutY="93.0" mnemonicParsing="false" onAction="#btnPressStart" text="START EXAM">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
       <Label layoutX="365.0" layoutY="14.0" text="Start Exam" underline="true" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="271.0" layoutY="206.0" text="Choose Exam :" underline="true">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="sbChoseExamCb" layoutX="464.0" layoutY="205.0" onAction="#cbPressChoseExam" promptText="Chose exam" style="-fx-font-size: 18; -fx-font-weight: Bold;" />
-      <TextField fx:id="sbCodeTf" layoutX="519.0" layoutY="268.0" prefHeight="50.0" prefWidth="110.0" promptText=" *  *  *  *">
-         <font>
-            <Font size="21.0" />
-         </font></TextField>
-      <Label layoutX="271.0" layoutY="275.0" text="Insert 4 digit code :" underline="true">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
-      <Button fx:id="sbStartBtn" layoutX="410.0" layoutY="357.0" mnemonicParsing="false" onAction="#btnPressStart" text="START EXAM">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Button>
+      <VBox alignment="CENTER_RIGHT" layoutX="501.0" layoutY="420.0" spacing="30.0" />
+      <Line endX="550.0" layoutX="342.0" layoutY="259.0" startX="-334.0" />
+      <AnchorPane fx:id="sbBotAp" layoutX="160.0" layoutY="297.0">
+         <children>
+            <HBox layoutX="2.0" layoutY="22.0" spacing="20.0">
+               <children>
+                  <Label text="Request extra time:" underline="true">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sbAddedAmountTf" prefHeight="45.0" prefWidth="80.0">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="sbSendRequestBtn" mnemonicParsing="false" onAction="#btnPressSendRequest" prefHeight="44.0" prefWidth="230.0" text="SEND REQUEST &gt;&gt;&gt;">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Label layoutX="275.0" layoutY="86.0" text="OR">
+               <font>
+                  <Font name="System Bold Italic" size="44.0" />
+               </font>
+            </Label>
+            <Button fx:id="sbLockExamBtn" layoutX="233.0" layoutY="158.0" mnemonicParsing="false" onAction="#btnPressLockExam" prefHeight="44.0" prefWidth="146.0" text="LOCK EXAM">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

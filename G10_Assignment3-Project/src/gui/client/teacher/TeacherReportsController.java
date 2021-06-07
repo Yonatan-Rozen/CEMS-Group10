@@ -152,7 +152,10 @@ public class TeacherReportsController implements Initializable {
 
 	@FXML
 	void btnPressShowReportsByCourse(ActionEvent event) {
+		histogramBc.getData().removeAll(series);
 		ClientUI.chat.accept(new String[] { "GetExamDetails",courcesCb.getValue(), ChatClient.user.getUsername() });
+		if(examResultsList.size()==1)
+			nextRepBtn.setDisable(true);
 		setExamResultData();
 	}
 
@@ -161,7 +164,8 @@ public class TeacherReportsController implements Initializable {
 	}
 
 	public void setExamResultsDetails(List<ExamResults> examResultsList) {
-		TeacherReportsController.examResultsList=examResultsList;	
+		TeacherReportsController.examResultsList=examResultsList;
+		
 	}
 	
 	public void setExamResultData() {
