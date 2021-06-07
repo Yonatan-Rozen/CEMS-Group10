@@ -20,7 +20,9 @@ public class EchoServer extends AbstractServer{
 	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		ServerUI.serverConsole.println(">>> " + msg + " from " + client);
+		if (msg instanceof Object[])
+			ServerUI.serverConsole.println(">>> " + ((Object[])msg)[0] + " from " + client);
+		else ServerUI.serverConsole.println(">>> " + msg + " from " + client);
 		// send message back to client
 		try {
 			DBconnector.getInstance().parseData(msg, client);
