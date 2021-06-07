@@ -206,13 +206,13 @@ public class TeacherCreateQuestionController implements Initializable {
 					"Successful question creation",msg,"Create another question under the same subject?",buttonYes,buttonNo).showAndWait();
 			if (result.get() == buttonYes){
 				System.out.println("alert::Yes");
-				questionBodyTa.setText("");
+				questionBodyTa.clear();
 				markAnswer1Rb.setSelected(true);
 				selected = markAnswer1Rb;
-				answer1Ta.setText("");
-				answer2Ta.setText("");
-				answer3Ta.setText("");
-				answer4Ta.setText("");
+				answer1Ta.clear();
+				answer2Ta.clear();
+				answer3Ta.clear();
+				answer4Ta.clear();
 			} else if (result.get() == buttonNo) {
 				System.out.println("alert::No");
 				TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));

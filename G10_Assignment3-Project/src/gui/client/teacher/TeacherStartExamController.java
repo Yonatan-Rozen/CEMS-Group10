@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -41,6 +42,9 @@ public class TeacherStartExamController implements Initializable {
 
     @FXML
     private AnchorPane sbBotAp;
+    
+    @FXML
+    private TextArea sbCommentsTa;	
 
     @FXML
     private TextField sbAddedAmountTf;
@@ -58,14 +62,15 @@ public class TeacherStartExamController implements Initializable {
     private static TextField codeTf;
     private static Button startBtn;
     private static AnchorPane botAp;
+    private static TextArea commentsTa;
     private static TextField addedAmountTf;
     private static Button sendRequestBtn;
     private static Button lockExamBtn;
 	
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> examSubjectCourseIDList = FXCollections.observableArrayList();
-	public static List<Question> examQuestions;
-	public static IExam exam;
+	public static String examID;
+	public static String examType;
 	public static boolean examActive = true;
 	
 	// START METHOD *********************************************************
@@ -85,6 +90,7 @@ public class TeacherStartExamController implements Initializable {
 		startBtn = sbStartBtn;
 	    botAp = sbBotAp;
 	    botAp.setDisable(true);
+	    commentsTa = sbCommentsTa;
 	    addedAmountTf = sbAddedAmountTf;
 	    sendRequestBtn = sbSendRequestBtn;
 	    lockExamBtn = sbLockExamBtn;
@@ -127,14 +133,13 @@ public class TeacherStartExamController implements Initializable {
 			topAp.setDisable(true);
 			botAp.setDisable(false);
 			String examID = chooseExamCb.getValue().split("\\#")[1]; // get exam ID from the selected value
-			ClientUI.chat.accept(new String[] {"GetExamByID", examID});
-			if (exam.getType().equals("C"))
-				ClientUI.chat.accept(new String[] {"GetQuestionsInExam", examID});
+			ClientUI.chat.accept(new String[] {"GetTypeOfExamAndOptionalComments", examID});
+			
+			ClientUI.chat.accept(new String[] {"SendExamIDandExamType", examID, examType}); // TODO send message to all clients
+			
 			commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Exam Started", "The exam is now in execution mode",
 					"Please provide examinees with the entered code.").showAndWait();
-			if (exam.getType().equals("C"))
-				ClientUI.chat.accept(new Object[] {"SendComputerizedExamToAllConnectedStudents", exam, examQuestions, codeTf.getText()}); // TODO
-			else ClientUI.chat.accept(new Object[] {"SendManualExamToAllConnectedStudents", exam, codeTf.getText()}); // TODO
+			
 			commonMethodHandler.addTextLimiter(addedAmountTf, 2);
 		}
 		
@@ -152,7 +157,7 @@ public class TeacherStartExamController implements Initializable {
 		Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Exam Lock", 
 				"Are you sure you want to lock the exam before the time", buttonYes, buttonCancel).showAndWait();
 		if (request.get() == buttonYes) {
-			try {ClientUI.chat.accept(new String[] {"LockExam",exam.getExamID()}); // TODO (locks exam at the clients of the students)
+			try {ClientUI.chat.accept(new String[] {"LockExam", }); // TODO (locks exam at the clients of the students)
 			}catch(NullPointerException e) {System.out.println("The exam wasn't loaded!");}
 			lockExam(); // TODO continue from (###)
 		}
@@ -167,7 +172,7 @@ public class TeacherStartExamController implements Initializable {
     	else {
     		commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Time Request", 
     				"Your request has been sent","Press ok to continue.").showAndWait();
-    		ClientUI.chat.accept(new String[] {"RequestExtraTime", addedAmountTf.getText()} ); // TODO
+    		ClientUI.chat.accept(new String[] {"RequestExtraTime", addedAmountTf.getText()} ); // TODO send message to principle
     	}
     }
 	
@@ -176,12 +181,11 @@ public class TeacherStartExamController implements Initializable {
 		examSubjectCourseIDList.addAll(examIDs);
 	}
 	
-	public void setReadyExam(IExam readyExam) {
-		exam = readyExam;
-	}
-	
-	public void setExamQuestions(List<Question> questionList) {
-		examQuestions = questionList;
+	public void setTypeAndOptionalComments(String typeAndComments) {
+		String splitTypeAndComments[] = typeAndComments.split("\\|");
+		examType = splitTypeAndComments[0];
+		if (splitTypeAndComments.length == 2 )
+			commentsTa.setText(splitTypeAndComments[1]);
 	}
 	
 	public void lockExam() {
