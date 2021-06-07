@@ -72,7 +72,6 @@ public class StudentEnterCodeController implements Initializable {
 	 * TODO get current code and exam-type from teacher to all active students
 	 */
 	public void setCode(String codeFromTeacher,String et) {
-		System.out.println("START OF SETCODE");
 		if(!codeFromTeacher.equals("") && codeFromTeacher!=null) {
 			code=codeFromTeacher;
 			System.out.println("code="+code);
@@ -89,7 +88,6 @@ public class StudentEnterCodeController implements Initializable {
 			examType="computerized"; //default exam type for now
 			System.out.println("type="+examType);
 		}
-		System.out.println("END OF SETCODE");
 
 	}
 
