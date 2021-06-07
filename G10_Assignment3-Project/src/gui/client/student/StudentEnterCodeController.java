@@ -56,7 +56,7 @@ public class StudentEnterCodeController implements Initializable {
 		else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
 					"the code you inserted is wrong","Please try again").showAndWait();
-			codeTf.setText("");
+			codeTf.clear();
 		}
 
 
