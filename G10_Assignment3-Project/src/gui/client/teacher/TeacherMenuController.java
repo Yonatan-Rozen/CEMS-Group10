@@ -104,7 +104,7 @@ public class TeacherMenuController implements Initializable {
 		tmbController.start();
 		tmbController.btnPressCreateExam(event);
 	}
-
+	
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateQuestion");

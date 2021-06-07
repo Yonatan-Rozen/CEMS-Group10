@@ -12,6 +12,7 @@ import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
+import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
@@ -142,6 +143,9 @@ public class ChatClient extends AbstractClient {
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
 					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
+			TeacherCreateManualExamController.tcmeController
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
 					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
@@ -169,11 +173,18 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(list);
-			case "getBanksByUsername":
+				return;
+			case "getBanksByUsername1":
 				TeacherCreateExamController.tceController.setBankChoiceBox(list);
 				return;
-			case "getCourseBySubject":
+			case "getBanksByUsername2":
+				TeacherCreateManualExamController.tcmeController.setBankChoiceBox(list);
+				return;
+			case "getCourseBySubject1":
 				TeacherCreateExamController.tceController.setCourseChoiceBox(list);
+				return;
+			case "getCourseBySubject2":
+				TeacherCreateManualExamController.tcmeController.setCourseChoiceBox(list);
 				return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
