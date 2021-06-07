@@ -956,8 +956,8 @@ public class DBconnector {
 	 * @author Danielle sarusi
 	 */
 
-	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName,
-			ConnectionToClient client) throws IOException {
+	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, ConnectionToClient client)
+			throws IOException {
 		List<ExamResults> examResultsList = new ArrayList<>();
 		examResultsList.add(new ExamResults("getExamDetails", "0"));
 		String lastExamID = "";
@@ -1076,7 +1076,7 @@ public class DBconnector {
 					// public ComputerizedExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String scores,
 					// String studentComments, String teacherComments, String author, String type) {
-					ce=new ComputerizedExam(rs.getString(1), "MASHU", rs.getString(3), rs.getString(4),
+					ce=new ComputerizedExam(rs.getString(1), "", rs.getString(3), rs.getString(4),
 							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8),rs.getString(9));
 					examsDetails.add(ce);
 				}
@@ -1086,7 +1086,7 @@ public class DBconnector {
 					System.out.println(rs.getString(9));
 					// public ManualExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String author, String type) {
-					me=new ManualExam(rs.getString(1), "MASHU ACHER", rs.getString(3), rs.getString(4), rs.getString(8), rs.getString(9));
+					me=new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8), rs.getString(9));
 					examsDetails.add(me);
 					//examsDetails.add(new ManualExam(rs.getS11tring(1), "", rs.getString(3), rs.getString(4),
 					//	rs.getString(8), rs.getString(9)));
