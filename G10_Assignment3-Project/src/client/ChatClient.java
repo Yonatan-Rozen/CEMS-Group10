@@ -10,7 +10,6 @@ import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
-import gui.client.student.StudentTakeExamManuallyController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
@@ -23,7 +22,6 @@ import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
-import logic.exam.ManualExam;
 import logic.question.Question;
 import ocsf.client.AbstractClient;
 
@@ -82,6 +80,7 @@ public class ChatClient extends AbstractClient {
 		//else if (msg instanceof ManualExam)
 			//StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
 
+		
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
 	}
@@ -92,20 +91,17 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		Object obj = msg[0];
-
-		if (obj instanceof String) {
-			String[] stringArray = (String[]) msg;
-			switch (stringArray[0]) {
-			case "checkQuestionExistsInExam":
-				TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(stringArray[1]);
-				break;
-			default:
-				ClientController.display(stringArray[0] + " is missing!");
-				break;
-			}
+		switch (msg[0].toString()) {
+		case "checkQuestionExistsInExam":
+			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
+			break;
+		case "setRequestedExamInfo":
+			TeacherStartExamController.tseController.setReadyExam((IExam) msg[1]);
+			break;
+		default:
+			ClientController.display(msg[0].toString() + " is missing!");
+			break;
 		}
-
 	}
 
 	/**
@@ -199,6 +195,9 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "getQuestionsTableViewInfo":
 				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
+				return;
+			case "setQuestionInExam":
+				TeacherStartExamController.tseController.setExamQuestions(questionList);
 				return;
 			default:
 				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
