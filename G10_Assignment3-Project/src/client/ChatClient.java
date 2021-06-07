@@ -10,19 +10,19 @@ import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
-import gui.client.student.StudentTakeExamManuallyController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
+import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
+import gui.client.teacher.TeacherStartExamController;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
-import logic.exam.ManualExam;
 import logic.question.Question;
 import ocsf.client.AbstractClient;
 
@@ -78,9 +78,10 @@ public class ChatClient extends AbstractClient {
 			handleArraysMessagesFromServer((Object[]) msg);
 		else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		else if (msg instanceof ManualExam)
-			StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
+		//else if (msg instanceof ManualExam)
+			//StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
 
+		
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
 	}
@@ -91,20 +92,17 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		Object obj = msg[0];
-
-		if (obj instanceof String) {
-			String[] stringArray = (String[]) msg;
-			switch (stringArray[0]) {
-			case "checkQuestionExistsInExam":
-				TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(stringArray[1]);
-				break;
-			default:
-				ClientController.display(stringArray[0] + " is missing!");
-				break;
-			}
+		switch (msg[0].toString()) {
+		case "checkQuestionExistsInExam":
+			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
+			break;
+		case "setRequestedExamInfo":
+			TeacherStartExamController.tseController.setReadyExam((IExam) msg[1]);
+			break;
+		default:
+			ClientController.display(msg[0].toString() + " is missing!");
+			break;
 		}
-
 	}
 
 	/**
@@ -129,21 +127,23 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
 
-		else if (msg.contains("ChangePassword SUCCESS - ")) // ChangePassword Success
+	 else if (msg.contains("ChangePassword SUCCESS - ")){ // ChangePassword Success
 			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-		else if (msg.contains("courseName:")) // TakeComputerizedExam Error
+					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
-		else if (msg.contains("CreateQuestion SUCCESS - ")) // CreateQuestion Success
+		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
-			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
-
-		else if (msg.contains("GetSubjectsWithBank ERROR - ")) // ChooseEditQuestion Error
-			TeacherChooseEditQuestionController.tceqController
-			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
-		else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
+					.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
+			TeacherCreateManualExamController.tcmeController
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
+			TeacherChooseEditQuestionController.tceqController
+					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		} else
 			ClientController.display(msg);
 	}
@@ -158,23 +158,32 @@ public class ChatClient extends AbstractClient {
 		Object obj = msg.get(0);
 		msg.remove(0);
 		if (obj instanceof String) { // list of String
-			List<String> list = ((List<String>) msg);
+			List<String> stringList = ((List<String>) msg);
 			switch (obj.toString()) {
 			case "getSubjectsByUsername":
-				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(list);
+				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getSubjectWithExistingBanks":
-				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(list);
+				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getCoursesByUserName":
-				TeacherReportsController.trController.setCoursesCoiseBox(list);
+				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				return;
-			case "getBanksByUsername":
-				TeacherCreateExamController.tceController.setBankChoiceBox(list);
+			case "getBanksByUsername1":
+				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
 				return;
-			case "getCourseBySubject":
-				TeacherCreateExamController.tceController.setCourseChoiceBox(list);
+			case "getBanksByUsername2":
+				TeacherCreateManualExamController.tcmeController.setBankChoiceBox(stringList);
 				return;
+			case "getCourseBySubject1":
+				TeacherCreateExamController.tceController.setCourseChoiceBox(stringList);
+				return;
+			case "getCourseBySubject2":
+				TeacherCreateManualExamController.tcmeController.setCourseChoiceBox(stringList);
+				return;
+			case "SetAllExamIDs":
+				TeacherStartExamController.tseController.setExamIDs(stringList);
+				break;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
@@ -195,6 +204,9 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "getQuestionsTableViewInfo":
 				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
+				return;
+			case "setQuestionInExam":
+				TeacherStartExamController.tseController.setExamQuestions(questionList);
 				return;
 			default:
 				ClientController.display(((Question) obj).getQuestionID() + " is missing!");

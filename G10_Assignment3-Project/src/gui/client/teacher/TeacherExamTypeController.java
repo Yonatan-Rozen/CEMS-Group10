@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,20 +67,16 @@ public class TeacherExamTypeController implements Initializable {
 	}
 
 	// ACTION METHODS *******************************************************
-//	@FXML
-//	void btnPressCancelCreation(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressCancelCreation");
-//	}
 
     @FXML
     void btnPressComputerized(ActionEvent event) throws Exception{
 		System.out.println("TeacherExamType::btnPressComputerized");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherCreateExam.fxml")));
+		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
     }
 
     @FXML
     void btnPressManual(ActionEvent event) throws Exception{
 		System.out.println("TeacherExamType::btnPressManual");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherCreateManualExam.fxml")));
+		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
     }
 }

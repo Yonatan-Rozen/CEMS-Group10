@@ -72,6 +72,7 @@ public class TeacherMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tmbController = new TeacherMenuBarController();
 		ClientUI.mainStage.setWidth(1150);
 		ClientUI.mainStage.setHeight(650);
 		ClientUI.mainStage.setTitle("Computerized Exam Management System (Teacher)");
@@ -87,7 +88,6 @@ public class TeacherMenuController implements Initializable {
 		editExamBtn = sbEditExamBtn;
 		viewReportBtn = sbViewReportBtn;
 		settingsBtn = sbSettingsBtn;
-		tmbController = new TeacherMenuBarController();
 		ClientUI.mainStage.show();
 	}
 
@@ -104,7 +104,7 @@ public class TeacherMenuController implements Initializable {
 		tmbController.start();
 		tmbController.btnPressCreateExam(event);
 	}
-
+	
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateQuestion");

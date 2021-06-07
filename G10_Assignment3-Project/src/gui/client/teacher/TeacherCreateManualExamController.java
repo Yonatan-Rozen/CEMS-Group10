@@ -1,5 +1,6 @@
 package gui.client.teacher;
 
+import javafx.scene.control.TextArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,13 +35,28 @@ public class TeacherCreateManualExamController implements Initializable {
 	// JAVAFX INSTNCES ******************************************************
 
 	@FXML
+	private AnchorPane sbBotPanelAp;
+
+	@FXML
 	private AnchorPane sbTopPanelAp;
+
+	@FXML
+	private Button sbFinishBtn;
+
+	@FXML
+	private Button sbChangeQustionBankBtn;
+
+	@FXML
+	private Button sbSearchBtn;
 
 	@FXML
 	private Button sbContinue1Btn;
 
 	@FXML
-	private AnchorPane sbBotPanelAp;
+	private TextArea sbUploadFileTa;
+
+	@FXML
+	private TextArea sbAllocatedTimeTa;
 
 	@FXML
 	private ChoiceBox<String> sbChooseCourseCb;
@@ -47,29 +64,21 @@ public class TeacherCreateManualExamController implements Initializable {
 	@FXML
 	private ChoiceBox<String> sbExamBankCb;
 
-	@FXML
-	private TableColumn<Question, Void> sbRemoveFromExamTc;
-
-	@FXML
-	private Button sbChangeBankBtn;
-
-	@FXML
-	private Button sbContinue2Btn;
-
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
 	private static ChoiceBox<String> examBankCb;
-	private static Button continue1Btn;
 	private static AnchorPane botPanelAp;
 	private static ChoiceBox<String> chooseCourseCb;
-	private static Button changeBankBtn;
-	private static Button continue2Btn;
+	private static Button finishBtn;
+	private static Button changeQustionBankBtn;
+	private static Button searchBtn;
+	private static Button continue1Btn;
+	private static TextArea uploadFileTa;
+	private static TextArea allocatedTimeTa;
 
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
-	private static List<Question> questionList;
-	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
@@ -79,34 +88,37 @@ public class TeacherCreateManualExamController implements Initializable {
 
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
-
 		examBankCb = sbExamBankCb;
 		// set "----------" as the first value of the choice box
 		examBankCb.setValue("----------");
 		// set the choice box to get it's items from 'bankList'
 		examBankCb.setItems(bankList);
-
+		searchBtn = sbSearchBtn;
 		continue1Btn = sbContinue1Btn;
 		botPanelAp = sbBotPanelAp;
+		changeQustionBankBtn = sbChangeQustionBankBtn;
+		finishBtn = sbFinishBtn;
 		botPanelAp.setDisable(true);
 		chooseCourseCb = sbChooseCourseCb;
-		changeBankBtn = sbChangeBankBtn;
-		continue2Btn = sbContinue2Btn;
+		allocatedTimeTa = sbAllocatedTimeTa;
+		uploadFileTa = sbUploadFileTa;
 
 		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2"});
 		}
 	}
 
 	// ACTION METHODS *******************************************************
-//	@FXML
-//	void btnPressCancelCreation(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressCancelCreation");
-//	}
 
 	@FXML
-	void btnPressChangeBank(ActionEvent event) {
-		System.out.println("TeacherCreateManualExam::btnPressChangeBank");
+	void btnPressSearch(ActionEvent event) {
+		System.out.println("TeacherCreateManualExam::btnPressSearch");
+
+	}
+	
+	@FXML
+	void btnPressChangeQustionBank(ActionEvent event) {
+		System.out.println("TeacherCreateManualExam::btnPressChangeQustionBank");
 		sbTopPanelAp.setDisable(false);
 		sbBotPanelAp.setDisable(true);
 		examBankCb.setValue("----------");
@@ -119,20 +131,36 @@ public class TeacherCreateManualExamController implements Initializable {
 
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
-//		chooseCourseCb.setValue("----------");
 		ClientUI.chat
-				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
+				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() ,"2" });
 
 		chooseCourseCb.setItems(CourseList);
 	}
 
 	@FXML
-	void btnPressContinue2(ActionEvent event) throws Exception {
-		System.out.println("TeacherCreateManualExam::btnPressContinue2");
+	void btnPressFinish(ActionEvent event) throws Exception {
+		System.out.println("TeacherCreateManualExam::btnPressFinish");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateManualExam",chooseCourseCb.getValue(),examBankCb.getValue(),author, ChatClient.user.getUsername() });
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherExamType.fxml")));
+		ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
+				examBankCb.getValue(), author, ChatClient.user.getUsername() });
+		TeacherMenuBarController.mainPaneBp
+		.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
 	}
 	
+	// EXTERNAL USE METHODS **************************************************
+	public void setBankChoiceBox(List<String> msg) {
+		System.out.println(msg.toString());
+		bankList.addAll(msg);
+	}
+	
+	public void setCourseChoiceBox(List<String> msg) {
+		System.out.println(msg.toString());
+		CourseList.addAll(msg);
+		System.out.println(CourseList);
+	}
+	
+	public void successfulCreateExam(String Msg) {
+		msg = Msg;
+	}
 }
