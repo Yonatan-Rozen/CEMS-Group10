@@ -33,6 +33,6 @@ public class ComputerizedExam extends Exam {
 
 	@Override
 	public String toString() {
-		return super.toString()+String.format("%s %s %s",scores,teacherComments,studentComments);
+		return super.toString()+String.format("%s %s %s",scores,studentComments,teacherComments);
 	}
 }
