@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleReportsByStudentController">
    <children>
-      <BarChart fx:id="sbHistogramBc" layoutX="50.0" layoutY="198.0" prefHeight="336.0" prefWidth="800.0">
+      <BarChart fx:id="sbHistogramBc" animated="false" layoutX="50.0" layoutY="198.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
          <xAxis>
             <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
                <tickLabelFont>

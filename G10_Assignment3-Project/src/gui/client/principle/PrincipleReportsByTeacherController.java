@@ -78,7 +78,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	private static Label teacherIDLbl;
 
 	// STATIC  INSTANCES ****************************************************
-	public static ObservableList<String> coursesList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
 	public static List <ExamResults> examResultsList;
 	private int index=0;
 	private static Series series;
@@ -106,7 +106,8 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			previousRepBtn.setDisable(true);
 			courcesCb = sbCourcesCb;
 			showReportsByCourseBtn = sbShowReportsByCourseBtn;
-
+			coursesList.clear();
+			coursesList.add("----------");
 			// set "----------" as the first value of the choice box
 			courcesCb.setValue("----------");
 
@@ -127,11 +128,12 @@ public class PrincipleReportsByTeacherController implements Initializable {
 				}
 			});
 
+
+
 			showReportsByCourseBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			if (coursesList.size() == 1) // add courses only once
-				ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"P"});
+			ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"P"});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -153,6 +155,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	void btnPressShowReportsByCourse(ActionEvent event) {
 		System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetails",courcesCb.getValue(), PrincipleViewReportsController.insertedValue,"P" });
+		histogramBc.getData().removeAll(series);
 		setExamResultData();
 	}
 

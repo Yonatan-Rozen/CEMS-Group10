@@ -78,7 +78,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private static Label courseIDLbl;
 
 	// STATIC  INSTANCES ****************************************************
-	public static ObservableList<String> teachersList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> teachersList = FXCollections.observableArrayList();
 	//public static List <String> teachersIDsList;
 	public static List <ExamResults> examResultsList;
 	private int index=0;
@@ -106,7 +106,8 @@ public class PrincipleReportsByCourseController implements Initializable {
 			teachersCb = sbTeachersCb;
 			showReportsByTeacherBtn = sbShowReportsByTeacherBtn;
 			courseIDLbl.setText(" "+PrincipleViewReportsController.insertedValue);
-
+			teachersList.clear();
+			teachersList.add("----------");
 
 			// set "----------" as the first value of the choice box
 			teachersCb.setValue("----------");
@@ -131,8 +132,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 			showReportsByTeacherBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			if (teachersList.size() == 1) // add courses only once
-				ClientUI.chat.accept(new String[] { "GetTeachers", PrincipleViewReportsController.insertedValue});
+			ClientUI.chat.accept(new String[] { "GetTeachers", PrincipleViewReportsController.insertedValue});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

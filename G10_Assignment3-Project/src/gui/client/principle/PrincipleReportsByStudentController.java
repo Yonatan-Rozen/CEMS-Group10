@@ -78,7 +78,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 	private static Label studentIDLbl;
 
 	// STATIC  INSTANCES ****************************************************
-	public static ObservableList<String> coursesList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
 	public static List <ExamResults> examResultsList;
 	private int index=0;
 	private static Series series;
@@ -105,7 +105,8 @@ public class PrincipleReportsByStudentController implements Initializable {
 			courcesCb = sbCourcesCb;
 			showReportsByCourseBtn = sbShowReportsByCourseBtn;
 			studentIDLbl.setText(" "+PrincipleViewReportsController.insertedValue);
-
+			coursesList.clear();
+			coursesList.add("----------");
 
 			// set "----------" as the first value of the choice box
 			courcesCb.setValue("----------");
@@ -130,8 +131,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 			showReportsByCourseBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			if (coursesList.size() == 1) // add courses only once
-				ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"S"});
+			ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"S"});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,7 +169,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 
 	@FXML
 	void btnPressShowReportsByCourse(ActionEvent event) {
-		System.out.println(PrincipleViewReportsController.insertedValue);
+		//System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetails",courcesCb.getValue(), PrincipleViewReportsController.insertedValue,"S" });
 		setExamResultData();
 	}
