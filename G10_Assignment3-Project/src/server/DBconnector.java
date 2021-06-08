@@ -171,6 +171,8 @@ public class DBconnector {
 				break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
+			case "GetTypeOfExamAndOptionalComments":
+				getTypeOfExamAndOptionalComments(request[1], client);
 				break;
 			case "GetFullComputerizedExamInfoByExamID": // TODO this query isn't used !
 				getFullComputerizedExamDetailsByID(request[1], client);
@@ -1050,19 +1052,19 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-	 * Sends the teacher the exam by the exam ID
-	 *
+	 * Sends the teacher the comments made by the creator and the type of the exam
+	 * 
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
 	 * @throws IOException
 	 *
 	 * @author Yonatan Rozen
 	 */
-	private void getExamInfoByID(String examID, ConnectionToClient client) throws IOException {
-		IExam exam = null;
+	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
+		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT Type, TeacherComments FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
 				if (rs.getString(9).equals("C")) {
 					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
@@ -1071,10 +1073,13 @@ public class DBconnector {
 					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
 				}
+				typeAndOptionalComments[1] = rs.getString(1);
+				typeAndOptionalComments[2] = rs.getString(2);
 			}
 			rs.close();
 			client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
-		} catch (SQLException e) {
+			client.sendToClient(typeAndOptionalComments);
+		}catch(SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
 			return;
