@@ -1499,33 +1499,30 @@ public class DBconnector {
 	// TODO just a signal
 	public void getTeacherNamesByCourseID(String courseID, ConnectionToClient client) throws IOException {
 		List<String> TeachrsNamesList = new ArrayList<>();
-		// List<String> TeachrsIDsList = new ArrayList<>();
-		// if the principle inserted the course ID : 0201
-		// then : courseIDafterSplit = 02
-		// subjectID = 01
+		//List<String> TeachrsIDsList = new ArrayList<>();
+		//if the principle inserted the course ID : 0201
+		//then : courseIDafterSplit = 02
+		//		 subjectID = 01
 		// the course's name is : 'Algebra 2'
-		// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 (
-		// Danielle Sarusi ) , 4 ( Yonatan Rozen )
+		// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 ( Danielle Sarusi ) , 4 ( Yonatan Rozen )
 		// the teachers who had an exam done in the course : Danielle Sarusi
 		String subjectID = courseID.substring(2);
 		String courseIDafterSplit = courseID.substring(0, 2);
 		TeachrsNamesList.add("TeachrsNamesListForPrincipleReportByCourse");
-		// TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
+		//TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
-							+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '"
-							+ courseIDafterSplit + "' and C.SubjectID='" + subjectID
-							+ "' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results RC "
+					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
+					+ "' and C.SubjectID='"+subjectID+"' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
 			while (rs.next()) {
-				TeachrsNamesList.add(rs.getString(1) + " ID:" + rs.getString(2)); // Danielle Sarusi ID:3
-				// TeachrsIDsList.add(rs.getString(2));
+				TeachrsNamesList.add(rs.getString(1) +" ID:"+ rs.getString(2)); // Danielle Sarusi ID:3
+				//	TeachrsIDsList.add(rs.getString(2));
 			}
 			rs.close();
 			System.out.println(TeachrsNamesList);
 			client.sendToClient(TeachrsNamesList);
-			// client.sendToClient(TeachrsIDsList);
+			//client.sendToClient(TeachrsIDsList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
