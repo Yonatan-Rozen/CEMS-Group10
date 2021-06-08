@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -131,7 +132,7 @@ public class TeacherCreateExamController implements Initializable {
 		continue2Btn = sbContinue2Btn;
 
 		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() ,"1" });
 		}
 	}
 
@@ -151,16 +152,15 @@ public class TeacherCreateExamController implements Initializable {
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
-		CourseList.clear(); // clear list
-		
-		
-
 		System.out.println("TeacherCreateExam::btnPressContinue1");
+
+		CourseList.clear(); // clear list
+
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
 //		chooseCourseCb.setValue("----------");
 		ClientUI.chat
-				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() });
+				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() , "1" });
 
 		chooseCourseCb.setItems(CourseList);
 
@@ -244,7 +244,6 @@ public class TeacherCreateExamController implements Initializable {
 		};
 		addToExamTc.setCellFactory(btnCellFactory2);
 
-		
 		// set up current table view
 		questionID2Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
 		questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
@@ -328,8 +327,11 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam",chooseCourseCb.getValue(),examBankCb.getValue(),author, ChatClient.user.getUsername() });
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherExamType.fxml")));
+		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
+				examBankCb.getValue(), author, ChatClient.user.getUsername() });
+		TeacherMenuBarController.mainPaneBp
+				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherComputerizedExamDefinitions"));
+
 	}
 
 	// EXTERNAL USE METHODS **************************************************
@@ -358,19 +360,19 @@ public class TeacherCreateExamController implements Initializable {
 		questionObservableList.add(question);
 		currentQuestionsTable.setItems(questionObservableList);
 	}
-	
+
 	public void removeQuestionFromCurrentQuestions(Question question) {
 		questionObservableList.remove(question);
 		currentQuestionsTable.setItems(questionObservableList);
 	}
-	
+
 	public void setQuestionTableView(List<Question> questions) {
 		questionList = questions;
 		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 		questionObservableList.addAll(questions);
 		availableQuestionsTv.setItems(questionObservableList);
 	}
-	
+
 	public void successfulCreateExam(String Msg) {
 		msg = Msg;
 	}

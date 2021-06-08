@@ -12,6 +12,7 @@ import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
+import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
@@ -127,21 +128,23 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
 
-		else if (msg.contains("ChangePassword SUCCESS - ")) // ChangePassword Success
+	 else if (msg.contains("ChangePassword SUCCESS - ")){ // ChangePassword Success
 			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-		else if (msg.contains("courseName:")) // TakeComputerizedExam Error
+					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
-		else if (msg.contains("CreateQuestion SUCCESS - ")) // CreateQuestion Success
+		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
-			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
-
-		else if (msg.contains("GetSubjectsWithBank ERROR - ")) // ChooseEditQuestion Error
-			TeacherChooseEditQuestionController.tceqController
-			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
-		else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
+					.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
+			TeacherCreateManualExamController.tcmeController
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
+			TeacherChooseEditQuestionController.tceqController
+					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		} else
 			ClientController.display(msg);
 	}
@@ -167,11 +170,17 @@ public class ChatClient extends AbstractClient {
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				return;
-			case "getBanksByUsername":
+			case "getBanksByUsername1":
 				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
 				return;
-			case "getCourseBySubject":
+			case "getBanksByUsername2":
+				TeacherCreateManualExamController.tcmeController.setBankChoiceBox(stringList);
+				return;
+			case "getCourseBySubject1":
 				TeacherCreateExamController.tceController.setCourseChoiceBox(stringList);
+				return;
+			case "getCourseBySubject2":
+				TeacherCreateManualExamController.tcmeController.setCourseChoiceBox(stringList);
 				return;
 			case "SetAllExamIDs":
 				TeacherStartExamController.tseController.setExamIDs(stringList);
