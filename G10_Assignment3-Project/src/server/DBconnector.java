@@ -202,6 +202,11 @@ public class DBconnector {
 		}
 	}
 
+	private void getExamInfoByID(String string, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
 			throws IOException {
 
@@ -1052,8 +1057,13 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
+<<<<<<< HEAD
+	 * Sends the teacher the exam by the exam ID
+	 *
+=======
 	 * Sends the teacher the comments made by the creator and the type of the exam
 	 *
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
 	 * @throws IOException
@@ -1062,6 +1072,7 @@ public class DBconnector {
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
 		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
+		IExam exam=null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Type, TeacherComments FROM exams WHERE ExamID = '" + examID + "'");
