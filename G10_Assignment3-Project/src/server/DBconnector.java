@@ -1283,8 +1283,8 @@ public class DBconnector {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 					+ "FROM exams E, courses C , banks B, exams_results RC "
-					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'"
-					+ " and B.UsernameT='"+ teacherDetailes[1] +"' and B.SubjectID='"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
+					+ "WHERE C.CourseID=E.CourseID and C.CourseID= '" + courseIDafterSplit + "'"
+					+ " and B.UsernameT= '"+ teacherDetailes[1] +" and B.SubjectID= '"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID " + " ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1509,9 +1509,9 @@ public class DBconnector {
 		//TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results RC "
+			ResultSet rs = stmt.executeQuery("SELECT E.Author, E.Username FROM exams E, courses C , banks B, exams_results RC "
 					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
-					+ "' and C.SubjectID='"+subjectID+"' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
+					+ "' and C.SubjectID='"+subjectID+"' B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
 			while (rs.next()) {
 				TeachrsNamesList.add(rs.getString(1) +" ID:"+ rs.getString(2)); // Danielle Sarusi ID:3
 				//	TeachrsIDsList.add(rs.getString(2));
