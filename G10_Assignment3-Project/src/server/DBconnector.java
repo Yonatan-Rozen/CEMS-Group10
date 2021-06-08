@@ -156,7 +156,6 @@ public class DBconnector {
 			case "GetTeachers":
 				getTeacherNamesByCourseID(request[1], client);
 				break;
-
 			case "GetExamDetails":
 				getExamsIDAndGradesByUsernameAndCourseName(request[1], request[2], request[3], client);
 				break;
@@ -1237,7 +1236,7 @@ public class DBconnector {
 
 	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
 			ConnectionToClient client) throws IOException {
-		System.out.println(type);
+		System.out.println("type="+type+"\nuser="+userName);
 		List<ExamResults> examResultsList = new ArrayList<>();
 		if (type.equals("T"))
 			examResultsList.add(new ExamResults("getExamDetailsForTeacher", "0"));
@@ -1250,10 +1249,20 @@ public class DBconnector {
 		// TODO take care of student report query
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
-					+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
-					+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
-					+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID " + " ORDER BY E.ExamID");
+			ResultSet rs=null;
+			if(type.equals("T")||type.equals("P")) {
+				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+						+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
+						+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
+						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID " + " ORDER BY E.ExamID");
+			}
+			else if(type.equals("S")) {
+				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+						+"FROM exams E, courses C , exams_results_computerized ERC, banks B "
+						+"where ERC.ExamID=E.ExamID and E.CourseID=C.CourseID and C.CourseName='"+courseName+"' and ERC.UsernameS='"+userName+"'"
+						+" and B.BankID=E.BankID and C.SubjectID=B.SubjectID "
+						+"ORDER BY E.ExamID");
+			}
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1265,6 +1274,7 @@ public class DBconnector {
 
 			rs.close();
 			System.out.println(examResultsList);
+			System.out.println("FINISHED query to get exam ID and grade");
 			client.sendToClient(examResultsList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -1299,9 +1309,9 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
-					+ "FROM exams E, courses C , banks B, exams_results RC "
-					+ "WHERE C.CourseID=E.CourseID and C.CourseID= '" + courseIDafterSplit + "'"
-					+ " and B.UsernameT= '"+ teacherDetailes[1] +" and B.SubjectID= '"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID " + " ORDER BY E.ExamID");
+					+ "FROM exams E, courses C , banks B, exams_results_computerized RC "
+					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'"
+					+ " and B.UsernameT='"+ teacherDetailes[1] +"' and B.SubjectID='"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1526,9 +1536,9 @@ public class DBconnector {
 		//TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.Author, E.Username FROM exams E, courses C , banks B, exams_results RC "
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results RC "
 					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
-					+ "' and C.SubjectID='"+subjectID+"' B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
+					+ "' and C.SubjectID='"+subjectID+"' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
 			while (rs.next()) {
 				TeachrsNamesList.add(rs.getString(1) +" ID:"+ rs.getString(2)); // Danielle Sarusi ID:3
 				//	TeachrsIDsList.add(rs.getString(2));
