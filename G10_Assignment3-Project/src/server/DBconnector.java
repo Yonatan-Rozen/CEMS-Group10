@@ -1256,6 +1256,7 @@ public class DBconnector {
 		}
 	}
 
+
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -1267,26 +1268,23 @@ public class DBconnector {
 	 * @author Meitar El Ezra
 	 */
 
-	private void getExamsIDAndGradesByCourseIDandTeacherName(String TeacherNameAndID, String courseID,
-			ConnectionToClient client) throws IOException {
+	private void getExamsIDAndGradesByCourseIDandTeacherName(String TeacherNameAndID, String courseID,ConnectionToClient client) throws IOException {
 		List<ExamResults> examResultsList = new ArrayList<>();
 		examResultsList.add(new ExamResults("getExamDetailsForPrincipleCourse", "0"));
-		String[] teacherDetailes = TeacherNameAndID.split(" ID:"); // "Danielle Sarusi ID:3" ---> ["Danielle
-		// Sarusi"],["3"]
+		String[] teacherDetailes=TeacherNameAndID.split(" ID:"); // "Danielle Sarusi ID:3" ---> ["Danielle Sarusi"],["3"]
 		String subjectID = courseID.substring(2);
 		String courseIDafterSplit = courseID.substring(0, 2);
 		String lastExamID = "";
 		ExamResults er = null;
 		// find each teacher who teaches course the userID
-		// fix query
+		//fix query
 		// chatClient
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT E.ExamID, GradeByTeacher " + "FROM exams E, courses C , banks B, exams_results_computerized RC "
-							+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'"
-							+ " and B.UsernameT='" + teacherDetailes[1] + "' and B.SubjectID='" + subjectID
-							+ "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
+			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+					+ "FROM exams E, courses C , banks B, exams_results RC "
+					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'"
+					+ " and B.UsernameT='"+ teacherDetailes[1] +"' and B.SubjectID='"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1468,8 +1466,7 @@ public class DBconnector {
 				String subjectID = ID.substring(2);
 				String courseIDafterSplit = ID.substring(0, 2);
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * From courses WHERE CourseID = '" + courseIDafterSplit
-						+ "' and SubjectID='" + subjectID + "'");
+				ResultSet rs = stmt.executeQuery("SELECT * From courses WHERE CourseID = '" + courseIDafterSplit + "' and SubjectID='"+subjectID+"'");
 
 				if (rs.next()) {
 					System.out.println("RS NOT EMPTY");
@@ -1491,7 +1488,7 @@ public class DBconnector {
 	 * course
 	 *
 	 * @param courseID the course identifier : courseID + SubjectID
-	 * @param client   principle
+	 * @param client principle
 	 * @throws IOException
 	 *
 	 * @author Meitar El-Ezra
