@@ -1,17 +1,11 @@
 package gui.client.teacher;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
-import common.CommonMethodsHandler;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,14 +71,14 @@ public class TeacherReportsController implements Initializable {
 	public static List <ExamResults> examResultsList;
 	private int index=0;
 	private static Series series;
-	
-	public void start() throws IOException {
+
+	/*public void start() throws IOException {
 		// example **************************************
 		TeacherMenuBarController.mainPaneBp
 				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherReports"));
 		// **********************************************
 	}
-
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		trController = new TeacherReportsController();
@@ -99,7 +93,7 @@ public class TeacherReportsController implements Initializable {
 		previousRepBtn.setDisable(true);
 		courcesCb = sbCourcesCb;
 		showReportsByCourseBtn = sbShowReportsByCourseBtn;
-	
+
 		// set "----------" as the first value of the choice box
 		courcesCb.setValue("----------");
 
@@ -109,22 +103,22 @@ public class TeacherReportsController implements Initializable {
 		// set up a listener that sets the disable value of
 		// 'showReportsByCourseBtn' according to the selected value
 		courcesCb.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-					if (newValue != null) {
-						if (newValue.equals("----------"))
-							showReportsByCourseBtn.setDisable(true);
-						else
-							showReportsByCourseBtn.setDisable(false);
-					}
-				});
+		.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+			if (newValue != null) {
+				if (newValue.equals("----------"))
+					showReportsByCourseBtn.setDisable(true);
+				else
+					showReportsByCourseBtn.setDisable(false);
+			}
+		});
 		showReportsByCourseBtn.setDisable(true);
 
 		if (coursesList.size() == 1) // add courses only once
-			ClientUI.chat.accept(new String[] { "GetCourses", ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "GetCourses", ChatClient.user.getUsername(),"T" });
 	}
 
 	// ACTION METHODS *******************************************************
-	
+
 
 	@FXML
 	void BtnPressPreviousRep(ActionEvent event) {
@@ -143,7 +137,7 @@ public class TeacherReportsController implements Initializable {
 		index++;
 		if(index==1)
 			previousRepBtn.setDisable(false);
-		if(index==examResultsList.size()-1) 
+		if(index==examResultsList.size()-1)
 			nextRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
@@ -153,7 +147,7 @@ public class TeacherReportsController implements Initializable {
 	@FXML
 	void btnPressShowReportsByCourse(ActionEvent event) {
 		histogramBc.getData().removeAll(series);
-		ClientUI.chat.accept(new String[] { "GetExamDetails",courcesCb.getValue(), ChatClient.user.getUsername() });
+		ClientUI.chat.accept(new String[] { "GetExamDetails",courcesCb.getValue(), ChatClient.user.getUsername(),"T" });
 		if(examResultsList.size()==1)
 			nextRepBtn.setDisable(true);
 		setExamResultData();
@@ -165,9 +159,9 @@ public class TeacherReportsController implements Initializable {
 
 	public void setExamResultsDetails(List<ExamResults> examResultsList) {
 		TeacherReportsController.examResultsList=examResultsList;
-		
+
 	}
-	
+
 	public void setExamResultData() {
 		ExamResults er=examResultsList.get(index);
 		examIDLbl.setText("ExamID: #" + er.getExamID());
