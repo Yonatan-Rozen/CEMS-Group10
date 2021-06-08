@@ -1053,7 +1053,8 @@ public class DBconnector {
 	// ***********************************************************************************************
 	/**
 	 * Sends the teacher the comments made by the creator and the type of the exam
-	 * 
+	 *
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
 	 * @throws IOException
