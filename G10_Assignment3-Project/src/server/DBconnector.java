@@ -649,7 +649,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-
+		ServerUI.serverConsole.println(("user [" + user.getUsername() + "] has connected successfully!"));
 		client.sendToClient(user);
 	}
 
