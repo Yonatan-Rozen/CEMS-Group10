@@ -108,8 +108,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		stceController = new StudentTakeComputerizedExamController();
-		ClientUI.mainStage.setWidth(900);
-		ClientUI.mainStage.setHeight(650);
 		examOfCourseLbl = sbExamOfCourseLbl;
 		generalInfoTa = sbGeneralInfoTa;
 		scorelbl = sbScorelbl;
@@ -127,8 +125,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
 		setExamID(null); // default value for now
+
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
+
 		scoresOfQuestions = exam.getScores().split("\\|");
+		System.out.println("scoresOfQuestions : "+scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.length];
 	}
 
@@ -186,8 +187,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 		// successful submit example ***********************************
 		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene
-		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		// *************************************************************
 	}
 
@@ -205,7 +205,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		}
 
 		else {
-			examID = "010301"; // default exam
+			examID = "010101"; // default exam
 		}
 
 	}
