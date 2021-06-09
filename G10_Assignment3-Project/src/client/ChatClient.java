@@ -199,6 +199,9 @@ public class ChatClient extends AbstractClient {
 			case "TeachrsNamesListForPrincipleReportByCourse":
 				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
+			case "getExamsQuestionsByExamID":
+				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
+				return;
 				//	case "TeachrsIDsListForPrincipleReportByCourse":
 				//	PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
 				//return;
