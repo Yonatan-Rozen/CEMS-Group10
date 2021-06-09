@@ -1178,14 +1178,14 @@ public class DBconnector {
 			coursesList.add("getCoursesByUserNameForPrincipleTeacher");
 		else if (type.equals("S"))
 			coursesList.add("getCoursesByUserNameForPrincipleStudent");
-		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher
+		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had exams
 		{
 			try {
 
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
-						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E WHERE B.UsernameT = '" + userName
-						+ "' AND B.BankID = E.BankID) as CS "
+						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '" + userName
+						+ "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
 						+ " WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 				while (rs.next()) {
 					coursesList.add(rs.getString(1));
@@ -1201,14 +1201,15 @@ public class DBconnector {
 			}
 		} else if (type.equals("S")) { // return a list of the courses that a student has taken their exams
 			try {
-
+				System.out.println("got to courses query for student "+userName);
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt
-						.executeQuery("SELECT C.CourseName FROM courses C, exams_results ER, exams E, banks B "
+						.executeQuery("SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
 				while (rs.next()) {
+					System.out.println("there are courses with exams for student "+userName);
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
@@ -1254,7 +1255,7 @@ public class DBconnector {
 				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 						+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
 						+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
-						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID " + " ORDER BY E.ExamID");
+						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID and C.SubjectID=B.SubjectID" + " ORDER BY E.ExamID");
 			}
 			else if(type.equals("S")) {
 				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "

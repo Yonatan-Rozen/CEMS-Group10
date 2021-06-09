@@ -96,7 +96,6 @@ public class PrincipleViewReportsController implements Initializable{
 	void btnPressProduceByStudent(ActionEvent event) {
 		System.out.println("PrincipleViewReports::btnPressProduceByStudent");
 		insertedValue=studentIDTf.getText();
-		System.out.println(insertedValue);
 
 		if(insertedValue.equals("") || insertedValue.equals(null)) {
 			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No student ID was inserted. Please re-enter.").showAndWait();

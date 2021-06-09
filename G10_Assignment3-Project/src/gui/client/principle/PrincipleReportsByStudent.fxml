@@ -12,22 +12,6 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleReportsByStudentController">
    <children>
-      <BarChart fx:id="sbHistogramBc" animated="false" layoutX="50.0" layoutY="198.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
-         <xAxis>
-            <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
-               <tickLabelFont>
-                  <Font name="Pristina" size="20.0" />
-               </tickLabelFont>
-            </CategoryAxis>
-         </xAxis>
-         <yAxis>
-            <NumberAxis fx:id="sbNumberAxis" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
-               <tickLabelFont>
-                  <Font name="Pristina" size="20.0" />
-               </tickLabelFont>
-            </NumberAxis>
-         </yAxis>
-      </BarChart>
       <Line endX="50.0" endY="260.0" layoutY="-135.0" startX="850.0" startY="260.0" />
       <Label layoutX="293.0" layoutY="14.0" text="View exam reports" textAlignment="JUSTIFY" underline="true">
          <font>
@@ -39,23 +23,6 @@
             <Font name="System Italic" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="sbExamIDLbl" layoutX="106.0" layoutY="136.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
-         <font>
-            <Font name="System Italic" size="25.0" />
-         </font>
-      </Label>
-      <Label fx:id="sbMedianLbl" layoutX="536.0" layoutY="136.0" text="Median : 80">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
-      <Label fx:id="sbAverageLbl" layoutX="697.0" layoutY="136.0" text="Average : 80">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
-      <Line endX="48.0" endY="262.0" layoutX="476.0" layoutY="-88.0" startX="374.0" startY="262.0" />
-      <Line endX="204.5" endY="33.5" layoutX="485.0" layoutY="140.0" startX="204.5" startY="-14.5" />
       <Button fx:id="sbNextRepBtn" layoutX="736.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnPressNextRep" text="NEXT &gt;&gt;&gt;">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -69,10 +36,9 @@
       <Line endX="-150.0" endY="535.5" layoutX="999.5" startX="-150.0" startY="124.5" />
       <Line endX="50.0" endY="260.0" layoutY="275.0" startX="850.0" startY="260.0" />
       <Line endX="-150.0" endY="535.5" layoutX="200.5" startX="-150.0" startY="124.5" />
-      <Line endX="204.5" endY="33.5" layoutX="319.0" layoutY="140.0" startX="204.5" startY="-14.5" />
       <Button fx:id="sbBackToViewReportsBtn" layoutX="50.0" layoutY="28.0" mnemonicParsing="false" onAction="#btnPressBackToViewReports" text="BACK">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <ChoiceBox fx:id="sbCourcesCb" layoutX="470.0" layoutY="63.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
@@ -91,5 +57,43 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="sbBarChartContainerPn" layoutX="49.0" layoutY="123.0" prefHeight="412.0" prefWidth="801.0">
+         <children>
+            <Label fx:id="sbMedianLbl" layoutX="485.0" layoutY="8.0" prefHeight="36.0" prefWidth="150.0" text="Median : 80">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Line endX="635.0" endY="52.0" startX="635.0" />
+            <Line endX="475.0" startX="475.0" startY="52.5" />
+            <Line endX="800.0" endY="52.0" startX="474.5" startY="53.0" />
+            <Label fx:id="sbExamIDLbl" layoutX="14.0" layoutY="8.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
+               <font>
+                  <Font name="System Italic" size="25.0" />
+               </font>
+            </Label>
+            <BarChart fx:id="sbHistogramBc" animated="false" layoutX="-6.0" layoutY="54.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
+               <xAxis>
+                  <CategoryAxis label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
+                     <tickLabelFont>
+                        <Font name="Pristina" size="20.0" />
+                     </tickLabelFont>
+                  </CategoryAxis>
+               </xAxis>
+               <yAxis>
+                  <NumberAxis animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
+                     <tickLabelFont>
+                        <Font name="Pristina" size="20.0" />
+                     </tickLabelFont>
+                  </NumberAxis>
+               </yAxis>
+            </BarChart>
+            <Label fx:id="sbAverageLbl" layoutX="643.0" layoutY="8.0" prefHeight="36.0" prefWidth="150.0" text="Average : 80">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
