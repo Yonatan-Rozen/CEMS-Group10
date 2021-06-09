@@ -358,19 +358,22 @@ public class DBconnector {
 	 */
 	private void getExamsQuestionsByExamID(String examID, ConnectionToClient client) throws IOException {
 		List<Question> questionsOfExam = new ArrayList<>();
+		List<String> questionsScores=new ArrayList<>();
 		questionsOfExam.add(new Question("getExamsQuestionsByExamID", "", "", "", "", "", "", ""));
-		// questionsOfExam.add("getSubjectsByUsername");
+		questionsScores.add("getExamsQuestionsByExamID");
 		// get all the exam's questions into the arrayList according to the examID
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Q.* " + "FROM questions_in_exam QOE, questions Q "
+			ResultSet rs = stmt.executeQuery("SELECT Q.*,QOE.Score " + "FROM questions_in_exam QOE, questions Q "
 					+ "WHERE QOE.QuestionID = Q.QuestionID AND QOE.ExamID = '" + examID + "'");
 
 			while (rs.next()) {
 				questionsOfExam.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9))); //the question itself
+				questionsScores.add(rs.getString(11));//the question's score
 			}
 			client.sendToClient(questionsOfExam);
+			client.sendToClient(questionsScores);
 			rs.close();
 		} catch (SQLException e) {
 			// * This method should always work!!! ; Add Missing information if it doesn't*
