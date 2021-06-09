@@ -198,7 +198,7 @@ public class PrincipleViewReportsController implements Initializable {
 	}
 
 	public void setChoiseBoxList(List<String> list) {
-		PrincipleViewReportsController.list.removeAll(PrincipleViewReportsController.list);
+		PrincipleViewReportsController.list.clear();
 		PrincipleViewReportsController.list.addAll(list);
 	}
 
