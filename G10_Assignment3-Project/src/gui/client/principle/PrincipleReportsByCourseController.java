@@ -13,12 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import logic.exam.ExamResults;
 
 public class PrincipleReportsByCourseController implements Initializable {
@@ -27,10 +26,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private BarChart<String, Integer> sbHistogramBc;
 
 	@FXML
-	private CategoryAxis sbCategoryAxis;
-
-	@FXML
-	private NumberAxis sbNumberAxis;
+	private AnchorPane sbBarChartContainerPn;
 
 	@FXML
 	private Label sbReportsByLbl;
@@ -64,8 +60,6 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static BarChart<String, Integer> histogramBc;
-	private static CategoryAxis categoryAxis;
-	private static NumberAxis numberAxis;
 	private static Label reportsByLbl;
 	private static Label examIDLbl;
 	private static Label medianLbl;
@@ -76,6 +70,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private static Button showReportsByTeacherBtn;
 	private static Button backToViewReportsBtn;
 	private static Label courseIDLbl;
+	private static AnchorPane barChartContainerPn;
 
 	// STATIC  INSTANCES ****************************************************
 	public static ObservableList<String> teachersList = FXCollections.observableArrayList();
@@ -86,14 +81,14 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	// STATIC CONTROLLER INSTANCES ******************************************
 	public static PrincipleReportsByCourseController prbcController;
+	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
+			barChartContainerPn = sbBarChartContainerPn;
 			prbcController=new PrincipleReportsByCourseController();
 			histogramBc = sbHistogramBc;
-			categoryAxis = sbCategoryAxis;
-			numberAxis = sbNumberAxis;
 			reportsByLbl = sbReportsByLbl;
 			examIDLbl = sbExamIDLbl;
 			medianLbl = sbMedianLbl;
@@ -103,6 +98,8 @@ public class PrincipleReportsByCourseController implements Initializable {
 			backToViewReportsBtn=sbBackToViewReportsBtn;
 			courseIDLbl=sbCourseIDLbl;
 			previousRepBtn.setDisable(true);
+			nextRepBtn.setDisable(true);
+
 			teachersCb = sbTeachersCb;
 			showReportsByTeacherBtn = sbShowReportsByTeacherBtn;
 			courseIDLbl.setText(" "+PrincipleViewReportsController.insertedValue);
@@ -116,6 +113,8 @@ public class PrincipleReportsByCourseController implements Initializable {
 			// set the choice box to get it's items from 'coursesList'
 			teachersCb.setItems(teachersList);
 
+			//hide barchart until after pressing SHOW
+			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -132,7 +131,15 @@ public class PrincipleReportsByCourseController implements Initializable {
 			showReportsByTeacherBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			ClientUI.chat.accept(new String[] { "GetTeachers", PrincipleViewReportsController.insertedValue});
+			//ClientUI.chat.accept(new String[] { "GetTeachers", PrincipleViewReportsController.insertedValue});
+			//			if(teachersList.size()==1) {
+			//				PrincipleMenuBarController.mainPaneBp.setDisable(true);
+			//				PrincipleMenuBarController.menuBarAp.setDisable(true);
+			//				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no teachers who had an exam done in this course. Press OK to return").showAndWait();
+			//				//PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleViewReports.fxml")));
+			//			}
+			teachersList.addAll(PrincipleViewReportsController.list);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -171,8 +178,14 @@ public class PrincipleReportsByCourseController implements Initializable {
 	void btnPressShowReportsByTeacher(ActionEvent event) {
 		System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetailsReportByCourse",teachersCb.getValue(), PrincipleViewReportsController.insertedValue});
+		if (examResultsList.size() == 1) {
+			System.out.println("list length for course " + teachersCb.getValue() + "has only one teacher");
+			nextRepBtn.setDisable(true);
+			previousRepBtn.setDisable(true);
+		}
+		histogramBc.getData().removeAll(series);
 		setExamResultData();
-	}
+		barChartContainerPn.setVisible(true);	}
 
 	// EXTERNAL METHODS *******************************************************
 	/**
@@ -187,10 +200,9 @@ public class PrincipleReportsByCourseController implements Initializable {
 	 *
 	 * @param list
 	 */
-	public void setTeachersCoiseBox(List<String> list) {
-		System.out.println(list);
+	/*public void setTeachersCoiseBox(List<String> list) {
 		teachersList.addAll(list);
-	}
+	}*/
 
 	/**
 	 *
