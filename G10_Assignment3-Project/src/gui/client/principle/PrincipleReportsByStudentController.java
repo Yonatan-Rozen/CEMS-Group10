@@ -80,10 +80,12 @@ public class PrincipleReportsByStudentController implements Initializable {
 
 	// STATIC CONTROLLER INSTANCES ******************************************
 	public static PrincipleReportsByStudentController prbsController;
+	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
+			barChartContainerPn = sbBarChartContainerPn;
 			prbsController = new PrincipleReportsByStudentController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -95,10 +97,11 @@ public class PrincipleReportsByStudentController implements Initializable {
 			backToViewReportsBtn = sbBackToViewReportsBtn;
 			studentIDLbl = sbStudentIDLbl;
 			previousRepBtn.setDisable(true);
+			nextRepBtn.setDisable(true);
+
 			courcesCb = sbCourcesCb;
 			showReportsByCourseBtn = sbShowReportsByCourseBtn;
 			studentIDLbl.setText(" " + PrincipleViewReportsController.insertedValue);
-			barChartContainerPn = sbBarChartContainerPn;
 
 			coursesList.clear();
 			coursesList.add("----------");
@@ -109,9 +112,8 @@ public class PrincipleReportsByStudentController implements Initializable {
 			// set the choice box to get it's items from 'coursesList'
 			courcesCb.setItems(coursesList);
 
-			System.out.println("before hide");
+			//hide barchart until after pressing SHOW
 			barChartContainerPn.setVisible(false);
-			System.out.println("after hide");
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -128,7 +130,14 @@ public class PrincipleReportsByStudentController implements Initializable {
 			showReportsByCourseBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue, "S" });
+			//ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue, "S" });
+			//			if(coursesList.size()==1) {
+			//				PrincipleMenuBarController.mainPaneBp.setDisable(true);
+			//				PrincipleMenuBarController.menuBarAp.setDisable(true);
+			//				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no exams done by this student. Press OK to return").showAndWait();
+			//				//	PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleViewReports.fxml")));
+			//			}
+			coursesList.addAll(PrincipleViewReportsController.list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,10 +194,10 @@ public class PrincipleReportsByStudentController implements Initializable {
 	 *
 	 * @param list
 	 */
-	public void setCoursesCoiseBox(List<String> list) {
+	/*public void setCoursesCoiseBox(List<String> list) {
 		System.out.println(list);
 		coursesList.addAll(list);
-	}
+	}*/
 
 	/**
 	 *

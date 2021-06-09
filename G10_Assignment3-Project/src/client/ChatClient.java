@@ -97,7 +97,7 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		
+
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
@@ -176,10 +176,10 @@ public class ChatClient extends AbstractClient {
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				return;
 			case "getCoursesByUserNameForPrincipleTeacher":
-				PrincipleReportsByTeacherController.prbtController.setCoursesCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 			case "getCoursesByUserNameForPrincipleStudent":
-				PrincipleReportsByStudentController.prbsController.setCoursesCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 			case "getBanksByUsername1":
 				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
@@ -197,7 +197,7 @@ public class ChatClient extends AbstractClient {
 				TeacherStartExamController.tseController.setExamIDs(stringList);
 				return;
 			case "TeachrsNamesListForPrincipleReportByCourse":
-				PrincipleReportsByCourseController.prbcController.setTeachersCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 				//	case "TeachrsIDsListForPrincipleReportByCourse":
 				//	PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);

@@ -2,6 +2,8 @@ package gui.client.principle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -46,11 +48,12 @@ public class PrincipleViewReportsController implements Initializable{
 
 	// STATIC  INSTANCES **********************************************
 	public static Boolean doesExist=false;
-	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+	public static List<String> list=new ArrayList<>();
 
 	// CONTROLLER INSTANCES ********************************************
 	public static PrincipleViewReportsController pvrController;
 	protected static PrincipleReportsByTeacherController prbtController;
+	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,6 +68,8 @@ public class PrincipleViewReportsController implements Initializable{
 		methodsHandler.addTextLimiter(teacherUserNameTf, 9);
 		methodsHandler.addTextLimiter(courseIDTf, 9);//CHECK WAHT ABOUT SUBJECT ID ???????????
 		methodsHandler.addTextLimiter(studentIDTf, 9);
+		PrincipleMenuBarController.menuBarAp.setDisable(false);
+
 	}
 
 	// ACTION METHODS *******************************************************
@@ -74,15 +79,18 @@ public class PrincipleViewReportsController implements Initializable{
 		System.out.println("PrincipleViewReports::btnPressProduceByCourse");
 		insertedValue=courseIDTf.getText();
 		System.out.println(insertedValue);
-
+		ClientUI.chat.accept(new String[] { "GetTeachers", insertedValue});
 		if(insertedValue.equals("") || insertedValue.equals(null)) {
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No course ID was inserted. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No course ID was inserted.", "Please re-enter.").showAndWait();
 		}
 		else if(insertedValue.length() < 4 ) {
 			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "The course ID id too short. Make sure you enter the full courseID (including the subject's ID).").showAndWait();
 		}
 		else if(!checkIfSearchedIDExists(insertedValue,"C"))
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This course's ID does not exist in the system's database. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This course's ID does not exist in the system's database.", "Please re-enter.").showAndWait();
+		else if(list.size()==0) {
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no teachers who had an exam done in this course.", "Press OK to return.").showAndWait();
+		}
 		else {
 			try {
 				PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleReportsByCourse.fxml")));
@@ -96,12 +104,16 @@ public class PrincipleViewReportsController implements Initializable{
 	void btnPressProduceByStudent(ActionEvent event) {
 		System.out.println("PrincipleViewReports::btnPressProduceByStudent");
 		insertedValue=studentIDTf.getText();
+		ClientUI.chat.accept(new String[] { "GetCourses",insertedValue, "S" });
 
 		if(insertedValue.equals("") || insertedValue.equals(null)) {
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No student ID was inserted. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No student ID was inserted." ,"Please re-enter.").showAndWait();
 		}
 		else if(!checkIfSearchedIDExists(insertedValue,"S"))
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This student's ID does not exist in the system's database. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This student's ID does not exist in the system's database.","Please re-enter.").showAndWait();
+		else if(list.size()==0) {
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no exams done by this student.","Press OK to return.").showAndWait();
+		}
 		else {
 			try {
 				PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleReportsByStudent.fxml")));
@@ -115,15 +127,20 @@ public class PrincipleViewReportsController implements Initializable{
 	void btnPressProduceByTeacher(ActionEvent event){
 		System.out.println("PrincipleViewReports::btnPressProduceByTeacher");
 		insertedValue=teacherUserNameTf.getText();
+		ClientUI.chat.accept(new String[] { "GetCourses",insertedValue,"P"});
 
 		if(insertedValue.equals("") || insertedValue.equals(null)) {
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No teacher ID was inserted. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "No teacher ID was inserted.", "Please re-enter.").showAndWait();
 		}
 		else if(!checkIfSearchedIDExists(insertedValue,"T"))
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This teacher's ID does not exist in the system's database. Please re-enter.").showAndWait();
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "This teacher's ID does not exist in the system's database.","Please re-enter.").showAndWait();
+		else if(list.size()==0) {
+			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no exams done in any of this teacher's courses.","Press OK to return.").showAndWait();
+		}
 		else {
 			try {
 				PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleReportsByTeacher.fxml")));
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -150,4 +167,10 @@ public class PrincipleViewReportsController implements Initializable{
 		if(doesExist) return true;
 		return false;
 	}
+
+	public void setChoiseBoxList(List<String> list) {
+		PrincipleViewReportsController.list.removeAll(PrincipleViewReportsController.list);
+		PrincipleViewReportsController.list.addAll(list);
+	}
+
 }

@@ -67,14 +67,14 @@
             </Label>
             <BarChart fx:id="sbHistogramBc" animated="false" layoutY="52.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
               <xAxis>
-                <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
+                <CategoryAxis label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>
                   </CategoryAxis>
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="sbNumberAxis" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
+                <NumberAxis animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>
