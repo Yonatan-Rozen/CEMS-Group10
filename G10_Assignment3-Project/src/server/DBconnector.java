@@ -1308,8 +1308,6 @@ public class DBconnector {
 		//fix query
 		// chatClient
 		try {
-			//TODO ???????????????????????????
-			int i; // not really necessary, it's just a signal
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 					+ "FROM exams E, courses C , banks B, exams_results_computerized RC "
