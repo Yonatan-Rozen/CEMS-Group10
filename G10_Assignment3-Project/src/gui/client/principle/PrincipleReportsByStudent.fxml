@@ -59,17 +59,17 @@
       </Label>
       <AnchorPane fx:id="sbBarChartContainerPn" layoutX="49.0" layoutY="123.0" prefHeight="412.0" prefWidth="801.0">
          <children>
-            <Label fx:id="sbMedianLbl" layoutX="485.0" layoutY="8.0" prefHeight="36.0" prefWidth="150.0" text="Median : 80">
+            <Label fx:id="sbMedianLbl" layoutX="500.0" layoutY="12.0" prefHeight="36.0" prefWidth="114.0" text="Median : 80">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Line endX="635.0" endY="52.0" startX="635.0" />
             <Line endX="475.0" startX="475.0" startY="52.5" />
             <Line endX="800.0" endY="52.0" startX="474.5" startY="53.0" />
-            <Label fx:id="sbExamIDLbl" layoutX="14.0" layoutY="8.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
+            <Label fx:id="sbExamIDLbl" layoutX="20.0" layoutY="11.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
                <font>
-                  <Font name="System Italic" size="25.0" />
+                  <Font name="System Italic" size="22.0" />
                </font>
             </Label>
             <BarChart fx:id="sbHistogramBc" animated="false" layoutX="-6.0" layoutY="54.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
@@ -88,9 +88,9 @@
                   </NumberAxis>
                </yAxis>
             </BarChart>
-            <Label fx:id="sbAverageLbl" layoutX="643.0" layoutY="8.0" prefHeight="36.0" prefWidth="150.0" text="Average : 80">
+            <Label fx:id="sbAverageLbl" layoutX="661.0" layoutY="12.0" prefHeight="36.0" prefWidth="127.0" text="Average : 80">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>
