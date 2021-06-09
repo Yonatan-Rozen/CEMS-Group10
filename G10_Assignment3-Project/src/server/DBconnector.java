@@ -1308,6 +1308,8 @@ public class DBconnector {
 		//fix query
 		// chatClient
 		try {
+			//TODO ???????????????????????????
+			int i; // not really necessary, it's just a signal
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 					+ "FROM exams E, courses C , banks B, exams_results_computerized RC "
@@ -1323,7 +1325,7 @@ public class DBconnector {
 			}
 
 			rs.close();
-			System.out.println(examResultsList);
+			System.out.println("examResultsList : "+examResultsList);
 			client.sendToClient(examResultsList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -1537,7 +1539,7 @@ public class DBconnector {
 		//TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results RC "
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
 					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
 					+ "' and C.SubjectID='"+subjectID+"' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
 			while (rs.next()) {
@@ -1545,7 +1547,7 @@ public class DBconnector {
 				//	TeachrsIDsList.add(rs.getString(2));
 			}
 			rs.close();
-			System.out.println(TeachrsNamesList);
+			System.out.println("TeachrsNamesList : "+TeachrsNamesList);
 			client.sendToClient(TeachrsNamesList);
 			//client.sendToClient(TeachrsIDsList);
 		} catch (SQLException e) {
