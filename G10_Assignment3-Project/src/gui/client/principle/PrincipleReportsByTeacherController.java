@@ -129,13 +129,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			showReportsByCourseBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			//ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"P"});
-			//			if(coursesList.size()==1) {
-			//				//PrincipleMenuBarController.mainPaneBp.setDisable(true);
-			//				PrincipleMenuBarController.menuBarAp.setDisable(true);
-			//				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "There are no exams done in any of this teacher's courses. Press OK to return").showAndWait();
-			//				//	PrincipleMenuBarController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleViewReports.fxml")));
-			//			}
 			coursesList.addAll(PrincipleViewReportsController.list);
 			System.out.println("the list of courses with exams:\n"+coursesList);
 
