@@ -24,7 +24,7 @@ import logic.exam.ExamResults;
 public class PrincipleReportsByCourseController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
-	private BarChart<?, ?> sbHistogramBc;
+	private BarChart<String, Integer> sbHistogramBc;
 
 	@FXML
 	private CategoryAxis sbCategoryAxis;
@@ -63,7 +63,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private Label sbCourseIDLbl;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private static BarChart<?, ?> histogramBc;
+	private static BarChart<String, Integer> histogramBc;
 	private static CategoryAxis categoryAxis;
 	private static NumberAxis numberAxis;
 	private static Label reportsByLbl;
