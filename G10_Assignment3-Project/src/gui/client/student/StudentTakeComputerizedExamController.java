@@ -25,7 +25,6 @@ import logic.question.Question;
 
 public class StudentTakeComputerizedExamController implements Initializable {
 
-	public static StudentTakeComputerizedExamController stceController;
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -101,10 +100,13 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static ComputerizedExam exam;
 	private static List<Question> questionsOfExam;// = new ArrayList<>();
 	private static int currentQuestionIndex;
-	private static String[] scoresOfQuestions;
+	private static List<String> scoresOfQuestions;
 	private static String[] answersOfStudent;
 
-	// INITIALIZE METHOD ****************************************************
+	// CONTROLLER INSTANCES *******************************************
+	public static StudentTakeComputerizedExamController stceController;
+
+	// INITIALIZE METHOD **********************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		stceController = new StudentTakeComputerizedExamController();
@@ -125,12 +127,9 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
 		setExamID(null); // default value for now
-
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
-
-		scoresOfQuestions = exam.getScores().split("\\|");
 		System.out.println("scoresOfQuestions : "+scoresOfQuestions);
-		answersOfStudent = new String[scoresOfQuestions.length];
+		answersOfStudent = new String[scoresOfQuestions.size()];
 	}
 
 	// ACTION METHODS *******************************************************
@@ -203,11 +202,9 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
 		}
-
 		else {
 			examID = "010101"; // default exam
 		}
-
 	}
 
 	/**
@@ -225,6 +222,14 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	 */
 	public void setQuestionsOfExam(List<Question> questionsOfExamlist) {
 		questionsOfExam = questionsOfExamlist;
+	}
+
+	/**
+	 *
+	 * @param questionsScoresOfExamlist
+	 */
+	public void setQuestionsScoresOfExam(List<String> questionsScoresOfExamlist) {
+		scoresOfQuestions = questionsScoresOfExamlist;
 	}
 
 	/**
@@ -255,7 +260,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 				answer2Rb.setText(q.getAnswer2());
 				answer3Rb.setText(q.getAnswer3());
 				answer4Rb.setText(q.getAnswer4());
-				scorelbl.setText("(score : " + scoresOfQuestions[questionIndex - 1] + ")");
+				scorelbl.setText("(score : " + scoresOfQuestions.get(questionIndex - 1) + ")");
 			}
 		});
 	}
