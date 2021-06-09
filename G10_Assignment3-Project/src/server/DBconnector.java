@@ -1524,18 +1524,16 @@ public class DBconnector {
 	// TODO just a signal
 	public void getTeacherNamesByCourseID(String courseID, ConnectionToClient client) throws IOException {
 		List<String> TeachrsNamesList = new ArrayList<>();
-		//List<String> TeachrsIDsList = new ArrayList<>();
-		//if the principle inserted the course ID : 0201
-		//then : courseIDafterSplit = 02
-		//		 subjectID = 01
-		// the course's name is : 'Algebra 2'
-		// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 ( Danielle Sarusi ) , 4 ( Yonatan Rozen )
-		// the teachers who had an exam done in the course : Danielle Sarusi
-		String subjectID = courseID.substring(2);
-		String courseIDafterSplit = courseID.substring(0, 2);
 		TeachrsNamesList.add("TeachrsNamesListForPrincipleReportByCourse");
-		//TeachrsNamesList.add("TeachrsIDsListForPrincipleReportByCourse");
 		try {
+			//if the principle inserted the course ID : 0201
+			//then : courseIDafterSplit = 02
+			//		 subjectID = 01
+			// the course's name is : 'Algebra 2'
+			// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 ( Danielle Sarusi ) , 4 ( Yonatan Rozen )
+			// the teachers who had an exam done in the course : Danielle Sarusi
+			String subjectID = courseID.substring(2);
+			String courseIDafterSplit = courseID.substring(0, 2);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
 					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
@@ -1547,7 +1545,6 @@ public class DBconnector {
 			rs.close();
 			System.out.println("TeachrsNamesList : "+TeachrsNamesList);
 			client.sendToClient(TeachrsNamesList);
-			//client.sendToClient(TeachrsIDsList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
