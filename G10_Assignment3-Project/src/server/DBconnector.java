@@ -1077,7 +1077,7 @@ public class DBconnector {
 		IExam exam=null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Type, TeacherComments FROM exams WHERE ExamID = '" + examID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
 				if (rs.getString(9).equals("C")) {
 					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
@@ -1086,8 +1086,8 @@ public class DBconnector {
 					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
 				}
-				typeAndOptionalComments[1] = rs.getString(1);
-				typeAndOptionalComments[2] = rs.getString(2);
+				typeAndOptionalComments[1] = rs.getString(9);
+				typeAndOptionalComments[2] = rs.getString(7);
 			}
 			rs.close();
 			client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
