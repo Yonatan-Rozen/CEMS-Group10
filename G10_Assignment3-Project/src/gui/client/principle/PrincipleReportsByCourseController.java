@@ -153,11 +153,14 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	void btnPressBackToViewReports(ActionEvent event) {
+		System.out.println("PrincipleReports::btnPressBackToViewReports");
+
 		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
 	}
 
 	@FXML
 	void btnPressNextRep(ActionEvent event) {
+		System.out.println("PrincipleReports::btnPressNextRep");
 		index++;
 		if(index==1)
 			previousRepBtn.setDisable(false);
@@ -169,13 +172,21 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	void btnPressShowReportsByTeacher(ActionEvent event) {
+		System.out.println("PrincipleReports::btnPressShowReportsByTeacher");
+
+		index=0;
 		System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetailsReportByCourse",teachersCb.getValue(), PrincipleViewReportsController.insertedValue});
 		if (examResultsList.size() == 1) {
-			System.out.println("list length for course " + teachersCb.getValue() + "has only one teacher");
+			System.out.println("list length for teacherID " + teachersCb.getValue() + "has only one exam");
 			nextRepBtn.setDisable(true);
-			previousRepBtn.setDisable(true);
 		}
+		else {
+			System.out.println("list length for teacherID "+teachersCb.getValue()+" has "+examResultsList.size() +" exams");
+			nextRepBtn.setDisable(false);
+		}
+
+		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
 		barChartContainerPn.setVisible(true);	}
