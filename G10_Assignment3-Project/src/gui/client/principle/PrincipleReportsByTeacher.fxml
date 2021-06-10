@@ -60,35 +60,35 @@
             <Line endX="635.0" endY="52.0" startX="635.0" startY="-1.5" />
             <Line endX="475.0" startX="475.0" startY="52.5" />
             <Line endX="800.0" endY="52.0" startX="473.0" startY="52.0" />
-            <Label fx:id="sbExamIDLbl" layoutX="35.0" layoutY="7.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
+            <Label fx:id="sbExamIDLbl" layoutX="20.0" layoutY="11.0" text="Exam ID : 010201" textAlignment="JUSTIFY" underline="true">
                <font>
-                  <Font name="System Italic" size="25.0" />
+                  <Font name="System Italic" size="22.0" />
                </font>
             </Label>
             <BarChart fx:id="sbHistogramBc" animated="false" layoutY="52.0" legendVisible="false" prefHeight="336.0" prefWidth="800.0">
               <xAxis>
-                <CategoryAxis fx:id="sbCategoryAxis" label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
+                <CategoryAxis label="grades" prefHeight="30.0" prefWidth="720.0" style="-fx-font-size: 20;">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>
                   </CategoryAxis>
               </xAxis>
               <yAxis>
-                <NumberAxis fx:id="sbNumberAxis" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
+                <NumberAxis animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>
                   </NumberAxis>
               </yAxis>
             </BarChart>
-            <Label fx:id="sbMedianLbl" layoutX="489.0" layoutY="12.0" text="Median : 80">
+            <Label fx:id="sbMedianLbl" layoutX="500.0" layoutY="12.0" text="Median : 80">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="sbAverageLbl" layoutX="645.0" layoutY="12.0" text="Average : 80">
+            <Label fx:id="sbAverageLbl" layoutX="661.0" layoutY="12.0" text="Average : 80">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>

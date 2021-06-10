@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherComputerizedExamDefinitionsController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="450.0" prefWidth="800.0" AnchorPane.bottomAnchor="45.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="475.0" prefWidth="800.0" AnchorPane.bottomAnchor="45.0">
          <children>
             <Button fx:id="sbFinishBtn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
@@ -25,40 +25,43 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="412.0" layoutY="266.0" text="Teacher Comments" underline="true" AnchorPane.leftAnchor="430.0">
+            <Label layoutX="417.0" layoutY="291.0" text="Teacher Comments" underline="true" AnchorPane.bottomAnchor="153.8" AnchorPane.leftAnchor="417.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="266.0" text="Student Comments" underline="true" AnchorPane.leftAnchor="5.0">
+            <Label layoutX="14.0" layoutY="291.0" text="Student Comments" underline="true" AnchorPane.bottomAnchor="153.8" AnchorPane.leftAnchor="14.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
             <Line endX="400.0" layoutX="398.0" layoutY="2.0" startX="-400.0" />
-            <Line endX="-10.0" endY="375.5" layoutX="414.0" layoutY="18.0" startX="-10.0" startY="247.0" />
-            <Line endX="400.0" layoutX="404.0" layoutY="393.0" startX="-400.0" />
-            <Line endX="400.0" layoutX="399.0" layoutY="264.0" startX="-400.0" />
-            <TableView fx:id="sbScoreQuestionsTv" layoutX="564.0" layoutY="24.0" prefHeight="184.0" prefWidth="222.0">
+            <Line endX="-10.0" endY="375.5" layoutX="414.0" layoutY="18.0" startX="-10.0" startY="247.0" AnchorPane.bottomAnchor="56.5" />
+            <Line endX="400.0" layoutX="404.0" layoutY="393.0" startX="-400.0" AnchorPane.bottomAnchor="56.5" />
+            <Line endX="400.0" layoutX="399.0" layoutY="264.0" startX="-400.0" AnchorPane.bottomAnchor="185.5" />
+            <TableView fx:id="sbScoreQuestionsTv" layoutX="549.0" layoutY="22.0" maxWidth="230.0" minWidth="230.0" prefHeight="225.0" prefWidth="230.0">
               <columns>
-                <TableColumn fx:id="sbQuestionIDTc" prefWidth="75.0" text="QuestionID" />
-                <TableColumn fx:id="sbScoreTc" prefWidth="75.0" text="Score" />
-                  <TableColumn fx:id="sbEditTc" prefWidth="75.0" text="Edit" />
+                <TableColumn fx:id="sbQuestionIDTc" prefWidth="85.0" text="QuestionID" />
+                <TableColumn fx:id="sbScoreTc" prefWidth="60.0" text="Score" />
+                  <TableColumn fx:id="sbEditTc" prefWidth="85.0" text="Edit" />
               </columns>
             </TableView>
-            <Label layoutX="235.0" layoutY="408.0" text="Allocated Time" underline="true" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="235.0">
+            <Label layoutX="235.0" layoutY="440.0" text="Allocated Time" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="235.0">
                <font>
-                  <Font name="System Italic" size="21.0" />
+                  <Font name="System Bold Italic" size="21.0" />
                </font>
             </Label>
-            <ScrollPane focusTraversable="false" layoutX="13.0" layoutY="19.0" mouseTransparent="true">
+            <ScrollPane focusTraversable="false" layoutX="13.0" layoutY="19.0" mouseTransparent="true" prefHeight="250.0" prefWidth="514.0" AnchorPane.bottomAnchor="204.0">
                <content>
-                  <VBox alignment="CENTER_LEFT" prefHeight="238.0" prefWidth="354.0" spacing="20.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="246.0" prefWidth="374.0" spacing="20.0">
                      <children>
                         <Label fx:id="sbQuestionBodyLbl" text="QuestionBody">
                            <font>
                               <Font size="19.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </Label>
                         <RadioButton fx:id="sbAnswer1Rb" focusTraversable="false" mnemonicParsing="false" text="Answer1">
                            <font>
@@ -87,31 +90,30 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <Label layoutX="403.0" layoutY="34.0" text="Score:" underline="true">
+            <Label fx:id="sbScoreLbl" layoutX="400.0" layoutY="40.0" text="Score:" underline="true" AnchorPane.topAnchor="40.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbEditBtn" layoutX="417.0" layoutY="114.0" mnemonicParsing="false" onAction="#btnPressEdit" text="Edit">
+            <Button fx:id="sbEditBtn" layoutX="442.0" layoutY="123.0" mnemonicParsing="false" onAction="#btnPressEdit" text="Edit">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Line endX="-10.0" endY="461.0" layoutX="554.0" layoutY="-221.0" startX="-10.0" startY="247.0" />
-            <Label layoutX="566.0" layoutY="217.0" text="Total score:" underline="true">
+            <Label layoutX="549.0" layoutY="252.0" text="Total score:" underline="true" AnchorPane.bottomAnchor="192.8">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Label fx:id="sbTotalScoreLbl" layoutX="688.0" layoutY="219.0" text="0/100" underline="true">
+            <Label fx:id="sbTotalScoreLbl" layoutX="664.0" layoutY="252.0" prefHeight="31.0" prefWidth="103.0" text="0/100" underline="true" AnchorPane.bottomAnchor="192.8">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbStudentCommentsTa" layoutX="14.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" />
-            <TextArea fx:id="sbTeacherCommentsTa1" layoutX="417.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" />
-            <TextArea fx:id="sbEditTa" layoutX="380.0" layoutY="65.0" prefHeight="7.0" prefWidth="135.0" />
-            <TextArea fx:id="sbAllocatedTimeTa" layoutX="381.0" layoutY="409.0" prefHeight="7.0" prefWidth="135.0" />
+            <TextArea fx:id="sbStudentCommentsTa" layoutX="14.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" AnchorPane.bottomAnchor="75.0" />
+            <TextArea fx:id="sbTeacherCommentsTa1" layoutX="417.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" AnchorPane.bottomAnchor="75.0" />
+            <TextArea fx:id="sbEditTa" layoutX="398.0" layoutY="76.0" prefHeight="38.0" prefWidth="103.0" />
+            <TextArea fx:id="sbAllocatedTimeTa" layoutX="391.0" layoutY="437.0" prefHeight="7.0" prefWidth="135.0" />
          </children>
       </AnchorPane>
       <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">

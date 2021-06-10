@@ -55,6 +55,7 @@ public class StudentMenuBarController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		smbController = new StudentMenuBarController();
 		takeExamBtn = sbTakeExamBtn;
+		smbController=new StudentMenuBarController();
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		mainPaneBp = sbMainPaneBp;

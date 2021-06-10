@@ -25,7 +25,6 @@ import logic.question.Question;
 
 public class StudentTakeComputerizedExamController implements Initializable {
 
-	public static StudentTakeComputerizedExamController stceController;
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -101,15 +100,16 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static ComputerizedExam exam;
 	private static List<Question> questionsOfExam;// = new ArrayList<>();
 	private static int currentQuestionIndex;
-	private static String[] scoresOfQuestions;
+	private static List<String> scoresOfQuestions;
 	private static String[] answersOfStudent;
 
-	// INITIALIZE METHOD ****************************************************
+	// CONTROLLER INSTANCES *******************************************
+	public static StudentTakeComputerizedExamController stceController;
+
+	// INITIALIZE METHOD **********************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		stceController = new StudentTakeComputerizedExamController();
-		ClientUI.mainStage.setWidth(900);
-		ClientUI.mainStage.setHeight(650);
 		examOfCourseLbl = sbExamOfCourseLbl;
 		generalInfoTa = sbGeneralInfoTa;
 		scorelbl = sbScorelbl;
@@ -128,8 +128,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		startExamBtn = sbStartExamBtn;
 		setExamID(null); // default value for now
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
-		scoresOfQuestions = exam.getScores().split("\\|");
-		answersOfStudent = new String[scoresOfQuestions.length];
+		System.out.println("scoresOfQuestions : "+scoresOfQuestions);
+		answersOfStudent = new String[scoresOfQuestions.size()];
 	}
 
 	// ACTION METHODS *******************************************************
@@ -186,8 +186,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 		// successful submit example ***********************************
 		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene
-		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		// *************************************************************
 	}
 
@@ -203,11 +202,9 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
 		}
-
 		else {
-			examID = "010301"; // default exam
+			examID = "010101"; // default exam
 		}
-
 	}
 
 	/**
@@ -225,6 +222,14 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	 */
 	public void setQuestionsOfExam(List<Question> questionsOfExamlist) {
 		questionsOfExam = questionsOfExamlist;
+	}
+
+	/**
+	 *
+	 * @param questionsScoresOfExamlist
+	 */
+	public void setQuestionsScoresOfExam(List<String> questionsScoresOfExamlist) {
+		scoresOfQuestions = questionsScoresOfExamlist;
 	}
 
 	/**
@@ -255,7 +260,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 				answer2Rb.setText(q.getAnswer2());
 				answer3Rb.setText(q.getAnswer3());
 				answer4Rb.setText(q.getAnswer4());
-				scorelbl.setText("(score : " + scoresOfQuestions[questionIndex - 1] + ")");
+				scorelbl.setText("(score : " + scoresOfQuestions.get(questionIndex - 1) + ")");
 			}
 		});
 	}

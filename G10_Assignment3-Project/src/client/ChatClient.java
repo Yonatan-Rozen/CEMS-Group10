@@ -16,11 +16,12 @@ import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
+import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
+import gui.client.teacher.TeacherEditExamController;
 import gui.client.teacher.TeacherEditQuestionController;
-import gui.client.teacher.TeacherMenuController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
 import javafx.scene.control.Alert.AlertType;
@@ -99,13 +100,17 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		
+
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
 		case "setTypeAndOptionalTeacherComments":
-			TeacherStartExamController.tseController.setTypeAndOptionalComments(msg[1].toString()+"|"+msg[2].toString());
+			TeacherStartExamController.tseController
+					.setTypeAndOptionalComments(msg[1].toString() + "|" + msg[2].toString());
+			break;
+		case "GetExamIDForComputerizedExam":
+			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
 			break;
 		case "SendMessageExamIDExamTypeAndExamCode":
 			StudentMenuController.smController.setReadyExam((String[])msg);
@@ -118,6 +123,7 @@ public class ChatClient extends AbstractClient {
 
 	/**
 	 * Handle with (String) type messages.
+	 * 
 	 * @param msg The (String) object.
 	 */
 	private void handleStringMessagesFromServer(String msg) {
@@ -142,13 +148,13 @@ public class ChatClient extends AbstractClient {
 			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
 			TeacherCreateManualExamController.tcmeController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
-			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
+					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		} else
 			ClientController.display(msg);
 	}
@@ -174,11 +180,14 @@ public class ChatClient extends AbstractClient {
 			case "getCoursesByUserNameForTeacher":
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				return;
+			case "getCoursesByUserName":
+				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				return;
 			case "getCoursesByUserNameForPrincipleTeacher":
-				PrincipleReportsByTeacherController.prbtController.setCoursesCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 			case "getCoursesByUserNameForPrincipleStudent":
-				PrincipleReportsByStudentController.prbsController.setCoursesCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 			case "getBanksByUsername1":
 				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
@@ -186,17 +195,26 @@ public class ChatClient extends AbstractClient {
 			case "getBanksByUsername2":
 				TeacherCreateManualExamController.tcmeController.setBankChoiceBox(stringList);
 				return;
+			case "getBanksByUsername3":
+				TeacherEditExamController.teeController.setBankChoiceBox(stringList);
+				return;
 			case "getCourseBySubject1":
 				TeacherCreateExamController.tceController.setCourseChoiceBox(stringList);
 				return;
 			case "getCourseBySubject2":
 				TeacherCreateManualExamController.tcmeController.setCourseChoiceBox(stringList);
 				return;
+			case "getCourseBySubject3":
+				TeacherEditExamController.teeController.setCourseChoiceBox(stringList);
+				return;
 			case "SetAllExamIDs":
 				TeacherStartExamController.tseController.setExamIDs(stringList);
 				return;
 			case "TeachrsNamesListForPrincipleReportByCourse":
-				PrincipleReportsByCourseController.prbcController.setTeachersCoiseBox(stringList);
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
+				return;
+			case "getExamsQuestionsByExamID":
+				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
 				return;
 				//	case "TeachrsIDsListForPrincipleReportByCourse":
 				//	PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
@@ -245,6 +263,14 @@ public class ChatClient extends AbstractClient {
 			default:
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
+			}
+		} else if (obj instanceof Exam) {
+			List<Exam> examList = (List<Exam>) msg;
+			System.out.println(examList);
+			switch (((Exam) obj).getExamID()) {
+			case "getExamsBySubjectAndUsername":
+				TeacherEditExamController.teeController.setExamTableView(examList);
+				return;
 			}
 		} else if (obj instanceof User) { // List of users
 			List<User> usersList = (List<User>) msg;

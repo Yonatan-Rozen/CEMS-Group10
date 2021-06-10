@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 public class PrincipleMenuBarController implements Initializable {
@@ -21,6 +22,9 @@ public class PrincipleMenuBarController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private Button sbViewRequestsBtn;
+
+	@FXML
+	private AnchorPane sbMenuBarAp;
 
 	@FXML
 	private Button sbViewInfoBtn;
@@ -36,7 +40,7 @@ public class PrincipleMenuBarController implements Initializable {
 
 	@FXML
 	private ImageView sbLogoIv;
-	
+
 	@FXML
 	private Button sbBackBtn;
 
@@ -45,18 +49,20 @@ public class PrincipleMenuBarController implements Initializable {
 
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private static Button viewRequestsBtn; 
+	private static Button viewRequestsBtn;
 	private static Button viewInfoBtn;
-	private static Button viewReportsBtn; 
+	private static Button viewReportsBtn;
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
 	private Button backBtn;
 	protected static BorderPane mainPaneBp;
+	protected static AnchorPane menuBarAp;
+
 
 	// START METHOD *********************************************************
 	/**
 	 * Opens PrincipleMenuBar.fxml
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
@@ -67,13 +73,14 @@ public class PrincipleMenuBarController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		viewRequestsBtn = sbViewRequestsBtn; 
+		viewRequestsBtn = sbViewRequestsBtn;
 		viewInfoBtn = sbViewInfoBtn;
-		viewReportsBtn = sbViewReportsBtn; 
-		settingsBtn = sbSettingsBtn; 
+		viewReportsBtn = sbViewReportsBtn;
+		settingsBtn = sbSettingsBtn;
 		logoutLnk = sbLogoutLnk;
 		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
+		menuBarAp=sbMenuBarAp;
 		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
 	}
 

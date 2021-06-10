@@ -13,8 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,12 +24,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private BarChart<String, Integer> sbHistogramBc;
-
-	@FXML
-	private CategoryAxis sbCategoryAxis;
-
-	@FXML
-	private NumberAxis sbNumberAxis;
 
 	@FXML
 	private Label sbReportsByLbl;
@@ -68,8 +60,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static BarChart<String, Integer> histogramBc;
-	private static CategoryAxis categoryAxis;
-	private static NumberAxis numberAxis;
 	private static Label reportsByLbl;
 	private static Label examIDLbl;
 	private static Label medianLbl;
@@ -90,7 +80,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 
 	// CONTROLLER INSTANCES *************************************************
 	public static PrincipleReportsByTeacherController prbtController;
-
+	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -99,8 +89,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			if(barChartContainerPn==null) System.out.println("ITS NULL");
 			prbtController=new PrincipleReportsByTeacherController();
 			histogramBc = sbHistogramBc;
-			categoryAxis = sbCategoryAxis;
-			numberAxis = sbNumberAxis;
 			reportsByLbl = sbReportsByLbl;
 			examIDLbl = sbExamIDLbl;
 			medianLbl = sbMedianLbl;
@@ -111,6 +99,8 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			teacherIDLbl=sbTeacherIDLbl;
 			teacherIDLbl.setText(" "+PrincipleViewReportsController.insertedValue);
 			previousRepBtn.setDisable(true);
+			nextRepBtn.setDisable(true);
+
 			courcesCb = sbCourcesCb;
 			showReportsByCourseBtn = sbShowReportsByCourseBtn;
 			coursesList.clear();
@@ -139,7 +129,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			showReportsByCourseBtn.setDisable(true);
 
 			System.out.println(PrincipleViewReportsController.insertedValue);
-			ClientUI.chat.accept(new String[] { "GetCourses", PrincipleViewReportsController.insertedValue,"P"});
+			coursesList.addAll(PrincipleViewReportsController.list);
 			System.out.println("the list of courses with exams:\n"+coursesList);
 
 		} catch (Exception e) {
@@ -200,9 +190,9 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	 *
 	 * @param list
 	 */
-	public void setCoursesCoiseBox(List<String> list) {
+	/*public void setCoursesCoiseBox(List<String> list) {
 		coursesList.addAll(list);
-	}
+	}*/
 
 	/**
 	 *
