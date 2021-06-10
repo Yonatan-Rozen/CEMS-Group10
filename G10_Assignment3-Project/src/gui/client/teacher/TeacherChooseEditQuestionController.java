@@ -76,7 +76,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
 	private static String msg;
-	private static boolean undeletable;
+	private static boolean deletable;
 	
 	// INITIALIZE METHOD ****************************************************
 	@Override
