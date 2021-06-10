@@ -1,5 +1,6 @@
 package logic.exam;
 
+@SuppressWarnings("serial")
 public class ComputerizedExam extends Exam {
 
 	private String studentComments;
