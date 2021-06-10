@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 
 public class StudentMenuController implements Initializable {
 	public static StudentMenuController smController;
@@ -84,9 +86,16 @@ public class StudentMenuController implements Initializable {
 	@FXML
 	public void btnPressTakeExam(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::btnPressTakeExam");
+		if(examID==null||examType==null||examCode==null||examID.equals("")||examType.equals("")||examCode.equals(""))
+		{
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
+					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
+		}
+		else {
+		secController.setCode(examCode,examType,examID);
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
 		StudentMenuBarController.smbController.btnPressTakeAnExam(event);
-		secController.setCode(examCode,examType,examID);
+		}
 	}
 
 	@FXML
@@ -101,6 +110,7 @@ public class StudentMenuController implements Initializable {
 		examID = msg[1];
 		examType = msg[2];
 		examCode = msg[3];
+		System.out.println("examType = "+examType);
 	}
 	
 	
