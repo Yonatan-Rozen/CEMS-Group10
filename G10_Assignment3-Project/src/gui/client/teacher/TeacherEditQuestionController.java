@@ -242,16 +242,16 @@ public class TeacherEditQuestionController implements Initializable {
 			break;
 		case "2":
 			markAnswer2Rb.setSelected(true);
-			selected = markAnswer1Rb;
+			selected = markAnswer2Rb;
 			break;
 		case "3":
 			markAnswer3Rb.setSelected(true);
-			selected = markAnswer1Rb;
+			selected = markAnswer3Rb;
 			break;
 		case "4":
 		default:
 			markAnswer4Rb.setSelected(true);
-			selected = markAnswer1Rb;
+			selected = markAnswer4Rb;
 			break;
 		}
 	}
