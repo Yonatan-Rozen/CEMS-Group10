@@ -76,7 +76,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
 	private static String msg;
-	private static boolean deletable = true;
+	private static boolean undeletable;
 	
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -253,6 +253,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	public void setQuestionDeletable(String existsInExam) {
 		if (existsInExam.equals("1"))
 			deletable = false;
+		else deletable = true;
 	}
 	
 	public void chooseQuestionToPreview(Question question) {
