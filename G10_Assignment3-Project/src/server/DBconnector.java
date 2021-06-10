@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
@@ -186,6 +185,9 @@ public class DBconnector {
 			case "checkIfSearchedIDExists":
 				checkIfSearchedIDExists(request[1], request[2], client);
 				break;
+			case "btnPressSubmit":
+				UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(request[1], request[2], request[3],request[4], client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -207,6 +209,7 @@ public class DBconnector {
 			}
 		}
 	}
+
 
 	private void getExamInfoByID(String string, ConnectionToClient client) {
 		// TODO Auto-generated method stub
@@ -292,7 +295,7 @@ public class DBconnector {
 		try {
 			PreparedStatement stmt = con.prepareStatement(
 					"UPDATE exams SET AllocatedTime = '" + time + "',StudentComments = '" + studentComments
-							+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
+					+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -387,7 +390,7 @@ public class DBconnector {
 	 * @param username the username of the current user
 	 * @param client   the connected user
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void disconnectClient(String username, ConnectionToClient client) throws IOException {
@@ -711,7 +714,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		client.sendToClient(user);
 		client.setName(username);
 		ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
@@ -1210,18 +1213,18 @@ public class DBconnector {
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
 		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
-//		IExam exam=null;
+		//		IExam exam=null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-//				if (rs.getString(9).equals("C")) {
-//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-//				} else {
-//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
-//				}
+				//				if (rs.getString(9).equals("C")) {
+				//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+				//				} else {
+				//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
+				//				}
 				typeAndOptionalComments[1] = rs.getString(9);
 				typeAndOptionalComments[2] = rs.getString(7);
 			}
@@ -1234,8 +1237,8 @@ public class DBconnector {
 			return;
 		}
 	}
-	
-	
+
+
 
 	// ***********************************************************************************************
 	/**
@@ -1420,7 +1423,7 @@ public class DBconnector {
 		}
 	}
 
-	
+
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -1467,7 +1470,7 @@ public class DBconnector {
 			return;
 		}
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * Sends to the principle all the users' details for View Info option
@@ -1683,6 +1686,34 @@ public class DBconnector {
 			client.sendToClient(TeachrsNamesList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	/**
+	 * sets the TimeOfExecution and the submitted columns according to the information from the student who pressed submit into the exam_results table
+	 *
+	 * @param estimatedTime the time length it took the student to complete the exam in minutes
+	 * @param studentID the ID of the student taking the exam
+	 * @param examID the ID of the exam that the student was taking
+	 * @param client student
+	 *
+	 * @author Michael Malka and Meitar EL-Ezra
+	 */
+	private void UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(String status,String estimatedTime, String studentID,String examID, ConnectionToClient client) {
+		try {
+			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = '"+estimatedTime+"', Submited =?"+
+					" WHERE ExamID =? AND UsernameS =?");
+			if(status.equals("successful"))
+				stmt.setString(1,"1");
+			else// if(status.equals("NOT successful"))
+				stmt.setString(1,"0");
+			stmt.setString(2, examID);
+			stmt.setString(3, studentID);
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		}
