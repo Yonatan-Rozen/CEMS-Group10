@@ -2,6 +2,7 @@ package logic.question;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Question implements Serializable {
 
 	private String questionID;

@@ -135,7 +135,7 @@ public class TeacherStartExamController implements Initializable {
 			String examID = chooseExamCb.getValue().split("\\#")[1]; // get exam ID from the selected value
 			ClientUI.chat.accept(new String[] {"GetTypeOfExamAndOptionalComments", examID});
 			
-			ClientUI.chat.accept(new String[] {"SendExamIDandExamType", examID, examType}); // TODO send message to all clients
+			ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", examID, examType, codeTf.getText()}); // TODO send message to all students
 			
 			commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Exam Started", "The exam is now in execution mode",
 					"Please provide examinees with the entered code.").showAndWait();

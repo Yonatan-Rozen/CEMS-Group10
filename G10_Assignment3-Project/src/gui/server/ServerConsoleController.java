@@ -73,6 +73,7 @@ public class ServerConsoleController implements Initializable {
 	}
 
 	// ACTION METHOD ********************************************************
+	@FXML
 	public void btnPressStartServer(ActionEvent event) {
 		int portNumber;
 		try {
@@ -87,7 +88,7 @@ public class ServerConsoleController implements Initializable {
 		ServerUI.startServer(portNumber);
 	}
 
-	// INSTANCE METHODS ****************************************************
+	// EXTERNAL USE METHODS **************************************************
 	private int getPort() throws NumberFormatException {
 		return Integer.parseInt(portTf.getText());
 	}

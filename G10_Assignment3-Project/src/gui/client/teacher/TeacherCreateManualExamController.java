@@ -1,6 +1,10 @@
 package gui.client.teacher;
 
-import javafx.scene.control.TextArea;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -9,25 +13,18 @@ import java.util.ResourceBundle;
 import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
+import common.MyFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import logic.question.Question;
 
 public class TeacherCreateManualExamController implements Initializable {
 	public static TeacherCreateManualExamController tcmeController;
@@ -80,6 +77,8 @@ public class TeacherCreateManualExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static String msg;
+	FileChooser fileChooser = new FileChooser();
+	private Desktop desktop = Desktop.getDesktop();
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -102,20 +101,51 @@ public class TeacherCreateManualExamController implements Initializable {
 		chooseCourseCb = sbChooseCourseCb;
 		allocatedTimeTa = sbAllocatedTimeTa;
 		uploadFileTa = sbUploadFileTa;
+		uploadFileTa.getFont();
+		System.out.println(uploadFileTa.getFont());
+//		uploadFileTa.setFont(new Font("Arial",1,15));
 
 		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2"});
+			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2" });
 		}
 	}
 
 	// ACTION METHODS *******************************************************
 
 	@FXML
-	void btnPressSearch(ActionEvent event) {
+	void btnPressSearch(ActionEvent event) throws RuntimeException {
 		System.out.println("TeacherCreateManualExam::btnPressSearch");
 
+		fileChooser.setTitle("Choose Exam File");
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("docx Files", "*.docx"),
+				new FileChooser.ExtensionFilter("doc Files", "*.doc"));
+		try {
+			File selectedFile = fileChooser.showOpenDialog(new Stage());
+			String FileName = selectedFile.getName();
+			String FilePath = selectedFile.getPath();
+			uploadFileTa.setText(FilePath);
+
+			if (FilePath != null) {
+//				MyFile msg = new MyFile(FileName);
+//				File newFile = new File(FilePath);
+//
+//				byte[] mybytearray = new byte[(int) newFile.length()];
+//				FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte) 
+//				BufferedInputStream bis = new BufferedInputStream(fis); //reads data from memory
+//
+//				msg.initArray(mybytearray.length);
+//				msg.setSize(mybytearray.length);
+//
+//				bis.read(msg.getMybytearray(), 0, mybytearray.length); //reads
+//				sendToServer(msg);
+
+			}
+
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	@FXML
 	void btnPressChangeQustionBank(ActionEvent event) {
 		System.out.println("TeacherCreateManualExam::btnPressChangeQustionBank");
@@ -129,10 +159,11 @@ public class TeacherCreateManualExamController implements Initializable {
 		System.out.println("TeacherCreateManualExam::btnPressContinue1");
 		CourseList.clear(); // clear list
 
+		uploadFileTa.setText("Enter path                                                        serach file --->");
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
-		ClientUI.chat
-				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() ,"2" });
+		ClientUI.chat.accept(
+				new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "2" });
 
 		chooseCourseCb.setItems(CourseList);
 	}
@@ -143,23 +174,23 @@ public class TeacherCreateManualExamController implements Initializable {
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
 		ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
-				examBankCb.getValue(), author, ChatClient.user.getUsername() });
+				examBankCb.getValue(), author, allocatedTimeTa.getText(), ChatClient.user.getUsername() });
 		TeacherMenuBarController.mainPaneBp
-		.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
+				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
 	}
-	
+
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		bankList.addAll(msg);
 	}
-	
+
 	public void setCourseChoiceBox(List<String> msg) {
 		System.out.println(msg.toString());
 		CourseList.addAll(msg);
 		System.out.println(CourseList);
 	}
-	
+
 	public void successfulCreateExam(String Msg) {
 		msg = Msg;
 	}
