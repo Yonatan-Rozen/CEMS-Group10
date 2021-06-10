@@ -13,12 +13,14 @@ import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
+import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditQuestionController;
+import gui.client.teacher.TeacherMenuController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
 import javafx.scene.control.Alert.AlertType;
@@ -105,6 +107,9 @@ public class ChatClient extends AbstractClient {
 		case "setTypeAndOptionalTeacherComments":
 			TeacherStartExamController.tseController.setTypeAndOptionalComments(msg[1].toString()+"|"+msg[2].toString());
 			break;
+		case "SendMessageExamIDExamTypeAndExamCode":
+			StudentMenuController.smController.setReadyExam((String[])msg);
+			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -121,21 +126,15 @@ public class ChatClient extends AbstractClient {
 			return; // Client is disconnecting
 		if (msg.equals("TerminateClient"))
 			quit(); // Terminates the current client
-
-		else if (msg.contains("UpdatedQuestion")) { // Question has been updated
-			System.out.println("UpdatedQuestion");
-			TeacherEditQuestionController.teqController
-			.successfulEditQuestion("The question has been edited successfully!");
-		}
+		else if (msg.contains("UpdatedQuestion")) // Question has been updated
+			TeacherEditQuestionController.teqController.successfulEditQuestion("The question has been edited successfully!");
 		/**** handle return message to client ****/
 		else if (msg.contains("SignIn ERROR - ")) // SignIn Errors
 			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
-
 		else if (msg.contains("ChangePassword SUCCESS - ")){ // ChangePassword Success
-			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
@@ -292,11 +291,9 @@ public class ChatClient extends AbstractClient {
 			}
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
-			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Connection Issues",
 					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
+					"Sorry for the inconvenience. Please try agian at a later time...").showAndWait();
 			quit();
 		}
 	}
