@@ -76,7 +76,7 @@
                   </CategoryAxis>
                </xAxis>
                <yAxis>
-                  <NumberAxis animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
+                  <NumberAxis fx:id="sbAmountAxisNa" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>

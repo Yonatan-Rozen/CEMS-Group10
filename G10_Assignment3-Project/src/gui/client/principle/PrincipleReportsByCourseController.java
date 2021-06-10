@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import client.ClientUI;
 import common.CommonMethodsHandler;
+import common.IntegerStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -27,6 +29,9 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	private AnchorPane sbBarChartContainerPn;
+
+	@FXML
+	private NumberAxis sbAmountAxisNa;
 
 	@FXML
 	private Label sbReportsByLbl;
@@ -72,12 +77,12 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private static Label courseIDLbl;
 	private static AnchorPane barChartContainerPn;
 
-	// STATIC  INSTANCES ****************************************************
+	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> teachersList = FXCollections.observableArrayList();
-	//public static List <String> teachersIDsList;
-	public static List <ExamResults> examResultsList;
-	private int index=0;
+	public static List<ExamResults> examResultsList;
+	private int index = 0;
 	private static Series series;
+	private static IntegerStringConverter isc=new IntegerStringConverter();
 
 	// STATIC CONTROLLER INSTANCES ******************************************
 	public static PrincipleReportsByCourseController prbcController;
@@ -87,7 +92,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			barChartContainerPn = sbBarChartContainerPn;
-			prbcController=new PrincipleReportsByCourseController();
+			prbcController = new PrincipleReportsByCourseController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
 			examIDLbl = sbExamIDLbl;
@@ -95,25 +100,25 @@ public class PrincipleReportsByCourseController implements Initializable {
 			averageLbl = sbAverageLbl;
 			nextRepBtn = sbNextRepBtn;
 			previousRepBtn = sbPreviousRepBtn;
-			backToViewReportsBtn=sbBackToViewReportsBtn;
-			courseIDLbl=sbCourseIDLbl;
+			backToViewReportsBtn = sbBackToViewReportsBtn;
+			courseIDLbl = sbCourseIDLbl;
+			sbAmountAxisNa.setTickLabelFormatter(isc);
 			previousRepBtn.setDisable(true);
 			nextRepBtn.setDisable(true);
 
 			teachersCb = sbTeachersCb;
 			showReportsByTeacherBtn = sbShowReportsByTeacherBtn;
-			courseIDLbl.setText(" "+PrincipleViewReportsController.insertedValue);
+			courseIDLbl.setText(" " + PrincipleViewReportsController.insertedValue);
 			teachersList.clear();
 			teachersList.add("----------");
 
 			// set "----------" as the first value of the choice box
 			teachersCb.setValue("----------");
 
-
 			// set the choice box to get it's items from 'coursesList'
 			teachersCb.setItems(teachersList);
 
-			//hide barchart until after pressing SHOW
+			// hide barchart until after pressing SHOW
 			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
@@ -129,7 +134,6 @@ public class PrincipleReportsByCourseController implements Initializable {
 			});
 
 			showReportsByTeacherBtn.setDisable(true);
-
 			System.out.println(PrincipleViewReportsController.insertedValue);
 			teachersList.addAll(PrincipleViewReportsController.list);
 
@@ -140,12 +144,11 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	void BtnPressPrevousRep(ActionEvent event) {
-		// TODO show the next report
 		System.out.println("PrincipleReports::BtnPressPrevousRep");
 		index--;
-		if(index==examResultsList.size()-2)
+		if (index == examResultsList.size() - 2)
 			nextRepBtn.setDisable(false);
-		if(index==0)
+		if (index == 0)
 			previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
@@ -153,15 +156,18 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	void btnPressBackToViewReports(ActionEvent event) {
-		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
+		System.out.println("PrincipleReports::btnPressBackToViewReports");
+		PrincipleMenuBarController.mainPaneBp
+		.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
 	}
 
 	@FXML
 	void btnPressNextRep(ActionEvent event) {
+		System.out.println("PrincipleReports::btnPressNextRep");
 		index++;
-		if(index==1)
+		if (index == 1)
 			previousRepBtn.setDisable(false);
-		if(index==examResultsList.size()-1)
+		if (index == examResultsList.size() - 1)
 			nextRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
@@ -169,52 +175,49 @@ public class PrincipleReportsByCourseController implements Initializable {
 
 	@FXML
 	void btnPressShowReportsByTeacher(ActionEvent event) {
+		System.out.println("PrincipleReports::btnPressShowReportsByTeacher");
+
+		index = 0;
 		System.out.println(PrincipleViewReportsController.insertedValue);
-		ClientUI.chat.accept(new String[] { "GetExamDetailsReportByCourse",teachersCb.getValue(), PrincipleViewReportsController.insertedValue});
+		ClientUI.chat.accept(new String[] { "GetExamDetailsReportByCourse", teachersCb.getValue(),
+				PrincipleViewReportsController.insertedValue });
 		if (examResultsList.size() == 1) {
-			System.out.println("list length for course " + teachersCb.getValue() + "has only one teacher");
+			System.out.println("list length for teacherID " + teachersCb.getValue() + "has only one exam");
 			nextRepBtn.setDisable(true);
-			previousRepBtn.setDisable(true);
+		} else {
+			System.out.println(
+					"list length for teacherID " + teachersCb.getValue() + " has " + examResultsList.size() + " exams");
+			nextRepBtn.setDisable(false);
 		}
+
+		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
-		barChartContainerPn.setVisible(true);	}
+		barChartContainerPn.setVisible(true);
+	}
 
 	// EXTERNAL METHODS *******************************************************
-	/**
-	 *
-	 * @param teachersIDsList
-	 */
-	/*public static void setTeachersIDsList(List<String> teachersIDsList) {
-		PrincipleReportsByCourseController.teachersIDsList = teachersIDsList;
-	}*/
 
 	/**
-	 *
-	 * @param list
-	 */
-	/*public void setTeachersCoiseBox(List<String> list) {
-		teachersList.addAll(list);
-	}*/
-
-	/**
-	 *
+	 * sets the exams statistics and ID
 	 */
 	public void setExamResultData() {
-		ExamResults er=examResultsList.get(index);
+		ExamResults er = examResultsList.get(index);
 		examIDLbl.setText("ExamID: #" + er.getExamID());
-		medianLbl.setText("Median: "+er.getMedian());
-		averageLbl.setText("Average: " + er.getAverage());
-		series= er.getGraph();
+		medianLbl.setText("Median: " + String.format("%.2f", er.getMedian()));
+		averageLbl.setText("Average: " + String.format("%.2f", er.getAverage()));
+		series = er.getGraph();
 		histogramBc.getData().add(series);
 	}
 
 	/**
+	 * sets the exams of the current teacher in the course to be displayed
 	 *
-	 * @param examResultsList
+	 * @param examResultsList a list of the exams of a the course that were done by
+	 *                        the current teacher
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResultsList) {
-		PrincipleReportsByCourseController.examResultsList=examResultsList;
+		PrincipleReportsByCourseController.examResultsList = examResultsList;
 	}
 
 }
