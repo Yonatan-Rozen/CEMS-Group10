@@ -27,7 +27,6 @@ import logic.question.Question;
 
 public class StudentTakeComputerizedExamController implements Initializable {
 
-
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Label sbExamOfCourseLbl;
@@ -106,12 +105,12 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static String[] answersOfStudent;
 
 	// CONTROLLER INSTANCES *******************************************
-	public static StudentTakeComputerizedExamController stceController;
+	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();;
 
 	// INITIALIZE METHOD **********************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		stceController = new StudentTakeComputerizedExamController();
+		// stceController
 		examOfCourseLbl = sbExamOfCourseLbl;
 		generalInfoTa = sbGeneralInfoTa;
 		scorelbl = sbScorelbl;
@@ -128,9 +127,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp = sbExamContainerAp;
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
-		setExamID(null); // default value for now
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
-		System.out.println("scoresOfQuestions : "+scoresOfQuestions);
+		System.out.println("scoresOfQuestions : " + scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.size()];
 	}
 
@@ -188,7 +186,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 		// successful submit example ***********************************
 		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		ClientUI.mainScene
+				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		// *************************************************************
 	}
 
@@ -203,8 +202,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
 			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
-		}
-		else {
+		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
 					"There was no examID chosen by a teacher").showAndWait();
 		}
