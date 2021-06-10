@@ -649,8 +649,11 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-		ServerUI.serverConsole.println(("user [" + user.getUsername() + "] has connected successfully!"));
+		
 		client.sendToClient(user);
+		client.setName(username);
+		ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
+		client.setInfo(client.getName(), user.getType());
 	}
 
 	// ***********************************************************************************************
@@ -1181,7 +1184,6 @@ public class DBconnector {
 		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had exams
 		{
 			try {
-
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
 						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '" + userName
@@ -1191,9 +1193,7 @@ public class DBconnector {
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
-				System.out.println(coursesList);
 				client.sendToClient(coursesList);
-
 			} catch (SQLException e) {
 				client.sendToClient("sql exception");
 				e.printStackTrace();
@@ -1213,7 +1213,6 @@ public class DBconnector {
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
-				System.out.println(coursesList);
 				client.sendToClient(coursesList);
 
 			} catch (SQLException e) {
@@ -1234,7 +1233,6 @@ public class DBconnector {
 	 *
 	 * @author Danielle sarusi, edited by Meitar El Ezra
 	 */
-
 	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
 			ConnectionToClient client) throws IOException {
 		System.out.println("type="+type+"\nuser="+userName);
