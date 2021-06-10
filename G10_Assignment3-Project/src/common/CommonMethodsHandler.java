@@ -221,4 +221,23 @@ public class CommonMethodsHandler {
 		newBtn.setDisable(true);
 		return newBtn;
 	}
+	
+	// *****************************************************************************************
+	
+	public List<String> getListRequest(String[] request, Alert alert) throws IOException {
+		ClientUI.chat.accept(request);
+		if (choiceBoxesList.isEmpty()) {
+			alert.showAndWait();
+			System.out.println("populateList");
+			return null;
+		}
+		return choiceBoxesList;
+	}
+	
+	// ChatClient METHODS ***********************************************************************
+	
+	public void setChoiceBoxList(List<String> list) {
+		choiceBoxesList.clear();
+		choiceBoxesList.addAll(list);
+	}
 }
