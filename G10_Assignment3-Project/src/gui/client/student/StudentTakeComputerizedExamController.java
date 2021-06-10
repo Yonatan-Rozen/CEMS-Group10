@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import logic.exam.ComputerizedExam;
 import logic.question.Question;
@@ -203,7 +205,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			examID = examIDFromTeacher;
 		}
 		else {
-			examID = "010101"; // default exam
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
+					"There was no examID chosen by a teacher").showAndWait();
 		}
 	}
 
