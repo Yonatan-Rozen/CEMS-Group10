@@ -106,8 +106,7 @@ public class ChatClient extends AbstractClient {
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
 		case "setTypeAndOptionalTeacherComments":
-			TeacherStartExamController.tseController
-					.setTypeAndOptionalComments(msg[1].toString() + "|" + msg[2].toString());
+			TeacherStartExamController.tseController.setTypeAndOptionalComments((String[])msg);
 			break;
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
@@ -178,7 +177,8 @@ public class ChatClient extends AbstractClient {
 				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getCoursesByUserNameForTeacher":
-				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				//TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				CommonMethodsHandler.getInstance().setChoiceBoxList(stringList);
 				return;
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
