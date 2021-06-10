@@ -43,10 +43,10 @@ public class StudentMenuController implements Initializable {
 	private static Button settingsBtn;
 	
 	// STATIC INSTANCES *****************************************************
-	private static String examID;
-	private static String examType;
-	private static String examCode;
-	
+	protected static String examID;
+	protected static String examType;
+	protected static String examCode;
+	private static StudentEnterCodeController secController;
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -63,6 +63,7 @@ public class StudentMenuController implements Initializable {
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		ClientUI.mainStage.show();
+		secController=new StudentEnterCodeController();
 	}
 	
 	// ACTION METHODS *******************************************************
@@ -85,6 +86,7 @@ public class StudentMenuController implements Initializable {
 		System.out.println("StudentMenuBar::btnPressTakeExam");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
 		StudentMenuBarController.smbController.btnPressTakeAnExam(event);
+		secController.setCode(examCode,examType,examID);
 	}
 
 	@FXML
