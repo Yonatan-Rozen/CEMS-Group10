@@ -82,16 +82,13 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tceqController = new TeacherChooseEditQuestionController();
-		subjectList.clear();
-		subjectList.add("----------");
 		
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
-		
-		//////////////////////////////////////////////////////
 		questionSubjectCb = sbQuestionSubjectCb;
-		
 		// set "----------" as the first value of the choice box
+		subjectList.clear();
+		subjectList.add("----------");
 		questionSubjectCb.setValue("----------");
 		
 		// set the choice box to get it's items from 'subjectList'
@@ -109,7 +106,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 						showQuestionsBySubjectBtn.setDisable(false);
 				}
 			});
-		//////////////////////////////////////////////////////
 		showQuestionsBySubjectBtn = sbShowQuestionsBySubjectBtn;
 		showQuestionsBySubjectBtn.setDisable(true);
 		

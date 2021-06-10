@@ -1,10 +1,13 @@
 package gui.client.teacher;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +15,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class TeacherMenuController implements Initializable {
-	public static TeacherMenuBarController tmbController;
+	public static TeacherMenuController tmController;
 	// JAVAFX INSTANCES *****************************************************
 	@FXML
 	private Hyperlink sbTeacherNameLnk;
@@ -48,15 +53,12 @@ public class TeacherMenuController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink teacherNameLnk;
-	private static Hyperlink logoutLnk;
 	private static Label welcomeLbl;
-	private static Button startExamBtn;
-	private static Button createQuestionBtn;
-	private static Button editQuestionBtn;
-	private static Button createExamBtn;
-	private static Button editExamBtn;
-	private static Button viewReportBtn;
-	private static Button settingsBtn;
+	
+	// STATIC INSTANCES *****************************************************
+	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	protected static boolean choiceBoxRequested;
+	protected static List<String> choiceBoxesList = new ArrayList<>();
 
 	// START METHOD *********************************************************
 	/**
@@ -72,23 +74,16 @@ public class TeacherMenuController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tmbController = new TeacherMenuBarController();
+		tmController = new TeacherMenuController();
 		ClientUI.mainStage.setWidth(1150);
 		ClientUI.mainStage.setHeight(650);
 		ClientUI.mainStage.setTitle("Computerized Exam Management System (Teacher)");
 		teacherNameLnk = sbTeacherNameLnk;
 		teacherNameLnk.setText(ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname());
-		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
-		startExamBtn = sbStartExamBtn;
-		createQuestionBtn = sbCreateQuestionBtn;
-		editQuestionBtn = sbEditQuestionBtn;
-		createExamBtn = sbCreateExamBtn;
-		editExamBtn = sbEditExamBtn;
-		viewReportBtn = sbViewReportBtn;
-		settingsBtn = sbSettingsBtn;
 		ClientUI.mainStage.show();
+		
 	}
 
 	// ACTION METHODS *******************************************************
@@ -101,49 +96,58 @@ public class TeacherMenuController implements Initializable {
 	@FXML
 	public void btnPressCreateExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateExam");
-		tmbController.start();
-		tmbController.btnPressCreateExam(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressCreateExam(event);
 	}
 	
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateQuestion");
-		tmbController.start();
-		tmbController.btnPressCreateQuestion(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressCreateQuestion(event);
 	}
 
 	@FXML
 	public void btnPressEditExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditExam");
-		tmbController.start();
-		tmbController.btnPressEditExam(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressEditExam(event);
 	}
 
 	@FXML
 	public void btnPressEditQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditQuestion");
-		tmbController.start();
-		tmbController.btnPressEditQuestion(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressSettings/lnkTeacherName");
-		tmbController.start();
-		tmbController.btnPressSettings(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressSettings(event);
 	}
 
 	@FXML
 	public void btnPressStartExam(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressStartExam");
-		tmbController.start();
-		tmbController.btnPressStartExam(event);
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressStartExam(event);
 	}
 
 	@FXML
 	public void btnPressViewReport(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressViewReport");
-		tmbController.start();
-		tmbController.btnPressViewReports(event);
+		
+		String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
+		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
+		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+		
+		if (choiceBoxesList != null) {
+			choiceBoxRequested = true;
+			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+			TeacherMenuBarController.tmbController.btnPressViewReports(event);
+			TeacherReportsController.trController.setCoursesCoiseBox(choiceBoxesList);
+		}
 	}
 }
