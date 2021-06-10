@@ -123,6 +123,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	public void initialize(URL location, ResourceBundle resources) {
 		tcedController = new TeacherComputerizedExamDefinitionsController();
 
+		System.out.println("here222");
 		/**** First panel ****/
 		botPanelAp = sbBotPanelAp;
 		questionBodyLbl = sbQuestionBodyLbl;
