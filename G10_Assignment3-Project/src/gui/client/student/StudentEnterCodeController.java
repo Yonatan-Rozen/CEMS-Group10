@@ -48,6 +48,7 @@ public class StudentEnterCodeController implements Initializable {
 		{
 			if(examType.equals("computerized"))
 				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
+			//StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 			if(examType.equals("manual"))
 				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 		}

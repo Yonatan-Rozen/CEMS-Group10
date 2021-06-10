@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewReportsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewReportsController">
    <children>
       <Label layoutX="293.0" layoutY="14.0" text="View exam reports" underline="true">
          <font>
@@ -18,12 +19,15 @@
       <VBox alignment="CENTER" layoutY="131.0" prefHeight="300.0" prefWidth="600.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Line endX="890.0" />
-            <Label text="by teacher name :" underline="true">
+            <Label prefWidth="200.0" text="by teacher ID :" underline="true">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Label>
-            <TextField fx:id="sbTeacherNameTf" maxWidth="200.0" promptText="Insert teacher name">
+            <TextField fx:id="sbteacherUserNameTf" maxWidth="200.0" promptText="Insert teacher name">
                <font>
                   <Font size="18.0" />
                </font></TextField>
@@ -33,12 +37,15 @@
                </font>
             </Button>
             <Line endX="890.0" />
-            <Label text="by course name :" underline="true">
+            <Label prefWidth="200.0" text="by course ID :" underline="true">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Label>
-            <TextField fx:id="sbCourseNameTf" maxWidth="200.0" promptText="Insert course name">
+            <TextField fx:id="sbcourseIDTf" maxWidth="200.0" promptText="Insert course name">
                <font>
                   <Font size="18.0" />
                </font></TextField>
@@ -48,12 +55,15 @@
                </font>
             </Button>
             <Line endX="890.0" />
-            <Label text="by student name :" underline="true">
+            <Label prefWidth="200.0" text="by student ID :" underline="true">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Label>
-            <TextField fx:id="sbStudentNameTf" maxWidth="200.0" promptText="Insert student name">
+            <TextField fx:id="sbstudentIDTf" maxWidth="200.0" promptText="Insert student name">
                <font>
                   <Font size="18.0" />
                </font></TextField>

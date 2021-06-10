@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherStartExamController">
    <children>
       <AnchorPane fx:id="sbTopAp" layoutX="149.0" layoutY="75.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
          <children>
@@ -49,48 +49,46 @@
       </Label>
       <VBox alignment="CENTER_RIGHT" layoutX="501.0" layoutY="420.0" spacing="30.0" />
       <Line endX="550.0" layoutX="342.0" layoutY="240.0" startX="-334.0" />
-      <AnchorPane fx:id="sbBotAp" layoutX="150.0" layoutY="260.0" prefHeight="290.0" prefWidth="600.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
+      <AnchorPane fx:id="sbBotAp" layoutX="150.0" layoutY="260.0" prefHeight="334.0" prefWidth="623.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="127.0">
          <children>
-            <Label layoutX="271.0" layoutY="185.0" text="OR">
+            <Label layoutX="281.0" layoutY="212.0" text="OR">
                <font>
                   <Font name="System Bold Italic" size="40.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="12.0" layoutY="143.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <Label prefHeight="36.0" prefWidth="250.0" text="Request extra time:" underline="true">
-                     <font>
-                        <Font name="System Bold" size="25.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="sbAddedAmountTf" prefHeight="45.0" prefWidth="80.0" promptText="000">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="sbSendRequestBtn" mnemonicParsing="false" onAction="#btnPressSendRequest" prefHeight="44.0" prefWidth="200.0" text="SEND REQUEST ^">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <Button fx:id="sbLockExamBtn" layoutX="226.0" layoutY="243.0" mnemonicParsing="false" onAction="#btnPressLockExam" prefHeight="44.0" prefWidth="146.0" text="LOCK EXAM">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Button>
-            <TextArea fx:id="sbCommentsTa" editable="false" focusTraversable="false" layoutX="94.0" layoutY="37.0" mouseTransparent="true" prefHeight="93.0" prefWidth="600.0" promptText="~No comments were added by the creator of the exam~" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox alignment="CENTER" layoutX="12.0" layoutY="143.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <TextArea fx:id="sbCommentsTa" editable="false" focusTraversable="false" layoutY="36.0" mouseTransparent="true" prefHeight="93.0" prefWidth="600.0" promptText="~No comments were added by the creator of the exam~" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
             </TextArea>
-            <Label layoutY="3.0" text="Comments for teachers :" underline="true" AnchorPane.leftAnchor="0.0">
+            <Label layoutY="-10.0" text="Comments for teachers :" underline="true" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Italic" size="22.0" />
                </font>
             </Label>
+            <TextField fx:id="sbAddedAmountTf" layoutX="270.0" layoutY="169.0" prefHeight="45.0" prefWidth="80.0" promptText="000">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </TextField>
+            <Button fx:id="sbSendRequestBtn" layoutX="394.0" layoutY="170.0" mnemonicParsing="false" onAction="#btnPressSendRequest" prefHeight="44.0" prefWidth="206.0" text="SEND REQUEST &gt;&gt;">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Label layoutY="174.0" prefHeight="36.0" prefWidth="250.0" text="Request extra time:" underline="true">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
+      <Button fx:id="sbLockExamBtn" layoutX="391.0" layoutY="542.0" mnemonicParsing="false" onAction="#btnPressLockExam" prefHeight="44.0" prefWidth="146.0" text="LOCK EXAM">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <Line endX="550.0" layoutX="342.0" layoutY="412.0" startX="-334.0" />
    </children>
 </AnchorPane>

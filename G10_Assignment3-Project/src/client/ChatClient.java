@@ -6,8 +6,12 @@ import java.util.List;
 import common.CommonMethodsHandler;
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
+import gui.client.principle.PrincipleReportsByCourseController;
+import gui.client.principle.PrincipleReportsByStudentController;
+import gui.client.principle.PrincipleReportsByTeacherController;
 import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
+import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
@@ -80,8 +84,10 @@ public class ChatClient extends AbstractClient {
 			handleArraysMessagesFromServer((Object[]) msg);
 		else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		// else if (msg instanceof ManualExam)
-		// StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
+		//else if (msg instanceof ManualExam)
+		//StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
+		else if(msg instanceof Boolean)
+			PrincipleViewReportsController.pvrController.setDoesExit((boolean)msg);
 
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
@@ -136,12 +142,12 @@ public class ChatClient extends AbstractClient {
 
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
-					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
-					.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
 					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
@@ -173,8 +179,17 @@ public class ChatClient extends AbstractClient {
 			case "getSubjectWithExistingBanks":
 				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
+			case "getCoursesByUserNameForTeacher":
+				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				return;
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				return;
+			case "getCoursesByUserNameForPrincipleTeacher":
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
+				return;
+			case "getCoursesByUserNameForPrincipleStudent":
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
 				return;
 			case "getBanksByUsername1":
 				TeacherCreateExamController.tceController.setBankChoiceBox(stringList);
@@ -196,7 +211,16 @@ public class ChatClient extends AbstractClient {
 				return;
 			case "SetAllExamIDs":
 				TeacherStartExamController.tseController.setExamIDs(stringList);
-				break;
+				return;
+			case "TeachrsNamesListForPrincipleReportByCourse":
+				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
+				return;
+			case "getExamsQuestionsByExamID":
+				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
+				return;
+				//	case "TeachrsIDsListForPrincipleReportByCourse":
+				//	PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
+				//return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
@@ -226,9 +250,18 @@ public class ChatClient extends AbstractClient {
 			List<ExamResults> examResultsList = (List<ExamResults>) msg;
 			System.out.println(examResultsList);
 			switch (((ExamResults) obj).getExamID()) {
-			case "getExamDetails":
+			case "getExamDetailsForTeacher":
 				TeacherReportsController.trController.setExamResultsDetails(examResultsList);
-				break;
+				return;
+			case "getExamDetailsForPrincipleTeacher":
+				PrincipleReportsByTeacherController.prbtController.setExamResultsDetails(examResultsList);
+				return;
+			case "getExamDetailsForPrincipleStudent":
+				PrincipleReportsByStudentController.prbsController.setExamResultsDetails(examResultsList);
+				return;
+			case "getExamDetailsForPrincipleCourse":
+				PrincipleReportsByCourseController.prbcController.setExamResultsDetails(examResultsList);
+				return;
 			default:
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
@@ -287,10 +320,10 @@ public class ChatClient extends AbstractClient {
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
 			CommonMethodsHandler.getInstance()
-					.getNewAlert(AlertType.WARNING, "Connection Issues",
-							"It seems like you have connection issues with the server!",
-							"Sorry for the inconvenience. Please try agian at a later time...")
-					.showAndWait();
+			.getNewAlert(AlertType.WARNING, "Connection Issues",
+					"It seems like you have connection issues with the server!",
+					"Sorry for the inconvenience. Please try agian at a later time...")
+			.showAndWait();
 			quit();
 		}
 	}

@@ -46,7 +46,10 @@ public class StudentMenuBarController implements Initializable {
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
 	private static Button backBtn;
-	private static BorderPane mainPaneBp;
+	protected static BorderPane mainPaneBp;
+
+	// CONTROLLER INSTANCES **********************************************
+	public static StudentMenuBarController smbController;
 
 	// START METHOD *********************************************************
 	/**
@@ -63,6 +66,7 @@ public class StudentMenuBarController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		takeExamBtn = sbTakeExamBtn;
+		smbController=new StudentMenuBarController();
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		logoutLnk = sbLogoutLnk;
