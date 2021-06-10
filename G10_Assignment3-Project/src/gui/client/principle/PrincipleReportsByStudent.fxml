@@ -59,7 +59,7 @@
       </Label>
       <AnchorPane fx:id="sbBarChartContainerPn" layoutX="49.0" layoutY="123.0" prefHeight="412.0" prefWidth="801.0">
          <children>
-            <Label fx:id="sbMedianLbl" layoutX="500.0" layoutY="12.0" prefHeight="36.0" prefWidth="114.0" text="Median : 80">
+            <Label fx:id="sbMedianLbl" layoutX="483.0" layoutY="12.0" prefHeight="36.0" prefWidth="154.0" text="Median : 80">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -88,7 +88,7 @@
                   </NumberAxis>
                </yAxis>
             </BarChart>
-            <Label fx:id="sbAverageLbl" layoutX="661.0" layoutY="12.0" prefHeight="36.0" prefWidth="127.0" text="Average : 80">
+            <Label fx:id="sbAverageLbl" layoutX="644.0" layoutY="12.0" prefHeight="36.0" prefWidth="154.0" text="Average : 80">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
