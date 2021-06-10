@@ -114,7 +114,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String header, String context) {
 		Alert alert = new Alert(alertType);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(context);
@@ -134,7 +134,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String context) {
 		Alert alert = new Alert(alertType);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(context);
@@ -156,7 +156,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String header, String context, ButtonType... buttons) {
 		Alert alert = new Alert(alertType, context, buttons);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(CEMS_ICON);
@@ -176,7 +176,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String context, ButtonType... buttons) {
 		Alert alert = new Alert(alertType, context, buttons);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(CEMS_ICON);
