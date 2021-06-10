@@ -1207,7 +1207,7 @@ public class DBconnector {
 				System.out.println("got to courses query for student "+userName);
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt
-						.executeQuery("SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
+						.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
