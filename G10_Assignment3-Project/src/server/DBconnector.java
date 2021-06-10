@@ -1210,23 +1210,23 @@ public class DBconnector {
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
 		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
-		IExam exam=null;
+//		IExam exam=null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-				if (rs.getString(9).equals("C")) {
-					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-				} else {
-					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
-				}
+//				if (rs.getString(9).equals("C")) {
+//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+//				} else {
+//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
+//				}
 				typeAndOptionalComments[1] = rs.getString(9);
 				typeAndOptionalComments[2] = rs.getString(7);
 			}
 			rs.close();
-			client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
+			//client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
 			client.sendToClient(typeAndOptionalComments);
 		}catch(SQLException e) {
 			client.sendToClient("sql exception");
