@@ -68,13 +68,13 @@ public class EchoServer extends AbstractServer {
 			switch(request) {
 			case "SendMessageExamIDExamTypeAndExamCode":
 				for (int i = 0; i < clientThreadList.length; i++) {
-					ConnectionToClient client = (ConnectionToClient)clientThreadList[i];
+					ConnectionToClient student = (ConnectionToClient)clientThreadList[i];
 					try {
-						if (client.getInfo(client.getName()) == "Student")
-							client.sendToClient(msg);
+						if (student.getInfo(student.getName()).equals("Student"))
+							student.sendToClient(msg);
 					} catch (Exception ex) { }
 				}
-				break;
+				return;
 			default:
 				break;
 			}
