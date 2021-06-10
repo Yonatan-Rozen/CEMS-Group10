@@ -99,8 +99,11 @@ public class TeacherCreateExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<Question> questionList;
+	private static List<Question> questionInExam;
 	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
+	
 	private static String msg;
+	public static TableView<Question> xx;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -132,7 +135,7 @@ public class TeacherCreateExamController implements Initializable {
 		continue2Btn = sbContinue2Btn;
 
 		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername() ,"1" });
+			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "1" });
 		}
 	}
 
@@ -159,8 +162,8 @@ public class TeacherCreateExamController implements Initializable {
 		sbTopPanelAp.setDisable(true);
 		sbBotPanelAp.setDisable(false);
 //		chooseCourseCb.setValue("----------");
-		ClientUI.chat
-				.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername() , "1" });
+		ClientUI.chat.accept(
+				new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "1" });
 
 		chooseCourseCb.setItems(CourseList);
 
@@ -233,6 +236,8 @@ public class TeacherCreateExamController implements Initializable {
 							btn.setOnAction(e -> {
 								Question question = getTableRow().getItem();
 								addQuestionToCurrentQuestions(question);
+								System.out.println("exam after add = " + questionInExam);
+
 							});
 							setGraphic(btn);
 						}
@@ -309,7 +314,11 @@ public class TeacherCreateExamController implements Initializable {
 						} else {
 							btn.setOnAction(e -> {
 								Question question = getTableRow().getItem();
+								questionInExam.remove(question);
+
 								removeQuestionFromCurrentQuestions(question);
+								System.out.println("exam after remove = " + questionInExam);
+
 							});
 							setGraphic(btn);
 						}
@@ -327,10 +336,11 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
-				examBankCb.getValue(), author, ChatClient.user.getUsername() });
 		TeacherMenuBarController.mainPaneBp
 				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherComputerizedExamDefinitions"));
+
+		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
+				examBankCb.getValue(), author, ChatClient.user.getUsername() });
 
 	}
 
@@ -359,11 +369,16 @@ public class TeacherCreateExamController implements Initializable {
 	public void addQuestionToCurrentQuestions(Question question) {
 		questionObservableList.add(question);
 		currentQuestionsTable.setItems(questionObservableList);
+		questionInExam = currentQuestionsTable.getItems();
+//		xx = currentQuestionsTable;
 	}
 
 	public void removeQuestionFromCurrentQuestions(Question question) {
 		questionObservableList.remove(question);
 		currentQuestionsTable.setItems(questionObservableList);
+		questionInExam = currentQuestionsTable.getItems();
+//
+//		xx = currentQuestionsTable;
 	}
 
 	public void setQuestionTableView(List<Question> questions) {
@@ -376,5 +391,13 @@ public class TeacherCreateExamController implements Initializable {
 	public void successfulCreateExam(String Msg) {
 		msg = Msg;
 	}
+
+	public ObservableList<Question> getCurrentObservableList() {
+		return questionObservableList;
+	}
+	public 	List<Question> getCurrentList(){
+		return questionInExam;
+	}
+
 
 }
