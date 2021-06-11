@@ -25,9 +25,7 @@ public class EchoServer extends AbstractServer {
 	 * the server
 	 */
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-<<<<<<< HEAD
-		
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {		
 //		if (msg instanceof MyFile) {
 //			System.out.println("asdasdad123124asd");
 //			int fileSize = ((MyFile) msg).getSize();
@@ -47,19 +45,10 @@ public class EchoServer extends AbstractServer {
 //		}
 //
 //		else 
-		if (msg instanceof Object[])
-			ServerUI.serverConsole.println(">>> " + ((Object[]) msg)[0] + " from " + client);
-		else
-			ServerUI.serverConsole.println(">>> " + msg + " from " + client);
-		// send message back to client
-		try {
-			DBconnector.getInstance().parseData(msg, client);
-=======
-
 		if (msg instanceof Object[]) {
 			String request = (String) ((Object[]) msg)[0];
 			ServerUI.serverConsole.println(">>> " + request + " from " + client);
-			
+
 			// check if it's a 'SendSendMessage' request (to send message to other clients)
 			if (request.contains("SendMessage")) {
 				es.sendToAllClients(msg);
@@ -76,12 +65,12 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * Uses info from the database and returns it to the client
-	 * @param msg The specified data request from the database
+	 * 
+	 * @param msg    The specified data request from the database
 	 * @param client The client that sent the message
 	 */
-	public void useDatabase(Object msg, ConnectionToClient client) {
-		try { DBconnector.getInstance().parseData(msg, client);
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+		public void useDatabase(Object msg, ConnectionToClient client) {
+			try { DBconnector.getInstance().parseData(msg, client);
 		} catch (IOException e) {
 			e.printStackTrace();
 			ServerUI.serverConsole.println("ERROR - Could not answer client");
@@ -94,25 +83,26 @@ public class EchoServer extends AbstractServer {
 	@Override
 	public void sendToAllClients(Object msg) {
 		Thread[] clientThreadList = getClientConnections();
-		
+
 		if (msg instanceof Object[]) {
 			String request = (String) ((Object[]) msg)[0];
-			
-			switch(request) {
+
+			switch (request) {
 			case "SendMessageExamIDExamTypeAndExamCode":
 				for (int i = 0; i < clientThreadList.length; i++) {
 					ConnectionToClient student = (ConnectionToClient)clientThreadList[i];
 					try {
 						if (student.getInfo(student.getName()).equals("Student"))
 							student.sendToClient(msg);
-					} catch (Exception ex) { }
+					} catch (Exception ex) {
+					}
 				}
 				return;
 			default:
 				break;
 			}
 		}
-		
+
 		// default for any message
 		super.sendToAllClients(msg);
 	}
