@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import logic.User;
@@ -186,7 +188,9 @@ public class DBconnector {
 				checkIfSearchedIDExists(request[1], request[2], client);
 				break;
 			case "btnPressSubmit":
-				UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(request[1], request[2], request[3],request[4], client);
+				//ClientUI.chat.accept(new String[] { "btnPressSubmit","successful", String.format("%ld", estimatedTime),
+				//										ChatClient.user.getUsername(), examID, grade});
+				UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(request[1], request[2], request[3],request[4],request[5], client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -1413,7 +1417,7 @@ public class DBconnector {
 			}
 
 			rs.close();
-			System.out.println(examResultsList);
+			System.out.println("examResultsList : " +examResultsList);
 			System.out.println("FINISHED query to get exam ID and grade");
 			client.sendToClient(examResultsList);
 		} catch (SQLException e) {
@@ -1700,23 +1704,82 @@ public class DBconnector {
 	 * @param client student
 	 *
 	 * @author Michael Malka and Meitar EL-Ezra
+	 * @throws IOException
 	 */
-	private void UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(String status,String estimatedTime, String studentID,String examID, ConnectionToClient client) {
+	private void UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(String status,String estimatedTime, String studentID,String examID,String grade, ConnectionToClient client)
+			throws IOException
+	{
+		//TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem (calculate) ,
+		//			 									ConfirmedByTeacher = 0 (for now)
+
 		try {
-			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = '"+estimatedTime+"', Submited =?"+
+			// ----------- query to add the tuple to exam_results table in case it doesn't exist allready
+			PreparedStatement stmt1 = con.prepareStatement("INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS, Started) "
+					+ "VALUES (?, ?, ?, ?, ?)");
+
+			stmt1.setString(1,estimatedTime);
+			if(status.equals("successful")) {
+				stmt1.setString(2,"1");
+			}
+			else{// if(status.equals("NOT successful"))
+				stmt1.setString(2,"0");
+			}
+			stmt1.setString(3,examID);
+			stmt1.setString(4,studentID);
+			stmt1.setString(5,"1");
+			stmt1.executeUpdate();
+
+			// ----------- query to add the tuple to exams_results_computerized table in case it doesn't exist allready (accordingly)
+			PreparedStatement stmt2 = con.prepareStatement("INSERT INTO exams_results_computerized (ExamID, UsernameS, GradeBySystem, ConfirmedByTeacher) "
+					+ "VALUES (?, ?, ?, ?)");
+			stmt2.setString(1,examID);
+			stmt2.setString(2,studentID);
+			stmt2.setString(3,grade);
+			stmt2.setString(4,"0");
+			stmt2.executeUpdate();
+
+		} catch (SQLException e) {}
+
+		try {
+			System.out.println("status = "+status+"\testimatedTime = "+estimatedTime+"\tstudentID = "+studentID+"\texamID = "+examID);
+
+			// ----------- updating the tuple in exam_result table
+			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = '"+estimatedTime+"', Submited = ?, Date = ?"+
 					" WHERE ExamID =? AND UsernameS =?");
-			if(status.equals("successful"))
+			if(status.equals("successful")) {
 				stmt.setString(1,"1");
-			else// if(status.equals("NOT successful"))
+			}
+			else{// if(status.equals("NOT successful"))
 				stmt.setString(1,"0");
-			stmt.setString(2, examID);
-			stmt.setString(3, studentID);
+			}
+
+			GregorianCalendar calendar = new GregorianCalendar();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String string = format.format(calendar.getTime());
+			stmt.setString(2, string);
+
+			stmt.setString(3, examID);
+			stmt.setString(4, studentID);
+
 			stmt.executeUpdate();
 
+			System.out.println("studentID = "+studentID+"\texamID = "+examID+"\tGradeBySystem = "+grade+"\tConfirmedByTeacher = '0'");
+
+			// ----------- updating the tuple in exam_result table
+			PreparedStatement stmt3 = con.prepareStatement("UPDATE exams_results_computerized SET GradeBySystem = '"+grade+"', ConfirmedByTeacher = '0', GradeByTeacher = ?,"
+					+ " ReasonForGradeChange = ? WHERE ExamID =? AND UsernameS =?");
+			stmt3.setString(1,null);
+			stmt3.setString(2,null);
+			stmt3.setString(3,examID);
+			stmt3.setString(4,studentID);
+
+			stmt3.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			client.sendToClient("");
 			return;
 		}
+		client.sendToClient("");
 	}
 
 }
