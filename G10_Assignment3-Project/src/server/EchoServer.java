@@ -1,7 +1,10 @@
 package server;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import common.MyFile;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -20,7 +23,25 @@ public class EchoServer extends AbstractServer{
 	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+		
+//		if (msg instanceof MyFile) {
+//			int fileSize = ((MyFile) msg).getSize();
+//			System.out.println("Message received: " + ((MyFile) msg).getFileName() + " from " + client);
+//			System.out.println("length " + fileSize);
+//
+//			try {
+//				FileOutputStream fos = new FileOutputStream(((MyFile) msg).getFileName()); // write the data from
+//																							// file(byte by byte)
+//				BufferedOutputStream bos = new BufferedOutputStream(fos); // write data to memory
+//				bos.write(((MyFile) msg).getMybytearray(), 0, fileSize); // write
+//				bos.flush(); // empty
+//				fos.flush();
+//			} catch (Exception e) {
+//				System.out.println("Error send " + ((MyFile) msg).getFileName() + " to Client");
+//			}
+//		}
+//
+//		else 
 		if (msg instanceof Object[])
 			ServerUI.serverConsole.println(">>> " + ((Object[])msg)[0] + " from " + client);
 		else ServerUI.serverConsole.println(">>> " + msg + " from " + client);
