@@ -98,7 +98,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static Label alertCoreectIDLbl;
 
 	// STATIC INSTANCES **********************************************
-	private static String examID; // get from teacher somehow
+	private static String examID;
 	private static ComputerizedExam exam;
 	private static List<Question> questionsOfExam;// = new ArrayList<>();
 	private static int currentQuestionIndex;
@@ -108,7 +108,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static long estimatedTime;
 
 	// CONTROLLER INSTANCES *******************************************
-	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();;
+	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();
 
 	// INITIALIZE METHOD **********************************************
 	@Override
@@ -191,11 +191,13 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		estimatedTime=estimatedTime/100000;
 		//TODO if the teacher pressed "lock exam" the submit button has to be disabled, the exam has to be submitted as is automatically, and the time must be
 		//calculated for all the students that are still connected
-
-
+		int grade=calcAutomaticGrade();
+		System.out.println("before the query of submit");
 		// successful submit example ***********************************
-		//TODO update "submited" column to 1 in DB's exams_results table
-		ClientUI.chat.accept(new String[] { "btnPressSubmit","successful", String.format("%ld", estimatedTime), ChatClient.user.getUsername(), examID });
+		//TODO update grade into exams_results_computerized
+		ClientUI.chat.accept(new String[] { "btnPressSubmit","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade) });
+
+		System.out.println("after the query of submit");
 
 		// TODO maybe add alert "are you sure you want to submit?"
 		ClientUI.mainScene
@@ -280,6 +282,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	//TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked () throws IOException {
 		submitBtn.setDisable(true);
+		// turn it around : diasble the EXAM and FORCE him to press Submit
 		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
 		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
 		//convert to minutes
@@ -292,4 +295,17 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked","NOT successful", String.format("%ld", estimatedTime), ChatClient.user.getUsername(),examID });
 	}
 
+	/**
+	 * 	checks the correct answers with the answers of the student, calculating the garde accordingly
+
+	 * @return the student's grade by his answers
+	 */
+	private int calcAutomaticGrade() {
+		int grade=100;
+		for(int i=0;i<questionsOfExam.size();i++) {
+			if(!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer()))
+				grade-=Integer.parseInt(scoresOfQuestions.get(i));
+		}
+		return grade;
+	}
 }
