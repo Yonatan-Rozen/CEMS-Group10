@@ -74,19 +74,19 @@
                   </CategoryAxis>
               </xAxis>
               <yAxis>
-                <NumberAxis animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
+                <NumberAxis fx:id="sbAmountAxisNa" animated="false" label="amount of students" prefHeight="276.0" prefWidth="60.0" side="LEFT" style="-fx-font-size: 20;" upperBound="50.0">
                      <tickLabelFont>
                         <Font name="Pristina" size="20.0" />
                      </tickLabelFont>
                   </NumberAxis>
               </yAxis>
             </BarChart>
-            <Label fx:id="sbMedianLbl" layoutX="500.0" layoutY="12.0" text="Median : 80">
+            <Label fx:id="sbMedianLbl" layoutX="483.0" layoutY="12.0" prefHeight="30.0" prefWidth="154.0" text="Median : 80">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="sbAverageLbl" layoutX="661.0" layoutY="12.0" text="Average : 80">
+            <Label fx:id="sbAverageLbl" layoutX="644.0" layoutY="12.0" prefHeight="30.0" prefWidth="154.0" text="Average : 80">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>

@@ -4,24 +4,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 public class TeacherMenuBarController implements Initializable {
+	public static TeacherMenuBarController tmbController;
 	// JAVAFX INSTANCES ******************************************************
-    @FXML
-    private AnchorPane sbMenuBarAp;
-    
+	@FXML
+	private AnchorPane sbMenuBarAp;
+
 	@FXML
 	private Button sbStartExamBtn;
 
@@ -64,20 +67,16 @@ public class TeacherMenuBarController implements Initializable {
 	private static Button editExamBtn;
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
-	private static Hyperlink logoutLnk;
-	private static ImageView logoIv;
-	private static Button backBtn;
 	protected static BorderPane mainPaneBp;
 
-	public void start() throws Exception {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
-
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/teacher/TeacherMenuBar.css").toExternalForm());
-	}
+	// STATIC INSTANCES *****************************************************
+	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	private static Button currentBtn;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tmbController = new TeacherMenuBarController();
 		menuBarAp = sbMenuBarAp;
 		startExamBtn = sbStartExamBtn;
 		createQuestionBtn = sbCreateQuestionBtn;
@@ -86,9 +85,6 @@ public class TeacherMenuBarController implements Initializable {
 		editExamBtn = sbEditExamBtn;
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
-		logoutLnk = sbLogoutLnk;
-		logoIv = sbLogoIv;
-		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
 		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
@@ -103,43 +99,60 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressCreateExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateExam");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherExamType"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherExamType"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, createExamBtn);
 	}
-	
+
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateQuestion");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCreateQuestion"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, createQuestionBtn);
 	}
 
 	@FXML
 	public void btnPressEditExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressEditExam");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherEditExam"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editExamBtn);
 	}
 
 	@FXML
-	public void btnPressEditQuestion(ActionEvent event){
+	public void btnPressEditQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressEditQuestion");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherChooseEditQuestion"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editQuestionBtn);
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressSettings");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("client", "UserSettings"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML
 	public void btnPressStartExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressStartExam");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherStartExam"));
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherStartExam"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, startExamBtn);
 	}
 
 	@FXML
-	public void btnPressViewReports(ActionEvent event) {
+	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::btnPressViewReports");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherReports"));
+		if (!TeacherMenuController.choiceBoxRequested) {
+			String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
+			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
+			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+		}
+		if (TeacherMenuController.choiceBoxesList != null) {
+			TeacherMenuBarController.mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherReports"));
+			TeacherReportsController.trController.setCoursesCoiseBox(TeacherMenuController.choiceBoxesList);
+			TeacherMenuController.choiceBoxRequested = false;
+			
+			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewReportsBtn);
+		}
 	}
 
 	@FXML

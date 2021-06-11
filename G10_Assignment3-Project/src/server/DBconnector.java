@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+<<<<<<< HEAD
 import common.MyFile;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
+=======
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
@@ -192,12 +195,18 @@ public class DBconnector {
 			case "checkIfSearchedIDExists":
 				checkIfSearchedIDExists(request[1], request[2], client);
 				break;
+<<<<<<< HEAD
 			case "UpdateQuestionAndScoreToExam":
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
 //			case "SaveFileExam":
 //				SaveFileExam(request[1],client);
 //				break;
+=======
+			case "btnPressSubmit":
+				UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(request[1], request[2], request[3],request[4], client);
+				break;
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -219,6 +228,7 @@ public class DBconnector {
 			}
 		}
 	}
+
 
 	private void getExamInfoByID(String string, ConnectionToClient client) {
 		// TODO Auto-generated method stub
@@ -429,7 +439,7 @@ public class DBconnector {
 		try {
 			PreparedStatement stmt = con.prepareStatement(
 					"UPDATE exams SET AllocatedTime = '" + time + "',StudentComments = '" + studentComments
-							+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
+					+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -539,7 +549,7 @@ public class DBconnector {
 	 * @param username the username of the current user
 	 * @param client   the connected user
 	 * @throws IOException
-	 * 
+	 *
 	 * @author Yonatan Rozen
 	 */
 	private void disconnectClient(String username, ConnectionToClient client) throws IOException {
@@ -883,8 +893,11 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-		ServerUI.serverConsole.println(("user [" + user.getUsername() + "] has connected successfully!"));
+
 		client.sendToClient(user);
+		client.setName(username);
+		ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
+		client.setInfo(client.getName(), user.getType());
 	}
 
 	// ***********************************************************************************************
@@ -1397,24 +1410,29 @@ public class DBconnector {
 	 * @author Yonatan Rozen
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
+<<<<<<< HEAD
 		String[] typeAndOptionalComments = new String[] { "setTypeAndOptionalTeacherComments", "", "" };
 		IExam exam = null;
+=======
+		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
+		//		IExam exam=null;
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Type, TeacherComments FROM exams WHERE ExamID = '" + examID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-				if (rs.getString(9).equals("C")) {
-					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-				} else {
-					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
-				}
-				typeAndOptionalComments[1] = rs.getString(1);
-				typeAndOptionalComments[2] = rs.getString(2);
+				//				if (rs.getString(9).equals("C")) {
+				//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+				//				} else {
+				//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
+				//				}
+				typeAndOptionalComments[1] = rs.getString(9);
+				typeAndOptionalComments[2] = rs.getString(7);
 			}
 			rs.close();
-			client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
+			//client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
 			client.sendToClient(typeAndOptionalComments);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -1422,6 +1440,11 @@ public class DBconnector {
 			return;
 		}
 	}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 
 	// ***********************************************************************************************
 	/**
@@ -1508,7 +1531,6 @@ public class DBconnector {
 													// exams
 		{
 			try {
-
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
 						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '"
@@ -1518,9 +1540,7 @@ public class DBconnector {
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
-				System.out.println(coursesList);
 				client.sendToClient(coursesList);
-
 			} catch (SQLException e) {
 				client.sendToClient("sql exception");
 				e.printStackTrace();
@@ -1530,8 +1550,13 @@ public class DBconnector {
 			try {
 				System.out.println("got to courses query for student " + userName);
 				Statement stmt = con.createStatement();
+<<<<<<< HEAD
 				ResultSet rs = stmt.executeQuery(
 						"SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
+=======
+				ResultSet rs = stmt
+						.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
@@ -1540,7 +1565,6 @@ public class DBconnector {
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
-				System.out.println(coursesList);
 				client.sendToClient(coursesList);
 
 			} catch (SQLException e) {
@@ -1561,7 +1585,6 @@ public class DBconnector {
 	 *
 	 * @author Danielle sarusi, edited by Meitar El Ezra
 	 */
-
 	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
 			ConnectionToClient client) throws IOException {
 		System.out.println("type=" + type + "\nuser=" + userName);
@@ -1611,6 +1634,10 @@ public class DBconnector {
 		}
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -1880,6 +1907,34 @@ public class DBconnector {
 			client.sendToClient(TeachrsNamesList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	/**
+	 * sets the TimeOfExecution and the submitted columns according to the information from the student who pressed submit into the exam_results table
+	 *
+	 * @param estimatedTime the time length it took the student to complete the exam in minutes
+	 * @param studentID the ID of the student taking the exam
+	 * @param examID the ID of the exam that the student was taking
+	 * @param client student
+	 *
+	 * @author Michael Malka and Meitar EL-Ezra
+	 */
+	private void UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(String status,String estimatedTime, String studentID,String examID, ConnectionToClient client) {
+		try {
+			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = '"+estimatedTime+"', Submited =?"+
+					" WHERE ExamID =? AND UsernameS =?");
+			if(status.equals("successful"))
+				stmt.setString(1,"1");
+			else// if(status.equals("NOT successful"))
+				stmt.setString(1,"0");
+			stmt.setString(2, examID);
+			stmt.setString(3, studentID);
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		}

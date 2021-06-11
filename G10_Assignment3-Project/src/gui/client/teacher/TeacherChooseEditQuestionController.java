@@ -76,22 +76,19 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
 	private static String msg;
-	private static boolean deletable = true;
+	private static boolean deletable;
 	
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tceqController = new TeacherChooseEditQuestionController();
-		subjectList.clear();
-		subjectList.add("----------");
 		
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
-		
-		//////////////////////////////////////////////////////
 		questionSubjectCb = sbQuestionSubjectCb;
-		
 		// set "----------" as the first value of the choice box
+		subjectList.clear();
+		subjectList.add("----------");
 		questionSubjectCb.setValue("----------");
 		
 		// set the choice box to get it's items from 'subjectList'
@@ -109,7 +106,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 						showQuestionsBySubjectBtn.setDisable(false);
 				}
 			});
-		//////////////////////////////////////////////////////
 		showQuestionsBySubjectBtn = sbShowQuestionsBySubjectBtn;
 		showQuestionsBySubjectBtn.setDisable(true);
 		
@@ -253,6 +249,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	public void setQuestionDeletable(String existsInExam) {
 		if (existsInExam.equals("1"))
 			deletable = false;
+		else deletable = true;
 	}
 	
 	public void chooseQuestionToPreview(Question question) {

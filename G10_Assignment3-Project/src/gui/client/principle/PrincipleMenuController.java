@@ -21,7 +21,7 @@ public class PrincipleMenuController implements Initializable {
 
 	@FXML
 	private Hyperlink sbLogoutLnk;
-	
+
 	@FXML
 	private Label sbWelcomeLbl;
 
@@ -52,7 +52,7 @@ public class PrincipleMenuController implements Initializable {
 	// START METHOD *********************************************************
 	/**
 	 * Opens PrincipleMenu.fxml
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
@@ -85,35 +85,35 @@ public class PrincipleMenuController implements Initializable {
 	@FXML
 	public void btnPressViewRequest(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::btnPressViewRequest");
-		pmbController.start();
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressViewRequests(event);
 	}
 
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::btnPressViewInfo");
-		pmbController.start();
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressViewInfo(event);
 	}
 
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::btnPressViewReports");
-		pmbController.start();
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressViewReports(event);
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::btnPressSettings");
-		pmbController.start();
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressSettings(event);
 	}
 
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::lnkPressLogout");
-		pmbController.start();
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.lnkPressLogout(event);
 	}
 

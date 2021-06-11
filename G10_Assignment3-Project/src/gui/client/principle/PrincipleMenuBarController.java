@@ -58,17 +58,11 @@ public class PrincipleMenuBarController implements Initializable {
 	protected static BorderPane mainPaneBp;
 	protected static AnchorPane menuBarAp;
 
+	// STATIC INSTANCES *****************************************************
+	private static Button currentBtn;
 
-	// START METHOD *********************************************************
-	/**
-	 * Opens PrincipleMenuBar.fxml
-	 *
-	 * @throws Exception
-	 */
-	public void start() throws Exception {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenuBar.css").toExternalForm());
-	}
+	// CONTROLLER INSTANCES ***************************************************
+	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -89,23 +83,28 @@ public class PrincipleMenuBarController implements Initializable {
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewRequests");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewRequests"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewRequestsBtn);
 	}
 
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewInfo");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
-
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewInfoBtn);
 	}
+
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewReports");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewReportsBtn);
 	}
+
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML

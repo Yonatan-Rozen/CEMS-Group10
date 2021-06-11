@@ -2,6 +2,7 @@ package logic.exam;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Exam implements Serializable,IExam{
 	private String examID;
 	private String author;

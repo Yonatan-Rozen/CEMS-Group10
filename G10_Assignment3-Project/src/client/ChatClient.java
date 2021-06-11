@@ -17,6 +17,7 @@ import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
+import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
@@ -112,14 +113,14 @@ public class ChatClient extends AbstractClient {
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
 		case "setTypeAndOptionalTeacherComments":
-			TeacherStartExamController.tseController
-					.setTypeAndOptionalComments(msg[1].toString() + "|" + msg[2].toString());
+			TeacherStartExamController.tseController.setTypeAndOptionalComments((String[])msg);
 			break;
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
 
 			// TeacherEditExamDefinitionsController.teedController.setExamID(msg[1].toString());
 			break;
+<<<<<<< HEAD
 //		case "SaveFileExam":
 //			System.out.println("in savefilexam");
 //			String[] tostring;
@@ -147,6 +148,9 @@ public class ChatClient extends AbstractClient {
 //				System.out.println("Error send " + ((MyFile) msgFile).getFileName() + " to Server");
 //			}
 //			break;
+		case "SendMessageExamIDExamTypeAndExamCode":
+			StudentMenuController.smController.setReadyExam((String[])msg);
+			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -164,12 +168,8 @@ public class ChatClient extends AbstractClient {
 			return; // Client is disconnecting
 		if (msg.equals("TerminateClient"))
 			quit(); // Terminates the current client
-
-		else if (msg.contains("UpdatedQuestion")) { // Question has been updated
-			System.out.println("UpdatedQuestion");
-			TeacherEditQuestionController.teqController
-					.successfulEditQuestion("The question has been edited successfully!");
-		}
+		else if (msg.contains("UpdatedQuestion")) // Question has been updated
+			TeacherEditQuestionController.teqController.successfulEditQuestion("The question has been edited successfully!");
 		/**** handle return message to client ****/
 		else if (msg.contains("SignIn ERROR - ")) // SignIn Errors
 			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
@@ -179,6 +179,9 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
 					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
+		else if (msg.contains("ChangePassword SUCCESS - ")){ // ChangePassword Success
+			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
@@ -221,7 +224,8 @@ public class ChatClient extends AbstractClient {
 				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getCoursesByUserNameForTeacher":
-				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				//TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				CommonMethodsHandler.getInstance().setChoiceBoxList(stringList);
 				return;
 			case "getCoursesByUserName":
 				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
@@ -366,6 +370,9 @@ public class ChatClient extends AbstractClient {
 							"It seems like you have connection issues with the server!",
 							"Sorry for the inconvenience. Please try agian at a later time...")
 					.showAndWait();
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Connection Issues",
+					"It seems like you have connection issues with the server!",
+					"Sorry for the inconvenience. Please try agian at a later time...").showAndWait();
 			quit();
 		}
 

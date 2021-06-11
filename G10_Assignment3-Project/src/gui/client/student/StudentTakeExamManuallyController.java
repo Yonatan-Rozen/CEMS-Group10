@@ -5,15 +5,17 @@ import java.sql.Blob;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Alert.AlertType;
 import logic.exam.ManualExam;
 
 public class StudentTakeExamManuallyController implements Initializable {
-	public static StudentTakeExamManuallyController stemController;
+	public static StudentTakeExamManuallyController stemController=new StudentTakeExamManuallyController();;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Hyperlink sbDownloadExamFileLnk;
@@ -31,15 +33,12 @@ public class StudentTakeExamManuallyController implements Initializable {
 	//maybe need get the file into this param?
 	private static ManualExam exam;
 
-
-
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		downloadExamFileLnk = sbDownloadExamFileLnk;
 		submitExamBtn = sbSubmitExamBtn;
-		stemController=new StudentTakeExamManuallyController();
-		setExamID(null);
+		//stemController
 
 	}
 
@@ -51,7 +50,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 		//TODO prompt message "Are you sure you want to submit?"
 		//TODO go to "exam submitted successfully"
 		//TODO go to main menu
-
 
 	}
 
@@ -73,7 +71,10 @@ public class StudentTakeExamManuallyController implements Initializable {
 		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")  )
 			//TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
-		else examID="012345"; // default exam
+		else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
+					"There was no examID chosen by a teacher").showAndWait();
+		}
 	}
 
 	/**

@@ -119,7 +119,6 @@ public class SignInController implements Initializable {
 			case "Student":
 				ClientUI.mainStage.hide();
 				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-
 				break;
 			case "Teacher":
 				ClientUI.mainStage.hide();

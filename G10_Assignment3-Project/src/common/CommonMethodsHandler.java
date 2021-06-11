@@ -1,13 +1,18 @@
 package common;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import client.ClientUI;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -21,6 +26,7 @@ public class CommonMethodsHandler {
 	public static final Image CEMS_ICON = new Image("/icon_black.png");
 
 	private static CommonMethodsHandler commonMethodsHandler;
+	private static List<String> choiceBoxesList = new ArrayList<>();
 
 	private CommonMethodsHandler() {
 	}
@@ -108,7 +114,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String header, String context) {
 		Alert alert = new Alert(alertType);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(context);
@@ -128,7 +134,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String context) {
 		Alert alert = new Alert(alertType);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(context);
@@ -150,7 +156,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String header, String context, ButtonType... buttons) {
 		Alert alert = new Alert(alertType, context, buttons);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(CEMS_ICON);
@@ -170,7 +176,7 @@ public class CommonMethodsHandler {
 	 */
 	public Alert getNewAlert(AlertType alertType, String title, String context, ButtonType... buttons) {
 		Alert alert = new Alert(alertType, context, buttons);
-		alert.initStyle(StageStyle.UTILITY);
+		alert.initStyle(StageStyle.DECORATED);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(CEMS_ICON);
@@ -200,5 +206,38 @@ public class CommonMethodsHandler {
 			System.out.println("Please fix this radio button!");
 			return "";
 		}
+	}
+	
+	// *****************************************************************************************
+	
+	/**
+	 * Disable the newly pressed button instead the currentBtn one
+	 * @param currentBtn The disabled button before
+	 * @param newlyPressed The 'to-be' disabled button after
+	 */
+	public Button disablePropertySwapper(Button currentBtn, Button newBtn) {
+		if (currentBtn != null) 
+			currentBtn.setDisable(false);
+		newBtn.setDisable(true);
+		return newBtn;
+	}
+	
+	// *****************************************************************************************
+	
+	public List<String> getListRequest(String[] request, Alert alert) throws IOException {
+		ClientUI.chat.accept(request);
+		if (choiceBoxesList.isEmpty()) {
+			alert.showAndWait();
+			System.out.println("populateList");
+			return null;
+		}
+		return choiceBoxesList;
+	}
+	
+	// ChatClient METHODS ***********************************************************************
+	
+	public void setChoiceBoxList(List<String> list) {
+		choiceBoxesList.clear();
+		choiceBoxesList.addAll(list);
 	}
 }

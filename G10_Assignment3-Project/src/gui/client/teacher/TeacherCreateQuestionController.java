@@ -78,7 +78,6 @@ public class TeacherCreateQuestionController implements Initializable {
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane topPanelAp;
 	private static ChoiceBox<String> questionSubjectCb;
-	private static Button createQuestionBtn;
 	private static AnchorPane botPanelAp;
 	private static TextArea questionBodyTa;
 	private static RadioButton markAnswer1Rb;
@@ -91,7 +90,7 @@ public class TeacherCreateQuestionController implements Initializable {
 	private static TextArea answer4Ta;
 
 	// STATIC INSTANCES *****************************************************
-	public static ObservableList<String> subjectList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
 	private static RadioButton selected;
 	private static String msg;
 	
@@ -102,9 +101,11 @@ public class TeacherCreateQuestionController implements Initializable {
 		
 		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
-		//////////////////////////////////////////////////////
 		questionSubjectCb = sbQuestionSubjectCb;
+		
 		// set "----------" as the first value of the choice box
+		subjectList.clear();
+		subjectList.add("----------");
 		questionSubjectCb.setValue("----------");
 		
 		// set the choice box to get it's items from 'subjectList'
@@ -117,14 +118,12 @@ public class TeacherCreateQuestionController implements Initializable {
 			{
 				if (newValue != null) {
 					if (newValue.equals("----------"))
-						createQuestionBtn.setDisable(true);
+						sbCreateQuestionBtn.setDisable(true);
 					else
-						createQuestionBtn.setDisable(false);
+						sbCreateQuestionBtn.setDisable(false);
 				}
 			});
-		//////////////////////////////////////////////////////
-		createQuestionBtn = sbCreateQuestionBtn;
-		createQuestionBtn.setDisable(true);
+		sbCreateQuestionBtn.setDisable(true);
 
 		/**** Second panel ****/
 		botPanelAp = sbBotPanelAp;

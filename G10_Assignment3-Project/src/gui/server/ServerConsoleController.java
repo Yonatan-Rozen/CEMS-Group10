@@ -38,7 +38,7 @@ public class ServerConsoleController implements Initializable {
 	// START METHOD *********************************************************
 	/**
 	 * Opens ServerConsole.fxml
-	 * 
+	 *
 	 * @param mainStage
 	 * @throws Exception
 	 */
@@ -52,9 +52,10 @@ public class ServerConsoleController implements Initializable {
 		mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		mainStage.setOnCloseRequest(event -> {
 			mainStage.hide();
-			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-			methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
-					"The server has been shut down\n(All client will be terminated shortly after...)","Press ok to continue.").showAndWait();
+			//TODO
+			//			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+			//			methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
+			//					"The server has been shut down\n(All client will be terminated shortly after...)","Press ok to continue.").showAndWait();
 			EchoServer.es.sendToAllClients("TerminateClient");
 			System.exit(0);
 		});
@@ -72,6 +73,7 @@ public class ServerConsoleController implements Initializable {
 	}
 
 	// ACTION METHOD ********************************************************
+	@FXML
 	public void btnPressStartServer(ActionEvent event) {
 		int portNumber;
 		try {
@@ -86,7 +88,7 @@ public class ServerConsoleController implements Initializable {
 		ServerUI.startServer(portNumber);
 	}
 
-	// INSTANCE METHODS ****************************************************
+	// EXTERNAL USE METHODS **************************************************
 	private int getPort() throws NumberFormatException {
 		return Integer.parseInt(portTf.getText());
 	}

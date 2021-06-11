@@ -22,8 +22,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import logic.exam.IExam;
-import logic.question.Question;
 
 public class TeacherStartExamController implements Initializable {
 	public static TeacherStartExamController tseController;
@@ -134,9 +132,9 @@ public class TeacherStartExamController implements Initializable {
 			botAp.setDisable(false);
 			String examID = chooseExamCb.getValue().split("\\#")[1]; // get exam ID from the selected value
 			ClientUI.chat.accept(new String[] {"GetTypeOfExamAndOptionalComments", examID});
-			
-			ClientUI.chat.accept(new String[] {"SendExamIDandExamType", examID, examType}); // TODO send message to all clients
-			
+			System.out.println(examType);
+			ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", examID, examType, codeTf.getText()}); // TODO send message to all students
+
 			commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Exam Started", "The exam is now in execution mode",
 					"Please provide examinees with the entered code.").showAndWait();
 			
@@ -181,11 +179,10 @@ public class TeacherStartExamController implements Initializable {
 		examSubjectCourseIDList.addAll(examIDs);
 	}
 	
-	public void setTypeAndOptionalComments(String typeAndComments) {
-		String splitTypeAndComments[] = typeAndComments.split("\\|");
-		examType = splitTypeAndComments[0];
-		if (splitTypeAndComments.length == 2 )
-			commentsTa.setText(splitTypeAndComments[1]);
+	public void setTypeAndOptionalComments(String[] typeAndComments) {
+		examType = typeAndComments[1];
+		if (typeAndComments[2] != null )
+			commentsTa.setText(typeAndComments[2]);
 	}
 	
 	public void lockExam() {

@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
@@ -17,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 public class StudentMenuBarController implements Initializable {
-
+	public static StudentMenuBarController smbController;
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private Button sbTakeExamBtn;
@@ -40,37 +41,24 @@ public class StudentMenuBarController implements Initializable {
 	@FXML
 	private BorderPane sbMainPaneBp;
 
+	// STATIC INSTANCES *****************************************************
+	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	private static Button currentBtn;
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
-	private static Hyperlink logoutLnk;
-	private static Button backBtn;
-	protected static BorderPane mainPaneBp;
-
-	// CONTROLLER INSTANCES **********************************************
-	public static StudentMenuBarController smbController;
-
-	// START METHOD *********************************************************
-	/**
-	 * Opens StudentMenuBar.fxml
-	 *
-	 * @throws Exception
-	 */
-	public void start() throws Exception {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/student/StudentMenuBar.css").toExternalForm());
-	}
+	private static BorderPane mainPaneBp;
 
 	// INITIALIZE METHOD *********************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		smbController = new StudentMenuBarController();
 		takeExamBtn = sbTakeExamBtn;
 		smbController=new StudentMenuBarController();
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
-		logoutLnk = sbLogoutLnk;
-		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
 		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
 	}
@@ -79,19 +67,31 @@ public class StudentMenuBarController implements Initializable {
 	@FXML
 	public void btnPressTakeAnExam(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressTakeAnExam");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
+		String[] readyExamData=StudentMenuController.smController.getReadyExam();
+		if(readyExamData[0]==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
+		{
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
+					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
+		}
+		else{
+			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2]);
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
+			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, takeExamBtn);
+		}
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML
 	public void btnPressViewExamResults(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentExamResults"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewExamResultsBtn);
 	}
 
 	@FXML
