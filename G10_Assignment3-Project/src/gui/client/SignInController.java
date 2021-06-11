@@ -83,7 +83,7 @@ public class SignInController implements Initializable {
 		ClientUI.mainStage.setWidth(600);
 		ClientUI.mainStage.setHeight(400);
 		try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
-		}catch(NullPointerException e) {System.out.println("client didn't connect yet");};
+		}catch(NullPointerException e) {System.out.println("> client window is now active.\n> waiting for user input...");};
 		ChatClient.user = null;
 		usernameTf = sbUsernameTf;
 		passwordPf = sbPasswordPf;
