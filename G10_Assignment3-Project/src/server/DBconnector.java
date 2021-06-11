@@ -1,5 +1,10 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import common.MyFile;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import logic.User;
 import logic.exam.ComputerizedExam;
@@ -80,7 +86,7 @@ public class DBconnector {
 	 * @throws IOException if an I/O error occur when sending the message.
 	 */
 	public void parseData(Object data, ConnectionToClient client) throws IOException {
-		System.out.println(data);
+		// System.out.println(data);
 		if (data instanceof String)
 			client.sendToClient(data);
 		// parse clients requests
@@ -128,7 +134,7 @@ public class DBconnector {
 				insertNewExamToDB(request[1], request[2], request[3], client);
 				break;
 			case "btnPressFinishCreateComputerizedExam":
-				UpdateTimeAndCommentsForExam(request[1], request[2], request[3], request[4], client);
+				UpdateTimeAndCommentsForExam(request[1], request[2], request[3], request[4],request[5], client);
 				break;
 			case "btnPressFinishCreateManualExam":
 				insertNewManualExamToDB(request[1], request[2], request[3], request[4], client);
@@ -186,6 +192,12 @@ public class DBconnector {
 			case "checkIfSearchedIDExists":
 				checkIfSearchedIDExists(request[1], request[2], client);
 				break;
+			case "UpdateQuestionAndScoreToExam":
+				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
+				break;
+//			case "SaveFileExam":
+//				SaveFileExam(request[1],client);
+//				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -213,6 +225,118 @@ public class DBconnector {
 
 	}
 
+//	private void SaveFileExam(Object msg, String FilePath, ConnectionToClient client) {
+//		System.out.println("info = " + FileName +"  "+ FilePath);
+//		MyFile msg = new MyFile(FileName);
+//
+//		try {
+//			File newFile = new File(FilePath);
+//			byte[] mybytearray = new byte[(int) newFile.length()];
+//			FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte)
+//			BufferedInputStream bis = new BufferedInputStream(fis); // reads data from memory
+//
+//			msg.initArray(mybytearray.length);
+//			msg.setSize(mybytearray.length);
+//
+//			bis.read(msg.getMybytearray(), 0, mybytearray.length); // reads
+//		} catch (Exception e) {
+//		}
+
+//		int fileSize = msg.getSize();
+//		System.out.println("Message received: " + ((MyFile) msg).getFileName() + " from " + client);
+//		System.out.println("length " + fileSize);
+//
+//		try {
+//			FileOutputStream fos = new FileOutputStream(((MyFile) msg).getFileName()); //write the data from file(byte by byte) 
+//			BufferedOutputStream bos = new BufferedOutputStream(fos); //write data to memory
+//			bos.write(((MyFile) msg).getMybytearray(), 0, fileSize); //write
+//			bos.flush(); //empty
+//			fos.flush();
+//		} catch (Exception e) {
+//			System.out.println("Error send " + ((MyFile)msg).getFileName() + " to Client");
+//		}
+//		
+//		
+//		
+//		
+//	}
+
+	/**
+	 * Sends message of success to to user
+	 *
+	 * @param ExamID     String ##@@$$$
+	 * @param questionID string &&%%%
+	 * @param client     the teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
+	private void UpdateQuestionAndScoreToExam(String ExamID, String ScoreVal, String QuestionID,
+			ConnectionToClient client) throws IOException {
+		// check if we need to update or insert new
+		String hasQuestion = "0";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT ExamID From questions_in_exam " + "WHERE ExamID = '" + ExamID
+					+ "' AND QuestionID = '" + QuestionID + "'");
+			if (rs.next())
+				hasQuestion = "1";
+			rs.close();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		// if we need to insert the question for the first time
+		if (hasQuestion.equals("0")) {
+			// insert new exam into exams and generate a new 'examID'
+			try {
+				PreparedStatement stmt = con.prepareStatement(
+						"INSERT INTO questions_in_exam (ExamID, QuestionID,Score)" + "VALUES (?,?,?)");
+				stmt.setString(1, ExamID);
+				stmt.setString(2, QuestionID);
+				stmt.setString(3, ScoreVal);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+		}
+		// if we need to update score for existing question in exam
+		else if (hasQuestion.equals("1")) {
+			try {
+				PreparedStatement stmt = con
+						.prepareStatement("UPDATE questions_in_exam SET Score = ? WHERE QuestionID = ? AND ExamID = ?");
+				stmt.setString(1, ScoreVal);
+				stmt.setString(2, QuestionID);
+				stmt.setString(3, ExamID);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+
+		} else
+			System.out.println("Error with hasQuestion");
+
+		client.sendToClient(
+				"Update Question #" + QuestionID + "in exam #" + ExamID + " has been updated in the database!");
+
+	}
+
+	/**
+	 * Sends array with examID(computerized) and success msg
+	 *
+	 * @param CourseName  String
+	 * @param subjectName string
+	 * @param author      - full name client
+	 * @param client      the teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
 			throws IOException {
 
@@ -286,8 +410,21 @@ public class DBconnector {
 		client.sendToClient(new String[] { "GetExamIDForComputerizedExam", examID });
 	}
 
+	/**
+	 * Sends message success
+	 *
+	 * @param ExamID          String - ##@@$$$
+	 * @param studentComments comments to student (Optional)
+	 * @param teacherComments - comments to teacher (Optional)
+	 * @param time            - update allocated time of exam
+	 * @param num 			different controllers
+	 * @param client          the teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void UpdateTimeAndCommentsForExam(String ExamID, String studentComments, String teacherComments,
-			String time, ConnectionToClient client) throws IOException {
+			String time,String num, ConnectionToClient client) throws IOException {
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(
@@ -299,10 +436,25 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-
+		if(num.equals("1"))
 		client.sendToClient("CreateExam SUCCESS - Exam " + String.format("#%s", ExamID) + " was updated successfully!");
+		else if(num.equals("2")) {
+			client.sendToClient("EditExam SUCCESS - Exam " + String.format("#%s", ExamID) + " was updated successfully!");
+		}
 	}
 
+	/**
+	 * Sends array with examID(manual) and success msg
+	 *
+	 * @param CourseName  String
+	 * @param subjectName string
+	 * @param author      - full name client
+	 * @param time        - allocated time for exam
+	 * @param client      the teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void insertNewManualExamToDB(String CourseName, String subjectName, String author, String time,
 			ConnectionToClient client) throws IOException {
 
@@ -414,7 +566,7 @@ public class DBconnector {
 	 */
 	private void getExamsQuestionsByExamID(String examID, ConnectionToClient client) throws IOException {
 		List<Question> questionsOfExam = new ArrayList<>();
-		List<String> questionsScores=new ArrayList<>();
+		List<String> questionsScores = new ArrayList<>();
 		questionsOfExam.add(new Question("getExamsQuestionsByExamID", "", "", "", "", "", "", ""));
 		questionsScores.add("getExamsQuestionsByExamID");
 		// get all the exam's questions into the arrayList according to the examID
@@ -528,8 +680,18 @@ public class DBconnector {
 		}
 	}
 
+	/**
+	 * Sends to the teacher an (ArrayList) of her banks
+	 *
+	 * @param username The username of the teacher
+	 * @param num      - to use in this query in several controllers
+	 * @param client   The teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void getBanksByUsername(String username, String num, ConnectionToClient client) throws IOException {
-		List<String> bankList = new ArrayList<>(); // num to use in several controllers
+		List<String> bankList = new ArrayList<>();
 
 		if (num.equals("1")) {
 			bankList.add("getBanksByUsername1");
@@ -557,10 +719,20 @@ public class DBconnector {
 		}
 	}
 
-	////////////////////////
+	/**
+	 * Sends to the teacher an (ArrayList) of her courses
+	 *
+	 * @param username    The username of the teacher
+	 * @param SubjectName - subject string
+	 * @param num         - to use in this query in several controllers
+	 * @param client      The teacher
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void getCourseBySubject(String SubjectName, String username, String num, ConnectionToClient client)
 			throws IOException {
-		List<String> CourseList = new ArrayList<>(); // num to use in several controller
+		List<String> CourseList = new ArrayList<>();
 
 		if (num.equals("1")) {
 			CourseList.add("getCourseBySubject1");
@@ -895,7 +1067,7 @@ public class DBconnector {
 	 * @param username  The username of the teacher
 	 * @throws IOException
 	 *
-	 * @author Yonatan Rozen
+	 * @author Yonatan Rozen , edited by Eliran Amerzoyev
 	 */
 
 	private void getQuestionsBySubjectAndUsername(String subjectName, String num, String username,
@@ -927,6 +1099,16 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * Sends to the teacher an ArrayList of exams
+	 *
+	 * @param subjectID
+	 * @param username
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void getExamsBySubjectAndUsername(String subjectName, String num, String username,
 			ConnectionToClient client) throws IOException { // num for using in create exam
 		List<Exam> examList = new ArrayList<>();
@@ -979,6 +1161,15 @@ public class DBconnector {
 
 	}
 
+	/**
+	 * Sends to the client success remove
+	 *
+	 * @param examID
+	 * @param username
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void removeExam(String examID, String username, ConnectionToClient client) throws IOException {
 		// need to remove from exams,exam_result,exams_result_computerized,and all the
 		// question_in_exam
@@ -993,26 +1184,26 @@ public class DBconnector {
 			return;
 		}
 
-		// remove the exam from database(exams_results table)
-		try {
-			PreparedStatement stmt = con.prepareStatement("DELETE FROM exams_results WHERE ExamID = '" + examID + "'");
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
+//		// remove the exam from database(exams_results table)
+//		try {
+//			PreparedStatement stmt = con.prepareStatement("DELETE FROM exams_results WHERE ExamID = '" + examID + "'");
+//			stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			client.sendToClient("sql exception");
+//			e.printStackTrace();
+//			return;
+//		}
 
-		// remove the exam from database(exams_results_computerized table)
-		try {
-			PreparedStatement stmt = con
-					.prepareStatement("DELETE FROM exams_results_computerized WHERE ExamID = '" + examID + "'");
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
+//		// remove the exam from database(exams_results_computerized table)
+//		try {
+//			PreparedStatement stmt = con
+//					.prepareStatement("DELETE FROM exams_results_computerized WHERE ExamID = '" + examID + "'");
+//			stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			client.sendToClient("sql exception");
+//			e.printStackTrace();
+//			return;
+//		}
 
 		// remove the question in exam from database(questions_in_exam table)
 		try {
@@ -1321,8 +1512,8 @@ public class DBconnector {
 
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
-						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '" + userName
-						+ "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
+						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '"
+						+ userName + "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
 						+ " WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 				while (rs.next()) {
 					coursesList.add(rs.getString(1));
@@ -1340,8 +1531,8 @@ public class DBconnector {
 			try {
 				System.out.println("got to courses query for student "+userName);
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt
-						.executeQuery("SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
+				ResultSet rs = stmt.executeQuery(
+						"SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
@@ -1434,23 +1625,26 @@ public class DBconnector {
 	 * @author Meitar El Ezra
 	 */
 
-	private void getExamsIDAndGradesByCourseIDandTeacherName(String TeacherNameAndID, String courseID,ConnectionToClient client) throws IOException {
+	private void getExamsIDAndGradesByCourseIDandTeacherName(String TeacherNameAndID, String courseID,
+			ConnectionToClient client) throws IOException {
 		List<ExamResults> examResultsList = new ArrayList<>();
 		examResultsList.add(new ExamResults("getExamDetailsForPrincipleCourse", "0"));
-		String[] teacherDetailes=TeacherNameAndID.split(" ID:"); // "Danielle Sarusi ID:3" ---> ["Danielle Sarusi"],["3"]
+		String[] teacherDetailes = TeacherNameAndID.split(" ID:"); // "Danielle Sarusi ID:3" ---> ["Danielle
+																	// Sarusi"],["3"]
 		String subjectID = courseID.substring(2);
 		String courseIDafterSplit = courseID.substring(0, 2);
 		String lastExamID = "";
 		ExamResults er = null;
 		// find each teacher who teaches course the userID
-		//fix query
+		// fix query
 		// chatClient
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 					+ "FROM exams E, courses C , banks B, exams_results_computerized RC "
-					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'"
-					+ " and B.UsernameT='"+ teacherDetailes[1] +"' and B.SubjectID='"+ subjectID + "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
+					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'" + " and B.UsernameT='"
+					+ teacherDetailes[1] + "' and B.SubjectID='" + subjectID
+					+ "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1461,7 +1655,7 @@ public class DBconnector {
 			}
 
 			rs.close();
-			System.out.println("examResultsList : "+examResultsList);
+			System.out.println("examResultsList : " + examResultsList);
 			client.sendToClient(examResultsList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -1469,7 +1663,7 @@ public class DBconnector {
 			return;
 		}
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * Sends to the principle all the users' details for View Info option
@@ -1632,7 +1826,8 @@ public class DBconnector {
 				String subjectID = ID.substring(2);
 				String courseIDafterSplit = ID.substring(0, 2);
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * From courses WHERE CourseID = '" + courseIDafterSplit + "' and SubjectID='"+subjectID+"'");
+				ResultSet rs = stmt.executeQuery("SELECT * From courses WHERE CourseID = '" + courseIDafterSplit
+						+ "' and SubjectID='" + subjectID + "'");
 
 				if (rs.next()) {
 					System.out.println("RS NOT EMPTY");
@@ -1654,7 +1849,7 @@ public class DBconnector {
 	 * course
 	 *
 	 * @param courseID the course identifier : courseID + SubjectID
-	 * @param client principle
+	 * @param client   principle
 	 * @throws IOException
 	 *
 	 * @author Meitar El-Ezra
@@ -1664,24 +1859,27 @@ public class DBconnector {
 		List<String> TeachrsNamesList = new ArrayList<>();
 		TeachrsNamesList.add("TeachrsNamesListForPrincipleReportByCourse");
 		try {
-			//if the principle inserted the course ID : 0201
-			//then : courseIDafterSplit = 02
-			//		 subjectID = 01
+			// if the principle inserted the course ID : 0201
+			// then : courseIDafterSplit = 02
+			// subjectID = 01
 			// the course's name is : 'Algebra 2'
-			// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 ( Danielle Sarusi ) , 4 ( Yonatan Rozen )
+			// the teachers who teaches this subject are : 2 ( Eliran Amerzoyev ) , 3 (
+			// Danielle Sarusi ) , 4 ( Yonatan Rozen )
 			// the teachers who had an exam done in the course : Danielle Sarusi
 			String subjectID = courseID.substring(2);
 			String courseIDafterSplit = courseID.substring(0, 2);
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
-					+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '" + courseIDafterSplit
-					+ "' and C.SubjectID='"+subjectID+"' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
+			ResultSet rs = stmt.executeQuery(
+					"SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
+							+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '"
+							+ courseIDafterSplit + "' and C.SubjectID='" + subjectID
+							+ "' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
 			while (rs.next()) {
-				TeachrsNamesList.add(rs.getString(1) +" ID:"+ rs.getString(2)); // Danielle Sarusi ID:3
-				//	TeachrsIDsList.add(rs.getString(2));
+				TeachrsNamesList.add(rs.getString(1) + " ID:" + rs.getString(2)); // Danielle Sarusi ID:3
+				// TeachrsIDsList.add(rs.getString(2));
 			}
 			rs.close();
-			System.out.println("TeachrsNamesList : "+TeachrsNamesList);
+			System.out.println("TeachrsNamesList : " + TeachrsNamesList);
 			client.sendToClient(TeachrsNamesList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
