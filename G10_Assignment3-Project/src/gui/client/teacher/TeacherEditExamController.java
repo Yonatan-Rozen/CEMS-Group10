@@ -1,5 +1,6 @@
 package gui.client.teacher;
 
+import javafx.scene.control.TextArea;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,19 +22,29 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.exam.Exam;
 import logic.question.Question;
+import javafx.scene.control.Alert.AlertType;
 
 public class TeacherEditExamController implements Initializable {
 	public static TeacherEditExamController teeController;
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
-	private AnchorPane sbBotPanelAp;
+	private AnchorPane sbLeftPanelAp;
 
 	@FXML
-	private Button sbEditSelectedExamBtn;
+	private AnchorPane sbTopPanelAp;
 
 	@FXML
-	private Button sbChangeCourseBtn;
+	private AnchorPane sbRightPanelAp;
+
+	@FXML
+	private TextArea sbStudentCommentsTa;
+
+	@FXML
+	private TextArea sbTeacherCommentsTa1;
+
+	@FXML
+	private TextArea sbAllocatedTimeTa;
 
 	@FXML
 	private TableView<Exam> sbExamsTv;
@@ -42,16 +53,13 @@ public class TeacherEditExamController implements Initializable {
 	private TableColumn<Exam, String> sbExamIDTc;
 
 	@FXML
-	private Button sbPreviewExamBtn;
+	private TableColumn<Exam, String> sbcourseIDTc;
 
 	@FXML
-	private AnchorPane sbMidPanelAp;
+	private Button sbFinishBtn;
 
 	@FXML
-	private ChoiceBox<String> sbChooseCourseCb;
-
-	@FXML
-	private Button sbContinue2Btn;
+	private Button sbEditSelectedExamBtn;
 
 	@FXML
 	private Button sbChangeBankBtn;
@@ -60,31 +68,36 @@ public class TeacherEditExamController implements Initializable {
 	private Button sbDeleteExamBtn1;
 
 	@FXML
-	private AnchorPane sbTopPanelAp;
+	private Button sbContinue1Btn;
+
+	@FXML
+	private Button sbChangeExamBtn;
 
 	@FXML
 	private ChoiceBox<String> sbChooseBankCb;
 
-	@FXML
-	private Button sbContinue1Btn;
-
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane botPanelAp;
-	private static Button editSelectedExamBtn;
-	private static Button changeCourseBtn;
+
 	private static TableView<Exam> examsTv;
 	private static TableColumn<Exam, String> examIDTc;
-	private static Button previewExamBtn;
-	private static AnchorPane midPanelAp;
-	private static ChoiceBox<String> chooseCourseCb;
-	private static Button continue2Btn;
-	private static Button changeBankBtn;
+	private static TableColumn<Exam, String> courseIDTc;
+	private static AnchorPane leftPanelAp;
 	private static AnchorPane topPanelAp;
+	private static AnchorPane rightPanelAp;
 	private static ChoiceBox<String> chooseBankCb;
 	private static Button continue1Btn;
 	private static Button deleteExamBtn1;
+	private static Button editSelectedExamBtn;
+	private static Button changeBankBtn;
+	private static Button finishBtn;
+	private static Button changeExamBtn;
+	private static TextArea studentCommentsTa;
+	private static TextArea teacherCommentsTa1;
+	private static TextArea allocatedTimeTa;
 
 	// STATIC INSTANCES *****************************************************
+	private static String ExamID;
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<Exam> examList;
@@ -96,22 +109,27 @@ public class TeacherEditExamController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		teeController = new TeacherEditExamController();
 
-		botPanelAp = sbBotPanelAp;
-		botPanelAp.setDisable(true);
-		editSelectedExamBtn = sbEditSelectedExamBtn;
-		changeCourseBtn = sbChangeCourseBtn;
 		examsTv = sbExamsTv;
 		examIDTc = sbExamIDTc;
-		previewExamBtn = sbPreviewExamBtn;
-		midPanelAp = sbMidPanelAp;
-		midPanelAp.setDisable(true);
-		chooseCourseCb = sbChooseCourseCb;
-		continue2Btn = sbContinue2Btn;
-		changeBankBtn = sbChangeBankBtn;
+		courseIDTc = sbcourseIDTc;
+		leftPanelAp = sbLeftPanelAp;
+		rightPanelAp = sbRightPanelAp;
 		topPanelAp = sbTopPanelAp;
 		chooseBankCb = sbChooseBankCb;
 		continue1Btn = sbContinue1Btn;
 		deleteExamBtn1 = sbDeleteExamBtn1;
+		editSelectedExamBtn = sbEditSelectedExamBtn;
+		changeBankBtn = sbChangeBankBtn;
+		finishBtn = sbFinishBtn;
+		changeExamBtn = sbChangeExamBtn;
+		studentCommentsTa = sbStudentCommentsTa;
+		teacherCommentsTa1 = sbTeacherCommentsTa1;
+		allocatedTimeTa = sbAllocatedTimeTa;
+		teacherCommentsTa1.setWrapText(true);
+		studentCommentsTa.setWrapText(true);
+		
+		leftPanelAp.setDisable(true);
+		rightPanelAp.setDisable(true);
 		chooseBankCb.setValue("----------");
 		chooseBankCb.setItems(bankList);
 
@@ -123,21 +141,27 @@ public class TeacherEditExamController implements Initializable {
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressContinue1");
-		topPanelAp.setDisable(true);
-		midPanelAp.setDisable(false);
+		if (chooseBankCb.getValue() != "----------") {
 
-		CourseList.clear(); // clear list
+			topPanelAp.setDisable(true);
+			leftPanelAp.setDisable(false);
 
-		ClientUI.chat.accept(
-				new String[] { "GetCourseBySubject", chooseBankCb.getValue(), ChatClient.user.getUsername(), "3" });
+			CourseList.clear(); // clear list
 
-		chooseCourseCb.setItems(CourseList);
+			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(), "2",
+					ChatClient.user.getUsername() });
 
-		ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(), "2",
-				ChatClient.user.getUsername() });
+			examIDTc.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+			examIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
-		sbExamIDTc.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
-		sbExamIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+			///// this is not bankID , the result is courseID
+			courseIDTc.setCellValueFactory(new PropertyValueFactory<Exam, String>("bankID")); // bankid --> courseID
+			courseIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
+		}
 
 	}
 
@@ -145,52 +169,76 @@ public class TeacherEditExamController implements Initializable {
 	void btnPressChangeBank(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressChangeBank");
 		topPanelAp.setDisable(false);
-		midPanelAp.setDisable(true);
-		
-		examsTv.getItems().removeAll(examList); //empty list
+		leftPanelAp.setDisable(true);
+		rightPanelAp.setDisable(true);
+
 	}
 
 	@FXML
-	void btnPressContinue2(ActionEvent event) {
-		System.out.println("TeacherEditExam::btnPressContinue2");
-		midPanelAp.setDisable(true);
-		botPanelAp.setDisable(false);
-	}
+	void btnPressFinish(ActionEvent event) {
+		System.out.println("TeacherEditExam::btnPressFinish");
 
-	@FXML
-	void btnPressChangeCourse(ActionEvent event) {
-		System.out.println("TeacherEditExam::btnPressChangeCourse");
-		midPanelAp.setDisable(false);
-		botPanelAp.setDisable(true);
+		String insertTime = allocatedTimeTa.getText();
+		if (!insertTime.equals("Enter Time!")) {
+			if (Integer.parseInt(insertTime) > 0) {
+				System.out.println("check info = " + ExamID + studentCommentsTa.getText() + teacherCommentsTa1.getText()
+						+ allocatedTimeTa.getText());
+				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
+						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "2",
+						ChatClient.user.getUsername() });
+
+				TeacherMenuBarController.mainPaneBp
+						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
+			} else {
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Negative/zero time",
+						"Must to choose positive value for allocated time").showAndWait();
+			}
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing allocated time",
+					"Must to enter value (allocated time)").showAndWait();
+		}
 	}
 
 	@FXML
 	void btnPressEditSelectedExam(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressEditSelectedExam");
-
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
-
+		allocatedTimeTa.setText("Enter Time!");
+		studentCommentsTa.setText("TextText");
+		teacherCommentsTa1.setText(
+				"text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text ");
+		Exam exam = examsTv.getSelectionModel().getSelectedItem();
+		if (exam != null) {
+			ExamID = exam.getExamID();
+			rightPanelAp.setDisable(false);
+			leftPanelAp.setDisable(true);
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing edit exam",
+					"Must to select an exam to edit").showAndWait();
+		}
 	}
 
 	@FXML
-	void btnPressPreviewExam(ActionEvent event) {
-		System.out.println("TeacherEditExam::btnPressPreviewExam");
+	void btnPressChangeExam(ActionEvent event) {
+		System.out.println("TeacherEditExam::btnPressChangeExam");
+
+		leftPanelAp.setDisable(false);
+		rightPanelAp.setDisable(true);
+
 	}
 
 	@FXML
 	void btnPressDeleteExam(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressDeleteExam");
-		
-		Exam exam = examsTv.getSelectionModel().getSelectedItem();
-		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-		
-		ClientUI.chat.accept(new String[] {"RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername()});
-		examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
-		
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
 
+		Exam exam = examsTv.getSelectionModel().getSelectedItem();
+		if (exam != null) {
+			ClientUI.chat
+					.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
+			examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing delete exam",
+					"Must to select an exam to delete").showAndWait();
+		}
 	}
 
 	// EXTERNAL USE METHODS **************************************************
@@ -212,8 +260,7 @@ public class TeacherEditExamController implements Initializable {
 		examsTv.setItems(examObservableList);
 	}
 
-//	public void successfulCreateExam(String Msg) {
-//		msg = Msg;
-//	}
-
+	public void successfulEditExam(String Msg) {
+		msg = Msg;
+	}
 }
