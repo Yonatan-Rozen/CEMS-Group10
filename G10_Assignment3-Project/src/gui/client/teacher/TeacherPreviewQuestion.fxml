@@ -21,7 +21,7 @@
             </Label>
          </children>
       </HBox>
-      <ScrollPane focusTraversable="false" layoutX="242.0" layoutY="65.0" mouseTransparent="true" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0">
+      <ScrollPane focusTraversable="false" layoutX="242.0" layoutY="65.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0">
          <content>
             <VBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
