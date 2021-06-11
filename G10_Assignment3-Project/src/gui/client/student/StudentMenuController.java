@@ -10,24 +10,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 
 public class StudentMenuController implements Initializable {
 	public static StudentMenuController smController;
 	// JAVAFX INSTANCES ******************************************************
-    @FXML
-    private Hyperlink sbStudentLnk;
+	@FXML
+	private Hyperlink sbStudentLnk;
 
-    @FXML
-    private Hyperlink sbLogoutLnk;
-    
-    @FXML
-    private Label sbWelcomeLbl;
-    
-    @FXML
+	@FXML
+	private Hyperlink sbLogoutLnk;
+
+	@FXML
+	private Label sbWelcomeLbl;
+
+	@FXML
 	private Button sbTakeExamBtn;
 
 	@FXML
@@ -38,17 +38,16 @@ public class StudentMenuController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink studentLnk;
-    private static Hyperlink logoutLnk;
-    private static Label welcomeLbl;
+	private static Hyperlink logoutLnk;
+	private static Label welcomeLbl;
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
-	
+
 	// STATIC INSTANCES *****************************************************
-	protected static String examID;
-	protected static String examType;
-	protected static String examCode;
-	private static StudentEnterCodeController secController;
+	private static String examID;
+	private static String examType;
+	private static String examCode;
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,9 +64,8 @@ public class StudentMenuController implements Initializable {
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		ClientUI.mainStage.show();
-		secController=new StudentEnterCodeController();
 	}
-	
+
 	// ACTION METHODS *******************************************************
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws Exception {
@@ -86,15 +84,14 @@ public class StudentMenuController implements Initializable {
 	@FXML
 	public void btnPressTakeExam(ActionEvent event) throws Exception {
 		System.out.println("StudentMenuBar::btnPressTakeExam");
-		if(examID==null||examType==null||examCode==null||examID.equals("")||examType.equals("")||examCode.equals(""))
+		if(examID==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
 		{
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
 					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
 		}
 		else {
-		secController.setCode(examCode,examType,examID);
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
-		StudentMenuBarController.smbController.btnPressTakeAnExam(event);
+			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
+			StudentMenuBarController.smbController.btnPressTakeAnExam(event);
 		}
 	}
 
@@ -104,7 +101,7 @@ public class StudentMenuController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenuBar.fxml")));
 		StudentMenuBarController.smbController.btnPressViewExamResults(event);
 	}
-	
+
 	// EXTERNAL USE METHODS *************************************************
 	public void setReadyExam(String[] msg) {
 		examID = msg[1];
@@ -112,7 +109,9 @@ public class StudentMenuController implements Initializable {
 		examCode = msg[3];
 		System.out.println("examType = "+examType);
 	}
-	
-	
+
+	public String[] getReadyExam() {
+		return new String[] {examCode,examType,examID};
+	}
 
 }
