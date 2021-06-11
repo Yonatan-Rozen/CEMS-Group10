@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import logic.exam.ManualExam;
 
 public class StudentTakeExamManuallyController implements Initializable {
-	public static StudentTakeExamManuallyController stemController;
+	public static StudentTakeExamManuallyController stemController=new StudentTakeExamManuallyController();;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Hyperlink sbDownloadExamFileLnk;
@@ -38,8 +38,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		downloadExamFileLnk = sbDownloadExamFileLnk;
 		submitExamBtn = sbSubmitExamBtn;
-		stemController=new StudentTakeExamManuallyController();
-		setExamID(null);
+		//stemController
 
 	}
 

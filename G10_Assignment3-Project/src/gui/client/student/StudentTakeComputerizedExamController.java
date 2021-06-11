@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -20,13 +22,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import logic.exam.ComputerizedExam;
 import logic.question.Question;
 
 public class StudentTakeComputerizedExamController implements Initializable {
-
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -98,20 +98,22 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static Label alertCoreectIDLbl;
 
 	// STATIC INSTANCES **********************************************
-	private static String examID; // get from teacher somehow
+	private static String examID;
 	private static ComputerizedExam exam;
 	private static List<Question> questionsOfExam;// = new ArrayList<>();
 	private static int currentQuestionIndex;
 	private static List<String> scoresOfQuestions;
 	private static String[] answersOfStudent;
+	private static long startTime;
+	private static long estimatedTime;
 
 	// CONTROLLER INSTANCES *******************************************
-	public static StudentTakeComputerizedExamController stceController;
+	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();
 
 	// INITIALIZE METHOD **********************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		stceController = new StudentTakeComputerizedExamController();
+		// stceController
 		examOfCourseLbl = sbExamOfCourseLbl;
 		generalInfoTa = sbGeneralInfoTa;
 		scorelbl = sbScorelbl;
@@ -128,10 +130,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp = sbExamContainerAp;
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
-		setExamID(null); // default value for now
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
-		System.out.println("scoresOfQuestions : "+scoresOfQuestions);
+		System.out.println("scoresOfQuestions : " + scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.size()];
+		for(String answer:answersOfStudent)
+			answer="0";//initializing answers
 	}
 
 	// ACTION METHODS *******************************************************
@@ -149,6 +152,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			}
 		}
 		sbExamContainerAp.setDisable(false);
+		startTime = System.nanoTime();
 	}
 
 	@FXML
@@ -177,18 +181,27 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	@FXML
 	void btnPressSubmit(ActionEvent event) throws IOException {
+		//TODO
+		int i;//unnecessary just for signal
 		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-		/*
-		 * //why does it print the pointer address ?!?
-		 * System.out.println(answersOfStudent.); /*
-		 * System.out.println("/nthe answers:"); for(int
-		 * i=0;i<answersOfStudent.length;i++)
-		 * System.out.print(answersOfStudent[i]+", ");
-		 */
-
+		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
+		//convert to minutes
+		//There are 60,000,000,000 nanosecond in 1 minute.
+		estimatedTime=estimatedTime/600000;
+		estimatedTime=estimatedTime/100000;
+		//TODO if the teacher pressed "lock exam" the submit button has to be disabled, the exam has to be submitted as is automatically, and the time must be
+		//calculated for all the students that are still connected
+		int grade=calcAutomaticGrade();
+		System.out.println("before the query of submit");
 		// successful submit example ***********************************
+		//TODO update grade into exams_results_computerized
+		ClientUI.chat.accept(new String[] { "btnPressSubmit","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade) });
+
+		System.out.println("after the query of submit");
+
 		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		ClientUI.mainScene
+		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		// *************************************************************
 	}
 
@@ -201,10 +214,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	 */
 	public void setExamID(String examIDFromTeacher) {
 		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
-			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
-		}
-		else {
+		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
 					"There was no examID chosen by a teacher").showAndWait();
 		}
@@ -250,7 +261,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	 * @param b             a button for the button bar of questions to be defined
 	 *                      as the button of the questionIndex's question
 	 */
-	void setQuestionButton(int questionIndex, Button b) {
+	private void setQuestionButton(int questionIndex, Button b) {
 		b.setOnAction(new EventHandler<ActionEvent>() {
 			Question q;
 
@@ -268,4 +279,33 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		});
 	}
 
+	//TODO check if works after LOCK EXAM is implemented in Teacher
+	public void setSubmitButtonWhenLockInvoked () throws IOException {
+		submitBtn.setDisable(true);
+		// turn it around : diasble the EXAM and FORCE him to press Submit
+		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
+		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
+		//convert to minutes
+		//There are 60,000,000,000 nanosecond in 1 minute.
+		estimatedTime=estimatedTime/600000;
+		estimatedTime=estimatedTime/100000;
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		// NOT successful submit - the exam is locked and submitted automatically ***********************************
+		// update "submited" column to 1 in DB's exams_results table
+		ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked","NOT successful", String.format("%ld", estimatedTime), ChatClient.user.getUsername(),examID });
+	}
+
+	/**
+	 * 	checks the correct answers with the answers of the student, calculating the garde accordingly
+
+	 * @return the student's grade by his answers
+	 */
+	private int calcAutomaticGrade() {
+		int grade=100;
+		for(int i=0;i<questionsOfExam.size();i++) {
+			if(!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer()))
+				grade-=Integer.parseInt(scoresOfQuestions.get(i));
+		}
+		return grade;
+	}
 }

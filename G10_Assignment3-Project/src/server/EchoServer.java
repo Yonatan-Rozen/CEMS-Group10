@@ -1,7 +1,10 @@
 package server;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import common.MyFile;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -23,12 +26,30 @@ public class EchoServer extends AbstractServer {
 	 * the server
 	 */
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {		
+//		if (msg instanceof MyFile) {
+//			System.out.println("asdasdad123124asd");
+//			int fileSize = ((MyFile) msg).getSize();
+//			System.out.println("Message received: " + ((MyFile) msg).getFileName() + " from " + client);
+//			System.out.println("length " + fileSize);
+//
+//			try {
+//				FileOutputStream fos = new FileOutputStream(((MyFile) msg).getFileName()); // write the data from
+//																							// file(byte by byte)
+//				BufferedOutputStream bos = new BufferedOutputStream(fos); // write data to memory
+//				bos.write(((MyFile) msg).getMybytearray(), 0, fileSize); // write
+//				bos.flush(); // empty
+//				fos.flush();
+//			} catch (Exception e) {
+//				System.out.println("Error send " + ((MyFile) msg).getFileName() + " to Client");
+//			}
+//		}
+//
+//		else 
 		if (msg instanceof Object[]) {
 			String request = (String) ((Object[]) msg)[0];
 			ServerUI.serverConsole.println(">>> " + request + " from " + client);
-			
+
 			// check if it's a 'SendSendMessage' request (to send message to other clients)
 			if (request.contains("SendMessage")) {
 				es.sendToAllClients(msg);
@@ -53,11 +74,12 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * Uses info from the database and returns it to the client
-	 * @param msg The specified data request from the database
+	 * 
+	 * @param msg    The specified data request from the database
 	 * @param client The client that sent the message
 	 */
-	public void useDatabase(Object msg, ConnectionToClient client) {
-		try { DBconnector.getInstance().parseData(msg, client);
+		public void useDatabase(Object msg, ConnectionToClient client) {
+			try { DBconnector.getInstance().parseData(msg, client);
 		} catch (IOException e) {
 			e.printStackTrace();
 			ServerUI.serverConsole.println("ERROR - Could not answer client");
@@ -70,11 +92,11 @@ public class EchoServer extends AbstractServer {
 	@Override
 	public void sendToAllClients(Object msg) {
 		Thread[] clientThreadList = getClientConnections();
-		
+
 		if (msg instanceof Object[]) {
 			String request = (String) ((Object[]) msg)[0];
-			
-			switch(request) {
+
+			switch (request) {
 			case "SendMessageExamIDExamTypeAndExamCode":
 				amountOfStudents = 0;
 				for (int i = 0; i < clientThreadList.length; i++) {
@@ -93,14 +115,14 @@ public class EchoServer extends AbstractServer {
 					try {
 						if (student.getInfo(student.getName()).equals("Student"))
 							student.sendToClient(msg);
-					} catch (Exception ex) { }
+					} catch (Exception ex) {
+					}
 				}
 				return;
 			default:
 				break;
 			}
 		}
-		
 		// default for any other message
 		super.sendToAllClients(msg);
 	}

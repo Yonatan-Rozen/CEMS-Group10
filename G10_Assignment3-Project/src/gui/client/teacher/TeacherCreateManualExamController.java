@@ -22,13 +22,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class TeacherCreateManualExamController implements Initializable {
 	public static TeacherCreateManualExamController tcmeController;
-
+	/**
+	 * The instance of the client that created this ConsoleChat.
+	 */
+	// ChatClient client;
 	// JAVAFX INSTNCES ******************************************************
 
 	@FXML
@@ -79,6 +83,8 @@ public class TeacherCreateManualExamController implements Initializable {
 	private static String msg;
 	FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
+	String FileName;
+	String FilePath;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -100,7 +106,9 @@ public class TeacherCreateManualExamController implements Initializable {
 		botPanelAp.setDisable(true);
 		chooseCourseCb = sbChooseCourseCb;
 		allocatedTimeTa = sbAllocatedTimeTa;
+		allocatedTimeTa.setText("Enter Time!");
 		uploadFileTa = sbUploadFileTa;
+		uploadFileTa.setText("File path");
 		uploadFileTa.getFont();
 		System.out.println(uploadFileTa.getFont());
 //		uploadFileTa.setFont(new Font("Arial",1,15));
@@ -121,11 +129,13 @@ public class TeacherCreateManualExamController implements Initializable {
 				new FileChooser.ExtensionFilter("doc Files", "*.doc"));
 		try {
 			File selectedFile = fileChooser.showOpenDialog(new Stage());
-			String FileName = selectedFile.getName();
-			String FilePath = selectedFile.getPath();
+			FileName = selectedFile.getName();
+			FilePath = selectedFile.getPath();
 			uploadFileTa.setText(FilePath);
 
 			if (FilePath != null) {
+
+//				
 //				MyFile msg = new MyFile(FileName);
 //				File newFile = new File(FilePath);
 //
@@ -157,26 +167,80 @@ public class TeacherCreateManualExamController implements Initializable {
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherCreateManualExam::btnPressContinue1");
-		CourseList.clear(); // clear list
+		if (examBankCb.getValue() != "----------") {
 
-		uploadFileTa.setText("Enter path                                                        serach file --->");
-		sbTopPanelAp.setDisable(true);
-		sbBotPanelAp.setDisable(false);
-		ClientUI.chat.accept(
-				new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "2" });
+			CourseList.clear(); // clear list
+			allocatedTimeTa.setText("Enter Time!");
+			uploadFileTa.setText("File path");
+			sbTopPanelAp.setDisable(true);
+			sbBotPanelAp.setDisable(false);
+			ClientUI.chat.accept(
+					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "2" });
 
-		chooseCourseCb.setItems(CourseList);
+			chooseCourseCb.setItems(CourseList);
+
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
+		}
 	}
 
 	@FXML
 	void btnPressFinish(ActionEvent event) throws Exception {
 		System.out.println("TeacherCreateManualExam::btnPressFinish");
-		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
+		String insertTime = allocatedTimeTa.getText();
+		if (chooseCourseCb.getValue() != null) {
+			if (!insertTime.equals("Enter Time!")) {
+				if (Integer.parseInt(insertTime) > 0) {
+					if (!sbUploadFileTa.getText().equals("File path")) {
+						String correctAnswer,
+								author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
+						TeacherMenuBarController.mainPaneBp
+								.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
+						ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
+								examBankCb.getValue(), author, allocatedTimeTa.getText(),
+								ChatClient.user.getUsername() });
 
-		ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
-				examBankCb.getValue(), author, allocatedTimeTa.getText(), ChatClient.user.getUsername() });
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
+//		MyFile msg = new MyFile(FileName);
+//		String LocalfilePath = FilePath;
+//		System.out.println(LocalfilePath);
+//		try {
+//
+//			File newFile = new File(LocalfilePath);
+//
+//			byte[] mybytearray = new byte[(int) newFile.length()];
+//			FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte)
+//			BufferedInputStream bis = new BufferedInputStream(fis); // reads data from memory
+//
+//			msg.initArray(mybytearray.length);
+//			msg.setSize(mybytearray.length);
+//
+//			bis.read(msg.getMybytearray(), 0, mybytearray.length); // reads
+//		//	sendToServer(msg);
+//		} catch (Exception e) {
+//			System.out.println("Error send " + ((MyFile) msg).getFileName() + " to Server");
+//		}
+//		ClientUI.chat.accept(msg);
+
+//		ClientUI.chat.accept(new String[] { "SaveFileExam",msg, FileName, FilePath, ChatClient.user.getUsername() });
+					} else {
+						CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing File",
+								"Must to Enter file or right path").showAndWait();
+					}
+
+				} else {
+					CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+							"Negative/zero time", "Must to choose positive value for allocated time").showAndWait();
+				}
+			} else {
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+						"Missing allocated time", "Must to enter value (allocated time)").showAndWait();
+			}
+		} else {
+			CommonMethodsHandler.getInstance()
+					.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name")
+					.showAndWait();
+		}
 	}
 
 	// EXTERNAL USE METHODS **************************************************

@@ -6,14 +6,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,14 +27,22 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 
-public class TeacherComputerizedExamDefinitionsController implements Initializable {
-	public static TeacherComputerizedExamDefinitionsController tcedController;
+
+/*
+Another page for full exam editing - optional
+if we want to edit also questions in exams then we need to split edit into 2-3 fxml+controller - this is one of them
+fxml1 - choose bank -> choose row in exam tables -->next
+fxml1 - add/remove question in exam + change time/comments
+fxml2(optinal) -  split fxml1
+*/
+
+
+public class TeacherEditExamDefinitionsController implements Initializable {
+	public static TeacherEditExamDefinitionsController teedController;
 
 	// JAVAFX INSTNCES ******************************************************
 
@@ -128,14 +128,13 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private static String ExamID;
 	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 	private static List<Question> questionList;
-	private static String QuestionToEdit;
-	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tcedController = new TeacherComputerizedExamDefinitionsController();
+		teedController = new TeacherEditExamDefinitionsController();
 
+		System.out.println("here222");
 		/**** First panel ****/
 		botPanelAp = sbBotPanelAp;
 		questionBodyLbl = sbQuestionBodyLbl;
@@ -155,7 +154,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreTc = sbScoreTc;
 		editTc = sbEditTc;
 		backBtn = sbBackBtn;
-//		backBtn.setBackground(Color.red);
 		finishBtn = sbFinishBtn;
 		editBtn = sbEditBtn;
 		totalScoreLbl = sbTotalScoreLbl;
@@ -164,62 +162,58 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		editTa = sbEditTa;
 		allocatedTimeTa = sbAllocatedTimeTa;
 		editBtn.setDisable(true);
-		studentCommentsTa.setText("text text text text text text text text");
-		teacherCommentsTa1.setText(
-				"text text text text text text text text text text text text text text text text text text text text text text text");
-		teacherCommentsTa1.setWrapText(true);
-		studentCommentsTa.setWrapText(true);
+		studentCommentsTa.setText("___Enter___");
+		teacherCommentsTa1.setText("___Enter___");
 		editTa.setDisable(true);
-		allocatedTimeTa.setText("Enter Time!");
+		allocatedTimeTa.setText("Enter Time !!!");
 		totalScoreLbl.setText("0");
-		// set up table view
-		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
-		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-		// set up table view
-		// scoreTc.setCellValueFactory(new PropertyValueFactory<Question,String>("CorrectAnswer"));
-		scoreTc.setText("Score");
-		scoreTc.setCellValueFactory(new PropertyValueFactory<>(""));
-		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-		
-		// set button cells for the 'Update Time' Column
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 
-			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param5) {
-				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
-					private final Button btn = new Button();
-					private final ImageView addicon = new ImageView(new Image("/icon_edit.png"));
-
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
-						addicon.setPreserveRatio(true);
-						addicon.setFitHeight(20);
-						addicon.setFitWidth(40);
-						btn.setGraphic(addicon);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								QuestionToEdit = question.getQuestionID();
-								ShowQuestionAndEditScore(question);
-							});
-							setGraphic(btn);
-						}
-					}
-				};
-				cell2.setAlignment(Pos.CENTER);
-				return cell2;
-			}
-		};
-		editTc.setCellFactory(btnCellFactory5);
-		questionObservableList.clear();
-		questionList = TeacherCreateExamController.tceController.getCurrentList();
-		questionObservableList.addAll(questionList);
-		scoreQuestionsTv.setItems(questionObservableList);
+//		// set up table view
+//		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+//		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+//		// set up table view
+//		scoreTc.setCellValueFactory(new PropertyValueFactory<Question, String>("CorrectAnswer"));
+//		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+//
+//		// set button cells for the 'Update Time' Column
+//		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+//
+//			@Override
+//			public TableCell<Question, Void> call(final TableColumn<Question, Void> param5) {
+//				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
+//					private final Button btn = new Button();
+//					private final ImageView addicon = new ImageView(new Image("/icon_edit.png"));
+//
+//					@Override
+//					public void updateItem(Void item, boolean empty) {
+//						super.updateItem(item, empty);
+//						btn.setStyle("-fx-background-color: transparent;");
+//						btn.setPrefSize(40, 20);
+//						addicon.setPreserveRatio(true);
+//						addicon.setFitHeight(20);
+//						addicon.setFitWidth(40);
+//						btn.setGraphic(addicon);
+//						if (empty) {
+//							setGraphic(null);
+//						} else {
+//							btn.setOnAction(e -> {
+//								Question question = getTableRow().getItem();
+//								ShowQuestionAndEditScore(question);
+//							});
+//							setGraphic(btn);
+//						}
+//					}
+//				};
+//				cell2.setAlignment(Pos.CENTER);
+//				return cell2;
+//			}
+//		};
+//		editTc.setCellFactory(btnCellFactory5);
+//
+//		questionList = TeacherCreateExamController.tceController.getCurrentList();
+//		questionObservableList.addAll(questionList);
+//		System.out.println("2 = " + questionObservableList);
+//		scoreQuestionsTv.setItems(questionObservableList);
 
 	}
 
@@ -228,24 +222,18 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressBack");
 
 		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
-
-		scoreQuestionsTv.setItems(null);
-//		questionInExam.clear();
-
+				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
 	}
 
 	@FXML
 	void btnPressEdit(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressEdit");
 
-		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTa.getText(), QuestionToEdit,
-				ChatClient.user.getUsername() });
-
+		// sql for update score in 'question in exam'
 		String curScore = totalScoreLbl.getText();
 		int IcurScore = Integer.parseInt(curScore);
-		int AddScore = Integer.parseInt(editTa.getText());
-		totalScoreLbl.setText(String.valueOf(IcurScore += AddScore));
+//		IcurScore += 15;
+		totalScoreLbl.setText(String.valueOf(IcurScore += 15));
 
 	}
 
@@ -254,17 +242,12 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressFinish");
 		String insertTime = allocatedTimeTa.getText();
 		if (!insertTime.equals("Enter Time!")) {
-			if (Integer.parseInt(insertTime) > 0) {
-				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
-						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "1",
-						ChatClient.user.getUsername() });
+			ClientUI.chat
+					.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID, studentCommentsTa.getText(),
+							teacherCommentsTa1.getText(), allocatedTimeTa.getText(), ChatClient.user.getUsername() });
 
-				TeacherMenuBarController.mainPaneBp
-						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
-			} else {
-				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Negative/zero time",
-						"Must to choose positive value for allocated time").showAndWait();
-			}
+			TeacherMenuBarController.mainPaneBp
+					.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
 		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing allocated time",
 					"Must to enter value (allocated time)").showAndWait();
@@ -285,7 +268,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
 		editTa.setDisable(false);
-		editTa.setText("0");
 
 		////
 		answer1Rb.setSelected(false);
@@ -314,10 +296,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		default:
 			break;
 		}
-	}
-
-	public void successfulUpdateQuestionInExam(String Msg) {
-		msg = Msg;
 	}
 
 }

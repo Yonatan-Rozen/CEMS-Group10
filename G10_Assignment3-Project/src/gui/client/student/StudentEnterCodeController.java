@@ -29,7 +29,10 @@ public class StudentEnterCodeController implements Initializable {
 	// STATIC INSTANCES ****************************************************
 	private static String code;
 	private static String examType;
-	
+
+	// CONTROLLER INSTANCES ****************************************************
+	protected static StudentEnterCodeController secController=new StudentEnterCodeController();
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -43,12 +46,13 @@ public class StudentEnterCodeController implements Initializable {
 		System.out.println("StudentEnterCode::btnPressStartExam");
 
 		System.out.println(code);
+
 		if (code.equals(codeTf.getText())) {
-			if (examType.equals("computerized"))
+			if (examType.equals("C"))
 				ClientUI.mainScene.setRoot(FXMLLoader
 						.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 			// StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
-			if (examType.equals("manual"))
+			if (examType.equals("M"))
 				ClientUI.mainScene.setRoot(
 						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 		}
@@ -66,34 +70,25 @@ public class StudentEnterCodeController implements Initializable {
 	// EXTERNAL USE METHODS *************************************************
 	/**
 	 * sets code and exam's type of current exam
-	 * 
+	 *
 	 * @param codeFromTeacher the code of the exam that is being taken
-	 * @param examType        the type of the exam (manual or computerized)
-	 * @param examID		  the ID of the exam that started
+	 * @param examTypeFromTeacher the type of the exam (manual or computerized)
+	 * @param examID the ID of the exam that started
 	 *
 	 *                        TODO get current code and exam-type from teacher to
 	 *                        all active students
 	 */
-	public void setCode(String codeFromTeacher, String examType, String examID) {
-		if (!codeFromTeacher.equals("") && codeFromTeacher != null) {
-			code = codeFromTeacher;
-			System.out.println("code=" + code);
-		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
-					"There was no code inserted by a teacher", "Please try again").showAndWait();
-		}
-		if (!examType.equals("") && examType != null) {
-			examType = examType;
-			System.out.println("examType=" + examType);
-			if(examType.equals("computerized"))
-				StudentTakeComputerizedExamController.stceController.setExamID(examID);
-			else if(examType.equals("manually"))
-				StudentTakeExamManuallyController.stemController.setExamID(examID);
-		}
-		else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
-					"There don't seem to be any details of a running exam").showAndWait();
-		}
-	}
+	public void setReadyExam(String codeFromTeacher, String examTypeFromTeacher, String examID) {
+		System.out.println("codeFromTeacher = "+codeFromTeacher+"\nexamTypeFromTeacher = "+examTypeFromTeacher+"\nexamID = "+examID);
 
+		code = codeFromTeacher;
+		System.out.println("code=" + code);
+
+		examType = examTypeFromTeacher;
+		System.out.println("examType=" + examType);
+		if(examType.equals("C"))
+			StudentTakeComputerizedExamController.stceController.setExamID(examID);
+		else if(examType.equals("M"))
+			StudentTakeExamManuallyController.stemController.setExamID(examID);
+	}
 }

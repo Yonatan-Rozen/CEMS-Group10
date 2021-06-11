@@ -20,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -101,7 +102,7 @@ public class TeacherCreateExamController implements Initializable {
 	private static List<Question> questionList;
 	private static List<Question> questionInExam;
 	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
-	
+
 	private static String msg;
 	public static TableView<Question> xx;
 
@@ -151,184 +152,191 @@ public class TeacherCreateExamController implements Initializable {
 		sbTopPanelAp.setDisable(false);
 		sbBotPanelAp.setDisable(true);
 		examBankCb.setValue("----------");
+
+		availableQuestionsTv.setItems(null);
+		currentQuestionsTable.setItems(null);
+		questionInExam.clear();
 	}
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 
-		CourseList.clear(); // clear list
+		if (examBankCb.getValue() != "----------") {
 
-		sbTopPanelAp.setDisable(true);
-		sbBotPanelAp.setDisable(false);
+			CourseList.clear(); // clear list
+
+			sbTopPanelAp.setDisable(true);
+			sbBotPanelAp.setDisable(false);
 //		chooseCourseCb.setValue("----------");
-		ClientUI.chat.accept(
-				new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "1" });
+			ClientUI.chat.accept(
+					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "1" });
 
-		chooseCourseCb.setItems(CourseList);
+			chooseCourseCb.setItems(CourseList);
 
-		ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2",
-				ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2",
+					ChatClient.user.getUsername() });
 
-		// set up table view
-		questionID1Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
-		questionID1Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+			// set up table view
+			questionID1Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+			questionID1Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
-		// set preview col
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
-			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
-				final TableCell<Question, Void> cell1 = new TableCell<Question, Void>() {
+			// set preview col
+			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+				@Override
+				public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
+					final TableCell<Question, Void> cell1 = new TableCell<Question, Void>() {
 
-					private final Button btn = new Button();
-					private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
+						private final Button btn = new Button();
+						private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
 
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
-						previewEye.setPreserveRatio(true);
-						previewEye.setFitHeight(20);
-						previewEye.setFitWidth(40);
-						btn.setGraphic(previewEye);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								TeacherMenuBarController.mainPaneBp.setDisable(true);
-								TeacherMenuBarController.menuBarAp.setDisable(true);
-								chooseQuestionToPreview(question);
-							});
-							setGraphic(btn);
+						@Override
+						public void updateItem(Void item, boolean empty) {
+							super.updateItem(item, empty);
+							btn.setStyle("-fx-background-color: transparent;");
+							btn.setPrefSize(40, 20);
+							previewEye.setPreserveRatio(true);
+							previewEye.setFitHeight(20);
+							previewEye.setFitWidth(40);
+							btn.setGraphic(previewEye);
+							if (empty) {
+								setGraphic(null);
+							} else {
+								btn.setOnAction(e -> {
+									Question question = getTableRow().getItem();
+									TeacherMenuBarController.mainPaneBp.setDisable(true);
+									TeacherMenuBarController.menuBarAp.setDisable(true);
+									chooseQuestionToPreview(question);
+								});
+								setGraphic(btn);
+							}
 						}
-					}
-				};
-				cell1.setAlignment(Pos.CENTER);
-				return cell1;
-			}
-		};
-		preview1Tc.setCellFactory(btnCellFactory);
+					};
+					cell1.setAlignment(Pos.CENTER);
+					return cell1;
+				}
+			};
+			preview1Tc.setCellFactory(btnCellFactory);
 
-		// set button cells for the 'Update Time' Column
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory2 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			// set button cells for the 'Update Time' Column
+			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory2 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 
-			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param2) {
-				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
+				@Override
+				public TableCell<Question, Void> call(final TableColumn<Question, Void> param2) {
+					final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
 
-					private final Button btn = new Button();
-					private final ImageView addicon = new ImageView(new Image("/icon_add.png"));
+						private final Button btn = new Button();
+						private final ImageView addicon = new ImageView(new Image("/icon_add.png"));
 
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
-						addicon.setPreserveRatio(true);
-						addicon.setFitHeight(20);
-						addicon.setFitWidth(40);
-						btn.setGraphic(addicon);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								addQuestionToCurrentQuestions(question);
-								System.out.println("exam after add = " + questionInExam);
-
-							});
-							setGraphic(btn);
+						@Override
+						public void updateItem(Void item, boolean empty) {
+							super.updateItem(item, empty);
+							btn.setStyle("-fx-background-color: transparent;");
+							btn.setPrefSize(40, 20);
+							addicon.setPreserveRatio(true);
+							addicon.setFitHeight(20);
+							addicon.setFitWidth(40);
+							btn.setGraphic(addicon);
+							if (empty) {
+								setGraphic(null);
+							} else {
+								btn.setOnAction(e -> {
+									Question question = getTableRow().getItem();
+									getTableRow().setDisable(true);
+									addQuestionToCurrentQuestions(question);
+								});
+								setGraphic(btn);
+							}
 						}
-					}
-				};
-				cell2.setAlignment(Pos.CENTER);
-				return cell2;
-			}
-		};
-		addToExamTc.setCellFactory(btnCellFactory2);
+					};
+					cell2.setAlignment(Pos.CENTER);
+					return cell2;
+				}
+			};
+			addToExamTc.setCellFactory(btnCellFactory2);
 
-		// set up current table view
-		questionID2Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
-		questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+			// set up current table view
+			questionID2Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+			questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
-		// set preview col
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory3 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
-			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param3) {
-				final TableCell<Question, Void> cell3 = new TableCell<Question, Void>() {
+			// set preview col
+			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory3 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+				@Override
+				public TableCell<Question, Void> call(final TableColumn<Question, Void> param3) {
+					final TableCell<Question, Void> cell3 = new TableCell<Question, Void>() {
 
-					private final Button btn = new Button();
-					private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
+						private final Button btn = new Button();
+						private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
 
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
-						previewEye.setPreserveRatio(true);
-						previewEye.setFitHeight(20);
-						previewEye.setFitWidth(40);
-						btn.setGraphic(previewEye);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								TeacherMenuBarController.mainPaneBp.setDisable(true);
-								TeacherMenuBarController.menuBarAp.setDisable(true);
-								chooseQuestionToPreview(question);
-							});
-							setGraphic(btn);
+						@Override
+						public void updateItem(Void item, boolean empty) {
+							super.updateItem(item, empty);
+							btn.setStyle("-fx-background-color: transparent;");
+							btn.setPrefSize(40, 20);
+							previewEye.setPreserveRatio(true);
+							previewEye.setFitHeight(20);
+							previewEye.setFitWidth(40);
+							btn.setGraphic(previewEye);
+							if (empty) {
+								setGraphic(null);
+							} else {
+								btn.setOnAction(e -> {
+									Question question = getTableRow().getItem();
+									TeacherMenuBarController.mainPaneBp.setDisable(true);
+									TeacherMenuBarController.menuBarAp.setDisable(true);
+									chooseQuestionToPreview(question);
+								});
+								setGraphic(btn);
+							}
 						}
-					}
-				};
-				cell3.setAlignment(Pos.CENTER);
-				return cell3;
-			}
-		};
-		preview2Tc.setCellFactory(btnCellFactory3);
+					};
+					cell3.setAlignment(Pos.CENTER);
+					return cell3;
+				}
+			};
+			preview2Tc.setCellFactory(btnCellFactory3);
 
-		// set button cells for the 'Update Time' Column
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory4 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			// set button cells for the 'Update Time' Column
+			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory4 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 
-			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param4) {
-				final TableCell<Question, Void> cell4 = new TableCell<Question, Void>() {
+				@Override
+				public TableCell<Question, Void> call(final TableColumn<Question, Void> param4) {
+					final TableCell<Question, Void> cell4 = new TableCell<Question, Void>() {
 
-					private final Button btn = new Button();
-					private final ImageView removeicon = new ImageView(new Image("/icon_remove.png"));
+						private final Button btn = new Button();
+						private final ImageView removeicon = new ImageView(new Image("/icon_remove.png"));
 
-					@Override
-					public void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						btn.setStyle("-fx-background-color: transparent;");
-						btn.setPrefSize(40, 20);
-						removeicon.setPreserveRatio(true);
-						removeicon.setFitHeight(20);
-						removeicon.setFitWidth(40);
-						btn.setGraphic(removeicon);
-						if (empty) {
-							setGraphic(null);
-						} else {
-							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								questionInExam.remove(question);
-
-								removeQuestionFromCurrentQuestions(question);
-								System.out.println("exam after remove = " + questionInExam);
-
-							});
-							setGraphic(btn);
+						@Override
+						public void updateItem(Void item, boolean empty) {
+							super.updateItem(item, empty);
+							btn.setStyle("-fx-background-color: transparent;");
+							btn.setPrefSize(40, 20);
+							removeicon.setPreserveRatio(true);
+							removeicon.setFitHeight(20);
+							removeicon.setFitWidth(40);
+							btn.setGraphic(removeicon);
+							if (empty) {
+								setGraphic(null);
+							} else {
+								btn.setOnAction(e -> {
+									Question question = getTableRow().getItem();
+									questionInExam.remove(question);
+									removeQuestionFromCurrentQuestions(question);
+								});
+								setGraphic(btn);
+							}
 						}
-					}
-				};
-				cell4.setAlignment(Pos.CENTER);
-				return cell4;
-			}
-		};
-		sbRemoveFromExamTc.setCellFactory(btnCellFactory4);
+					};
+					cell4.setAlignment(Pos.CENTER);
+					return cell4;
+				}
+			};
+			sbRemoveFromExamTc.setCellFactory(btnCellFactory4);
+
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
+		}
 	}
 
 	@FXML
@@ -336,12 +344,22 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherComputerizedExamDefinitions"));
+		if (chooseCourseCb.getValue() != null) {
+			if (!questionObservableList.isEmpty()) {
+				TeacherMenuBarController.mainPaneBp.setCenter(
+						CommonMethodsHandler.getInstance().getPane("teacher", "TeacherComputerizedExamDefinitions"));
 
-		ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
-				examBankCb.getValue(), author, ChatClient.user.getUsername() });
-
+				ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
+						examBankCb.getValue(), author, ChatClient.user.getUsername() });
+			} else {
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+						"Missing question in exam", "Must to choose question").showAndWait();
+			}
+		} else {
+			CommonMethodsHandler.getInstance()
+					.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name")
+					.showAndWait();
+		}
 	}
 
 	// EXTERNAL USE METHODS **************************************************
@@ -370,15 +388,12 @@ public class TeacherCreateExamController implements Initializable {
 		questionObservableList.add(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
-//		xx = currentQuestionsTable;
 	}
 
 	public void removeQuestionFromCurrentQuestions(Question question) {
 		questionObservableList.remove(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
-//
-//		xx = currentQuestionsTable;
 	}
 
 	public void setQuestionTableView(List<Question> questions) {
@@ -395,9 +410,9 @@ public class TeacherCreateExamController implements Initializable {
 	public ObservableList<Question> getCurrentObservableList() {
 		return questionObservableList;
 	}
-	public 	List<Question> getCurrentList(){
+
+	public List<Question> getCurrentList() {
 		return questionInExam;
 	}
-
 
 }
