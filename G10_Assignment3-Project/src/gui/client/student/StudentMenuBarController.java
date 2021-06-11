@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
@@ -43,7 +44,7 @@ public class StudentMenuBarController implements Initializable {
 	// STATIC INSTANCES *****************************************************
 	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
 	private static Button currentBtn;
-	
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
@@ -66,8 +67,17 @@ public class StudentMenuBarController implements Initializable {
 	@FXML
 	public void btnPressTakeAnExam(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressTakeAnExam");
-		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, takeExamBtn);
+		String[] readyExamData=StudentMenuController.smController.getReadyExam();
+		if(readyExamData[0]==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
+		{
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
+					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
+		}
+		else{
+			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2]);
+			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
+			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, takeExamBtn);
+		}
 	}
 
 	@FXML
