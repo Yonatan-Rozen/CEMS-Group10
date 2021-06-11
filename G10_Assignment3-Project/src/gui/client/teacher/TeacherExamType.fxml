@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -17,16 +18,18 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="450.0" layoutY="237.0" text="*Build a new test with existing questions" underline="true" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="237.0">
+            <Label layoutX="450.0" layoutY="210.0" text="*Build a new exam with existing questions" underline="true" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="210.0">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="50.0" layoutY="237.0" text="*Upload a file from your computer" underline="true" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="237.0">
+            <Label layoutX="50.0" layoutY="210.0" text="*Upload a file from your computer" underline="true" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="210.0">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
             </Label>
+            <ImageView fx:id="sbManualImg" fitHeight="141.0" fitWidth="300.0" layoutX="50.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="sbComputerizedImg" fitHeight="141.0" fitWidth="300.0" layoutX="450.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
       <Label layoutX="328.0" layoutY="14.0" text="Types of exams" underline="true">

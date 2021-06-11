@@ -23,6 +23,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -34,19 +36,27 @@ public class TeacherExamTypeController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
 
-    @FXML
-    private AnchorPane sbBotPanelAp;
+	@FXML
+	private AnchorPane sbBotPanelAp;
 
-    @FXML
-    private Button sbComputerizedBtn;
+	@FXML
+	private Button sbComputerizedBtn;
 
-    @FXML
-    private Button sbManualBtn;
+	@FXML
+	private Button sbManualBtn;
+
+	@FXML
+	private ImageView sbManualImg;
+
+	@FXML
+	private ImageView sbComputerizedImg;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane botPanelAp;
 	private static Button computerizedBtn;
 	private static Button manualBtn;
+	private static ImageView manualImg;
+	private static ImageView computerizedImg;
 
 	// STATIC INSTANCES *****************************************************
 //	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
@@ -64,19 +74,33 @@ public class TeacherExamTypeController implements Initializable {
 		botPanelAp = sbBotPanelAp;
 		computerizedBtn = sbComputerizedBtn;
 		manualBtn = sbManualBtn;
+		manualImg = sbManualImg;
+		computerizedImg = sbComputerizedImg;
+		manualImg.setImage(new Image("/manualExam_icon.jpg"));
+		computerizedImg.setImage(new Image("/automaticExam_icon.jpg"));
+		manualImg.setFitWidth(300);
+		computerizedImg.setFitWidth(300);
+		manualImg.setFitHeight(141);
+		computerizedImg.setFitHeight(141);
+		manualImg.setCache(true);
+		computerizedImg.setSmooth(true);
+		manualImg.setPreserveRatio(false);
+		computerizedImg.setPreserveRatio(false);
 	}
 
 	// ACTION METHODS *******************************************************
 
-    @FXML
-    void btnPressComputerized(ActionEvent event) throws Exception{
+	@FXML
+	void btnPressComputerized(ActionEvent event) throws Exception {
 		System.out.println("TeacherExamType::btnPressComputerized");
-		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
-    }
+		TeacherMenuBarController.mainPaneBp
+				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
+	}
 
-    @FXML
-    void btnPressManual(ActionEvent event) throws Exception{
+	@FXML
+	void btnPressManual(ActionEvent event) throws Exception {
 		System.out.println("TeacherExamType::btnPressManual");
-		TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
-    }
+		TeacherMenuBarController.mainPaneBp
+				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
+	}
 }
