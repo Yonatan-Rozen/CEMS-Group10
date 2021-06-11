@@ -8,23 +8,27 @@ import common.MyFile;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
-public class EchoServer extends AbstractServer{
+public class EchoServer extends AbstractServer {
 
 	public static EchoServer es;
 
-	// CONSTRUCTORS *****************************************************************
+	// CONSTRUCTORS
+	// *****************************************************************
 	public EchoServer(int port) {
 		super(port);
 	}
 
-	// handleMessageFromClient METHOD ***********************************************
+	// handleMessageFromClient METHOD
+	// ***********************************************
 	/**
-	 * Called when any [client = {Student, Teacher, Principle}] sends a request to the server
+	 * Called when any [client = {Student, Teacher, Principle}] sends a request to
+	 * the server
 	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		
 //		if (msg instanceof MyFile) {
+//			System.out.println("asdasdad123124asd");
 //			int fileSize = ((MyFile) msg).getSize();
 //			System.out.println("Message received: " + ((MyFile) msg).getFileName() + " from " + client);
 //			System.out.println("length " + fileSize);
@@ -43,8 +47,9 @@ public class EchoServer extends AbstractServer{
 //
 //		else 
 		if (msg instanceof Object[])
-			ServerUI.serverConsole.println(">>> " + ((Object[])msg)[0] + " from " + client);
-		else ServerUI.serverConsole.println(">>> " + msg + " from " + client);
+			ServerUI.serverConsole.println(">>> " + ((Object[]) msg)[0] + " from " + client);
+		else
+			ServerUI.serverConsole.println(">>> " + msg + " from " + client);
 		// send message back to client
 		try {
 			DBconnector.getInstance().parseData(msg, client);

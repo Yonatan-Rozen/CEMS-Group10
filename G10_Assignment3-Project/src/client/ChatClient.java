@@ -24,6 +24,7 @@ import gui.client.teacher.TeacherCreateExamController;
 import gui.client.teacher.TeacherCreateManualExamController;
 import gui.client.teacher.TeacherCreateQuestionController;
 import gui.client.teacher.TeacherEditExamController;
+import gui.client.teacher.TeacherEditExamDefinitionsController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
@@ -47,6 +48,7 @@ public class ChatClient extends AbstractClient {
 	ChatIF ClientController;
 	public static boolean awaitResponse = false;
 	public static User user;
+	// public static String msg;
 	// Constructors ****************************************************
 
 	/**
@@ -85,6 +87,7 @@ public class ChatClient extends AbstractClient {
 		} else if (msg instanceof List)
 			handleListMessagesFromserver((List<?>) msg);
 		else if (msg instanceof Object[]) {
+			// System.out.println("check instaceOF object[]");
 			handleArraysMessagesFromServer((Object[]) msg);
 		} else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
@@ -103,7 +106,7 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (Object[]) object
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-
+		System.out.println("in handle array mesages");
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
@@ -115,6 +118,7 @@ public class ChatClient extends AbstractClient {
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
 
+			// TeacherEditExamDefinitionsController.teedController.setExamID(msg[1].toString());
 			break;
 //		case "SaveFileExam":
 //			System.out.println("in savefilexam");
@@ -174,7 +178,7 @@ public class ChatClient extends AbstractClient {
 
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
@@ -195,6 +199,7 @@ public class ChatClient extends AbstractClient {
 					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		} else
 			ClientController.display(msg);
+
 	}
 
 	/**
@@ -254,9 +259,9 @@ public class ChatClient extends AbstractClient {
 			case "getExamsQuestionsByExamID":
 				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
 				return;
-				//	case "TeachrsIDsListForPrincipleReportByCourse":
-				//	PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
-				//return;
+			// case "TeachrsIDsListForPrincipleReportByCourse":
+			// PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
+			// return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
@@ -345,6 +350,7 @@ public class ChatClient extends AbstractClient {
 			openConnection();// in order to send more than one message
 			awaitResponse = true;
 			sendToServer(obj);
+
 			// wait for response
 			while (awaitResponse) {
 				try {
@@ -356,12 +362,13 @@ public class ChatClient extends AbstractClient {
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
 			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
-					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
+					.getNewAlert(AlertType.WARNING, "Connection Issues",
+							"It seems like you have connection issues with the server!",
+							"Sorry for the inconvenience. Please try agian at a later time...")
+					.showAndWait();
 			quit();
 		}
+
 	}
 
 	/**

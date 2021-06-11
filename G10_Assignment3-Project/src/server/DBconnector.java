@@ -577,8 +577,8 @@ public class DBconnector {
 
 			while (rs.next()) {
 				questionsOfExam.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9))); //the question itself
-				questionsScores.add(rs.getString(11));//the question's score
+						rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9))); // the question itself
+				questionsScores.add(rs.getString(11));// the question's score
 			}
 			client.sendToClient(questionsOfExam);
 			client.sendToClient(questionsScores);
@@ -1383,13 +1383,13 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-<<<<<<< HEAD
-	 * Sends the teacher the exam by the exam ID
+	 * <<<<<<< HEAD Sends the teacher the exam by the exam ID
 	 *
-=======
-	 * Sends the teacher the comments made by the creator and the type of the exam
+	 * ======= Sends the teacher the comments made by the creator and the type of
+	 * the exam
 	 *
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * >>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * 
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
 	 * @throws IOException
@@ -1397,8 +1397,8 @@ public class DBconnector {
 	 * @author Yonatan Rozen
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
-		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
-		IExam exam=null;
+		String[] typeAndOptionalComments = new String[] { "setTypeAndOptionalTeacherComments", "", "" };
+		IExam exam = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Type, TeacherComments FROM exams WHERE ExamID = '" + examID + "'");
@@ -1416,14 +1416,12 @@ public class DBconnector {
 			rs.close();
 			client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
 			client.sendToClient(typeAndOptionalComments);
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
 			return;
 		}
 	}
-	
-	
 
 	// ***********************************************************************************************
 	/**
@@ -1506,7 +1504,8 @@ public class DBconnector {
 			coursesList.add("getCoursesByUserNameForPrincipleTeacher");
 		else if (type.equals("S"))
 			coursesList.add("getCoursesByUserNameForPrincipleStudent");
-		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had exams
+		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had
+													// exams
 		{
 			try {
 
@@ -1529,7 +1528,7 @@ public class DBconnector {
 			}
 		} else if (type.equals("S")) { // return a list of the courses that a student has taken their exams
 			try {
-				System.out.println("got to courses query for student "+userName);
+				System.out.println("got to courses query for student " + userName);
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(
 						"SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
@@ -1537,7 +1536,7 @@ public class DBconnector {
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
 				while (rs.next()) {
-					System.out.println("there are courses with exams for student "+userName);
+					System.out.println("there are courses with exams for student " + userName);
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
@@ -1552,7 +1551,6 @@ public class DBconnector {
 		}
 	}
 
-
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -1566,7 +1564,7 @@ public class DBconnector {
 
 	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
 			ConnectionToClient client) throws IOException {
-		System.out.println("type="+type+"\nuser="+userName);
+		System.out.println("type=" + type + "\nuser=" + userName);
 		List<ExamResults> examResultsList = new ArrayList<>();
 		if (type.equals("T"))
 			examResultsList.add(new ExamResults("getExamDetailsForTeacher", "0"));
@@ -1579,19 +1577,19 @@ public class DBconnector {
 		// TODO take care of student report query
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs=null;
-			if(type.equals("T")||type.equals("P")) {
+			ResultSet rs = null;
+			if (type.equals("T") || type.equals("P")) {
 				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
 						+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
 						+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
-						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID and C.SubjectID=B.SubjectID" + " ORDER BY E.ExamID");
-			}
-			else if(type.equals("S")) {
+						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID and C.SubjectID=B.SubjectID"
+						+ " ORDER BY E.ExamID");
+			} else if (type.equals("S")) {
 				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
-						+"FROM exams E, courses C , exams_results_computerized ERC, banks B "
-						+"where ERC.ExamID=E.ExamID and E.CourseID=C.CourseID and C.CourseName='"+courseName+"' and ERC.UsernameS='"+userName+"'"
-						+" and B.BankID=E.BankID and C.SubjectID=B.SubjectID "
-						+"ORDER BY E.ExamID");
+						+ "FROM exams E, courses C , exams_results_computerized ERC, banks B "
+						+ "where ERC.ExamID=E.ExamID and E.CourseID=C.CourseID and C.CourseName='" + courseName
+						+ "' and ERC.UsernameS='" + userName + "'"
+						+ " and B.BankID=E.BankID and C.SubjectID=B.SubjectID " + "ORDER BY E.ExamID");
 			}
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
@@ -1613,7 +1611,6 @@ public class DBconnector {
 		}
 	}
 
-	
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
