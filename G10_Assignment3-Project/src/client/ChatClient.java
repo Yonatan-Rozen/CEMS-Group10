@@ -1,9 +1,13 @@
 package client;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 import common.CommonMethodsHandler;
+import common.MyFile;
 import gui.client.ChangePasswordController;
 import gui.client.SignInController;
 import gui.client.principle.PrincipleReportsByCourseController;
@@ -80,14 +84,14 @@ public class ChatClient extends AbstractClient {
 			handleStringMessagesFromServer((String) msg);
 		} else if (msg instanceof List)
 			handleListMessagesFromserver((List<?>) msg);
-		else if (msg instanceof Object[])
+		else if (msg instanceof Object[]) {
 			handleArraysMessagesFromServer((Object[]) msg);
-		else if (msg instanceof ComputerizedExam)
+		} else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		//else if (msg instanceof ManualExam)
-		//StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
-		else if(msg instanceof Boolean)
-			PrincipleViewReportsController.pvrController.setDoesExit((boolean)msg);
+		// else if (msg instanceof ManualExam)
+		// StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
+		else if (msg instanceof Boolean)
+			PrincipleViewReportsController.pvrController.setDoesExit((boolean) msg);
 
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
@@ -110,7 +114,35 @@ public class ChatClient extends AbstractClient {
 			break;
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
+
 			break;
+//		case "SaveFileExam":
+//			System.out.println("in savefilexam");
+//			String[] tostring;
+//			tostring = (String[]) msg;
+//			System.out.println("chatclient send message to server");
+//			String name = tostring[1];
+//			MyFile msgFile = new MyFile(name);
+//			String LocalfilePath = tostring[2]; // path
+//			System.out.println("name = " + msg);
+//			System.out.println("path = " + LocalfilePath);
+//			try {
+//				System.out.println("xxxxasdadaszxcasfalkfaslkfnasklfnaslfnasklfalf");
+//				File newFile = new File(LocalfilePath);
+//
+//				byte[] mybytearray = new byte[(int) newFile.length()];
+//				FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte)
+//				BufferedInputStream bis = new BufferedInputStream(fis); // reads data from memory
+//
+//				msgFile.initArray(mybytearray.length);
+//				msgFile.setSize(mybytearray.length);
+//
+//				bis.read(msgFile.getMybytearray(), 0, mybytearray.length); // reads
+//				sendToServer(msgFile);
+//			} catch (Exception e) {
+//				System.out.println("Error send " + ((MyFile) msgFile).getFileName() + " to Server");
+//			}
+//			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -147,10 +179,14 @@ public class ChatClient extends AbstractClient {
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
-			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+					.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
 					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+		} else if (msg.contains("EditExam SUCCESS - ")) {
+			TeacherEditExamController.teeController.successfulEditExam(msg.substring("EditExam SUCCESS - ".length()));
+		} else if (msg.contains("Update Question")) {
+			TeacherComputerizedExamDefinitionsController.tcedController.successfulUpdateQuestionInExam(msg);
 		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
 			TeacherCreateManualExamController.tcmeController
 					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
