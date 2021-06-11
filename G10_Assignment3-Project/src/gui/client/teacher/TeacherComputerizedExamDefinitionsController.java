@@ -1,10 +1,19 @@
 package gui.client.teacher;
 
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,6 +35,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
@@ -88,9 +99,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 
 	@FXML
 	private TextArea sbAllocatedTimeTa;
-	
-    @FXML
-    private Label sbScoreLbl;
+
+	@FXML
+	private Label sbScoreLbl;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane botPanelAp;
@@ -117,13 +128,14 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private static String ExamID;
 	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 	private static List<Question> questionList;
+	private static String QuestionToEdit;
+	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tcedController = new TeacherComputerizedExamDefinitionsController();
 
-		System.out.println("here222");
 		/**** First panel ****/
 		botPanelAp = sbBotPanelAp;
 		questionBodyLbl = sbQuestionBodyLbl;
@@ -143,6 +155,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreTc = sbScoreTc;
 		editTc = sbEditTc;
 		backBtn = sbBackBtn;
+//		backBtn.setBackground(Color.red);
 		finishBtn = sbFinishBtn;
 		editBtn = sbEditBtn;
 		totalScoreLbl = sbTotalScoreLbl;
@@ -151,19 +164,23 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		editTa = sbEditTa;
 		allocatedTimeTa = sbAllocatedTimeTa;
 		editBtn.setDisable(true);
-		studentCommentsTa.setText("___Enter___");
-		teacherCommentsTa1.setText("___Enter___");
+		studentCommentsTa.setText("text text text text text text text text");
+		teacherCommentsTa1.setText(
+				"text text text text text text text text text text text text text text text text text text text text text text text");
+		teacherCommentsTa1.setWrapText(true);
+		studentCommentsTa.setWrapText(true);
 		editTa.setDisable(true);
-		allocatedTimeTa.setText("Enter Time !!!");
+		allocatedTimeTa.setText("Enter Time!");
 		totalScoreLbl.setText("0");
-
 		// set up table view
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
 		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 		// set up table view
-		scoreTc.setCellValueFactory(new PropertyValueFactory<Question, String>("CorrectAnswer"));
+		// scoreTc.setCellValueFactory(new PropertyValueFactory<Question,String>("CorrectAnswer"));
+		scoreTc.setText("Score");
+		scoreTc.setCellValueFactory(new PropertyValueFactory<>(""));
 		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-
+		
 		// set button cells for the 'Update Time' Column
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 
@@ -187,6 +204,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 						} else {
 							btn.setOnAction(e -> {
 								Question question = getTableRow().getItem();
+								QuestionToEdit = question.getQuestionID();
 								ShowQuestionAndEditScore(question);
 							});
 							setGraphic(btn);
@@ -198,10 +216,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 			}
 		};
 		editTc.setCellFactory(btnCellFactory5);
-
+		questionObservableList.clear();
 		questionList = TeacherCreateExamController.tceController.getCurrentList();
 		questionObservableList.addAll(questionList);
-		System.out.println("2 = " + questionObservableList);
 		scoreQuestionsTv.setItems(questionObservableList);
 
 	}
@@ -213,29 +230,45 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		TeacherMenuBarController.mainPaneBp
 				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
 
+		scoreQuestionsTv.setItems(null);
+//		questionInExam.clear();
+
 	}
 
 	@FXML
 	void btnPressEdit(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressEdit");
 
-		// sql for update score in 'question in exam'
+		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTa.getText(), QuestionToEdit,
+				ChatClient.user.getUsername() });
+
 		String curScore = totalScoreLbl.getText();
 		int IcurScore = Integer.parseInt(curScore);
-//		IcurScore += 15;
-		totalScoreLbl.setText(String.valueOf(IcurScore += 15));
+		int AddScore = Integer.parseInt(editTa.getText());
+		totalScoreLbl.setText(String.valueOf(IcurScore += AddScore));
 
 	}
 
 	@FXML
 	void btnPressFinish(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressFinish");
+		String insertTime = allocatedTimeTa.getText();
+		if (!insertTime.equals("Enter Time!")) {
+			if (Integer.parseInt(insertTime) > 0) {
+				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
+						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "1",
+						ChatClient.user.getUsername() });
 
-		ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID, studentCommentsTa.getText(),
-				teacherCommentsTa1.getText(), allocatedTimeTa.getText(), ChatClient.user.getUsername() });
-
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
+				TeacherMenuBarController.mainPaneBp
+						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
+			} else {
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Negative/zero time",
+						"Must to choose positive value for allocated time").showAndWait();
+			}
+		} else {
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing allocated time",
+					"Must to enter value (allocated time)").showAndWait();
+		}
 	}
 
 	// EXTERNAL USE METHODS **************************************************
@@ -252,7 +285,8 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
 		editTa.setDisable(false);
-		
+		editTa.setText("0");
+
 		////
 		answer1Rb.setSelected(false);
 		answer2Rb.setSelected(false);
@@ -280,6 +314,10 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		default:
 			break;
 		}
+	}
+
+	public void successfulUpdateQuestionInExam(String Msg) {
+		msg = Msg;
 	}
 
 }
