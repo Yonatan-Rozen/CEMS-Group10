@@ -165,8 +165,8 @@ public class TeacherEditQuestionController implements Initializable {
 	public void btnPressConfirmChanges(ActionEvent event) {
 		System.out.println("TeacherEditQuestionController::btnPressConfirmChanges");
 		CommonMethodsHandler methodHandler = CommonMethodsHandler.getInstance();
-		ButtonType buttonNewEdit = new ButtonType("Edit another question");
-		ButtonType buttonReEdit = new ButtonType("Re-edit current question",ButtonData.CANCEL_CLOSE);
+		ButtonType buttonNewEdit = new ButtonType("choose another");
+		ButtonType buttonReEdit = new ButtonType("continue editing",ButtonData.CANCEL_CLOSE);
 		
 		// if any field was emptied, show an alert
 		if (hasMissingField())
@@ -179,7 +179,8 @@ public class TeacherEditQuestionController implements Initializable {
 					"Would you rather edit another quesiton\nOR keep editing the current one?", buttonNewEdit, buttonReEdit).showAndWait();
 			if (result.get() == buttonNewEdit){
 				System.out.println("alert::Yes");
-				TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+				try { TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
+				} catch (IOException e) { e.printStackTrace();}
 			}
 		}
 		else {
@@ -191,7 +192,10 @@ public class TeacherEditQuestionController implements Initializable {
 				Optional<ButtonType> result = methodHandler.getNewAlert(type, title,header, context,buttonNewEdit,buttonReEdit).showAndWait();
 				if (result.get() == buttonNewEdit){
 					System.out.println("alert::NewEdit");
-					TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+					//TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+					
+					try { TeacherMenuBarController.tmbController.btnPressEditQuestion(new ActionEvent());
+					} catch (IOException e) { e.printStackTrace();}
 				}
 				else if (result.get() == buttonReEdit){
 					System.out.println("alert::ReEdit");
