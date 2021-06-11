@@ -15,12 +15,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-<<<<<<< HEAD
+import gui.client.teacher.TeacherEditExamController;
 import common.MyFile;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
-=======
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
@@ -29,6 +26,8 @@ import logic.exam.IExam;
 import logic.exam.ManualExam;
 import logic.question.Question;
 import ocsf.server.ConnectionToClient;
+import gui.client.teacher.TeacherMenuController;
+
 
 // singleton class
 public class DBconnector {
@@ -195,18 +194,15 @@ public class DBconnector {
 			case "checkIfSearchedIDExists":
 				checkIfSearchedIDExists(request[1], request[2], client);
 				break;
-<<<<<<< HEAD
 			case "UpdateQuestionAndScoreToExam":
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
 //			case "SaveFileExam":
 //				SaveFileExam(request[1],client);
 //				break;
-=======
 			case "btnPressSubmit":
 				UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(request[1], request[2], request[3],request[4], client);
 				break;
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -1410,41 +1406,31 @@ public class DBconnector {
 	 * @author Yonatan Rozen
 	 */
 	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
-<<<<<<< HEAD
-		String[] typeAndOptionalComments = new String[] { "setTypeAndOptionalTeacherComments", "", "" };
-		IExam exam = null;
-=======
 		String[] typeAndOptionalComments = new String[]{"setTypeAndOptionalTeacherComments","",""};
-		//		IExam exam=null;
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+//		IExam exam=null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-				//				if (rs.getString(9).equals("C")) {
-				//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-				//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-				//				} else {
-				//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-				//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
-				//				}
+//				if (rs.getString(9).equals("C")) {
+//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+//				} else {
+//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
+//				}
 				typeAndOptionalComments[1] = rs.getString(9);
 				typeAndOptionalComments[2] = rs.getString(7);
 			}
 			rs.close();
 			//client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
 			client.sendToClient(typeAndOptionalComments);
-		} catch (SQLException e) {
+		}catch(SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
 			return;
 		}
 	}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 
 	// ***********************************************************************************************
 	/**
@@ -1527,14 +1513,13 @@ public class DBconnector {
 			coursesList.add("getCoursesByUserNameForPrincipleTeacher");
 		else if (type.equals("S"))
 			coursesList.add("getCoursesByUserNameForPrincipleStudent");
-		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had
-													// exams
+		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had exams
 		{
 			try {
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
-						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '"
-						+ userName + "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
+						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '" + userName
+						+ "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
 						+ " WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 				while (rs.next()) {
 					coursesList.add(rs.getString(1));
@@ -1548,20 +1533,15 @@ public class DBconnector {
 			}
 		} else if (type.equals("S")) { // return a list of the courses that a student has taken their exams
 			try {
-				System.out.println("got to courses query for student " + userName);
+				System.out.println("got to courses query for student "+userName);
 				Statement stmt = con.createStatement();
-<<<<<<< HEAD
-				ResultSet rs = stmt.executeQuery(
-						"SELECT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
-=======
 				ResultSet rs = stmt
 						.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
 								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
 				while (rs.next()) {
-					System.out.println("there are courses with exams for student " + userName);
+					System.out.println("there are courses with exams for student "+userName);
 					coursesList.add(rs.getString(1));
 				}
 				rs.close();
@@ -1634,10 +1614,6 @@ public class DBconnector {
 		}
 	}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
