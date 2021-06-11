@@ -29,7 +29,10 @@ public class StudentEnterCodeController implements Initializable {
 	// STATIC INSTANCES ****************************************************
 	private static String code;
 	private static String examType;
-	
+
+	// CONTROLLER INSTANCES ****************************************************
+	protected static StudentEnterCodeController secController=new StudentEnterCodeController();
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -43,6 +46,7 @@ public class StudentEnterCodeController implements Initializable {
 		System.out.println("StudentEnterCode::btnPressStartExam");
 
 		System.out.println(code);
+
 		if (code.equals(codeTf.getText())) {
 			if (examType.equals("C"))
 				ClientUI.mainScene.setRoot(FXMLLoader
@@ -66,7 +70,7 @@ public class StudentEnterCodeController implements Initializable {
 	// EXTERNAL USE METHODS *************************************************
 	/**
 	 * sets code and exam's type of current exam
-	 * 
+	 *
 	 * @param codeFromTeacher the code of the exam that is being taken
 	 * @param examTypeFromTeacher the type of the exam (manual or computerized)
 	 * @param examID the ID of the exam that started
@@ -74,27 +78,17 @@ public class StudentEnterCodeController implements Initializable {
 	 *                        TODO get current code and exam-type from teacher to
 	 *                        all active students
 	 */
-	public void setCode(String codeFromTeacher, String examTypeFromTeacher, String examID) {
-			System.out.println("codeFromTeacher = "+codeFromTeacher+"\nexamTypeFromTeacher = "+examTypeFromTeacher+"\nexamID = "+examID);
-		if (!codeFromTeacher.equals("") && codeFromTeacher != null) {
-			code = codeFromTeacher;
-			System.out.println("code=" + code);
-		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
-					"There was no code inserted by a teacher", "Please try again").showAndWait();
-		}
-		if (!examTypeFromTeacher.equals("") && examTypeFromTeacher != null) {
-			examType = examTypeFromTeacher;
-			System.out.println("examType=" + examType);
-			if(examType.equals("C"))
-				StudentTakeComputerizedExamController.stceController.setExamID(examID);
-			else if(examType.equals("M"))
-				StudentTakeExamManuallyController.stemController.setExamID(examID);
-		}
-		else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
-					"There don't seem to be any details of a running exam").showAndWait();
-		}
-	}
+	public void setReadyExam(String codeFromTeacher, String examTypeFromTeacher, String examID) {
+		System.out.println("codeFromTeacher = "+codeFromTeacher+"\nexamTypeFromTeacher = "+examTypeFromTeacher+"\nexamID = "+examID);
 
+		code = codeFromTeacher;
+		System.out.println("code=" + code);
+
+		examType = examTypeFromTeacher;
+		System.out.println("examType=" + examType);
+		if(examType.equals("C"))
+			StudentTakeComputerizedExamController.stceController.setExamID(examID);
+		else if(examType.equals("M"))
+			StudentTakeExamManuallyController.stemController.setExamID(examID);
+	}
 }
