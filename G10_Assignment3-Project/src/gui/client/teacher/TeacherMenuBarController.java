@@ -118,10 +118,22 @@ public class TeacherMenuBarController implements Initializable {
 	}
 
 	@FXML
-	public void btnPressEditQuestion(ActionEvent event) {
+	public void btnPressEditQuestion(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::btnPressEditQuestion");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherChooseEditQuestion"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editQuestionBtn);
+		
+		if (!TeacherMenuController.choiceBoxRequested) {
+			String[] request = new String[]{"GetExistingBanks", ChatClient.user.getUsername()};
+			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
+			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+		}
+		
+		if (TeacherMenuController.choiceBoxesList != null) {
+			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(TeacherMenuController.choiceBoxesList);
+			TeacherMenuController.choiceBoxRequested = false;
+			
+			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editQuestionBtn);
+		}
 	}
 
 	@FXML
@@ -141,27 +153,26 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::btnPressViewReports");
-		if (!TeacherMenuController.choiceBoxRequested) {
+		
+		if (!TeacherMenuController.setByMenu) {
 			String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
 			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
 			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+			TeacherMenuController.setByMenu = false;
 		}
-		if (TeacherMenuController.choiceBoxesList != null) {
-			TeacherMenuBarController.mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherReports"));
-			TeacherReportsController.trController.setCoursesCoiseBox(TeacherMenuController.choiceBoxesList);
-			TeacherMenuController.choiceBoxRequested = false;
-			
+		
+		if (TeacherMenuController.choiceBoxesList != null)
+		{
+			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherReports"));
+			TeacherReportsController.trController.setCoursesChoiseBox(TeacherMenuController.choiceBoxesList);
 			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewReportsBtn);
+			TeacherMenuController.setByMenu = false;
 		}
 	}
 
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
-		TeacherCreateQuestionController.subjectList.clear();
-		TeacherCreateQuestionController.subjectList.add("----------");
-		TeacherChooseEditQuestionController.subjectList.clear();
-		TeacherChooseEditQuestionController.subjectList.add("----------");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
 }

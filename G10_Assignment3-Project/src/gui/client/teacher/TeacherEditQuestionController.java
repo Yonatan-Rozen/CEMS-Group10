@@ -103,7 +103,6 @@ public class TeacherEditQuestionController implements Initializable {
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("everything is fine");
 		teqController = new TeacherEditQuestionController();
 		botPanelAp = sbBotPanelAp;
 		editQuestionLbl = sbEditQuestionLbl;
@@ -150,15 +149,19 @@ public class TeacherEditQuestionController implements Initializable {
 		CommonMethodsHandler methodHandler = CommonMethodsHandler.getInstance();
 		ButtonType buttonYes = new ButtonType("Yes");
 		ButtonType buttonCancel = new ButtonType("Cancel");
-		
 		if (!questionNotAltered()) {
 			Optional<ButtonType> result = methodHandler.getNewAlert(AlertType.CONFIRMATION, "Cancel changes", "All edited information will be reverted!", 
 					"Are you sure you want to discard all changes to this question?", buttonYes,buttonCancel).showAndWait();
 			
-			if (result.get() == buttonYes)
+			if (result.get() == buttonYes) {
+				TeacherChooseEditQuestionController.pressedDiscard = true;
 				TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+			}
 		}
-		else TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+		else {	
+			TeacherChooseEditQuestionController.pressedDiscard = true;
+			TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+		}
 	}
 	
 	@FXML

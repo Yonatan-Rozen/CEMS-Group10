@@ -75,7 +75,8 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> subjectList = FXCollections.observableArrayList();
-	private static String msg;
+	public static String chosenSubject;
+	public static boolean pressedDiscard;
 	private static boolean deletable;
 	
 	// INITIALIZE METHOD ****************************************************
@@ -87,9 +88,12 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		topPanelAp = sbTopPanelAp;
 		questionSubjectCb = sbQuestionSubjectCb;
 		// set "----------" as the first value of the choice box
-		subjectList.clear();
-		subjectList.add("----------");
-		questionSubjectCb.setValue("----------");
+
+		if (chosenSubject == null) {
+			subjectList.clear();
+			subjectList.add("----------");
+			questionSubjectCb.setValue("----------");
+		}else questionSubjectCb.setValue(chosenSubject);
 		
 		// set the choice box to get it's items from 'subjectList'
 		questionSubjectCb.setItems(subjectList);
@@ -115,15 +119,10 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		availableQuestionsTv = sbAvailableQuestionsTv;
 		questionIDTc = sbQuestionIDTc;
 		previewTc = sbPreviewTc;
-		//----------------------------------
-		if (subjectList.size() == 1) // add subjects only once
-		{
-			ClientUI.chat.accept(new String[]{"GetExistingBanks", ChatClient.user.getUsername()});
-			
-			if (subjectList.size() == 1) { // if still empty after query show an alert
-				CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Code inserting failed",
-						"Missing questions",msg).showAndWait();
-			}
+		
+		if (pressedDiscard) {
+			btnPressShowQuestionsBySubject(new ActionEvent());
+			pressedDiscard = false;
 		}
 	}
 
@@ -134,7 +133,9 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		topPanelAp.setDisable(true);
 		botPanelAp.setDisable(false);
 		//--------------------------------
-		ClientUI.chat.accept(new String[] {"btnPressShowQuestionsBySubject",questionSubjectCb.getValue(),"1", ChatClient.user.getUsername()});
+		chosenSubject = questionSubjectCb.getValue();
+		System.out.println("chosenSubject : " + chosenSubject);
+		ClientUI.chat.accept(new String[] {"btnPressShowQuestionsBySubject",chosenSubject,"1", ChatClient.user.getUsername()});
 		// set up table view
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory
@@ -192,7 +193,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 
 		if (!showAlertIfNotSelected()) {
 			ClientUI.chat.accept(new String[] {"CheckQuestionExistsInExam", question.getQuestionID()});
-			System.out.println("deletable : " + deletable);
 			if (deletable) {
 				ButtonType buttonYes = new ButtonType("Yes");
 				ButtonType buttonCancel = new ButtonType("Cancel");
@@ -208,7 +208,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 					}
 				}
 			}
-			else methodsHandler.getNewAlert(AlertType.WARNING,"Deletion Canceled",
+			else methodsHandler.getNewAlert(AlertType.INFORMATION,"Deletion Canceled",
 					"Sorry, but the chosen question cannot be deleted!",
 					"(This question is part of one or more exams)").showAndWait();
 		}
@@ -224,20 +224,21 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	}
 	// INTERNAL USE METHODS **************************************************
 	private boolean showAlertIfNotSelected() {
-		if (availableQuestionsTv.getSelectionModel().getSelectedItem() == null)
-		{
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Select Question" ,"Please select a row from the table above!").showAndWait();
-			return true;
-		}
-		return false;
+		if (availableQuestionsTv.getSelectionModel().getSelectedItem() != null)
+			return false;
+		CommonMethodsHandler.getInstance().getNewAlert(AlertType.WARNING, "Select Question" ,"Please select a row from the table above!").showAndWait();
+		return true;
 	}
-	
-	
-	
 	
 	// EXTERNAL USE METHODS **************************************************
 	public void setSubjectChoiceBox(List<String> subjects) {
+		System.out.println("current:"+subjectList.toString());
+		System.out.println("subjects to add: " + subjects);
+		subjectList.clear();
+		chosenSubject = "----------";
+		subjectList.add(chosenSubject);
 		subjectList.addAll(subjects);
+		questionSubjectCb.setValue(chosenSubject);
 	}
 	
 	public void setQuestionTableView(List<Question> questions) {
@@ -247,9 +248,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	}
 	
 	public void setQuestionDeletable(String existsInExam) {
-		if (existsInExam.equals("1"))
-			deletable = false;
-		else deletable = true;
+		deletable = (existsInExam.equals("0"));
 	}
 	
 	public void chooseQuestionToPreview(Question question) {
@@ -261,7 +260,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 
 	public void badGetSubjectsWithBank(String Msg) {
 		System.out.println("badGetSubjectsWithBank");
-    	msg = Msg;
 	}
 
 }

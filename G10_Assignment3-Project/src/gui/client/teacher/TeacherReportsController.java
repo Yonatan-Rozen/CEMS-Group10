@@ -68,6 +68,7 @@ public class TeacherReportsController implements Initializable {
 	private int index;
 
 	// INITIALIZE METHOD ****************************************************
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		trController = new TeacherReportsController();
@@ -81,11 +82,34 @@ public class TeacherReportsController implements Initializable {
 		previousRepBtn = sbPreviousRepBtn;
 		previousRepBtn.setDisable(true);
 		courcesCb = sbCourcesCb;
-		// reset courses list
-		// coursesList.clear();
-		// set the choice box to get it's items from 'coursesList'
 		courcesCb.setItems(coursesList);
-		choiceBoxEvents();
+		
+		courcesCb.getSelectionModel().selectedItemProperty()
+		.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
+
+			if (newCourse != null) {
+				// show the first exam result of the first
+				histogramBc.getData().removeAll(series);
+				System.out.println("courcesCb.getValue() : " + newCourse);
+				ClientUI.chat.accept(new String[] { "GetExamDetails", newCourse ,ChatClient.user.getUsername(), "T" }); /// for examResultsList
+				System.out.println("examResultsList should always be with items : " + examResultsList);
+				// reset next button
+				if (examResultsList.size() > 1)
+					nextRepBtn.setDisable(false);
+				else nextRepBtn.setDisable(true);
+	
+				// reset previous button
+				previousRepBtn.setDisable(true);
+	
+				// reset index
+				index = 0;
+	
+				setExamResultData();
+			}
+			
+		});
+		
+		//choiceBoxEvents();
 	}
 
 	// ACTION METHODS *******************************************************
@@ -130,28 +154,10 @@ public class TeacherReportsController implements Initializable {
 	/**
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	private void choiceBoxEvents() {
-		courcesCb.getSelectionModel().selectedItemProperty()
-			.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-				// show the first exam result of the first
-				histogramBc.getData().removeAll(series);
-				examResultsList.clear();
-				ClientUI.chat.accept(new String[] { "GetExamDetails", courcesCb.getValue(),ChatClient.user.getUsername(), "T" });
-				// reset next button
-				if (examResultsList.size() > 1)
-					nextRepBtn.setDisable(false);
-				else nextRepBtn.setDisable(true);
-
-				// reset previous button
-				previousRepBtn.setDisable(true);
-
-				// reset index
-				index = 0;
-
-				setExamResultData();
-			});
-	}
+//	@SuppressWarnings("unchecked")
+//	private void choiceBoxEvents() {
+//		
+//	}
 	
 
 	/**
@@ -171,9 +177,9 @@ public class TeacherReportsController implements Initializable {
 	 * Set coursesList, and initializes courcesCb with the first course name in the list
 	 * @param list The list of courses with exam results
 	 */
-	public void setCoursesCoiseBox(List<String> list) {
-		if (coursesList.isEmpty())
-			coursesList.addAll(list);
+	public void setCoursesChoiseBox(List<String> list) {
+		coursesList.clear();
+		coursesList.addAll(list);
 		courcesCb.setValue(coursesList.get(0));
 	}
 
@@ -182,6 +188,8 @@ public class TeacherReportsController implements Initializable {
 	 * @param examResultsList The exam results list
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResults) {
-		TeacherReportsController.examResultsList.addAll(examResults);
+		System.out.println("setExamResultsDetails :::" + examResults);
+		examResultsList.clear();
+		examResultsList.addAll(examResults);
 	}
 }

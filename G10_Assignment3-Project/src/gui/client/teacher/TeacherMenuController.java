@@ -57,19 +57,9 @@ public class TeacherMenuController implements Initializable {
 	
 	// STATIC INSTANCES *****************************************************
 	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
-	protected static boolean choiceBoxRequested;
 	protected static List<String> choiceBoxesList = new ArrayList<>();
-
-	// START METHOD *********************************************************
-	/**
-	 * Opens PrincipleMenu.fxml
-	 * 
-	 * @throws Exception
-	 */
-	public void start() throws Exception {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/teacher/TeacherMenu.css").toExternalForm());
-	}
+	protected static boolean choiceBoxRequested;
+	protected static boolean setByMenu;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -117,8 +107,17 @@ public class TeacherMenuController implements Initializable {
 	@FXML
 	public void btnPressEditQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditQuestion");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
-		TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
+		
+		String[] request = new String[]{"GetExistingBanks", ChatClient.user.getUsername()};                                       
+		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
+		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);                                                   
+
+		if (choiceBoxesList != null) {
+			choiceBoxRequested = true;
+			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+			TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
+			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(choiceBoxesList);
+		}
 	}
 
 	@FXML
@@ -144,10 +143,9 @@ public class TeacherMenuController implements Initializable {
 		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
 		
 		if (choiceBoxesList != null) {
-			choiceBoxRequested = true;
+			setByMenu = true;
 			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 			TeacherMenuBarController.tmbController.btnPressViewReports(event);
-			TeacherReportsController.trController.setCoursesCoiseBox(choiceBoxesList);
 		}
 	}
 }
