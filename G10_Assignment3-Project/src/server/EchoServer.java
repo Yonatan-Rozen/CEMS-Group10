@@ -8,6 +8,7 @@ import ocsf.server.ConnectionToClient;
 public class EchoServer extends AbstractServer {
 
 	public static EchoServer es;
+	private static int amountOfStudents;
 
 	// CONSTRUCTORS
 	// *****************************************************************
@@ -31,7 +32,15 @@ public class EchoServer extends AbstractServer {
 			// check if it's a 'SendSendMessage' request (to send message to other clients)
 			if (request.contains("SendMessage")) {
 				es.sendToAllClients(msg);
-				try { client.sendToClient("MessageHasBeenSent");
+				try {
+					switch(request) {
+					case "SendMessageExamIDExamTypeAndExamCode":
+						client.sendToClient(new Object[] {"MessageSentExamIDExamTypeAndExamCode", amountOfStudents});
+						break;
+					default:
+						client.sendToClient("MessageSent");
+						break;
+					}
 				} catch (IOException e) { e.printStackTrace(); }
 			}
 			else useDatabase(msg, client);
@@ -67,6 +76,18 @@ public class EchoServer extends AbstractServer {
 			
 			switch(request) {
 			case "SendMessageExamIDExamTypeAndExamCode":
+				amountOfStudents = 0;
+				for (int i = 0; i < clientThreadList.length; i++) {
+					ConnectionToClient student = (ConnectionToClient)clientThreadList[i];
+					try {
+						if (student.getInfo(student.getName()).equals("Student")) {
+							student.sendToClient(msg);
+							amountOfStudents++;
+						}
+					} catch (Exception ex) { }
+				}
+				return;
+			case "SendMessageLockExam":
 				for (int i = 0; i < clientThreadList.length; i++) {
 					ConnectionToClient student = (ConnectionToClient)clientThreadList[i];
 					try {
@@ -80,7 +101,7 @@ public class EchoServer extends AbstractServer {
 			}
 		}
 		
-		// default for any message
+		// default for any other message
 		super.sendToAllClients(msg);
 	}
 

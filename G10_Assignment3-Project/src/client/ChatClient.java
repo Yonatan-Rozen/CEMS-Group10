@@ -70,7 +70,7 @@ public class ChatClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		if (msg == null) {
-			ClientController.display("fatal error");
+			ClientController.display("fatal error (null object has been passed)");
 		} else if (msg instanceof User) { // SignIn Success
 			user = (User) msg;
 			ClientController.display("user [" + user.getUsername() + "] has connected successfully!");
@@ -114,6 +114,11 @@ public class ChatClient extends AbstractClient {
 		case "SendMessageExamIDExamTypeAndExamCode":
 			StudentMenuController.smController.setReadyExam((String[])msg);
 			break;
+		case "MessageSentExamIDExamTypeAndExamCode":
+			TeacherStartExamController.tseController.checkStartExam(msg);
+			break;
+		case "SendMessageLockExam":
+			StudentMenuController.smController.lockExam((String[])msg);
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -174,14 +179,11 @@ public class ChatClient extends AbstractClient {
 				TeacherCreateQuestionController.tcqController.setSubjectChoiceBox(stringList);
 				return;
 			case "getSubjectWithExistingBanks":
-				TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(stringList);
-				return;
 			case "getCoursesByUserNameForTeacher":
-				//TeacherReportsController.trController.setCoursesCoiseBox(stringList);
 				CommonMethodsHandler.getInstance().setChoiceBoxList(stringList);
 				return;
 			case "getCoursesByUserName":
-				TeacherReportsController.trController.setCoursesCoiseBox(stringList);
+				TeacherReportsController.trController.setCoursesChoiseBox(stringList);
 				return;
 			case "getCoursesByUserNameForPrincipleTeacher":
 				PrincipleViewReportsController.pvrController.setChoiseBoxList(stringList);
@@ -306,7 +308,7 @@ public class ChatClient extends AbstractClient {
 		try {
 			openConnection();// in order to send more than one message
 			awaitResponse = true;
-			sendToServer(obj);
+			sendToServer(obj); // <-- message being sent to the server
 			// wait for response
 			while (awaitResponse) {
 				try {

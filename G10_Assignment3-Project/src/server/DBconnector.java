@@ -879,10 +879,10 @@ public class DBconnector {
 				bankList.add(rs.getString(1));
 			}
 			rs.close();
-			if (bankList.size() > 1)
+//			if (bankList.size() > 1)
 				client.sendToClient(bankList);
-			else
-				client.sendToClient("GetSubjectsWithBank ERROR - Please note that you should create a question first!");
+//			else
+//				client.sendToClient("GetSubjectsWithBank ERROR - ");
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();

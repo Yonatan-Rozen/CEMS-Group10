@@ -46,6 +46,7 @@ public class StudentMenuController implements Initializable {
 	protected static String examID;
 	protected static String examType;
 	protected static String examCode;
+	protected static boolean examLocked;
 	private static StudentEnterCodeController secController;
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -105,4 +106,15 @@ public class StudentMenuController implements Initializable {
 	
 	
 
+
+
+
+
+
+
+
+	public void lockExam(String[] msg) {
+		if (examID.equals(msg[1]))
+			examLocked = true;
+	}
 }
