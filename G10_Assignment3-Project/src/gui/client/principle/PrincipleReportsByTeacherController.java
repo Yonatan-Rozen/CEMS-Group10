@@ -79,7 +79,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
-	public static List<ExamResults> examResultsList;
+	private static List<ExamResults> examResultsList;
 	private int index = 0;
 	private static Series series;
 	private static IntegerStringConverter isc=new IntegerStringConverter();
