@@ -2,6 +2,7 @@ package common;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MyFile implements Serializable {
 
 	private String Description = null;
