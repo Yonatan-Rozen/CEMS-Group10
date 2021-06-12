@@ -336,7 +336,7 @@ public class DBconnector {
 	 * @author Eliran Amerzoyev
 	 */
 	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
-			throws IOException { // <<<<doesn't work well on the first calls (sometimes)>>>> - Yonatan
+			throws IOException {
 
 		// get CourseID by CourseName
 		String CourseID = null;
@@ -349,7 +349,6 @@ public class DBconnector {
 				SubjectID = rs.getString(2); 
 			}
 			rs.close();
-			System.out.println("using [" + CourseName + "], we get "+ SubjectID + CourseID);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
@@ -858,7 +857,7 @@ public class DBconnector {
 
 			if (rs.next()) {
 				if (rs.getString(8).equals("1")) {
-					client.sendToClient("SignIn Error - This user is already connected!");
+					client.sendToClient("SignIn ERROR - This user is already connected!");
 					return;
 				} else
 					user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
