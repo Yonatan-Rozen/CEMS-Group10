@@ -15,7 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -224,7 +226,37 @@ public class CommonMethodsHandler {
 	
 	// *****************************************************************************************
 	
-	public List<String> getListRequest(String[] request, Alert alert) throws IOException {
+	/**
+	 * Disables swaping of the table columns
+	 * @param tableView
+	 */
+	public void disableTableColumnSwap(TableView<?> tableView) {
+		tableView.widthProperty().addListener(new ChangeListener<Number>()
+		{
+		    @Override
+		    public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth)
+		    {
+		        TableHeaderRow header = (TableHeaderRow) tableView.lookup("TableHeaderRow");
+		        header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
+		            @Override
+		            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+		                header.setReordering(false);
+		            }
+		        });
+		    }
+		});
+	}
+	
+	
+	// *****************************************************************************************
+	
+	/**
+	 * Send the server a request for a specific List of Strings
+	 * @param request The request
+	 * @param alert shows up if the List returned was empty
+	 * @return true if the list isn't empy, false otherwise
+	 */
+	public List<String> getListRequest(String[] request, Alert alert) {
 		ClientUI.chat.accept(request);
 		if (choiceBoxesList.isEmpty()) {
 			alert.showAndWait();
