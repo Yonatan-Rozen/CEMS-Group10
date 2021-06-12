@@ -353,11 +353,23 @@ public class TeacherCreateExamController implements Initializable {
 
 		if (chooseCourseCb.getValue() != null) {
 			if (!questionObservableList.isEmpty()) {
-				TeacherMenuBarController.mainPaneBp.setCenter(
-						cmh.getPane("teacher", "TeacherComputerizedExamDefinitions"));
-
+				
+				System.out.println("{Before call for TeacherComputerizedExamDefinitions}");
+				System.err.println("chooseCourseCb.getValue() : " + chooseCourseCb.getValue());
+				System.err.println("examBankCb.getValue() : " + examBankCb.getValue());
+				
+				TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherComputerizedExamDefinitions"));
+				
+				System.out.println("{After call for TeacherComputerizedExamDefinitions}");
+				System.err.println("chooseCourseCb.getValue() : " + chooseCourseCb.getValue());
+				System.err.println("examBankCb.getValue() : " + examBankCb.getValue());
+				
 				ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
-						examBankCb.getValue(), author, ChatClient.user.getUsername() });
+						examBankCb.getValue(), author, ChatClient.user.getUsername() }); // chooseCourseCb.getValue() & examBankCb.getValue() are sometimes null
+				
+				/* Inserting info should be at the very end with all the details, to eliminate cases where the user doesn't finish the proccess of creating the exam
+				 Not doing so might lead to even more complicated code because then there is a need in removing half pieces of info - Yonatan*/
+
 			} else {
 				cmh.getNewAlert(AlertType.ERROR, "Error message",
 						"Missing question in exam", "Must to choose question").showAndWait();
