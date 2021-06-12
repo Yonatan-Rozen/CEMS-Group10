@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.question.Question;
+import logic.question.QuestionInExam;
 
 public class TeacherCreateExamController implements Initializable {
 	public static TeacherCreateExamController tceController;
@@ -51,28 +52,28 @@ public class TeacherCreateExamController implements Initializable {
 	private ChoiceBox<String> sbExamBankCb;
 
 	@FXML
-	private TableView<Question> sbAvailableQuestionsTv;
+	private TableView<QuestionInExam> sbAvailableQuestionsTv;
 
 	@FXML
-	private TableColumn<Question, String> sbQuestionID1Tc;
+	private TableColumn<QuestionInExam, String> sbQuestionID1Tc;
 
 	@FXML
-	private TableColumn<Question, Void> sbPreview1Tc;
+	private TableColumn<QuestionInExam, Void> sbPreview1Tc;
 
 	@FXML
-	private TableColumn<Question, Void> sbAddToExamTc;
+	private TableColumn<QuestionInExam, Void> sbAddToExamTc;
 
 	@FXML
-	private TableView<Question> sbCurrentQuestionsTable;
+	private TableView<QuestionInExam> sbCurrentQuestionsTable;
 
 	@FXML
-	private TableColumn<Question, String> sbQuestionID2Tc;
+	private TableColumn<QuestionInExam, String> sbQuestionID2Tc;
 
 	@FXML
-	private TableColumn<Question, Void> sbPreview2Tc;
+	private TableColumn<QuestionInExam, Void> sbPreview2Tc;
 
 	@FXML
-	private TableColumn<Question, Void> sbRemoveFromExamTc;
+	private TableColumn<QuestionInExam, Void> sbRemoveFromExamTc;
 
 	@FXML
 	private Button sbChangeBankBtn;
@@ -86,26 +87,26 @@ public class TeacherCreateExamController implements Initializable {
 	private static Button continue1Btn;
 	private static AnchorPane botPanelAp;
 	private static ChoiceBox<String> chooseCourseCb;
-	private static TableView<Question> availableQuestionsTv;
-	private static TableColumn<Question, String> questionID1Tc;
-	private static TableColumn<Question, Void> preview1Tc;
-	private static TableColumn<Question, Void> addToExamTc;
-	private static TableView<Question> currentQuestionsTable;
-	private static TableColumn<Question, String> questionID2Tc;
-	private static TableColumn<Question, Void> preview2Tc;
-	private static TableColumn<Question, Void> removeFromExamTc;
+	private static TableView<QuestionInExam> availableQuestionsTv;
+	private static TableColumn<QuestionInExam, String> questionID1Tc;
+	private static TableColumn<QuestionInExam, Void> preview1Tc;
+	private static TableColumn<QuestionInExam, Void> addToExamTc;
+	private static TableView<QuestionInExam> currentQuestionsTable;
+	private static TableColumn<QuestionInExam, String> questionID2Tc;
+	private static TableColumn<QuestionInExam, Void> preview2Tc;
+	private static TableColumn<QuestionInExam, Void> removeFromExamTc;
 	private static Button changeBankBtn;
 	private static Button continue2Btn;
 
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
-	private static List<Question> questionList;
-	private static List<Question> questionInExam;
-	private ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
-	private static HashMap<Question,TableRow<Question>> locateRow = new HashMap<>();
+	private static List<QuestionInExam> questionList;
+	private static List<QuestionInExam> questionInExam;
+	private ObservableList<QuestionInExam> questionObservableList = FXCollections.observableArrayList();
+	private static HashMap<QuestionInExam, TableRow<QuestionInExam>> locateRow = new HashMap<>();
 	private static String msg;
-	public static TableView<Question> xx;
+	public static TableView<QuestionInExam> xx;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -142,11 +143,6 @@ public class TeacherCreateExamController implements Initializable {
 	}
 
 	// ACTION METHODS *******************************************************
-//	@FXML
-//	void btnPressCancelCreation(ActionEvent event) {
-//		System.out.println("TeacherCreateExam::btnPressCancelCreation");
-//	}
-
 	@FXML
 	void btnPressChangeBank(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressChangeBank");
@@ -175,18 +171,19 @@ public class TeacherCreateExamController implements Initializable {
 
 			chooseCourseCb.setItems(CourseList);
 
+			
 			ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2",
 					ChatClient.user.getUsername() });
 
 			// set up table view
-			questionID1Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+			questionID1Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
 			questionID1Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 			// set preview col
-			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 				@Override
-				public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
-					final TableCell<Question, Void> cell1 = new TableCell<Question, Void>() {
+				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param) {
+					final TableCell<QuestionInExam, Void> cell1 = new TableCell<QuestionInExam, Void>() {
 
 						private final Button btn = new Button();
 						private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
@@ -220,11 +217,11 @@ public class TeacherCreateExamController implements Initializable {
 			preview1Tc.setCellFactory(btnCellFactory);
 
 			// set button cells for the 'Update Time' Column
-			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory2 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory2 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 
 				@Override
-				public TableCell<Question, Void> call(final TableColumn<Question, Void> param2) {
-					final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
+				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param2) {
+					final TableCell<QuestionInExam, Void> cell2 = new TableCell<QuestionInExam, Void>() {
 
 						private final Button btn = new Button();
 						private final ImageView addicon = new ImageView(new Image("/icon_add.png"));
@@ -242,8 +239,8 @@ public class TeacherCreateExamController implements Initializable {
 								setGraphic(null);
 							} else {
 								btn.setOnAction(e -> {
-									Question question = getTableRow().getItem();
-									locateRow.put(question, getTableRow()); //TODO <-->
+									QuestionInExam question = getTableRow().getItem();
+									locateRow.put(question, getTableRow()); // TODO <-->
 									getTableRow().setDisable(true);
 									addQuestionToCurrentQuestions(question);
 								});
@@ -258,14 +255,14 @@ public class TeacherCreateExamController implements Initializable {
 			addToExamTc.setCellFactory(btnCellFactory2);
 
 			// set up current table view
-			questionID2Tc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+			questionID2Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
 			questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 			// set preview col
-			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory3 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory3 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 				@Override
-				public TableCell<Question, Void> call(final TableColumn<Question, Void> param3) {
-					final TableCell<Question, Void> cell3 = new TableCell<Question, Void>() {
+				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param3) {
+					final TableCell<QuestionInExam, Void> cell3 = new TableCell<QuestionInExam, Void>() {
 
 						private final Button btn = new Button();
 						private final ImageView previewEye = new ImageView(new Image("/previewEye.png"));
@@ -283,7 +280,7 @@ public class TeacherCreateExamController implements Initializable {
 								setGraphic(null);
 							} else {
 								btn.setOnAction(e -> {
-									Question question = getTableRow().getItem();
+									QuestionInExam question = getTableRow().getItem();
 									TeacherMenuBarController.mainPaneBp.setDisable(true);
 									TeacherMenuBarController.menuBarAp.setDisable(true);
 									chooseQuestionToPreview(question);
@@ -299,11 +296,11 @@ public class TeacherCreateExamController implements Initializable {
 			preview2Tc.setCellFactory(btnCellFactory3);
 
 			// set button cells for the 'Update Time' Column
-			Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory4 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory4 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 
 				@Override
-				public TableCell<Question, Void> call(final TableColumn<Question, Void> param4) {
-					final TableCell<Question, Void> cell4 = new TableCell<Question, Void>() {
+				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param4) {
+					final TableCell<QuestionInExam, Void> cell4 = new TableCell<QuestionInExam, Void>() {
 
 						private final Button btn = new Button();
 						private final ImageView removeicon = new ImageView(new Image("/icon_remove.png"));
@@ -321,14 +318,9 @@ public class TeacherCreateExamController implements Initializable {
 								setGraphic(null);
 							} else {
 								btn.setOnAction(e -> {
-									Question question = getTableRow().getItem();
-									locateRow.get(question).setDisable(false); //TODO <-->
+									QuestionInExam question = getTableRow().getItem();
+									locateRow.get(question).setDisable(false); // TODO <-->
 									questionInExam.remove(question);
-									
-									
-									//after remove from right to left, need to show again the
-									//question in left table (when we insert this is disable)
-	
 									removeQuestionFromCurrentQuestions(question);
 								});
 								setGraphic(btn);
@@ -392,19 +384,19 @@ public class TeacherCreateExamController implements Initializable {
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
 
-	public void addQuestionToCurrentQuestions(Question question) {
+	public void addQuestionToCurrentQuestions(QuestionInExam question) {
 		questionObservableList.add(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
 	}
 
-	public void removeQuestionFromCurrentQuestions(Question question) {
+	public void removeQuestionFromCurrentQuestions(QuestionInExam question) {
 		questionObservableList.remove(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
 	}
 
-	public void setQuestionTableView(List<Question> questions) {
+	public void setQuestionTableView(List<QuestionInExam> questions) {
 		questionList = questions;
 		questionObservableList.clear();
 		questionObservableList.addAll(questions);
@@ -415,11 +407,11 @@ public class TeacherCreateExamController implements Initializable {
 		msg = Msg;
 	}
 
-	public ObservableList<Question> getCurrentObservableList() {
+	public ObservableList<QuestionInExam> getCurrentObservableList() {
 		return questionObservableList;
 	}
 
-	public List<Question> getCurrentList() {
+	public List<QuestionInExam> getCurrentList() {
 		return questionInExam;
 	}
 
