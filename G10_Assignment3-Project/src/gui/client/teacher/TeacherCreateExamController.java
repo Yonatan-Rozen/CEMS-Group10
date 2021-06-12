@@ -136,7 +136,9 @@ public class TeacherCreateExamController implements Initializable {
 		removeFromExamTc = sbRemoveFromExamTc;
 		changeBankBtn = sbChangeBankBtn;
 		continue2Btn = sbContinue2Btn;
-
+		
+		CommonMethodsHandler.getInstance().disableTableColumnSwap(availableQuestionsTv);
+		CommonMethodsHandler.getInstance().disableTableColumnSwap(currentQuestionsTable);
 		if (bankList.size() == 1) { // add banks only once
 			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "1" });
 		}
