@@ -85,7 +85,7 @@ public class TeacherCreateManualExamController implements Initializable {
 	private Desktop desktop = Desktop.getDesktop();
 	private static String FileName;
 	private static String FilePath;
-	private static String examID = "010107";
+	private static String examID;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -141,21 +141,6 @@ public class TeacherCreateManualExamController implements Initializable {
 			uploadFileTa.setText(FilePath);
 
 			if (FilePath != null) {
-
-//				
-//				MyFile msg = new MyFile(FileName);
-//				File newFile = new File(FilePath);
-//
-//				byte[] mybytearray = new byte[(int) newFile.length()];
-//				FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte) 
-//				BufferedInputStream bis = new BufferedInputStream(fis); //reads data from memory
-//
-//				msg.initArray(mybytearray.length);
-//				msg.setSize(mybytearray.length);
-//
-//				bis.read(msg.getMybytearray(), 0, mybytearray.length); //reads
-//				sendToServer(msg);
-
 			}
 
 		} catch (RuntimeException e) { //include nullpointer exception
@@ -211,29 +196,6 @@ public class TeacherCreateManualExamController implements Initializable {
 						// pop-up message that exam success or something like that
 						//////
 						
-						
-//		MyFile msg = new MyFile(FileName);
-//		String LocalfilePath = FilePath;
-//		System.out.println(LocalfilePath);
-//		try {
-//
-//			File newFile = new File(LocalfilePath);
-//
-//			byte[] mybytearray = new byte[(int) newFile.length()];
-//			FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte)
-//			BufferedInputStream bis = new BufferedInputStream(fis); // reads data from memory
-//
-//			msg.initArray(mybytearray.length);
-//			msg.setSize(mybytearray.length);
-//
-//			bis.read(msg.getMybytearray(), 0, mybytearray.length); // reads
-//		//	sendToServer(msg);
-//		} catch (Exception e) {
-//			System.out.println("Error send " + ((MyFile) msg).getFileName() + " to Server");
-//		}
-//		ClientUI.chat.accept(msg);
-
-//		ClientUI.chat.accept(new String[] { "SaveFileExam",msg, FileName, FilePath, ChatClient.user.getUsername() });
 					} else {
 						CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing File",
 								"Must to Enter file or right path").showAndWait();
@@ -265,12 +227,9 @@ public class TeacherCreateManualExamController implements Initializable {
 		CourseList.addAll(msg);
 		System.out.println(CourseList);
 	}
-
-	public void successfulCreateExam(String Msg) {
-		msg = Msg;
-	}
 	
-	public void setExamID(String ID) {
+	public void successfulCreateDetailsAndSetExamID(String ID,String Msg) {
 		examID = ID;
+		msg = Msg;
 	}
 }
