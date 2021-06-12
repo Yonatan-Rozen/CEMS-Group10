@@ -39,6 +39,7 @@ import logic.exam.ExamResults;
 import logic.exam.IExam;
 import logic.question.Question;
 import ocsf.client.AbstractClient;
+import server.ServerUI;
 
 public class ChatClient extends AbstractClient {
 
@@ -317,14 +318,14 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
 			}
-		} else if (obj instanceof Exam) {
-			List<Exam> examList = (List<Exam>) msg;
-			System.out.println(examList);
-			switch (((Exam) obj).getExamID()) {
-			case "getExamsBySubjectAndUsername":
-				TeacherEditExamController.teeController.setExamTableView(examList);
-				return;
-			}
+//		} else if (obj instanceof Exam) {
+//			List<Exam> examList = (List<Exam>) msg;
+//			System.out.println(examList);
+//			switch (((Exam) obj).getExamID()) {
+//			case "getExamsBySubjectAndUsername":
+//				TeacherEditExamController.teeController.setExamTableView(examList);
+//				return;  -- [Commented by Yonatn]
+//			}
 		} else if (obj instanceof User) { // List of users
 			List<User> usersList = (List<User>) msg;
 			System.out.println(usersList);
@@ -343,6 +344,9 @@ public class ChatClient extends AbstractClient {
 			case "getExamsTableViewInfo":
 				PrincipleViewExamsInfoScreenController.pveisController.setExamsInfoList(examsList);
 				return;
+			case "getExamsBySubjectAndUsername":
+				TeacherEditExamController.teeController.setExamTableView(examsList);
+				return;
 			default:
 				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
@@ -354,12 +358,43 @@ public class ChatClient extends AbstractClient {
 	 * Handles with messages that the client sends to the server
 	 *
 	 * @param obj The message to send
+	 * 
+	 * @author Yonatan Rozen
 	 */
 	public void handleMessageFromClientUI(Object obj) {
 		try {
 			openConnection();// in order to send more than one message
+			
+			// used for sending files to the server
+			if ((obj instanceof String[]) && ((String[]) obj)[0].contains("UploadFile")) {
+				String examID = ((String[]) obj)[1];
+				String message = ((String[]) obj)[2];
+				File wordDocument = new File(message);
+				
+				// check if 'message' is a pathname (for example: "C:\Users\Jon\Desktop\test.docx")
+				String[] s1 = message.split("\\\\");
+				String fileName = s1[s1.length - 1]; // "test.txt"
+				MyFile testFile = new MyFile(fileName);
+
+				try {
+					byte[] mybytearray = new byte[(int) wordDocument.length()];
+					FileInputStream fis = new FileInputStream(wordDocument);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+
+					testFile.initArray(mybytearray.length);
+					testFile.setSize(mybytearray.length);
+
+					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+					bis.close();
+					sendToServer(new Object[] {((String[]) obj)[0],examID,testFile});
+				} catch (Exception e) {
+					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
+				}
+
+			} else sendToServer(obj); // <-- message being sent to the server
+			
 			awaitResponse = true;
-			sendToServer(obj); // <-- message being sent to the server
+			
 			// wait for response
 			while (awaitResponse) {
 				try {
@@ -395,5 +430,4 @@ public class ChatClient extends AbstractClient {
 		}
 		System.exit(0);
 	}
-
 }

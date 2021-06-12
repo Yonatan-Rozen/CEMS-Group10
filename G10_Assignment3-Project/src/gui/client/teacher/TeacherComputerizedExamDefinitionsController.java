@@ -176,11 +176,17 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
 		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 		// set up table view
-		// scoreTc.setCellValueFactory(new PropertyValueFactory<Question,String>("CorrectAnswer"));
+		// scoreTc.setCellValueFactory(new
+		// PropertyValueFactory<Question,String>("CorrectAnswer"));
 		scoreTc.setText("Score");
 		scoreTc.setCellValueFactory(new PropertyValueFactory<>(""));
 		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-		
+
+		//////
+		// need to show score column (set to zero and when we edit(with sql query) to show new
+		// value in table)
+		//////
+
 		// set button cells for the 'Update Time' Column
 		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
 
@@ -259,6 +265,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "1",
 						ChatClient.user.getUsername() });
 
+				//////
+				// pop-up message that computerized exam success or something like that
+				//////
 				TeacherMenuBarController.mainPaneBp
 						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
 			} else {

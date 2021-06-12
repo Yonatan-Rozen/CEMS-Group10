@@ -2,6 +2,7 @@ package gui.client.teacher;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,15 +13,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -101,8 +102,8 @@ public class TeacherCreateExamController implements Initializable {
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<Question> questionList;
 	private static List<Question> questionInExam;
-	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
-
+	private ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
+	private static HashMap<Question,TableRow<Question>> locateRow = new HashMap<>();
 	private static String msg;
 	public static TableView<Question> xx;
 
@@ -242,6 +243,7 @@ public class TeacherCreateExamController implements Initializable {
 							} else {
 								btn.setOnAction(e -> {
 									Question question = getTableRow().getItem();
+									locateRow.put(question, getTableRow()); //TODO <-->
 									getTableRow().setDisable(true);
 									addQuestionToCurrentQuestions(question);
 								});
@@ -320,6 +322,7 @@ public class TeacherCreateExamController implements Initializable {
 							} else {
 								btn.setOnAction(e -> {
 									Question question = getTableRow().getItem();
+									locateRow.get(question).setDisable(false); //TODO <-->
 									questionInExam.remove(question);
 									
 									
@@ -336,7 +339,7 @@ public class TeacherCreateExamController implements Initializable {
 					return cell4;
 				}
 			};
-			sbRemoveFromExamTc.setCellFactory(btnCellFactory4);
+			removeFromExamTc.setCellFactory(btnCellFactory4);
 
 		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
@@ -403,7 +406,7 @@ public class TeacherCreateExamController implements Initializable {
 
 	public void setQuestionTableView(List<Question> questions) {
 		questionList = questions;
-		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
+		questionObservableList.clear();
 		questionObservableList.addAll(questions);
 		availableQuestionsTv.setItems(questionObservableList);
 	}

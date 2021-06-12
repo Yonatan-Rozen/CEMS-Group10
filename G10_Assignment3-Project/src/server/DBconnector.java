@@ -1,11 +1,10 @@
 package server;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,9 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
-import gui.client.teacher.TeacherEditExamController;
+
 import common.MyFile;
-import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
@@ -28,7 +26,6 @@ import logic.exam.IExam;
 import logic.exam.ManualExam;
 import logic.question.Question;
 import ocsf.server.ConnectionToClient;
-import gui.client.teacher.TeacherMenuController;
 
 
 // singleton class
@@ -132,7 +129,7 @@ public class DBconnector {
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
 			case "btnPressShowExamsBySubject": // getQuestionsBySubjectAndUsername(subjectName, username, client)
-				getExamsBySubjectAndUsername(request[1], request[2], request[3], client);
+				getExamsBySubjectAndUsername(request[1], request[2], client);
 				break;
 			case "btnPressContinue2CreateExam":
 				insertNewExamToDB(request[1], request[2], request[3], client);
@@ -179,9 +176,9 @@ public class DBconnector {
 			case "GetSubjectCourseIDofExam":
 				getSubjectCourseIDofExam(client);
 				break;
-			case "GetExamByID":
-				getExamInfoByID(request[1], client);
-				break;
+//			case "GetExamByID":
+//				getExamInfoByID(request[1], client); // UNUSED
+//				break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
 			case "GetTypeOfExamAndOptionalComments":
@@ -221,6 +218,9 @@ public class DBconnector {
 			case "UpdateQuestion":
 				updateQuestion((Question) request[1], client);
 				break;
+			case "TeacherUploadFile":
+				teacherTestUpload((String)request[1], (MyFile)request[2],client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
@@ -228,12 +228,40 @@ public class DBconnector {
 			}
 		}
 	}
-
-
-	private void getExamInfoByID(String string, ConnectionToClient client) {
-		// TODO Auto-generated method stub
-
+	
+	private void teacherTestUpload(String examID, MyFile myFile, ConnectionToClient client) throws IOException {
+	
+			File outputFile = new File(myFile.getFileName());
+			FileOutputStream fos = new FileOutputStream(outputFile);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
+			
+			try {
+				Blob blob = con.createBlob();
+				blob.setBytes(1, myFile.getMybytearray());
+				PreparedStatement stmt = con.prepareStatement( "UPDATE exams SET File = ? WHERE ExamID = ?");
+				stmt.setBlob(1, blob);
+				stmt.setString(2, examID);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+			
+			bos.write(myFile.getMybytearray(), 0, myFile.getSize());
+			bos.flush();
+			fos.flush();
+			
+			client.sendToClient("");
+		
+//			TODO this will be used to take a blob out of the database
+//			Statement st = conn.createStatement();
+//			ResultSet rs = st.executeQuery("select c1 from t1");
+//			Blob b2 = rs.getBlob(1);
 	}
+	
+
+
 
 //	private void SaveFileExam(Object msg, String FilePath, ConnectionToClient client) {
 //		System.out.println("info = " + FileName +"  "+ FilePath);
@@ -627,7 +655,7 @@ public class DBconnector {
 				else if (rs.getString(9).equals("M")) {
 					// public ManualExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String author, String type) {
-					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8), "M");
+					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8), "M"/*, rs.getBlob(10)*/);
 				}
 			}
 			client.sendToClient(exam);
@@ -1120,12 +1148,12 @@ public class DBconnector {
 	 * @param username
 	 * @throws IOException
 	 *
-	 * @author Eliran Amerzoyev
+	 * @author Eliran Amerzoyev (Edited by Yonatn Rozen)
 	 */
-	private void getExamsBySubjectAndUsername(String subjectName, String num, String username,
-			ConnectionToClient client) throws IOException { // num for using in create exam
-		List<Exam> examList = new ArrayList<>();
-
+	private void getExamsBySubjectAndUsername(String subjectName, String username,
+			ConnectionToClient client) throws IOException {
+		List<IExam> examList = new ArrayList<>();
+		
 		examList.add(new Exam("getExamsBySubjectAndUsername", "", "", "", "", ""));
 
 		try {
@@ -1134,8 +1162,19 @@ public class DBconnector {
 					+ "	(SELECT B.BankID FROM banks B WHERE B.UsernameT = '" + username + "' AND B.SubjectID = "
 					+ "	(SELECT S.SubjectID FROM subjects S WHERE S.SubjectName = '" + subjectName + "'))");
 			while (rs.next()) {
-				examList.add(new Exam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7)));
+				if (rs.getString(9).equals("C")) {
+					ComputerizedExam ce = new ComputerizedExam(rs.getString(1),rs.getString(2), rs.getString(3),
+							rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),rs.getString(8),rs.getString(9));
+					examList.add(ce);
+				}
+				else {
+					ManualExam me = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3),
+							rs.getString(4), rs.getString(8), rs.getString(9)/*, rs.getBlob(10)*/);
+					examList.add(me);
+					
+				}
+//				examList.add(new Exam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+//						rs.getString(6), rs.getString(7)));
 			}
 			rs.close();
 			client.sendToClient(examList);
@@ -1770,7 +1809,7 @@ public class DBconnector {
 					// public ManualExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String author, String type) {
 					me = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
-							"Manual");
+							"Manual"/*, rs.getBlob(10)*/);
 					examsDetails.add(me);
 				}
 			}

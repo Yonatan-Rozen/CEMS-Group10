@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherComputerizedExamDefinitionsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherComputerizedExamDefinitionsController">
    <children>
       <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="475.0" prefWidth="800.0" AnchorPane.bottomAnchor="45.0">
          <children>
@@ -110,8 +110,8 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbStudentCommentsTa" layoutX="14.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" AnchorPane.bottomAnchor="75.0" />
-            <TextArea fx:id="sbTeacherCommentsTa1" layoutX="417.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" AnchorPane.bottomAnchor="75.0" />
+            <TextArea fx:id="sbStudentCommentsTa" layoutX="14.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" promptText="- comments for student -" AnchorPane.bottomAnchor="75.0" />
+            <TextArea fx:id="sbTeacherCommentsTa1" layoutX="417.0" layoutY="297.0" prefHeight="78.0" prefWidth="378.0" promptText="- comments for superviser -" AnchorPane.bottomAnchor="75.0" />
             <TextArea fx:id="sbEditTa" layoutX="398.0" layoutY="76.0" prefHeight="38.0" prefWidth="103.0" />
             <TextArea fx:id="sbAllocatedTimeTa" layoutX="391.0" layoutY="437.0" prefHeight="7.0" prefWidth="135.0" />
          </children>

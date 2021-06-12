@@ -83,8 +83,9 @@ public class TeacherCreateManualExamController implements Initializable {
 	private static String msg;
 	FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
-	String FileName;
-	String FilePath;
+	private Static String FileName;
+	private static String FilePath;
+	private static String examID = "010107";
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -199,13 +200,12 @@ public class TeacherCreateManualExamController implements Initializable {
 			if (!insertTime.equals("Enter Time!")) {
 				if (Integer.parseInt(insertTime) > 0) {
 					if (!sbUploadFileTa.getText().equals("File path")) {
-						String correctAnswer,
-								author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
-						TeacherMenuBarController.mainPaneBp
-								.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
+						String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
+						ClientUI.mainScene.setRoot(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
 						ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
-								examBankCb.getValue(), author, allocatedTimeTa.getText(),
-								ChatClient.user.getUsername() });
+								examBankCb.getValue(), author, allocatedTimeTa.getText(), ChatClient.user.getUsername() });
+						// TODO examID should have a value
+						ClientUI.chat.accept(new String[] {"TeacherUploadFile",examID, FilePath});		
 
 						//////
 						// pop-up message that exam success or something like that
@@ -268,5 +268,9 @@ public class TeacherCreateManualExamController implements Initializable {
 
 	public void successfulCreateExam(String Msg) {
 		msg = Msg;
+	}
+	
+	public void setExamID(String ID) {
+		examID = ID;
 	}
 }

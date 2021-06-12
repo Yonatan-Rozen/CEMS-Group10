@@ -13,9 +13,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -47,13 +47,13 @@ public class TeacherEditExamController implements Initializable {
 	private TextArea sbAllocatedTimeTa;
 
 	@FXML
-	private TableView<Exam> sbExamsTv;
+	private TableView<IExam> sbExamsTv;
 
 	@FXML
-	private TableColumn<Exam, String> sbExamIDTc;
+	private TableColumn<IExam, String> sbExamIDTc;
 
 	@FXML
-	private TableColumn<Exam, String> sbcourseIDTc;
+	private TableColumn<IExam, String> sbcourseIDTc;
 
 	@FXML
 	private Button sbFinishBtn;
@@ -79,9 +79,9 @@ public class TeacherEditExamController implements Initializable {
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane botPanelAp;
 
-	private static TableView<Exam> examsTv;
-	private static TableColumn<Exam, String> examIDTc;
-	private static TableColumn<Exam, String> courseIDTc;
+	private static TableView<IExam> examsTv;
+	private static TableColumn<IExam, String> examIDTc;
+	private static TableColumn<IExam, String> courseIDTc;
 	private static AnchorPane leftPanelAp;
 	private static AnchorPane topPanelAp;
 	private static AnchorPane rightPanelAp;
@@ -100,8 +100,8 @@ public class TeacherEditExamController implements Initializable {
 	private static String ExamID;
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
-	private static List<Exam> examList;
-	ObservableList<Exam> examObservableList = FXCollections.observableArrayList();
+	private static List<IExam> examList;
+	ObservableList<IExam> examObservableList = FXCollections.observableArrayList();
 	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
@@ -148,14 +148,14 @@ public class TeacherEditExamController implements Initializable {
 
 			CourseList.clear(); // clear list
 
-			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(), "2",
+			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),
 					ChatClient.user.getUsername() });
 
-			examIDTc.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+			examIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("examID"));
 			examIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 			///// this is not bankID , the result is courseID
-			courseIDTc.setCellValueFactory(new PropertyValueFactory<Exam, String>("bankID")); // bankid --> courseID
+			courseIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("courseID"));
 			courseIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 		} else {
@@ -210,7 +210,7 @@ public class TeacherEditExamController implements Initializable {
 		studentCommentsTa.setText("TextText");
 		teacherCommentsTa1.setText(
 				"text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text ");
-		Exam exam = examsTv.getSelectionModel().getSelectedItem();
+		IExam exam = examsTv.getSelectionModel().getSelectedItem();
 
 		if (exam != null) {
 			
@@ -243,7 +243,7 @@ public class TeacherEditExamController implements Initializable {
 	void btnPressDeleteExam(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressDeleteExam");
 
-		Exam exam = examsTv.getSelectionModel().getSelectedItem();
+		IExam exam = examsTv.getSelectionModel().getSelectedItem();
 		if (exam != null) {
 			ClientUI.chat
 					.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
@@ -272,10 +272,11 @@ public class TeacherEditExamController implements Initializable {
 		System.out.println(CourseList);
 	}
 
-	public void setExamTableView(List<Exam> exams) {
-		examList = exams;
-		ObservableList<Exam> examObservableList = FXCollections.observableArrayList();
-		examObservableList.addAll(exams);
+	public void setExamTableView(List<IExam> examsList) {
+		examList = examsList;
+		examObservableList.clear();
+		examObservableList.addAll(examsList);
+		System.out.println("examObservableList " + examObservableList);
 		examsTv.setItems(examObservableList);
 	}
 
