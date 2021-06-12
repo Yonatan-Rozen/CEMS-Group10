@@ -129,6 +129,12 @@ public class TeacherCreateManualExamController implements Initializable {
 				new FileChooser.ExtensionFilter("doc Files", "*.doc"));
 		try {
 			File selectedFile = fileChooser.showOpenDialog(new Stage());
+			
+			/////
+			//add listener ?? if we close the stage without choose file there is nullpointer exception
+			/////
+			
+			
 			FileName = selectedFile.getName();
 			FilePath = selectedFile.getPath();
 			uploadFileTa.setText(FilePath);
@@ -151,9 +157,9 @@ public class TeacherCreateManualExamController implements Initializable {
 
 			}
 
-		} catch (RuntimeException e) {
+		} catch (RuntimeException e) { //include nullpointer exception
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	@FXML
@@ -201,6 +207,11 @@ public class TeacherCreateManualExamController implements Initializable {
 								examBankCb.getValue(), author, allocatedTimeTa.getText(),
 								ChatClient.user.getUsername() });
 
+						//////
+						// pop-up message that exam success or something like that
+						//////
+						
+						
 //		MyFile msg = new MyFile(FileName);
 //		String LocalfilePath = FilePath;
 //		System.out.println(LocalfilePath);

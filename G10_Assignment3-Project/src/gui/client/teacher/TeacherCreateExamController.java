@@ -321,6 +321,11 @@ public class TeacherCreateExamController implements Initializable {
 								btn.setOnAction(e -> {
 									Question question = getTableRow().getItem();
 									questionInExam.remove(question);
+									
+									
+									//after remove from right to left, need to show again the
+									//question in left table (when we insert this is disable)
+	
 									removeQuestionFromCurrentQuestions(question);
 								});
 								setGraphic(btn);

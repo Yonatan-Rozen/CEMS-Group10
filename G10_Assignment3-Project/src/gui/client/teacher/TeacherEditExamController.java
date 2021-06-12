@@ -187,6 +187,10 @@ public class TeacherEditExamController implements Initializable {
 						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "2",
 						ChatClient.user.getUsername() });
 
+				//////
+				// pop-up message that edit success or something like that
+				//////
+				
 				TeacherMenuBarController.mainPaneBp
 						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
 			} else {
@@ -207,7 +211,16 @@ public class TeacherEditExamController implements Initializable {
 		teacherCommentsTa1.setText(
 				"text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text ");
 		Exam exam = examsTv.getSelectionModel().getSelectedItem();
+
 		if (exam != null) {
+			
+			
+			//////
+			// settext in student&teacher comments and allocatedtime according to current
+			// text from new sql query
+			//////
+			
+			
 			ExamID = exam.getExamID();
 			rightPanelAp.setDisable(false);
 			leftPanelAp.setDisable(true);
@@ -235,6 +248,12 @@ public class TeacherEditExamController implements Initializable {
 			ClientUI.chat
 					.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
 			examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
+			
+			
+			//////
+			// pop-up message that delete success or something like that
+			//////
+			
 		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing delete exam",
 					"Must to select an exam to delete").showAndWait();
