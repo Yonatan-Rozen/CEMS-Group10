@@ -2,6 +2,7 @@ package gui.client.teacher;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -101,7 +102,7 @@ public class TeacherCreateExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<Question> questionList;
-	private static List<Question> questionInExam;
+	private static List<Question> questionInExam = new ArrayList<>();
 	private ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 	private static HashMap<Question,TableRow<Question>> locateRow = new HashMap<>();
 	private static String msg;
