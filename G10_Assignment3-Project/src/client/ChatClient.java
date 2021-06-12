@@ -38,6 +38,7 @@ import logic.exam.Exam;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
 import logic.question.Question;
+import logic.question.QuestionInExam;
 import ocsf.client.AbstractClient;
 import server.ServerUI;
 
@@ -122,36 +123,11 @@ public class ChatClient extends AbstractClient {
 			break;
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
-
-			// TeacherEditExamDefinitionsController.teedController.setExamID(msg[1].toString());
 			break;
-//		case "SaveFileExam":
-//			System.out.println("in savefilexam");
-//			String[] tostring;
-//			tostring = (String[]) msg;
-//			System.out.println("chatclient send message to server");
-//			String name = tostring[1];
-//			MyFile msgFile = new MyFile(name);
-//			String LocalfilePath = tostring[2]; // path
-//			System.out.println("name = " + msg);
-//			System.out.println("path = " + LocalfilePath);
-//			try {
-//				System.out.println("xxxxasdadaszxcasfalkfaslkfnasklfnaslfnasklfalf");
-//				File newFile = new File(LocalfilePath);
-//
-//				byte[] mybytearray = new byte[(int) newFile.length()];
-//				FileInputStream fis = new FileInputStream(newFile); // reads the data from file(byte by byte)
-//				BufferedInputStream bis = new BufferedInputStream(fis); // reads data from memory
-//
-//				msgFile.initArray(mybytearray.length);
-//				msgFile.setSize(mybytearray.length);
-//
-//				bis.read(msgFile.getMybytearray(), 0, mybytearray.length); // reads
-//				sendToServer(msgFile);
-//			} catch (Exception e) {
-//				System.out.println("Error send " + ((MyFile) msgFile).getFileName() + " to Server");
-//			}
-//			break;
+		case "CreateManualDetails":
+			TeacherCreateManualExamController.tcmeController.successfulCreateDetailsAndSetExamID(msg[1].toString(),
+					"CreateManualExam SUCCESS" + msg[1].toString());
+			break;
 		case "SendMessageExamIDExamTypeAndExamCode":
 			StudentMenuController.smController.setReadyExam((String[]) msg);
 			break;
@@ -159,7 +135,7 @@ public class ChatClient extends AbstractClient {
 			TeacherStartExamController.tseController.checkStartExam(msg);
 			break;
 		case "SendMessageLockExam":
-			StudentMenuController.smController.lockExam((String[])msg);
+			StudentMenuController.smController.lockExam((String[]) msg);
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -204,9 +180,6 @@ public class ChatClient extends AbstractClient {
 			TeacherEditExamController.teeController.successfulEditExam(msg.substring("EditExam SUCCESS - ".length()));
 		} else if (msg.contains("Update Question")) {
 			TeacherComputerizedExamDefinitionsController.tcedController.successfulUpdateQuestionInExam(msg);
-		} else if (msg.contains("CreateManualExam SUCCESS - ")) { // createExam Success
-			TeacherCreateManualExamController.tcmeController
-					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
 					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
@@ -277,6 +250,19 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(obj.toString() + " is missing!");
 				break;
 			}
+/// questionin before question!!
+		} else if (obj instanceof QuestionInExam) { // list of QuestionInExam
+			System.out.println("enter to instanceof question in exam");
+			List<QuestionInExam> questionList = (List<QuestionInExam>) msg;
+			System.out.println(questionList);
+			switch (((QuestionInExam) obj).getQuestionID()) {
+			case "getQuestionsBySubjectAndUsername2":
+				TeacherCreateExamController.tceController.setQuestionTableView(questionList);
+				return;
+			default:
+				ClientController.display(((QuestionInExam) obj).getQuestionID() + " is missing2!");
+				break;
+			}
 
 		} else if (obj instanceof Question) { // list of questions
 			List<Question> questionList = (List<Question>) msg;
@@ -288,16 +274,15 @@ public class ChatClient extends AbstractClient {
 			case "getQuestionsBySubjectAndUsername":
 				TeacherChooseEditQuestionController.tceqController.setQuestionTableView(questionList);
 				return;
-			case "getQuestionsBySubjectAndUsername2":
-				TeacherCreateExamController.tceController.setQuestionTableView(questionList);
-				return;
+
 			case "getQuestionsTableViewInfo":
 				PrincipleViewQuestionsInfoScreenController.pvqisController.setQuestionsInfoList(questionList);
 				return;
 			default:
-				ClientController.display(((Question) obj).getQuestionID() + " is missing!");
+				ClientController.display(((Question) obj).getQuestionID() + " is missing1!");
 				break;
 			}
+
 		} else if (obj instanceof ExamResults) {
 			List<ExamResults> examResultsList = (List<ExamResults>) msg;
 			System.out.println(examResultsList);
@@ -364,14 +349,15 @@ public class ChatClient extends AbstractClient {
 	public void handleMessageFromClientUI(Object obj) {
 		try {
 			openConnection();// in order to send more than one message
-			
+
 			// used for sending files to the server
 			if ((obj instanceof String[]) && ((String[]) obj)[0].contains("UploadFile")) {
 				String examID = ((String[]) obj)[1];
 				String message = ((String[]) obj)[2];
 				File wordDocument = new File(message);
-				
-				// check if 'message' is a pathname (for example: "C:\Users\Jon\Desktop\test.docx")
+
+				// check if 'message' is a pathname (for example:
+				// "C:\Users\Jon\Desktop\test.docx")
 				String[] s1 = message.split("\\\\");
 				String fileName = s1[s1.length - 1]; // "test.txt"
 				MyFile testFile = new MyFile(fileName);
@@ -386,15 +372,16 @@ public class ChatClient extends AbstractClient {
 
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
-					sendToServer(new Object[] {((String[]) obj)[0],examID,testFile});
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile });
 				} catch (Exception e) {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
 
-			} else sendToServer(obj); // <-- message being sent to the server
-			
+			} else
+				sendToServer(obj); // <-- message being sent to the server
+
 			awaitResponse = true;
-			
+
 			// wait for response
 			while (awaitResponse) {
 				try {
