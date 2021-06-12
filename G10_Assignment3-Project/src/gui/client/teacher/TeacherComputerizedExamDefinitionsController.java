@@ -1,21 +1,8 @@
 package gui.client.teacher;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
@@ -27,16 +14,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
@@ -95,10 +86,10 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private TextArea sbTeacherCommentsTa1;
 
 	@FXML
-	private TextArea sbEditTa;
-
+	private TextField sbEditTf;
+	
 	@FXML
-	private TextArea sbAllocatedTimeTa;
+	private TextField sbAllocatedTimeTf;
 
 	@FXML
 	private Label sbScoreLbl;
@@ -107,8 +98,8 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private static AnchorPane botPanelAp;
 	private static TextArea studentCommentsTa;
 	private static TextArea teacherCommentsTa1;
-	private static TextArea editTa;
-	private static TextArea allocatedTimeTa;
+	private static TextField editTf;
+	private static TextField allocatedTimeTf;
 	private static Label questionBodyLbl;
 	private static RadioButton answer1Rb;
 	private static RadioButton answer2Rb;
@@ -162,23 +153,17 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		totalScoreLbl = sbTotalScoreLbl;
 		studentCommentsTa = sbStudentCommentsTa;
 		teacherCommentsTa1 = sbTeacherCommentsTa1;
-		editTa = sbEditTa;
-		allocatedTimeTa = sbAllocatedTimeTa;
+		editTf = sbEditTf;
+		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(editTf,3);
+		allocatedTimeTf = sbAllocatedTimeTf;
+		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(allocatedTimeTf,3);
 		editBtn.setDisable(true);
-		studentCommentsTa.setText("text text text text text text text text");
-		teacherCommentsTa1.setText(
-				"text text text text text text text text text text text text text text text text text text text text text text text");
-		teacherCommentsTa1.setWrapText(true);
-		studentCommentsTa.setWrapText(true);
-		editTa.setDisable(true);
-		allocatedTimeTa.setText("Enter Time!");
+		editTf.setDisable(true);
 		totalScoreLbl.setText("0");
 		// set up table view
 		questionIDTc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
-		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 		// set up table view
 		scoreTc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionScore"));
-		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 		//////
 		// need to show score column (set to zero and when we edit(with sql query) to
@@ -233,24 +218,26 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	@FXML
 	void btnPressBack(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressBack");
+		ButtonType buttonYes = new ButtonType("Yes");
+		ButtonType buttonNo = new ButtonType("No");
+		Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.CONFIRMATION, "Discard exam", "Are you sure you want to cancel the creation of the current exam?",buttonYes,buttonNo).showAndWait();
+		if (request.get().equals(buttonYes)) {
 
-		TeacherMenuBarController.mainPaneBp
-				.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
-
-		scoreQuestionsTv.setItems(null);
-//		questionInExam.clear();
-
+			TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
+			scoreQuestionsTv.setItems(null);
+//			questionInExam.clear();
+		}
 	}
 
 	@FXML
 	void btnPressEdit(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressEdit");
-		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTa.getText(), QuestionIDToEdit,
+		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTf.getText(), QuestionIDToEdit,
 				ChatClient.user.getUsername() });
 
 		////there is bug to fix (with remove and add to table)
 		questionObservableList.remove(questionupdatescore); //remove
-		questionupdatescore.setQuestionScore(editTa.getText()); //update
+		questionupdatescore.setQuestionScore(editTf.getText()); //update
 		questionObservableList.add(questionupdatescore); //add
 		scoreQuestionsTv.setItems(questionObservableList); //update table with new value
 		
@@ -261,8 +248,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		questionBodyLbl.setDisable(true);
 		scoreLbl.setDisable(true);
 		editBtn.setDisable(true);
-		editTa.setDisable(true);
-		
+		editTf.setDisable(true);
 		sbScoreQuestionsTv.setDisable(false);
 
 		int total = 0;
@@ -282,11 +268,11 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	@FXML
 	void btnPressFinish(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressFinish");
-		String insertTime = allocatedTimeTa.getText();
+		String insertTime = allocatedTimeTf.getText();
 		if (!insertTime.equals("Enter Time!")) {
 			if (Integer.parseInt(insertTime) > 0) {
 				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
-						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "1",
+						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTf.getText(), "1",
 						ChatClient.user.getUsername() });
 
 				//////
@@ -317,8 +303,8 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		questionBodyLbl.setDisable(false);
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
-		editTa.setDisable(false);
-		editTa.setText("---");
+		editTf.setDisable(false);
+		editTf.setText("---");
 
 		////
 		answer1Rb.setSelected(false);
