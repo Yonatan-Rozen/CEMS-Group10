@@ -39,11 +39,8 @@ public class PrincipleViewReportsController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField teacherUserNameTf;
-	private static Button produceByTeacherBtn;
 	private static TextField courseIDTf;
-	private static Button produceByCourseBtn;
 	private static TextField studentIDTf;
-	private static Button produceByStudentBtn;
 	public static String insertedValue = "";
 
 	// STATIC INSTANCES **********************************************
@@ -58,16 +55,13 @@ public class PrincipleViewReportsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		teacherUserNameTf = sbteacherUserNameTf;
-		produceByTeacherBtn = sbProduceByTeacherBtn;
 		courseIDTf = sbcourseIDTf;
-		produceByCourseBtn = sbProduceByCourseBtn;
 		studentIDTf = sbstudentIDTf;
-		produceByStudentBtn = sbProduceByStudentBtn;
 		pvrController = new PrincipleViewReportsController();
 		prbtController = new PrincipleReportsByTeacherController();
-		methodsHandler.addTextLimiter(teacherUserNameTf, 9);
-		methodsHandler.addTextLimiter(courseIDTf, 9);// CHECK WAHT ABOUT SUBJECT ID ???????????
-		methodsHandler.addTextLimiter(studentIDTf, 9);
+		methodsHandler.setTextLimiter(teacherUserNameTf, 9);
+		methodsHandler.setTextLimiter(courseIDTf, 4);// CHECK WAHT ABOUT SUBJECT ID ??????????? TODO you fixed it, right? - Yonatan
+		methodsHandler.setTextLimiter(studentIDTf, 9);
 		PrincipleMenuBarController.menuBarAp.setDisable(false);
 
 	}
