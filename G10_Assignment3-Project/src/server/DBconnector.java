@@ -336,20 +336,20 @@ public class DBconnector {
 	 * @author Eliran Amerzoyev
 	 */
 	private void insertNewExamToDB(String CourseName, String subjectName, String author, ConnectionToClient client)
-			throws IOException {
+			throws IOException { // <<<<doesn't work well on the first calls (sometimes)>>>> - Yonatan
 
 		// get CourseID by CourseName
 		String CourseID = null;
 		String SubjectID = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = \"" + CourseName + "\"");
-			if (rs.next()) {
+			ResultSet rs = stmt.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = '" + CourseName + "'"); 
+			if (rs.next()) { 
 				CourseID = rs.getString(1);
-				SubjectID = rs.getString(2);
+				SubjectID = rs.getString(2); 
 			}
 			rs.close();
+			System.out.println("using [" + CourseName + "], we get "+ SubjectID + CourseID);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
@@ -375,8 +375,8 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ExtractedExamID) as ID FROM ("
-					+ "SELECT SUBSTRING(ExamID, 5) as ExtractedExamID FROM exams " + "WHERE ExamID LIKE '" + SubjectID
-					+ CourseID + "%') as MaxID");
+					+ "SELECT SUBSTRING(ExamID, 5) as ExtractedExamID FROM exams "
+					+ "WHERE ExamID LIKE '" + SubjectID +""+ CourseID + "%') as MaxID");
 			rs.next();
 			int currentMaxID = rs.getInt(1);
 			rs.close();
@@ -390,8 +390,7 @@ public class DBconnector {
 		String type = "C"; // computer - M-> Manually
 		// insert new exam into exams and generate a new 'examID'
 		try {
-			PreparedStatement stmt = con.prepareStatement(
-					"INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type)" + "VALUES (?,?,?,?,?,?)");
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type) VALUES (?,?,?,?,?,?)");
 			stmt.setString(1, examID);
 			stmt.setString(2, BankID);
 			stmt.setString(3, CourseID);
@@ -463,8 +462,7 @@ public class DBconnector {
 		String SubjectID = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = \"" + CourseName + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = '" + CourseName + "'");
 			if (rs.next()) {
 				CourseID = rs.getString(1);
 				SubjectID = rs.getString(2);
@@ -480,7 +478,7 @@ public class DBconnector {
 		String BankID = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT BankID From banks WHERE SubjectID = \"" + SubjectID + "\"");
+			ResultSet rs = stmt.executeQuery("SELECT BankID From banks WHERE SubjectID = '" + SubjectID + "'");
 			if (rs.next())
 				BankID = rs.getString(1);
 			rs.close();
@@ -1093,10 +1091,8 @@ public class DBconnector {
 					+ "	(SELECT S.SubjectID FROM subjects S WHERE S.SubjectName = '" + subjectName + "'))");
 			while (rs.next()) {
 				if (num.equals("2")) {
-					questionInExamList
-							.add(new QuestionInExam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+					questionInExamList.add(new QuestionInExam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
 									rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), "0", "0"));
-					System.out.println("check list = " + questionInExamList);
 				} else {
 					questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
