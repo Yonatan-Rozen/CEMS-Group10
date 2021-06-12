@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import logic.exam.Exam;
+import logic.exam.IExam;
 import logic.question.Question;
 import javafx.scene.control.Alert.AlertType;
 

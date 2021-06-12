@@ -83,7 +83,7 @@ public class TeacherCreateManualExamController implements Initializable {
 	private static String msg;
 	FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
-	private Static String FileName;
+	private static String FileName;
 	private static String FilePath;
 	private static String examID = "010107";
 
