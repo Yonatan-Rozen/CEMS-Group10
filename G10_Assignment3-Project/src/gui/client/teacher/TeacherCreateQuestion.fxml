@@ -22,9 +22,9 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbQuestionBodyTa" layoutX="125.0" layoutY="1.0" prefHeight="60.0" prefWidth="650.0" promptText="insert body...">
+            <TextArea fx:id="sbQuestionBodyTa" layoutX="125.0" layoutY="1.0" prefHeight="60.0" prefWidth="650.0" promptText="insert body..." wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font></TextArea>
             <Label layoutX="5.0" layoutY="58.0" text="Insert 4 answers and mark ONE as the correct answer :" underline="true" AnchorPane.leftAnchor="5.0">
                <font>
@@ -43,7 +43,7 @@
                 <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <RadioButton fx:id="sbMarkAnswer1Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer1" selected="true" text="A">
+                  <RadioButton fx:id="sbMarkAnswer1Rb" focusTraversable="false" mnemonicParsing="false" onAction="#rbPressMarkAnswer1" selected="true" text="A">
                      <toggleGroup>
                         <ToggleGroup fx:id="sbAnswersTg" />
                      </toggleGroup>
@@ -51,33 +51,33 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer2Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer2" text="B" toggleGroup="$sbAnswersTg" GridPane.rowIndex="1">
+                  <RadioButton fx:id="sbMarkAnswer2Rb" focusTraversable="false" mnemonicParsing="false" onAction="#rbPressMarkAnswer2" text="B" toggleGroup="$sbAnswersTg" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer3Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer3" text="C" toggleGroup="$sbAnswersTg" GridPane.rowIndex="2">
+                  <RadioButton fx:id="sbMarkAnswer3Rb" focusTraversable="false" mnemonicParsing="false" onAction="#rbPressMarkAnswer3" text="C" toggleGroup="$sbAnswersTg" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>
-                  <RadioButton fx:id="sbMarkAnswer4Rb" mnemonicParsing="false" onAction="#rbPressMarkAnswer4" text="D" toggleGroup="$sbAnswersTg" GridPane.rowIndex="3">
+                  <RadioButton fx:id="sbMarkAnswer4Rb" focusTraversable="false" mnemonicParsing="false" onAction="#rbPressMarkAnswer4" text="D" toggleGroup="$sbAnswersTg" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></RadioButton>
-                  <TextArea fx:id="sbAnswer1Ta" promptText="Insert answer #1..." GridPane.columnIndex="1">
+                  <TextArea fx:id="sbAnswer1Ta" promptText="Insert answer #1..." wrapText="true" GridPane.columnIndex="1">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></TextArea>
-                  <TextArea fx:id="sbAnswer2Ta" promptText="Insert answer #2..." GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextArea fx:id="sbAnswer2Ta" promptText="Insert answer #2..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></TextArea>
-                  <TextArea fx:id="sbAnswer3Ta" promptText="Insert answer #3..." GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextArea fx:id="sbAnswer3Ta" promptText="Insert answer #3..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></TextArea>
-                  <TextArea fx:id="sbAnswer4Ta" promptText="Insert answer #4..." GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextArea fx:id="sbAnswer4Ta" promptText="Insert answer #4..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font></TextArea>
                </children>
             </GridPane>
@@ -91,18 +91,18 @@
                </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="140.5" layoutY="79.0" AnchorPane.rightAnchor="75.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="140.0" layoutY="80.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="75.0">
          <children>
-            <Label layoutX="14.0" layoutY="8.0" text="choose subject of study:" underline="true" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
+            <Label layoutX="14.0" layoutY="8.0" text="Choose subject of study:" underline="true" wrapText="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbCreateQuestionBtn" layoutX="457.0" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="CREATE QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="sbCreateQuestionBtn" layoutX="455.0" mnemonicParsing="false" onAction="#btnPressCreateQuestion" text="CREATE QUESTION &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="240.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="240.0" layoutY="7.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="308.0" layoutY="14.0" text="Qestion Creation" underline="true" AnchorPane.topAnchor="14.0">
@@ -110,6 +110,6 @@
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Line endX="450.0" layoutX="450.0" layoutY="139.0" startX="-450.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="135.0" startX="-450.0" />
    </children>
 </AnchorPane>

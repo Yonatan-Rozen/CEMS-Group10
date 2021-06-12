@@ -9,30 +9,30 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="397.0" prefWidth="800.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="167.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="150.0">
          <children>
-            <Button fx:id="sbContinue2Btn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button fx:id="sbContinue2Btn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="ADD SCORES &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="25.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Button fx:id="sbChangeBankBtn" layoutX="108.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE QUESTION BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Button fx:id="sbChangeBankBtn" layoutX="108.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressChangeBank" text="&lt;&lt;&lt; CHANGE QUESTION BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbAvailableQuestionsTv" layoutX="15.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;">
+            <TableView fx:id="sbAvailableQuestionsTv" layoutX="15.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="440.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionID1Tc" prefWidth="110.0" text="Question ID" />
-                  <TableColumn fx:id="sbPreview1Tc" prefWidth="75.0" text="Preview" />
-                  <TableColumn fx:id="sbAddToExamTc" prefWidth="150.0" text="Add to exam" />
+                  <TableColumn fx:id="sbQuestionID1Tc" prefWidth="100.0" resizable="false" text="Question ID" />
+                  <TableColumn fx:id="sbPreview1Tc" resizable="false" text="Preview" />
+                  <TableColumn fx:id="sbAddToExamTc" prefWidth="160.0" resizable="false" text="Add to exam" />
                </columns>
             </TableView>
-            <TableView fx:id="sbCurrentQuestionsTable" layoutX="455.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;">
+            <TableView fx:id="sbCurrentQuestionsTable" layoutX="455.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="15.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionID2Tc" prefWidth="110.0" text="Question ID" />
-                  <TableColumn fx:id="sbPreview2Tc" prefWidth="75.0" text="Preview" />
-                  <TableColumn fx:id="sbRemoveFromExamTc" minWidth="0.0" prefWidth="150.0" text="Remove from exam" />
+                  <TableColumn fx:id="sbQuestionID2Tc" prefWidth="100.0" resizable="false" text="Question ID" />
+                  <TableColumn fx:id="sbPreview2Tc" resizable="false" text="Preview" />
+                  <TableColumn fx:id="sbRemoveFromExamTc" minWidth="0.0" prefWidth="160.0" resizable="false" text="Remove from exam" />
                </columns>
             </TableView>
             <Label layoutX="455.0" layoutY="59.0" text="Current questions :" underline="true">
@@ -40,41 +40,41 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="59.0" text="Available questions :" underline="true">
+            <Label layoutX="14.0" layoutY="59.0" text="Available questions :" underline="true" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Line endX="400.0" layoutX="398.0" layoutY="2.0" startX="-400.0" />
-            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="412.0" layoutY="16.0" prefWidth="150.0" />
-            <Label layoutX="263.0" layoutY="13.0" text="Choose course:" underline="true">
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="330.0" layoutY="7.0" prefWidth="175.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.topAnchor="7.0" />
+            <Label layoutX="184.0" layoutY="7.0" text="Choose course:" underline="true" AnchorPane.topAnchor="7.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Line endX="-10.0" endY="375.5" layoutX="414.0" layoutY="-32.0" startX="-10.0" startY="86.5" />
-            <Line endX="400.0" layoutX="404.0" layoutY="344.0" startX="-400.0" />
-            <Line endX="400.0" layoutX="398.0" layoutY="53.0" startX="-400.0" />
+            <Line endY="355.0" layoutX="400.0" startY="45.0" stroke="#050504" />
+            <Line endX="400.0" layoutX="400.0" layoutY="45.0" startX="-400.0" stroke="#050504" />
+            <Line endX="400.0" layoutX="400.0" layoutY="355.0" startX="-400.0" stroke="#050504" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="67.0" prefHeight="84.0" prefWidth="800.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="140.0" layoutY="80.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="75.0">
          <children>
-            <Button fx:id="sbContinue1Btn" layoutX="652.5" layoutY="41.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
+            <Button fx:id="sbContinue1Btn" layoutX="455.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
                <font>
-                  <Font name="System Bold" size="17.0" />
+                  <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="222.0" layoutY="11.0" text="choose exam bank :" underline="true">
+            <Label layoutX="14.0" layoutY="8.0" text="Choose subject of study:" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="sbExamBankCb" layoutX="417.0" layoutY="17.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="sbExamBankCb" layoutX="240.0" layoutY="7.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">
+      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
+      <Line endX="450.0" layoutX="450.0" layoutY="135.0" startX="-450.0" stroke="#050504" />
    </children>
 </AnchorPane>

@@ -18,17 +18,17 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbAvailableQuestionsTv" layoutX="247.0" layoutY="38.0" prefHeight="300.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="56.0">
+            <TableView fx:id="sbAvailableQuestionsTv" layoutX="250.0" layoutY="30.0" prefHeight="300.0" prefWidth="330.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="55.0" AnchorPane.topAnchor="30.0">
                <columns>
-                  <TableColumn fx:id="sbQuestionIDTc" prefWidth="164.0" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Question ID" />
-                  <TableColumn fx:id="sbPreviewTc" prefWidth="164.0" text="Preview" />
+                  <TableColumn fx:id="sbQuestionIDTc" maxWidth="170.0" minWidth="130.0" prefWidth="150.0" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Question ID" />
+                  <TableColumn fx:id="sbPreviewTc" maxWidth="170.0" minWidth="130.0" prefWidth="150.0" text="Preview" />
                </columns>
             </TableView>
-            <Button fx:id="sbChangeSubjectBtn" layoutY="176.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE SUBJECT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Button fx:id="sbChangeSubjectBtn" layoutX="6.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnPressChangeSubject" text="&lt;&lt;&lt; CHANGE SUBJECT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="247.0" layoutY="7.0" text="availiable questions:" underline="true">
+            <Label layoutX="250.0" layoutY="-1.0" text="Availiable questions:" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
@@ -40,9 +40,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="86.0" prefWidth="801.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="140.0" layoutY="80.0" prefWidth="801.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="80.0">
          <children>
-            <Label layoutX="155.0" layoutY="6.0" text="choose subject of study :" textAlignment="JUSTIFY" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
+            <Label layoutX="14.0" layoutY="8.0" text="choose subject of study :" textAlignment="JUSTIFY" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -50,11 +50,11 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbShowQuestionsBySubjectBtn" layoutX="582.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnPressShowQuestionsBySubject" text="SHOW QUESTIONS &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="sbShowQuestionsBySubjectBtn" layoutX="455.0" mnemonicParsing="false" onAction="#btnPressShowQuestionsBySubject" text="SHOW QUESTIONS &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="380.0" layoutY="6.0" prefHeight="25.0" prefWidth="142.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <ChoiceBox fx:id="sbQuestionSubjectCb" layoutX="240.0" layoutY="7.0" prefHeight="25.0" prefWidth="142.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="337.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Edit Question" underline="true" AnchorPane.topAnchor="14.0">
@@ -62,6 +62,6 @@
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Line endX="450.0" layoutX="450.0" layoutY="148.0" startX="-450.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="135.0" startX="-450.0" />
    </children>
 </AnchorPane>
