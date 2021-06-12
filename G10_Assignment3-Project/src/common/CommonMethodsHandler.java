@@ -1,12 +1,12 @@
 package common;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientUI;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +30,7 @@ public class CommonMethodsHandler {
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
 
-	private CommonMethodsHandler() {
-	}
+	private CommonMethodsHandler() {}
 
 	public static CommonMethodsHandler getInstance() {
 		if (commonMethodsHandler == null)
@@ -39,11 +38,13 @@ public class CommonMethodsHandler {
 		return commonMethodsHandler;
 	}
 
+	// ******************************************************************************************
+	
 	/**
 	 * Loads a specified fxml file
 	 *
 	 * @param packageName the package name
-	 * @param fxmlName the fxml file name
+	 * @param fxmlName    the fxml file name
 	 * @return the requested fxml file as a Pane
 	 *
 	 * @author Yonatan Rozen
@@ -66,7 +67,7 @@ public class CommonMethodsHandler {
 			default:
 				break;
 			}
-			//System.out.println(path.toString());
+			// System.out.println(path.toString());
 			try {
 				fileUrl = getClass().getClassLoader().getResource(path.toString());
 			} catch (Exception e) {
@@ -83,33 +84,73 @@ public class CommonMethodsHandler {
 		return pane;
 	}
 
+	// ******************************************************************************************
+	
 	/**
 	 * limits a text field component to a specified maximum amount of character
-	 * @param tf the text field component
-	 * @param maxLength the maximum length of characters
+	 * 
+	 * @param tf        The text field component
+	 * @param maxLength The maximum length of characters
 	 *
 	 * @author Yonatan Rozen
 	 */
-	public void addTextLimiter(final TextField tf, final int maxLength) {
-		tf.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-				if (tf.getText().length() > maxLength) {
-					String s = tf.getText().substring(0, maxLength);
-					tf.setText(s);
-				}
+	public void setTextLimiter(final TextField tf, final int maxLength) {
+		tf.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (tf.getText().length() > maxLength) {
+				String s = tf.getText().substring(0, maxLength);
+				tf.setText(s);
 			}
 		});
 	}
 
-	// ALERT METHODS ***************************************************************************
+	// ******************************************************************************************
+
+	/**
+	 * allow only integer input
+	 * 
+	 * @param tf The text field component
+	 * 
+	 * @author Yonatan Rozen
+	 */
+	public void setIntegersOnlyText(TextField tf) {
+
+		tf.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*"))
+				((StringProperty) observable).set(oldValue);
+		});
+	}
+
+	// ******************************************************************************************
+
+	/**
+	 * Combination of {@link setIntegersOnlyText} and {@link setTextLimiter}
+	 * @param tf		The text field component
+	 * @param maxLength The maximum length of characters
+	 * 
+	 * @author Yonatan Rozen
+	 */
+	public void setIntegersOnlyTextLimiter(TextField tf, final int maxLength) {
+
+		tf.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*"))
+				((StringProperty) observable).set(oldValue);
+
+			if (tf.getText().length() > maxLength) {
+				String s = tf.getText().substring(0, maxLength);
+				tf.setText(s);
+			}
+		});
+	}
+
+	// ALERT METHODS
+	// ***************************************************************************
 	/**
 	 * Set up a simple alert message (Full)
 	 *
 	 * @param alertType The type of the alert [see {@link AlertType}]
-	 * @param title The The title of the alert
-	 * @param header The message in the header area
-	 * @param context The message in the context area
+	 * @param title     The The title of the alert
+	 * @param header    The message in the header area
+	 * @param context   The message in the context area
 	 * @return A newly created alert
 	 *
 	 * @author Yonatan Rozen
@@ -128,8 +169,8 @@ public class CommonMethodsHandler {
 	 * Set up a simple alert message (Without header)
 	 *
 	 * @param alertType The type of the alert [see {@link AlertType}]
-	 * @param title The title of the alert
-	 * @param context The message in the context area
+	 * @param title     The title of the alert
+	 * @param context   The message in the context area
 	 * @return A newly created alert
 	 *
 	 * @author Yonatan Rozen
@@ -148,10 +189,10 @@ public class CommonMethodsHandler {
 	 * Set up an alert message with buttons (Full)
 	 *
 	 * @param alertType The type of the alert [see {@link AlertType}]
-	 * @param title The The title of the alert
-	 * @param header The message in the header area
-	 * @param context The message in the context area
-	 * @param buttons The ButtonType to set
+	 * @param title     The The title of the alert
+	 * @param header    The message in the header area
+	 * @param context   The message in the context area
+	 * @param buttons   The ButtonType to set
 	 * @return A newly created alert
 	 *
 	 * @author Yonatan Rozen
@@ -169,9 +210,9 @@ public class CommonMethodsHandler {
 	 * Set up an alert message with buttons (Without header)
 	 *
 	 * @param alertType The type of the alert [see {@link AlertType}]
-	 * @param title The The title of the alert
-	 * @param context The message in the context area
-	 * @param buttons The ButtonType to set
+	 * @param title     The The title of the alert
+	 * @param context   The message in the context area
+	 * @param buttons   The ButtonType to set
 	 * @return A newly created alert
 	 *
 	 * @author Yonatan Rozen
@@ -195,7 +236,7 @@ public class CommonMethodsHandler {
 	 * @author Yonatan Rozen
 	 */
 	public String getSelectedAnswer(RadioButton selected) {
-		switch(selected.getText()) {
+		switch (selected.getText()) {
 		case "A":
 			return "1";
 		case "B":
@@ -209,51 +250,52 @@ public class CommonMethodsHandler {
 			return "";
 		}
 	}
-	
+
 	// *****************************************************************************************
-	
+
 	/**
 	 * Disable the newly pressed button instead the currentBtn one
-	 * @param currentBtn The disabled button before
+	 * 
+	 * @param currentBtn   The disabled button before
 	 * @param newlyPressed The 'to-be' disabled button after
 	 */
 	public Button disablePropertySwapper(Button currentBtn, Button newBtn) {
-		if (currentBtn != null) 
+		if (currentBtn != null)
 			currentBtn.setDisable(false);
 		newBtn.setDisable(true);
 		return newBtn;
 	}
-	
+
 	// *****************************************************************************************
-	
+
 	/**
 	 * Disables swaping of the table columns
+	 * 
 	 * @param tableView
 	 */
 	public void disableTableColumnSwap(TableView<?> tableView) {
-		tableView.widthProperty().addListener(new ChangeListener<Number>()
-		{
-		    @Override
-		    public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth)
-		    {
-		        TableHeaderRow header = (TableHeaderRow) tableView.lookup("TableHeaderRow");
-		        header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
-		            @Override
-		            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		                header.setReordering(false);
-		            }
-		        });
-		    }
+		tableView.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth) {
+				TableHeaderRow header = (TableHeaderRow) tableView.lookup("TableHeaderRow");
+				header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
+					@Override
+					public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+							Boolean newValue) {
+						header.setReordering(false);
+					}
+				});
+			}
 		});
 	}
-	
-	
+
 	// *****************************************************************************************
-	
+
 	/**
 	 * Send the server a request for a specific List of Strings
+	 * 
 	 * @param request The request
-	 * @param alert shows up if the List returned was empty
+	 * @param alert   shows up if the List returned was empty
 	 * @return true if the list isn't empy, false otherwise
 	 */
 	public List<String> getListRequest(String[] request, Alert alert) {
@@ -265,9 +307,10 @@ public class CommonMethodsHandler {
 		}
 		return choiceBoxesList;
 	}
-	
-	// ChatClient METHODS ***********************************************************************
-	
+
+	// ChatClient METHODS
+	// ***********************************************************************
+
 	public void setChoiceBoxList(List<String> list) {
 		choiceBoxesList.clear();
 		choiceBoxesList.addAll(list);
