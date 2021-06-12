@@ -342,7 +342,7 @@ public class TeacherCreateExamController implements Initializable {
 
 		} else {
 			cmh.getNewAlert(AlertType.ERROR, "Error message",
-					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
+					"Missing Subject Name", "Please choose a subject from the list.").showAndWait();
 		}
 	}
 
@@ -351,18 +351,10 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressContinue2");
 		String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 
-		if (chooseCourseCb.getValue() != null) {
+		if (chooseCourseCb.getValue() != "--------------------") {
 			if (!questionObservableList.isEmpty()) {
 				
-				System.out.println("{Before call for TeacherComputerizedExamDefinitions}");
-				System.err.println("chooseCourseCb.getValue() : " + chooseCourseCb.getValue());
-				System.err.println("examBankCb.getValue() : " + examBankCb.getValue());
-				
 				TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherComputerizedExamDefinitions"));
-				
-				System.out.println("{After call for TeacherComputerizedExamDefinitions}");
-				System.err.println("chooseCourseCb.getValue() : " + chooseCourseCb.getValue());
-				System.err.println("examBankCb.getValue() : " + examBankCb.getValue());
 				
 				ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
 						examBankCb.getValue(), author, ChatClient.user.getUsername() }); // chooseCourseCb.getValue() & examBankCb.getValue() are sometimes null
@@ -371,11 +363,10 @@ public class TeacherCreateExamController implements Initializable {
 				 Not doing so might lead to even more complicated code because then there is a need in removing half pieces of info - Yonatan*/
 
 			} else {
-				cmh.getNewAlert(AlertType.ERROR, "Error message",
-						"Missing question in exam", "Must to choose question").showAndWait();
+				cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing questions", "Please add atleast ONE question from the left table.").showAndWait();
 			}
 		} else {
-			cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name").showAndWait();
+			cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing Course", "Please choose a course from the list.").showAndWait();
 		}
 	}
 
