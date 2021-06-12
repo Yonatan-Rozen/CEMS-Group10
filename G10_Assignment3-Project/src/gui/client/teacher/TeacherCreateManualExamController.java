@@ -1,38 +1,32 @@
 package gui.client.teacher;
 
 import java.awt.Desktop;
-import java.awt.Font;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
-import common.MyFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class TeacherCreateManualExamController implements Initializable {
 	public static TeacherCreateManualExamController tcmeController;
-	/**
-	 * The instance of the client that created this ConsoleChat.
-	 */
-	// ChatClient client;
 	// JAVAFX INSTNCES ******************************************************
 
 	@FXML
@@ -54,10 +48,10 @@ public class TeacherCreateManualExamController implements Initializable {
 	private Button sbContinue1Btn;
 
 	@FXML
-	private TextArea sbUploadFileTa;
+	private TextField sbUploadFileTf;
 
 	@FXML
-	private TextArea sbAllocatedTimeTa;
+	private TextField sbAllocatedTimeTf;
 
 	@FXML
 	private ChoiceBox<String> sbChooseCourseCb;
@@ -74,12 +68,12 @@ public class TeacherCreateManualExamController implements Initializable {
 	private static Button changeQustionBankBtn;
 	private static Button searchBtn;
 	private static Button continue1Btn;
-	private static TextArea uploadFileTa;
-	private static TextArea allocatedTimeTa;
+	private static TextField uploadFileTf;
+	private static TextField allocatedTimeTf;
 
 	// STATIC INSTANCES *****************************************************
-	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
-	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> bankList = FXCollections.observableArrayList();
+	public static ObservableList<String> CourseList = FXCollections.observableArrayList();
 	private static String msg;
 	FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
@@ -92,11 +86,13 @@ public class TeacherCreateManualExamController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		tcmeController = new TeacherCreateManualExamController();
 
-		/**** First panel ****/
 		topPanelAp = sbTopPanelAp;
+
 		examBankCb = sbExamBankCb;
-		// set "----------" as the first value of the choice box
+		bankList.clear();
+		bankList.add("----------");
 		examBankCb.setValue("----------");
+
 		// set the choice box to get it's items from 'bankList'
 		examBankCb.setItems(bankList);
 		searchBtn = sbSearchBtn;
@@ -105,22 +101,22 @@ public class TeacherCreateManualExamController implements Initializable {
 		changeQustionBankBtn = sbChangeQustionBankBtn;
 		finishBtn = sbFinishBtn;
 		botPanelAp.setDisable(true);
-		chooseCourseCb = sbChooseCourseCb;
-		allocatedTimeTa = sbAllocatedTimeTa;
-		allocatedTimeTa.setText("Enter Time!");
-		uploadFileTa = sbUploadFileTa;
-		uploadFileTa.setText("File path");
-		uploadFileTa.getFont();
-		System.out.println(uploadFileTa.getFont());
-//		uploadFileTa.setFont(new Font("Arial",1,15));
 
-		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2" });
-		}
+		chooseCourseCb = sbChooseCourseCb;
+		CourseList.clear(); // clear list
+		CourseList.add("----------");
+		chooseCourseCb.setValue("----------");
+		chooseCourseCb.setItems(CourseList);
+
+		allocatedTimeTf = sbAllocatedTimeTf;
+		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(allocatedTimeTf, 3);
+		uploadFileTf = sbUploadFileTf;
+
+		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2" });
+
 	}
 
 	// ACTION METHODS *******************************************************
-
 	@FXML
 	void btnPressSearch(ActionEvent event) throws RuntimeException {
 		System.out.println("TeacherCreateManualExam::btnPressSearch");
@@ -130,22 +126,13 @@ public class TeacherCreateManualExamController implements Initializable {
 				new FileChooser.ExtensionFilter("doc Files", "*.doc"));
 		try {
 			File selectedFile = fileChooser.showOpenDialog(new Stage());
-			
-			/////
-			//add listener ?? if we close the stage without choose file there is nullpointer exception
-			/////
-			
-			
-			FileName = selectedFile.getName();
-			FilePath = selectedFile.getPath();
-			uploadFileTa.setText(FilePath);
+			if (selectedFile != null) {
 
-			if (FilePath != null) {
+				FileName = selectedFile.getName();
+				FilePath = selectedFile.getPath();
+				uploadFileTf.setText(FilePath);
 			}
-
-		} catch (RuntimeException e) { //include nullpointer exception
-			e.printStackTrace();
-		} 
+		} catch (RuntimeException e) { e.printStackTrace(); }
 	}
 
 	@FXML
@@ -154,66 +141,64 @@ public class TeacherCreateManualExamController implements Initializable {
 		sbTopPanelAp.setDisable(false);
 		sbBotPanelAp.setDisable(true);
 		examBankCb.setValue("----------");
+		chooseCourseCb.setValue("----------");
 	}
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherCreateManualExam::btnPressContinue1");
-		if (examBankCb.getValue() != "----------") {
+		if (!examBankCb.getValue().equals("----------")) {
 
-			CourseList.clear(); // clear list
-			allocatedTimeTa.setText("Enter Time!");
-			uploadFileTa.setText("File path");
+			CourseList.clear();
+			CourseList.add("----------");
+			chooseCourseCb.setValue("----------");
+			chooseCourseCb.setItems(CourseList);
+
 			sbTopPanelAp.setDisable(true);
 			sbBotPanelAp.setDisable(false);
 			ClientUI.chat.accept(
 					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "2" });
 
-			chooseCourseCb.setItems(CourseList);
-
 		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
-					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing subject",
+					"Please choose a subject from the list.").showAndWait();
 		}
 	}
 
 	@FXML
 	void btnPressFinish(ActionEvent event) throws Exception {
 		System.out.println("TeacherCreateManualExam::btnPressFinish");
-		String insertTime = allocatedTimeTa.getText();
-		if (chooseCourseCb.getValue() != null) {
-			if (!insertTime.equals("Enter Time!")) {
-				if (Integer.parseInt(insertTime) > 0) {
-					if (!sbUploadFileTa.getText().equals("File path")) {
-						String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
-						ClientUI.mainScene.setRoot(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherMenu"));
-						ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
-								examBankCb.getValue(), author, allocatedTimeTa.getText(), ChatClient.user.getUsername() });
-						// TODO examID should have a value
-						ClientUI.chat.accept(new String[] {"TeacherUploadFile",examID, FilePath});		
+		String insertTime = allocatedTimeTf.getText();
+		if (!chooseCourseCb.getValue().equals("----------")) {
+			if (!insertTime.isEmpty()) {
+				if (!sbUploadFileTf.getText().isEmpty()) {
+					String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
+					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
+							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
+					// TODO examID should have a value here
+					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath });
 
-						//////
-						// pop-up message that exam success or something like that
-						//////
-						
-					} else {
-						CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing File",
-								"Must to Enter file or right path").showAndWait();
-					}
+					ButtonType buttonYes = new ButtonType("Yes");
+					ButtonType buttonNo = new ButtonType("No");
+					Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Exam saved", "File was uploaded successfuly!",
+							"Upload another file?",buttonYes, buttonNo).showAndWait();
+					
+					if (request.get() == buttonYes)
+						TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
+					else ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 
 				} else {
-					CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
-							"Negative/zero time", "Must to choose positive value for allocated time").showAndWait();
+					CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing file",
+							"Please select a word document to upload.").showAndWait();
 				}
+
 			} else {
 				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
-						"Missing allocated time", "Must to enter value (allocated time)").showAndWait();
+						"Missing allocated time", "Please insert the allocated time (min) for the exam.").showAndWait();
 			}
-		} else {
-			CommonMethodsHandler.getInstance()
-					.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name")
-					.showAndWait();
-		}
+		} else
+			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+					"Missing course ", "Please choose a course from the list.").showAndWait();
 	}
 
 	// EXTERNAL USE METHODS **************************************************
@@ -227,8 +212,8 @@ public class TeacherCreateManualExamController implements Initializable {
 		CourseList.addAll(msg);
 		System.out.println(CourseList);
 	}
-	
-	public void successfulCreateDetailsAndSetExamID(String ID,String Msg) {
+
+	public void successfulCreateDetailsAndSetExamID(String ID, String Msg) {
 		examID = ID;
 		msg = Msg;
 	}
