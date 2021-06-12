@@ -3,65 +3,77 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateManualExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateManualExamController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="48.0" layoutY="158.0" prefHeight="397.0" prefWidth="800.0">
-         <children>
-            <Button fx:id="sbFinishBtn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-            <Button fx:id="sbChangeQustionBankBtn" layoutX="108.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressChangeQustionBank" text="&lt;&lt;&lt; CHANGE QUESTION BANK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font></Button>
-            <Line endX="400.0" layoutX="398.0" layoutY="2.0" startX="-400.0" />
-            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="412.0" layoutY="16.0" prefWidth="150.0" />
-            <Label layoutX="263.0" layoutY="13.0" text="Choose course:" underline="true">
-               <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <Line endX="400.0" layoutX="404.0" layoutY="344.0" startX="-400.0" />
-            <Line endX="400.0" layoutX="398.0" layoutY="53.0" startX="-400.0" />
-            <Label layoutX="133.0" layoutY="100.0" text="Upload File:">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-            <Button fx:id="sbSearchBtn" layoutX="562.0" layoutY="144.0" mnemonicParsing="false" onAction="#btnPressSearch" prefHeight="39.0" prefWidth="82.0" text="SEARCH &gt;&gt;" />
-            <Label layoutX="55.0" layoutY="252.0" text="Allocated time(min)" underline="true">
-               <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="sbUploadFileTa" layoutX="133.0" layoutY="145.0" prefHeight="25.0" prefWidth="404.0" />
-            <TextArea fx:id="sbAllocatedTimeTa" layoutX="253.0" layoutY="249.0" prefHeight="38.0" prefWidth="127.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="50.0" layoutY="67.0" prefHeight="84.0" prefWidth="800.0">
-         <children>
-            <Button fx:id="sbContinue1Btn" layoutX="652.5" layoutY="41.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font></Button>
-            <Label layoutX="222.0" layoutY="11.0" text="choose exam bank :" underline="true">
-               <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="sbExamBankCb" layoutX="417.0" layoutY="17.0" prefWidth="150.0" />
-         </children>
-      </AnchorPane>
-      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">
+      <Label layoutX="257.0" layoutY="14.0" text="Manual Exam Creation" underline="true">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="140.0" layoutY="80.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="75.0">
+         <children>
+            <Label layoutX="33.0" layoutY="4.0" text="Choose subject of study:" underline="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="sbExamBankCb" layoutX="259.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <Button fx:id="sbContinue1Btn" layoutX="525.5" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="190.0" prefHeight="301.0" prefWidth="801.0">
+         <children>
+            <Label layoutX="45.0" text="Choose course:" underline="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="195.0" prefHeight="31.0" prefWidth="176.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" />
+            <Button fx:id="sbChangeQustionBankBtn" layoutX="25.0" layoutY="262.0" mnemonicParsing="false" onAction="#btnPressChangeQustionBank" text="&lt;&lt;&lt; CHANGE QUESTION BANK">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button fx:id="sbFinishBtn" layoutX="649.0" layoutY="262.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Label layoutX="135.0" layoutY="106.0" text="Upload Word Document :">
+               <font>
+                  <Font name="System Bold Italic" size="25.0" />
+               </font>
+            </Label>
+            <Line endX="400.0" layoutX="400.0" layoutY="63.0" startX="-400.0" stroke="#050504" />
+            <Label layoutX="446.0" text="Set allocated time (min):" underline="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="sbAllocatedTimeTf" alignment="CENTER" layoutX="682.0" prefWidth="60.0" promptText="###">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Line endX="400.0" layoutX="399.0" layoutY="222.0" startX="-400.0" stroke="#050504" />
+            <Button fx:id="sbSearchBtn" layoutX="491.0" layoutY="104.0" mnemonicParsing="false" onAction="#btnPressSearch" text="SEARCH FILE &gt;&gt;&gt;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <TextField fx:id="sbUploadFileTf" editable="false" focusTraversable="false" layoutX="134.0" layoutY="151.0" mouseTransparent="true" prefHeight="31.0" prefWidth="533.0" promptText="~File path~" scaleShape="false">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </AnchorPane>
+      <Line endX="450.0" layoutX="450.0" layoutY="148.0" startX="-450.0" stroke="#050504" />
    </children>
 </AnchorPane>

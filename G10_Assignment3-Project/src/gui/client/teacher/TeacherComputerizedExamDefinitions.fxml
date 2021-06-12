@@ -23,46 +23,55 @@
          <children>
             <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutX="15.0" layoutY="91.0" prefHeight="244.0" prefWidth="524.0" AnchorPane.topAnchor="90.0">
                <content>
-                  <VBox alignment="CENTER_LEFT" prefWidth="377.0" spacing="10.0">
+                  <VBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <Label fx:id="sbQuestionBodyLbl" alignment="TOP_LEFT" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" VBox.vgrow="ALWAYS">
+                        <Label fx:id="sbQuestionBodyLbl" alignment="TOP_LEFT" text="~Body~" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="17.0" />
                            </font>
                            <VBox.margin>
-                              <Insets />
+                              <Insets right="5.0" />
                            </VBox.margin>
                         </Label>
-                        <Line endX="275.0" startX="-100.0" />
-                        <RadioButton fx:id="sbAnswer1Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" selected="true" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." wrapText="true" VBox.vgrow="ALWAYS">
+                        <Line endX="265.0" startX="-100.0" />
+                        <RadioButton fx:id="sbAnswer1Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" selected="true" text="~1st answer~" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>
                            <toggleGroup>
                               <ToggleGroup fx:id="sbAnswerTg" />
                            </toggleGroup>
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin>
                         </RadioButton>
-                        <Line endX="275.0" startX="-100.0" />
-                        <RadioButton fx:id="sbAnswer2Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Line endX="265.0" startX="-100.0" />
+                        <RadioButton fx:id="sbAnswer2Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="~2nd answer~" toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin>
                         </RadioButton>
-                        <Line endX="275.0" startX="-100.0" />
-                        <RadioButton fx:id="sbAnswer3Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Line endX="265.0" startX="-100.0" />
+                        <RadioButton fx:id="sbAnswer3Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="~3rd answer~" toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin>
                         </RadioButton>
-                        <Line endX="275.0" startX="-100.0" />
-                        <RadioButton fx:id="sbAnswer4Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Line endX="265.0" startX="-100.0" />
+                        <RadioButton fx:id="sbAnswer4Rb" focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="~4th answer~" toggleGroup="$sbAnswerTg" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </RadioButton>
                      </children>
                      <padding>
-                        <Insets left="5.0" />
+                        <Insets left="10.0" top="5.0" />
                      </padding>
                   </VBox>
                </content>
@@ -153,14 +162,14 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Label layoutX="215.0" layoutY="20.0" text="Set Allocated Time (min):" underline="true">
+            <Label layoutX="215.0" layoutY="20.0" text="Set allocated time (min):" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true">
+      <Label layoutX="204.0" layoutY="14.0" text="Computerized Exam Creation" underline="true">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>

@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherCreateExamController">
    <children>
-      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="167.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="150.0">
+      <AnchorPane fx:id="sbBotPanelAp" layoutX="50.0" layoutY="165.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="150.0">
          <children>
             <Button fx:id="sbContinue2Btn" layoutX="533.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnPressContinue2" text="ADD SCORES &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="25.0">
                <font>
@@ -45,8 +45,8 @@
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="350.0" prefWidth="175.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.topAnchor="0.0" />
-            <Label layoutX="204.0" text="Choose course:" underline="true" AnchorPane.topAnchor="0.0">
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="350.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="275.0" AnchorPane.topAnchor="0.0" />
+            <Label layoutX="205.0" text="Choose course:" underline="true" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="460.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
@@ -70,7 +70,7 @@
             <ChoiceBox fx:id="sbExamBankCb" layoutX="259.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true" AnchorPane.topAnchor="14.0">
+      <Label layoutX="204.0" layoutY="14.0" text="Computerized Exam Creation" underline="true" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
