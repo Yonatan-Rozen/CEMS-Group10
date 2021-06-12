@@ -50,16 +50,16 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private AnchorPane sbBotPanelAp;
 
 	@FXML
-	private TableView<Question> sbScoreQuestionsTv;
+	private TableView<QuestionInExam> sbScoreQuestionsTv;
 
 	@FXML
-	private TableColumn<Question, String> sbQuestionIDTc;
+	private TableColumn<QuestionInExam, String> sbQuestionIDTc;
 
 	@FXML
-	private TableColumn<Question, String> sbScoreTc;
+	private TableColumn<QuestionInExam, String> sbScoreTc;
 
 	@FXML
-	private TableColumn<Question, Void> sbEditTc;
+	private TableColumn<QuestionInExam, Void> sbEditTc;
 
 	@FXML
 	private Label sbQuestionBodyLbl;
@@ -117,19 +117,20 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	private static Button backBtn;
 	private static Button finishBtn;
 	private static Button editBtn;
-	private static TableView<Question> scoreQuestionsTv;
-	private static TableColumn<Question, String> questionIDTc;
-	private static TableColumn<Question, String> scoreTc;
-	private static TableColumn<Question, Void> editTc;
+	private static TableView<QuestionInExam> scoreQuestionsTv;
+	private static TableColumn<QuestionInExam, String> questionIDTc;
+	private static TableColumn<QuestionInExam, String> scoreTc;
+	private static TableColumn<QuestionInExam, Void> editTc;
 	private static Label totalScoreLbl;
 	private static Label scoreLbl;
 
 	// STATIC INSTANCES *****************************************************
 	private static String ExamID;
-	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
-	private static List<Question> questionList;
-	private static String QuestionToEdit;
+	ObservableList<QuestionInExam> questionObservableList = FXCollections.observableArrayList();
+	private static List<QuestionInExam> questionList;
+	private static String QuestionIDToEdit , questionScoreToEDIT;
 	private static String msg;
+	private static QuestionInExam questionupdatescore;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -173,26 +174,24 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		allocatedTimeTa.setText("Enter Time!");
 		totalScoreLbl.setText("0");
 		// set up table view
-		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
+		questionIDTc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
 		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 		// set up table view
-		// scoreTc.setCellValueFactory(new
-		// PropertyValueFactory<Question,String>("CorrectAnswer"));
-		scoreTc.setText("Score");
-		scoreTc.setCellValueFactory(new PropertyValueFactory<>(""));
+		scoreTc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionScore"));
 		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 		//////
-		// need to show score column (set to zero and when we edit(with sql query) to show new
+		// need to show score column (set to zero and when we edit(with sql query) to
+		////// show new
 		// value in table)
 		//////
 
 		// set button cells for the 'Update Time' Column
-		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+		Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory5 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 
 			@Override
-			public TableCell<Question, Void> call(final TableColumn<Question, Void> param5) {
-				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
+			public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param5) {
+				final TableCell<QuestionInExam, Void> cell2 = new TableCell<QuestionInExam, Void>() {
 					private final Button btn = new Button();
 					private final ImageView addicon = new ImageView(new Image("/icon_edit.png"));
 
@@ -209,9 +208,12 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 							setGraphic(null);
 						} else {
 							btn.setOnAction(e -> {
-								Question question = getTableRow().getItem();
-								QuestionToEdit = question.getQuestionID();
+								QuestionInExam question = getTableRow().getItem();
+								QuestionIDToEdit = question.getQuestionID(); //save id
+//								questionScoreToEDIT = question.getQuestionScore(); //save score
+								questionupdatescore = getTableRow().getItem();
 								ShowQuestionAndEditScore(question);
+								sbScoreQuestionsTv.setDisable(true);
 							});
 							setGraphic(btn);
 						}
@@ -226,7 +228,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		questionList = TeacherCreateExamController.tceController.getCurrentList();
 		questionObservableList.addAll(questionList);
 		scoreQuestionsTv.setItems(questionObservableList);
-
 	}
 
 	@FXML
@@ -244,14 +245,37 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	@FXML
 	void btnPressEdit(ActionEvent event) {
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressEdit");
-
-		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTa.getText(), QuestionToEdit,
+		ClientUI.chat.accept(new String[] { "UpdateQuestionAndScoreToExam", ExamID, editTa.getText(), QuestionIDToEdit,
 				ChatClient.user.getUsername() });
 
-		String curScore = totalScoreLbl.getText();
-		int IcurScore = Integer.parseInt(curScore);
-		int AddScore = Integer.parseInt(editTa.getText());
-		totalScoreLbl.setText(String.valueOf(IcurScore += AddScore));
+		////there is bug to fix (with remove and add to table)
+		questionObservableList.remove(questionupdatescore); //remove
+		questionupdatescore.setQuestionScore(editTa.getText()); //update
+		questionObservableList.add(questionupdatescore); //add
+		scoreQuestionsTv.setItems(questionObservableList); //update table with new value
+		
+		answer1Rb.setDisable(true);
+		answer2Rb.setDisable(true);
+		answer3Rb.setDisable(true);
+		answer4Rb.setDisable(true);
+		questionBodyLbl.setDisable(true);
+		scoreLbl.setDisable(true);
+		editBtn.setDisable(true);
+		editTa.setDisable(true);
+		
+		sbScoreQuestionsTv.setDisable(false);
+
+		int total = 0;
+		String curScore;
+		for (QuestionInExam questioninexam : sbScoreQuestionsTv.getItems()) {
+			curScore = questioninexam.getQuestionScore();
+			int IcurScore = Integer.parseInt(curScore);
+			total += IcurScore;
+		}
+
+		totalScoreLbl.setText(String.valueOf(total));
+
+//		scoreQuestionsTv.setItems(questionObservableList);
 
 	}
 
@@ -294,7 +318,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
 		editTa.setDisable(false);
-		editTa.setText("0");
+		editTa.setText("---");
 
 		////
 		answer1Rb.setSelected(false);
