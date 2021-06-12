@@ -15,7 +15,7 @@
    <children>
       <AnchorPane fx:id="sbTopAp" layoutX="149.0" layoutY="75.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
          <children>
-            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="29.0" spacing="35.0" AnchorPane.leftAnchor="0.0">
+            <VBox alignment="CENTER_LEFT" layoutY="29.0" spacing="35.0" AnchorPane.leftAnchor="0.0">
                <children>
                   <Label text="Choose Exam :" underline="true">
                      <font>
@@ -30,7 +30,7 @@
                </children>
             </VBox>
             <ChoiceBox fx:id="sbChooseExamCb" layoutX="203.0" layoutY="29.0" prefHeight="39.0" prefWidth="410.0" style="-fx-font-size: 18; -fx-font-weight: Bold;" AnchorPane.rightAnchor="0.0" />
-            <TextField fx:id="sbCodeTf" layoutX="274.0" layoutY="92.0" prefHeight="45.0" prefWidth="115.0" promptText=" *  *  *  *" AnchorPane.bottomAnchor="-1.0">
+            <TextField fx:id="sbCodeTf" alignment="CENTER" layoutX="287.0" layoutY="91.0" prefHeight="45.0" prefWidth="100.0" promptText="*  *  *  *">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
@@ -67,17 +67,17 @@
                   <Font name="System Italic" size="22.0" />
                </font>
             </Label>
-            <TextField fx:id="sbAddedAmountTf" layoutX="270.0" layoutY="169.0" prefHeight="45.0" prefWidth="80.0" promptText="000">
+            <TextField fx:id="sbAddedAmountTf" alignment="CENTER" layoutX="270.0" layoutY="169.0" prefHeight="45.0" prefWidth="70.0" promptText="000">
                <font>
                   <Font size="21.0" />
                </font>
             </TextField>
-            <Button fx:id="sbSendRequestBtn" layoutX="391.0" layoutY="170.0" mnemonicParsing="false" onAction="#btnPressSendRequest" text="SEND REQUEST &gt;&gt;">
+            <Button fx:id="sbSendRequestBtn" layoutX="373.0" layoutY="170.0" mnemonicParsing="false" onAction="#btnPressSendRequest" text="SEND REQUEST &gt;&gt;">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
-            <Label layoutY="174.0" prefHeight="36.0" prefWidth="250.0" text="Request extra time:" underline="true">
+            <Label layoutX="6.0" layoutY="174.0" prefHeight="36.0" prefWidth="250.0" text="Request extra time:" underline="true" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>

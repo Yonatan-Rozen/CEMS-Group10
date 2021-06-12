@@ -86,7 +86,7 @@ public class TeacherStartExamController implements Initializable {
 		topAp = sbTopAp;
 		chooseExamCb = sbChooseExamCb;
 		codeTf = sbCodeTf;
-		commonMethodHandler.addTextLimiter(codeTf, 4);
+		commonMethodHandler.setTextLimiter(codeTf, 4);
 		startBtn = sbStartBtn;
 	    botAp = sbBotAp;
 	    botAp.setDisable(true);
@@ -94,7 +94,7 @@ public class TeacherStartExamController implements Initializable {
 	    addedAmountTf = sbAddedAmountTf;
 	    sendRequestBtn = sbSendRequestBtn;
 	    lockExamBtn = sbLockExamBtn;
-		commonMethodHandler.addTextLimiter(addedAmountTf, 2);
+		commonMethodHandler.setIntegersOnlyTextLimiter(addedAmountTf, 2);
 		//**********************************
 		//populate choseExamCb with all available exams from the database
 		examSubjectCourseIDList.clear();
