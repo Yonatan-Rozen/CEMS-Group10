@@ -30,7 +30,8 @@ public class CommonMethodsHandler {
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
 
-	private CommonMethodsHandler() {}
+	private CommonMethodsHandler() {
+	}
 
 	public static CommonMethodsHandler getInstance() {
 		if (commonMethodsHandler == null)
@@ -39,7 +40,7 @@ public class CommonMethodsHandler {
 	}
 
 	// ******************************************************************************************
-	
+
 	/**
 	 * Loads a specified fxml file
 	 *
@@ -85,7 +86,7 @@ public class CommonMethodsHandler {
 	}
 
 	// ******************************************************************************************
-	
+
 	/**
 	 * limits a text field component to a specified maximum amount of character
 	 * 
@@ -124,7 +125,8 @@ public class CommonMethodsHandler {
 
 	/**
 	 * Combination of {@link setIntegersOnlyText} and {@link setTextLimiter}
-	 * @param tf		The text field component
+	 * 
+	 * @param tf        The text field component
 	 * @param maxLength The maximum length of characters
 	 * 
 	 * @author Yonatan Rozen
@@ -274,18 +276,11 @@ public class CommonMethodsHandler {
 	 * @param tableView
 	 */
 	public void disableTableColumnSwap(TableView<?> tableView) {
-		tableView.widthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth) {
-				TableHeaderRow header = (TableHeaderRow) tableView.lookup("TableHeaderRow");
-				header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
-					@Override
-					public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-							Boolean newValue) {
-						header.setReordering(false);
-					}
-				});
-			}
+		tableView.widthProperty().addListener((source, oldWidth, newWidth) -> {
+			TableHeaderRow header = (TableHeaderRow) tableView.lookup("TableHeaderRow");
+			header.reorderingProperty().addListener((observable, oldValue, newValue) -> {
+				header.setReordering(false);
+			});
 		});
 	}
 
