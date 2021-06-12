@@ -21,32 +21,32 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbAvailableQuestionsTv" layoutX="15.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="440.0">
+            <TableView fx:id="sbAvailableQuestionsTv" layoutX="15.0" layoutY="90.0" prefHeight="240.0" prefWidth="350.0" style="-fx-font-size: 15;">
                <columns>
-                  <TableColumn fx:id="sbQuestionID1Tc" prefWidth="100.0" resizable="false" text="Question ID" />
-                  <TableColumn fx:id="sbPreview1Tc" resizable="false" text="Preview" />
-                  <TableColumn fx:id="sbAddToExamTc" prefWidth="160.0" resizable="false" text="Add to exam" />
+                  <TableColumn fx:id="sbQuestionID1Tc" prefWidth="100.0" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Question ID" />
+                  <TableColumn fx:id="sbPreview1Tc" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Preview" />
+                  <TableColumn fx:id="sbAddToExamTc" prefWidth="150.0" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Add to exam" />
                </columns>
             </TableView>
-            <TableView fx:id="sbCurrentQuestionsTable" layoutX="455.0" layoutY="90.0" prefHeight="240.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="15.0">
+            <TableView fx:id="sbCurrentQuestionsTable" layoutX="440.0" layoutY="90.0" prefHeight="240.0" prefWidth="350.0" style="-fx-font-size: 15;">
                <columns>
-                  <TableColumn fx:id="sbQuestionID2Tc" prefWidth="100.0" resizable="false" text="Question ID" />
-                  <TableColumn fx:id="sbPreview2Tc" resizable="false" text="Preview" />
-                  <TableColumn fx:id="sbRemoveFromExamTc" minWidth="0.0" prefWidth="160.0" resizable="false" text="Remove from exam" />
+                  <TableColumn fx:id="sbQuestionID2Tc" prefWidth="100.0" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Question ID" />
+                  <TableColumn fx:id="sbPreview2Tc" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Preview" />
+                  <TableColumn fx:id="sbRemoveFromExamTc" minWidth="0.0" prefWidth="150.0" resizable="false" sortable="false" style="-fx-alignment: CENTER; -fx-font-weight: Bold;" text="Remove from exam" />
                </columns>
             </TableView>
-            <Label layoutX="455.0" layoutY="59.0" text="Current questions :" underline="true">
+            <Label layoutX="440.0" layoutY="60.0" text="Current questions :" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="59.0" text="Available questions :" underline="true" AnchorPane.leftAnchor="15.0">
+            <Label layoutX="14.0" layoutY="60.0" text="Available questions :" underline="true" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="330.0" layoutY="7.0" prefWidth="175.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.topAnchor="7.0" />
-            <Label layoutX="184.0" layoutY="7.0" text="Choose course:" underline="true" AnchorPane.topAnchor="7.0">
+            <ChoiceBox fx:id="sbChooseCourseCb" layoutX="350.0" prefWidth="175.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.topAnchor="0.0" />
+            <Label layoutX="204.0" text="Choose course:" underline="true" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
@@ -62,12 +62,12 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <Label layoutX="14.0" layoutY="8.0" text="Choose subject of study:" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
+            <Label layoutX="33.0" layoutY="4.0" text="Choose subject of study:" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="sbExamBankCb" layoutX="240.0" layoutY="7.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <ChoiceBox fx:id="sbExamBankCb" layoutX="259.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
       <Label layoutX="328.0" layoutY="14.0" text="Exam Creation" underline="true" AnchorPane.topAnchor="14.0">

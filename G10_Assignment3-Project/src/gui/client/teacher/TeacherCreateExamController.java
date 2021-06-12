@@ -100,8 +100,9 @@ public class TeacherCreateExamController implements Initializable {
 	private static Button continue2Btn;
 
 	// STATIC INSTANCES *****************************************************
-	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
-	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
+	private static CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
+	public static ObservableList<String> bankList = FXCollections.observableArrayList();
+	public static ObservableList<String> CourseList = FXCollections.observableArrayList("--------------------");
 	private static List<QuestionInExam> questionList;
 	private static List<QuestionInExam> questionInExam  = new ArrayList<>();
 	private ObservableList<QuestionInExam> questionObservableList = FXCollections.observableArrayList();
@@ -118,8 +119,11 @@ public class TeacherCreateExamController implements Initializable {
 		topPanelAp = sbTopPanelAp;
 
 		examBankCb = sbExamBankCb;
-		// set "----------" as the first value of the choice box
-		examBankCb.setValue("----------");
+		// set "----------" as the first value of 'examBankCb'
+		bankList.clear();
+		bankList.add("-------------");
+		examBankCb.setValue("-------------");
+
 		// set the choice box to get it's items from 'bankList'
 		examBankCb.setItems(bankList);
 
@@ -127,6 +131,8 @@ public class TeacherCreateExamController implements Initializable {
 		botPanelAp = sbBotPanelAp;
 		botPanelAp.setDisable(true);
 		chooseCourseCb = sbChooseCourseCb;
+		chooseCourseCb.setValue("--------------------");
+		chooseCourseCb.setItems(CourseList);
 		availableQuestionsTv = sbAvailableQuestionsTv;
 		questionID1Tc = sbQuestionID1Tc;
 		preview1Tc = sbPreview1Tc;
@@ -137,12 +143,11 @@ public class TeacherCreateExamController implements Initializable {
 		removeFromExamTc = sbRemoveFromExamTc;
 		changeBankBtn = sbChangeBankBtn;
 		continue2Btn = sbContinue2Btn;
-		
-		CommonMethodsHandler.getInstance().disableTableColumnSwap(availableQuestionsTv);
-		CommonMethodsHandler.getInstance().disableTableColumnSwap(currentQuestionsTable);
-		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "1" });
-		}
+		cmh.disableTableColumnSwap(availableQuestionsTv);
+		cmh.disableTableColumnSwap(currentQuestionsTable);
+		//if (bankList.size() == 1) { // add banks only once
+		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "1" });
+		//}
 	}
 
 	// ACTION METHODS *******************************************************
@@ -151,8 +156,8 @@ public class TeacherCreateExamController implements Initializable {
 		System.out.println("TeacherCreateExam::btnPressChangeBank");
 		sbTopPanelAp.setDisable(false);
 		sbBotPanelAp.setDisable(true);
-		examBankCb.setValue("----------");
-
+		examBankCb.setValue("-------------");
+		chooseCourseCb.setValue("--------------------");
 		availableQuestionsTv.setItems(null);
 		currentQuestionsTable.setItems(null);
 		questionInExam.clear();
@@ -162,25 +167,25 @@ public class TeacherCreateExamController implements Initializable {
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherCreateExam::btnPressContinue1");
 
-		if (examBankCb.getValue() != "----------") {
-
-			CourseList.clear(); // clear list
-
+		if (examBankCb.getValue() != "-------------") {
 			sbTopPanelAp.setDisable(true);
 			sbBotPanelAp.setDisable(false);
-//		chooseCourseCb.setValue("----------");
-			ClientUI.chat.accept(
-					new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "1" });
-
-			chooseCourseCb.setItems(CourseList);
-
 			
-			ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2",
-					ChatClient.user.getUsername() });
+			// reset 'chooseCourseCb'
+			CourseList.clear();
+			CourseList.add("--------------------");
+			chooseCourseCb.setValue("--------------------");
+			chooseCourseCb.setItems(CourseList);
+			
+			// request course list under the chosen subject
+			ClientUI.chat.accept(new String[] { "GetCourseBySubject", examBankCb.getValue(), ChatClient.user.getUsername(), "1" });
+			
+			// request exam list under the chosen subject
+			ClientUI.chat.accept(new String[] { "btnPressShowQuestionsBySubject", examBankCb.getValue(), "2", ChatClient.user.getUsername() });
 
 			// set up table view
 			questionID1Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
-			questionID1Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
+			
 
 			// set preview col
 			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
@@ -259,7 +264,6 @@ public class TeacherCreateExamController implements Initializable {
 
 			// set up current table view
 			questionID2Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
-			questionID2Tc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
 
 			// set preview col
 			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory3 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
@@ -337,7 +341,7 @@ public class TeacherCreateExamController implements Initializable {
 			removeFromExamTc.setCellFactory(btnCellFactory4);
 
 		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+			cmh.getNewAlert(AlertType.ERROR, "Error message",
 					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
 		}
 	}
@@ -350,18 +354,16 @@ public class TeacherCreateExamController implements Initializable {
 		if (chooseCourseCb.getValue() != null) {
 			if (!questionObservableList.isEmpty()) {
 				TeacherMenuBarController.mainPaneBp.setCenter(
-						CommonMethodsHandler.getInstance().getPane("teacher", "TeacherComputerizedExamDefinitions"));
+						cmh.getPane("teacher", "TeacherComputerizedExamDefinitions"));
 
 				ClientUI.chat.accept(new String[] { "btnPressContinue2CreateExam", chooseCourseCb.getValue(),
 						examBankCb.getValue(), author, ChatClient.user.getUsername() });
 			} else {
-				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
+				cmh.getNewAlert(AlertType.ERROR, "Error message",
 						"Missing question in exam", "Must to choose question").showAndWait();
 			}
 		} else {
-			CommonMethodsHandler.getInstance()
-					.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name")
-					.showAndWait();
+			cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing Course Name", "Must to choose course name").showAndWait();
 		}
 	}
 
