@@ -120,6 +120,9 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		questionIDTc = sbQuestionIDTc;
 		previewTc = sbPreviewTc;
 		
+		CommonMethodsHandler.getInstance().disableTableColumnSwap(availableQuestionsTv);
+		
+		
 		if (pressedDiscard) {
 			btnPressShowQuestionsBySubject(new ActionEvent());
 			pressedDiscard = false;
