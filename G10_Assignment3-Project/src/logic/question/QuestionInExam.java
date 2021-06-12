@@ -5,15 +5,6 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class QuestionInExam extends Question implements Serializable {
 
-	private String questionID;
-	// private String bankID;
-	private String questionBody;
-	private String answer1;
-	private String answer2;
-	private String answer3;
-	private String answer4;
-	private String correctAnswer;
-	private String author;
 	private String questionScore;
 	private String examID;
 
@@ -28,14 +19,6 @@ public class QuestionInExam extends Question implements Serializable {
 	public String toString() {
 		return String.format(super.toString() + " extends "+"%s %s",examID, questionScore);
 	}
-//
-//	public String getQuestionID() {
-//		return questionID;
-//	}
-//
-//	public void setQuestionID(String questionID) {
-//		this.questionID = questionID;
-//	}
 
 	public String getExamID() {
 		return examID;
