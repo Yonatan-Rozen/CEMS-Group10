@@ -72,7 +72,7 @@ public class TeacherStartExamController implements Initializable {
 	private static CommonMethodsHandler commonMethodHandler = CommonMethodsHandler.getInstance();
 	public static String examID;
 	public static String examType;
-	private boolean activeStudents = false;
+	private static boolean activeStudents = false;
 	
 	// START METHOD *********************************************************
 	public void start(Stage mainStage) throws IOException {
@@ -185,7 +185,6 @@ public class TeacherStartExamController implements Initializable {
 
 
 	public void checkStartExam(Object[] msg) {
-		System.out.println(Arrays.toString(msg));
-		activeStudents = !msg[1].equals(0);
+		activeStudents = Integer.parseInt(msg[1].toString()) != 0;
 	}
 }
