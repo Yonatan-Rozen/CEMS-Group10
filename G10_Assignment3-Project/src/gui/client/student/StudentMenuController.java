@@ -1,5 +1,6 @@
 package gui.client.student;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,7 +51,7 @@ public class StudentMenuController implements Initializable {
 	protected static String examCode;
 	protected static boolean examLocked;
 	private static StudentEnterCodeController secController;
-	
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -116,9 +117,17 @@ public class StudentMenuController implements Initializable {
 	public String[] getReadyExam() {
 		return new String[] {examCode,examType,examID};
 	}
-	
+
 	public void lockExam(String[] msg) {
-		if (examID.equals(msg[1]))
+		if (examID.equals(msg[1])) {
 			examLocked = true;
+			try {
+				StudentTakeComputerizedExamController.stceController.setSubmitButtonWhenLockInvoked();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// add call to setSubmitButtonWhenLockInvoked
 	}
 }
