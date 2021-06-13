@@ -1,6 +1,5 @@
 package gui.client.teacher;
 
-import java.awt.Color;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -32,9 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
 import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
@@ -125,6 +120,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	// STATIC INSTANCES *****************************************************
 	private static String ExamID;
 	ObservableList<QuestionInExam> questionObservableList = FXCollections.observableArrayList();
+	private static CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 	private static List<QuestionInExam> questionList;
 	private static String QuestionIDToEdit, questionScoreToEDIT;
 	private static String msg;
@@ -151,6 +147,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		questionBodyLbl.setDisable(true);
 		scoreLbl.setDisable(true);
 		scoreQuestionsTv = sbScoreQuestionsTv;
+		cmh.disableTableColumnSwap(scoreQuestionsTv);
 		questionIDTc = sbQuestionIDTc;
 		scoreTc = sbScoreTc;
 		editTc = sbEditTc;
@@ -162,9 +159,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		studentCommentsTa = sbStudentCommentsTa;
 		teacherCommentsTa1 = sbTeacherCommentsTa1;
 		editTf = sbEditTf;
-		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(editTf, 3);
+		cmh.setIntegersOnlyTextLimiter(editTf, 3);
 		allocatedTimeTf = sbAllocatedTimeTf;
-		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(allocatedTimeTf, 3);
+		cmh.setIntegersOnlyTextLimiter(allocatedTimeTf, 3);
 		editBtn.setDisable(true);
 		editTf.setDisable(true);
 		totalScoreLbl.setText("0");
@@ -223,14 +220,12 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		System.out.println("TeacherComputerizedExamDefinitions::btnPressBack");
 		ButtonType buttonYes = new ButtonType("Yes");
 		ButtonType buttonNo = new ButtonType("No");
-		Optional<ButtonType> request = CommonMethodsHandler.getInstance()
-				.getNewAlert(AlertType.CONFIRMATION, "Discard exam",
-						"Are you sure you want to cancel the creation of the current exam?", buttonYes, buttonNo)
-				.showAndWait();
+		Optional<ButtonType> request = cmh.getNewAlert(AlertType.CONFIRMATION, "Discard exam",
+						"Are you sure you want to cancel the creation of the current exam?", buttonYes, buttonNo).showAndWait();
 		if (request.get().equals(buttonYes)) {
 
 			TeacherMenuBarController.mainPaneBp
-					.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
+					.setCenter(cmh.getPane("teacher", "TeacherCreateExam"));
 			scoreQuestionsTv.setItems(null);
 		}
 	}
@@ -273,7 +268,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 				totalScoreLbl.setStyle("-fx-background-color: #ffcccc;");
 			}
 		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing Score (Edit)",
+			cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing Score (Edit)",
 					"Please insert score for question").showAndWait();
 		}
 	}
@@ -297,24 +292,20 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 				
 				ButtonType buttonYes = new ButtonType("Yes");
 				ButtonType buttonNo = new ButtonType("No");
-				Optional<ButtonType> request = CommonMethodsHandler
-						.getInstance().getNewAlert(AlertType.INFORMATION, "Exam saved",
-								"File was uploaded successfuly!", "Upload another file?", buttonYes, buttonNo)
-						.showAndWait();
+				Optional<ButtonType> request = cmh.getNewAlert(AlertType.INFORMATION, "Exam saved",
+								"Exam was created successfully!", "Create another exam?", buttonYes, buttonNo).showAndWait();
 
 				if (request.get() == buttonYes) {
-					TeacherMenuBarController.mainPaneBp
-							.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateExam"));
+					TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCreateExam"));
 				} else {
-					ClientUI.mainScene
-							.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+					ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 				}
 			} else {
-				CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing Scores",
+				cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing Scores",
 						"Please insert score for all question and check total is 100").showAndWait();
 			}
 		} else {
-			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing allocated time",
+			cmh.getNewAlert(AlertType.ERROR, "Error message", "Missing allocated time",
 					"Please insert the allocated time (min) for the exam.").showAndWait();
 
 		}

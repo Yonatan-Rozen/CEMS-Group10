@@ -102,9 +102,9 @@
             <Line endX="400.0" layoutX="400.0" layoutY="347.0" startX="-400.0" />
             <TableView fx:id="sbScoreQuestionsTv" layoutX="550.0" layoutY="87.0" prefHeight="222.0" prefWidth="236.0" style="-fx-font-size: 15;" AnchorPane.topAnchor="90.0">
               <columns>
-                <TableColumn fx:id="sbQuestionIDTc" prefWidth="100.0" text="QuestionID" />
-                <TableColumn fx:id="sbScoreTc" prefWidth="60.0" text="Score" />
-                  <TableColumn fx:id="sbEditTc" prefWidth="60.0" text="Edit" />
+                <TableColumn fx:id="sbQuestionIDTc" prefWidth="100.0" style="-fx-font-size: 15; -fx-alignment: CENTER; -fx-font-weight: Bold;" text="QuestionID" />
+                <TableColumn fx:id="sbScoreTc" prefWidth="60.0" style="-fx-font-size: 15; -fx-alignment: CENTER; -fx-font-weight: Bold;" text="Score" />
+                  <TableColumn fx:id="sbEditTc" prefWidth="60.0" style="-fx-font-size: 15; -fx-alignment: CENTER; -fx-font-weight: Bold;" text="Edit" />
               </columns>
             </TableView>
             <Label fx:id="sbScoreLbl" layoutX="434.0" layoutY="96.0" text="Score:" underline="true">
@@ -112,7 +112,7 @@
                   <Font name="System Italic" size="19.0" />
                </font>
             </Label>
-            <Button fx:id="sbEditBtn" layoutX="434.0" layoutY="170.0" mnemonicParsing="false" onAction="#btnPressEdit" prefHeight="39.0" prefWidth="69.0" text="Edit">
+            <Button fx:id="sbEditBtn" layoutX="434.0" layoutY="170.0" mnemonicParsing="false" onAction="#btnPressEdit" prefHeight="39.0" prefWidth="70.0" text="SET">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -157,14 +157,14 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="sbAllocatedTimeTf" alignment="CENTER" layoutX="454.0" layoutY="22.0" prefWidth="60.0" promptText="###">
+            <TextField fx:id="sbAllocatedTimeTf" alignment="CENTER" layoutX="480.0" layoutY="22.0" prefWidth="60.0" promptText="###">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Label layoutX="215.0" layoutY="20.0" text="Set allocated time (min):" underline="true">
+            <Label layoutX="231.0" layoutY="20.0" text="Set allocated time (min):" underline="true">
                <font>
-                  <Font name="System Italic" size="21.0" />
+                  <Font name="System Bold Italic" size="21.0" />
                </font>
             </Label>
          </children>
