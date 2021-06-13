@@ -87,8 +87,8 @@ public class SignInController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.hide();
 		ClientUI.mainStage.setTitle("Computerized Exam Management System (Client)");
-//		ClientUI.mainStage.setWidth(600);
-//		ClientUI.mainStage.setHeight(400);
+		ClientUI.mainStage.setWidth(600);
+		ClientUI.mainStage.setHeight(400);
 		try {
 			ClientUI.chat.accept(new String[] { "Disconnect", ChatClient.user.getUsername() });
 		} catch (NullPointerException e) {
