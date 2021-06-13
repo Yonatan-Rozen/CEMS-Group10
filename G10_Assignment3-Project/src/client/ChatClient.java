@@ -377,7 +377,37 @@ public class ChatClient extends AbstractClient {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
 
-			} else
+			} else if ((obj instanceof String[]) && ((String[]) obj)[0].contains("FinishEditManualExam")) {
+
+				String examID = ((String[]) obj)[1];
+				String message = ((String[]) obj)[2];
+				String time = ((String[]) obj)[3];
+				File wordDocument = new File(message);
+
+				// check if 'message' is a pathname (for example:
+				// "C:\Users\Jon\Desktop\test.docx")
+				String[] s1 = message.split("\\\\");
+				String fileName = s1[s1.length - 1]; // "test.txt"
+				MyFile testFile = new MyFile(fileName);
+
+				try {
+					byte[] mybytearray = new byte[(int) wordDocument.length()];
+					FileInputStream fis = new FileInputStream(wordDocument);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+
+					testFile.initArray(mybytearray.length);
+					testFile.setSize(mybytearray.length);
+
+					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+					bis.close();
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
+				} catch (Exception e) {
+					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
+				}
+
+			}
+
+			else
 				sendToServer(obj); // <-- message being sent to the server
 
 			awaitResponse = true;
