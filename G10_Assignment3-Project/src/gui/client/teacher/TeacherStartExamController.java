@@ -153,7 +153,7 @@ public class TeacherStartExamController implements Initializable {
 		ButtonType buttonYes = new ButtonType("Confirm");
 		ButtonType buttonCancel = new ButtonType("Cancel");
 		Optional<ButtonType> request = commonMethodHandler.getNewAlert(AlertType.WARNING, "Exam Lock", 
-				"Are you sure you want to lock the exam before the time", buttonYes, buttonCancel).showAndWait();
+				"Are you sure you want to lock the exam before the time ends?", buttonYes, buttonCancel).showAndWait();
 		if (request.get() == buttonYes) {
 			ClientUI.chat.accept(new String[] {"SendMessageLockExam", examID}); // TODO (locks exam at the clients of the students)
 			TeacherMenuBarController.menuBarAp.setDisable(false);
