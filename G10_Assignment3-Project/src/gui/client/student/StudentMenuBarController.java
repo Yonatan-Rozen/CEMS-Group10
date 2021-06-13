@@ -49,7 +49,7 @@ public class StudentMenuBarController implements Initializable {
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
-	private static BorderPane mainPaneBp;
+	protected static BorderPane mainPaneBp;
 
 	// INITIALIZE METHOD *********************************************************
 	@Override
