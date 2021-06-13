@@ -922,20 +922,22 @@ public class DBconnector {
 		}
 
 		// update that this user is connected to the server
-		try {
-			PreparedStatement stmt = con
-					.prepareStatement("UPDATE users SET Connected = '1' WHERE Username = '" + username + "'");
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
+		if (user != null) {
+			try {
+				PreparedStatement stmt = con
+						.prepareStatement("UPDATE users SET Connected = '1' WHERE Username = '" + username + "'");
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
 
-		client.sendToClient(user);
-		client.setName(username);
-		ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
-		client.setInfo(client.getName(), user.getType());
+			client.sendToClient(user);
+			client.setName(username);
+			ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
+			client.setInfo(client.getName(), user.getType());
+		}
 	}
 
 	// ***********************************************************************************************

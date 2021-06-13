@@ -14,7 +14,7 @@
    <items>
       <AnchorPane fx:id="sbMenuBarContainerAp" minHeight="600.0" minWidth="200.0" prefHeight="600.0" prefWidth="200.0">
          <children>
-            <VBox alignment="CENTER" layoutX="14.0" layoutY="227.0" spacing="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <VBox alignment="CENTER" layoutX="14.0" layoutY="227.0" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <children>
                   <Button fx:id="sbTakeExamBtn" maxWidth="1.7976931348623157E308" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressTakeAnExam" text="TAKE AN EXAM">
                      <font>
@@ -34,14 +34,14 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Hyperlink>
-            <ImageView fx:id="sbLogoIv" fitHeight="134.0" fitWidth="200.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
+            <ImageView fx:id="sbLogoIv" fitHeight="158.0" fitWidth="230.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
             <Button fx:id="sbBackBtn" layoutX="161.0" layoutY="562.0" mnemonicParsing="false" onAction="#btnPressBack" text="Back" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0">
+      <AnchorPane maxHeight="600.0" maxWidth="900.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0">
          <children>
             <BorderPane fx:id="sbMainPaneBp" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
