@@ -33,7 +33,7 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Hyperlink>
-      <HBox alignment="CENTER" layoutY="166.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <HBox alignment="CENTER" layoutY="137.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <VBox alignment="CENTER" prefWidth="250.0" spacing="15.0">
                <children>
@@ -63,6 +63,11 @@
                      </font>
                   </Button>
                   <Button fx:id="sbViewReportBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressViewReport" text="VIEW REPORT">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="COMP. RESULTS">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

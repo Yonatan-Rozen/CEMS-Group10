@@ -94,7 +94,7 @@ public class SignInController implements Initializable {
 		} catch (NullPointerException e) {
 			System.out.println("> client window is now active.\n> waiting for user input...");
 		}
-		;
+
 		ChatClient.user = null;
 		usernameTf = sbUsernameTf;
 		passwordPf = sbPasswordPf;
@@ -122,11 +122,11 @@ public class SignInController implements Initializable {
 
 		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
-		if (usernameTf.getText().equals("") || passwordPf.getText().equals("")) {
+		if (usernameTf.getText().isEmpty() || passwordPf.getText().isEmpty()) {
 			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "All fields are required!").showAndWait();
 			return;
 		}
-
+		
 		// sets ChatClient.user
 		ClientUI.chat.accept(new String[] { "btnPressSignIn", usernameTf.getText(), passwordPf.getText() });
 		try {
