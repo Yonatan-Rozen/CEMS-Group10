@@ -11,6 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -30,10 +33,18 @@ public class ServerConsoleController implements Initializable {
 	@FXML
 	private TextArea sbConsoleTa;
 
+	@FXML
+	private ImageView sblogoImg;
+
+	@FXML
+	private Circle sbStatusCircle;
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField portTf;
 	private static Button startServerBtn;
 	private static TextArea consoleTa;
+	private static ImageView logoimg;
+	private static Circle statusCircle;
 
 	// START METHOD *********************************************************
 	/**
@@ -52,10 +63,11 @@ public class ServerConsoleController implements Initializable {
 		mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		mainStage.setOnCloseRequest(event -> {
 			mainStage.hide();
-			//TODO
-			//			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-			//			methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
-			//					"The server has been shut down\n(All client will be terminated shortly after...)","Press ok to continue.").showAndWait();
+			// TODO
+			// CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+			// methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
+			// "The server has been shut down\n(All client will be terminated shortly
+			// after...)","Press ok to continue.").showAndWait();
 			EchoServer.es.sendToAllClients("TerminateClient");
 			System.exit(0);
 		});
@@ -68,7 +80,10 @@ public class ServerConsoleController implements Initializable {
 		portTf = sbPortTf;
 		startServerBtn = sbStartServerBtn;
 		consoleTa = sbConsoleTa;
+		statusCircle = sbStatusCircle;
 		btnPressStartServer(new ActionEvent()); // Automatic login
+		logoimg = sblogoImg;
+		logoimg.setImage(new Image("/logo.png"));
 
 	}
 
@@ -80,7 +95,7 @@ public class ServerConsoleController implements Initializable {
 			portNumber = getPort();
 		} catch (NumberFormatException e) {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Wrong input",
-					"You must enter a port number!","Press ok to continue.").showAndWait();
+					"You must enter a port number!", "Press ok to continue.").showAndWait();
 			return;
 		}
 
@@ -94,6 +109,7 @@ public class ServerConsoleController implements Initializable {
 	}
 
 	public void setDisable(boolean value) {
+		statusCircle.setStyle("-fx-fill: GREEN;");
 		portTf.setDisable(value);
 		startServerBtn.setDisable(value);
 	}
