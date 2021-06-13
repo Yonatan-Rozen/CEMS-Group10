@@ -210,8 +210,6 @@ public class TeacherCreateExamController implements Initializable {
 							} else {
 								btn.setOnAction(e -> {
 									Question question = getTableRow().getItem();
-									TeacherMenuBarController.mainPaneBp.setDisable(true);
-									TeacherMenuBarController.menuBarAp.setDisable(true);
 									chooseQuestionToPreview(question);
 								});
 								setGraphic(btn);
@@ -288,8 +286,6 @@ public class TeacherCreateExamController implements Initializable {
 							} else {
 								btn.setOnAction(e -> {
 									QuestionInExam question = getTableRow().getItem();
-									TeacherMenuBarController.mainPaneBp.setDisable(true);
-									TeacherMenuBarController.menuBarAp.setDisable(true);
 									chooseQuestionToPreview(question);
 								});
 								setGraphic(btn);

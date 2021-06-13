@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.question.Question;
 
@@ -60,8 +62,10 @@ public class TeacherPreviewQuestionController implements Initializable {
 		Scene mainScene = new Scene(root);
 		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
 		stage.setScene(mainScene);
-		stage.initOwner(ClientUI.mainStage);
+		stage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		stage.setResizable(false);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initOwner(ClientUI.mainStage);
 		stage.setOnCloseRequest(e -> {
 			stage.hide();
 			TeacherMenuBarController.mainPaneBp.setDisable(false);
@@ -86,8 +90,6 @@ public class TeacherPreviewQuestionController implements Initializable {
 	@FXML
 	public void btnPressOK(ActionEvent event) {
 		previewStage.hide();
-		TeacherMenuBarController.mainPaneBp.setDisable(false);
-		TeacherMenuBarController.menuBarAp.setDisable(false);
 		previewStage.close();
 	}
 

@@ -164,8 +164,6 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		                } else {
 		                	btn.setOnAction(e -> {
 		                		Question question = getTableRow().getItem();
-		                		TeacherMenuBarController.mainPaneBp.setDisable(true);
-		                		TeacherMenuBarController.menuBarAp.setDisable(true);
 		                		chooseQuestionToPreview(question);
 	                        });
 		                    setGraphic(btn);
