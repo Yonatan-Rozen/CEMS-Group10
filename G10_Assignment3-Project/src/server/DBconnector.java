@@ -176,9 +176,9 @@ public class DBconnector {
 			case "GetSubjectCourseIDofExam":
 				getSubjectCourseIDofExam(client);
 				break;
-//			case "GetExamByID":
-//				getExamInfoByID(request[1], client); // UNUSED
-//				break;
+				//			case "GetExamByID":
+				//				getExamInfoByID(request[1], client); // UNUSED
+				//				break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
 			case "GetTypeOfExamAndOptionalComments":
@@ -196,7 +196,7 @@ public class DBconnector {
 			case "UpdateQuestionAndScoreToExam":
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
-			case "btnPressSubmit":
+			case "btnPressSubmitComputerized":
 				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
 				// String.format("%ld", estimatedTime),
 				// ChatClient.user.getUsername(), examID, grade});
@@ -224,8 +224,11 @@ public class DBconnector {
 			case "UpdateQuestion":
 				updateQuestion((Question) request[1], client);
 				break;
+			case "StudentUploadFile":
+				//studentTestUpload((String) request[1], (MyFile) request[2], client);
+				//break;
 			case "TeacherUploadFile": // req1 -examID , req2 -filepath
-				teacherTestUpload((String) request[1], (MyFile) request[2], client);
+				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
@@ -237,16 +240,24 @@ public class DBconnector {
 
 	private void teacherTestUpload(String examID, MyFile myFile, ConnectionToClient client) throws IOException {
 
+	private void ExamFileUpload(String examID, MyFile myFile,String whoCalled,String studentID, ConnectionToClient client) throws IOException {
+
 		File outputFile = new File(myFile.getFileName());
 		FileOutputStream fos = new FileOutputStream(outputFile);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 		try {
 			Blob blob = con.createBlob();
+			PreparedStatement stmt=null;
 			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
-			PreparedStatement stmt = con.prepareStatement("UPDATE exams SET File = ? WHERE ExamID = ?");
+			if(whoCalled.equals("T"))
+				stmt = con.prepareStatement("UPDATE exams SET File = ? WHERE ExamID = ?");
+			else// if(whoCalled.equals("S"))
+				stmt = con.prepareStatement("UPDATE exams_results_manual SET FileSubmit = ? WHERE ExamID = ? and UsernameS = ?");
+
 			stmt.setBlob(1, blob);
 			stmt.setString(2, examID);
+			stmt.setString(3, studentID);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -257,13 +268,13 @@ public class DBconnector {
 		bos.write(myFile.getMybytearray(), 0, myFile.getSize());
 		bos.flush();
 		fos.flush();
-
+		System.out.println("UPLOAD FILE ---------------> END");
 		client.sendToClient("");
 
-//			TODO this will be used to take a blob out of the database
-//			Statement st = conn.createStatement();
-//			ResultSet rs = st.executeQuery("select c1 from t1");
-//			Blob b2 = rs.getBlob(1);
+		//			TODO this will be used to take a blob out of the database
+		//			Statement st = conn.createStatement();
+		//			ResultSet rs = st.executeQuery("select c1 from t1");
+		//			Blob b2 = rs.getBlob(1);
 	}
 
 	/**
@@ -1055,10 +1066,10 @@ public class DBconnector {
 				bankList.add(rs.getString(1));
 			}
 			rs.close();
-//			if (bankList.size() > 1)
+			//			if (bankList.size() > 1)
 			client.sendToClient(bankList);
-//			else
-//				client.sendToClient("GetSubjectsWithBank ERROR - ");
+			//			else
+			//				client.sendToClient("GetSubjectsWithBank ERROR - ");
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
@@ -1432,13 +1443,13 @@ public class DBconnector {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-//				if (rs.getString(9).equals("C")) {
-//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
-//				} else {
-//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
-//				}
+				//				if (rs.getString(9).equals("C")) {
+				//					exam = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
+				//				} else {
+				//					exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				//							rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul file]
+				//				}
 				typeAndOptionalComments[1] = rs.getString(9);
 				typeAndOptionalComments[2] = rs.getString(7);
 			}
@@ -1926,8 +1937,7 @@ public class DBconnector {
 	 */
 	private void UpdateTimeOfExecutionAndsubmittedColumsByExamIDandStudentID(String status, String estimatedTime,
 			String studentID, String examID, String grade, ConnectionToClient client) throws IOException {
-		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem
-		// (calculate) ,
+		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem(calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
 
 		try {
