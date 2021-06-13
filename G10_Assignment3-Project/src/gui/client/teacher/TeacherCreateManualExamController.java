@@ -176,13 +176,13 @@ public class TeacherCreateManualExamController implements Initializable {
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
 							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
 					// TODO examID should have a value here
-					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath });
+					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath,"T" });
 
 					ButtonType buttonYes = new ButtonType("Yes");
 					ButtonType buttonNo = new ButtonType("No");
 					Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Exam saved", "File was uploaded successfuly!",
 							"Upload another file?",buttonYes, buttonNo).showAndWait();
-					
+
 					if (request.get() == buttonYes)
 						TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
 					else ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
