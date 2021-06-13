@@ -55,7 +55,7 @@ public class StudentEnterCodeController implements Initializable {
 				//				ClientUI.mainScene.setRoot(
 				//						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
-
+			StudentMenuBarController.smbController.menuBarContainerAp.setDisable(true);
 		}
 
 		// if the student didn't insert the correct code
