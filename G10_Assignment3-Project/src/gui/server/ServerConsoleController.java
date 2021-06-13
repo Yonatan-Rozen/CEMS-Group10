@@ -98,6 +98,7 @@ public class ServerConsoleController implements Initializable {
 					"You must enter a port number!", "Press ok to continue.").showAndWait();
 			return;
 		}
+		statusCircle.setStyle("-fx-fill: GREEN;");
 
 		setDisable(true);
 		ServerUI.startServer(portNumber);
@@ -109,7 +110,6 @@ public class ServerConsoleController implements Initializable {
 	}
 
 	public void setDisable(boolean value) {
-		statusCircle.setStyle("-fx-fill: GREEN;");
 		portTf.setDisable(value);
 		startServerBtn.setDisable(value);
 	}

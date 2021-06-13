@@ -73,7 +73,7 @@ public class TeacherExamTypeController implements Initializable {
 		manualBtn = sbManualBtn;
 		typeImg = sbTypeImg;
 		typeImg.setImage(new Image("/img_examType.png"));
-		typeImg.setFitWidth(930);
+		typeImg.setFitWidth(925);
 		typeImg.setFitHeight(230);
 		typeImg.setCache(true);
 		typeImg.setPreserveRatio(false);
