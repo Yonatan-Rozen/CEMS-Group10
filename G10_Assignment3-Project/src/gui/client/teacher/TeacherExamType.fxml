@@ -35,6 +35,6 @@
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <ImageView fx:id="sbTypeImg" fitHeight="230.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="330.0" />
+      <ImageView fx:id="sbTypeImg" fitHeight="230.0" fitWidth="900.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="330.0" />
    </children>
 </AnchorPane>
