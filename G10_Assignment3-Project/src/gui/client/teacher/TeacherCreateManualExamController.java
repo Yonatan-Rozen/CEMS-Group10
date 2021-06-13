@@ -75,11 +75,9 @@ public class TeacherCreateManualExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList();
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList();
 	private static String msg;
-	FileChooser fileChooser = new FileChooser();
+	private static FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
-	private static String FileName;
-	private static String FilePath;
-	private static String examID;
+	private static String FileName,FilePath,examID;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -113,7 +111,6 @@ public class TeacherCreateManualExamController implements Initializable {
 		uploadFileTf = sbUploadFileTf;
 
 		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2" });
-
 	}
 
 	// ACTION METHODS *******************************************************

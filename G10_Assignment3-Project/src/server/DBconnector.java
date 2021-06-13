@@ -104,7 +104,6 @@ public class DBconnector {
 				break;
 			case "btnPressConfirmChange": // setNewPasswordByusername(username, actaulPass, tryPass, newPass, reNewPass,
 				// client)
-
 				setNewPasswordByusername(request[1], request[2], request[3], request[4], request[5], client);
 				break;
 			case "GetSubjects":
@@ -219,7 +218,7 @@ public class DBconnector {
 
 		else if (data instanceof Object[]) {
 			Object[] request = (Object[]) data;
-
+			System.out.println(request[0].toString());
 			switch (request[0].toString()) {
 			case "UpdateQuestion":
 				updateQuestion((Question) request[1], client);
@@ -230,6 +229,10 @@ public class DBconnector {
 			case "TeacherUploadFile": // req1 -examID , req2 -filepath
 				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
 				break;
+			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
+				System.out.println("finish edit exam case");
+				btnPressFinishEditManualExam((String) request[1], (MyFile) request[2], (String) request[3], client);
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
@@ -238,10 +241,37 @@ public class DBconnector {
 		}
 	}
 
-	//(new Object[] { ((String[]) obj)[0], examID, testFile,((String[]) obj)[3]});
+
+	private void btnPressFinishEditManualExam(String examID, MyFile myFile, String time, ConnectionToClient client)
+			throws IOException {
+
+		File outputFile = new File(myFile.getFileName());
+		FileOutputStream fos = new FileOutputStream(outputFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		try {
+			Blob blob = con.createBlob();
+			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
+			PreparedStatement stmt = con
+					.prepareStatement("UPDATE exams SET File = ? , AllocatedTime = ? WHERE ExamID = ?");
+			stmt.setBlob(1, blob);
+			stmt.setString(2, time);
+			stmt.setString(3, examID);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		bos.write(myFile.getMybytearray(), 0, myFile.getSize());
+		bos.flush();
+		fos.flush();
+
+		client.sendToClient("");
+
+	}
 
 	private void ExamFileUpload(String examID, MyFile myFile,String whoCalled,String studentID, ConnectionToClient client) throws IOException {
-
 		File outputFile = new File(myFile.getFileName());
 		FileOutputStream fos = new FileOutputStream(outputFile);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -362,6 +392,7 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = '" + CourseName + "'");
+
 			if (rs.next()) {
 				CourseID = rs.getString(1);
 				SubjectID = rs.getString(2);
@@ -392,8 +423,8 @@ public class DBconnector {
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ExtractedExamID) as ID FROM ("
-					+ "SELECT SUBSTRING(ExamID, 5) as ExtractedExamID FROM exams "
-					+ "WHERE ExamID LIKE '" + SubjectID +""+ CourseID + "%') as MaxID");
+					+ "SELECT SUBSTRING(ExamID, 5) as ExtractedExamID FROM exams " + "WHERE ExamID LIKE '" + SubjectID
+					+ "" + CourseID + "%') as MaxID");
 			rs.next();
 			int currentMaxID = rs.getInt(1);
 			rs.close();
@@ -407,7 +438,8 @@ public class DBconnector {
 		String type = "C"; // computer - M-> Manually
 		// insert new exam into exams and generate a new 'examID'
 		try {
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type) VALUES (?,?,?,?,?,?)");
+			PreparedStatement stmt = con.prepareStatement(
+					"INSERT INTO exams (ExamID, BankID,CourseID,AllocatedTime,Author,Type) VALUES (?,?,?,?,?,?)");
 			stmt.setString(1, examID);
 			stmt.setString(2, BankID);
 			stmt.setString(3, CourseID);
@@ -479,7 +511,8 @@ public class DBconnector {
 		String SubjectID = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = '" + CourseName + "'");
+			ResultSet rs = stmt
+					.executeQuery("SELECT CourseID,SubjectID From courses WHERE CourseName = '" + CourseName + "'");
 			if (rs.next()) {
 				CourseID = rs.getString(1);
 				SubjectID = rs.getString(2);
@@ -1118,8 +1151,8 @@ public class DBconnector {
 
 			rs.close();
 			if (num.equals("2")) {
-				client.sendToClient(questionInExamList);}
-			else
+				client.sendToClient(questionInExamList);
+			} else
 				client.sendToClient(questionList);
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");

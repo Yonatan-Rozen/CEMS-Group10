@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -33,28 +36,29 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
+            <Circle fx:id="sbCircle" disable="true" fill="#f8f8f8" layoutX="279.0" layoutY="20.0" opacity="0.5" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="sbRightPanelAp" layoutX="392.0" layoutY="177.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="50.0">
          <children>
-            <Label layoutX="23.0" layoutY="270.0" text="Allocated Time" underline="true">
+            <Label layoutX="32.0" layoutY="305.0" text="Allocated Time" underline="true" AnchorPane.topAnchor="295.0">
                <font>
                   <Font name="System Bold Italic" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="19.0" layoutY="14.0" text="Student Comments" underline="true">
+            <Label text="Student Comments" underline="true">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbStudentCommentsTa" layoutX="19.0" layoutY="45.0" prefHeight="78.0" prefWidth="378.0" />
-            <TextArea fx:id="sbTeacherCommentsTa1" layoutX="23.0" layoutY="179.0" prefHeight="78.0" prefWidth="378.0" />
-            <Label layoutX="23.0" layoutY="140.0" text="Teacher Comments" underline="true">
+            <TextArea fx:id="sbStudentCommentsTa" layoutY="31.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for students -" />
+            <TextArea fx:id="sbTeacherCommentsTa1" layoutY="140.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for superviser -" AnchorPane.topAnchor="132.0" />
+            <Label layoutX="-1.0" layoutY="109.0" text="Teacher Comments" underline="true" AnchorPane.topAnchor="101.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbAllocatedTimeTa" layoutX="192.0" layoutY="267.0" prefHeight="7.0" prefWidth="135.0" />
+            <TextArea fx:id="sbAllocatedTimeTa" layoutX="188.0" layoutY="302.0" prefHeight="7.0" prefWidth="135.0" promptText="###" AnchorPane.topAnchor="295.0" />
             <Button fx:id="sbFinishBtn" layoutX="323.0" layoutY="347.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -65,6 +69,24 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+            </Button>
+            <Label layoutY="224.0" text="Upload Word Doc:" underline="true" AnchorPane.topAnchor="210.0">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="sbUploadFileTf" editable="false" focusTraversable="false" layoutX="-1.0" layoutY="262.0" mouseTransparent="true" prefHeight="31.0" prefWidth="430.0" promptText="~File path~" scaleShape="false" AnchorPane.topAnchor="250.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Button fx:id="sbSearchBtn" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="251.0" layoutY="224.0" maxHeight="53.0" minHeight="31.0" mnemonicParsing="false" onAction="#btnPressSearch" prefHeight="35.0" prefWidth="178.0" text="SEARCH FILE &gt;&gt;&gt;" wrapText="true" AnchorPane.topAnchor="210.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets top="5.0" />
+               </opaqueInsets>
             </Button>
          </children>
       </AnchorPane>
