@@ -16,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -55,10 +58,14 @@ public class TeacherMenuController implements Initializable {
 	@FXML
 	private Button sbSettingsBtn;
 
+	@FXML
+	private ImageView sbTeacherBgImg;
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink teacherNameLnk;
 	private static Label welcomeLbl;
-	
+	private static ImageView teacherBgImg;
+
 	// STATIC INSTANCES *****************************************************
 	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
 	protected static List<String> choiceBoxesList = new ArrayList<>();
@@ -77,6 +84,8 @@ public class TeacherMenuController implements Initializable {
 		welcomeLbl = sbWelcomeLbl;
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		ClientUI.mainStage.show();
+		teacherBgImg = sbTeacherBgImg;
+		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
 	}
 
 	// ACTION METHODS *******************************************************
@@ -92,7 +101,7 @@ public class TeacherMenuController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 		TeacherMenuBarController.tmbController.btnPressCreateExam(event);
 	}
-	
+
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressCreateQuestion");
@@ -110,14 +119,16 @@ public class TeacherMenuController implements Initializable {
 	@FXML
 	public void btnPressEditQuestion(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressEditQuestion");
-		
-		String[] request = new String[]{"GetExistingBanks", ChatClient.user.getUsername()};                                       
-		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
-		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);                                                   
+
+		String[] request = new String[] { "GetExistingBanks", ChatClient.user.getUsername() };
+		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions",
+				"Please note that you should create a question first!");
+		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
 
 		if (choiceBoxesList != null) {
 			choiceBoxRequested = true;
-			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+			ClientUI.mainScene
+					.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 			TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
 			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(choiceBoxesList);
 		}
@@ -140,14 +151,16 @@ public class TeacherMenuController implements Initializable {
 	@FXML
 	public void btnPressViewReport(ActionEvent event) throws Exception {
 		System.out.println("TeacherMenu::btnPressViewReport");
-		
-		String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
-		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
+
+		String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(), "T" };
+		Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info",
+				"There are no exams results yet!");
 		choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
-		
+
 		if (choiceBoxesList != null) {
 			setByMenu = true;
-			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+			ClientUI.mainScene
+					.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 			TeacherMenuBarController.tmbController.btnPressViewReports(event);
 		}
 	}
