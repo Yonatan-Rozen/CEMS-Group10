@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.DragEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -75,11 +76,9 @@ public class TeacherCreateManualExamController implements Initializable {
 	public static ObservableList<String> bankList = FXCollections.observableArrayList();
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList();
 	private static String msg;
-	FileChooser fileChooser = new FileChooser();
+	private static FileChooser fileChooser = new FileChooser();
 	private Desktop desktop = Desktop.getDesktop();
-	private static String FileName;
-	private static String FilePath;
-	private static String examID;
+	private static String FileName,FilePath,examID;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -113,7 +112,6 @@ public class TeacherCreateManualExamController implements Initializable {
 		uploadFileTf = sbUploadFileTf;
 
 		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "2" });
-
 	}
 
 	// ACTION METHODS *******************************************************
@@ -175,7 +173,6 @@ public class TeacherCreateManualExamController implements Initializable {
 					String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
 							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
-					// TODO examID should have a value here
 					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath });
 
 					ButtonType buttonYes = new ButtonType("Yes");
