@@ -1,5 +1,6 @@
 package gui.client.teacher;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,9 @@ public class TeacherMenuController implements Initializable {
 
 	@FXML
 	private Button sbViewReportBtn;
+	
+	@FXML
+	private Button sbComputerizedResultsBtn;
 
 	@FXML
 	private Button sbSettingsBtn;
@@ -73,7 +77,6 @@ public class TeacherMenuController implements Initializable {
 		welcomeLbl = sbWelcomeLbl;
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		ClientUI.mainStage.show();
-		
 	}
 
 	// ACTION METHODS *******************************************************
@@ -147,5 +150,12 @@ public class TeacherMenuController implements Initializable {
 			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 			TeacherMenuBarController.tmbController.btnPressViewReports(event);
 		}
+	}
+	
+	@FXML
+	public void btnPressComputerizedResults(ActionEvent event) throws IOException {
+		System.out.println("TeacherMenu::btnPressComputerizedResults");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+		TeacherMenuBarController.tmbController.btnPressComputerizedResults(event);
 	}
 }
