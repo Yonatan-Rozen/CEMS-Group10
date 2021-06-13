@@ -65,7 +65,7 @@ public class SignInController implements Initializable {
 				ClientUI.mainStage.hide();
 				
 				try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
-				}catch(NullPointerException e) {System.out.println("client already disconnected...");};
+				}catch(NullPointerException e) {System.out.println("client has logged out and then closed the window...");};
 				
 				methodsHandler.getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
 						"Press ok to continue").showAndWait();
