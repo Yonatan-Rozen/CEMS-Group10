@@ -54,8 +54,8 @@ public class PrincipleReportsByStudentController implements Initializable {
 	@FXML
 	private ChoiceBox<String> sbCourcesCb;
 
-	@FXML
-	private AnchorPane sbBarChartContainerPn;
+//	@FXML
+//	private AnchorPane sbBarChartContainerPn;
 
 	@FXML
 	private Button sbShowReportsByCourseBtn;
@@ -75,7 +75,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 	private static Button showReportsByCourseBtn;
 	private static Button backToViewReportsBtn;
 	private static Label studentIDLbl;
-	private static AnchorPane barChartContainerPn;
+//	private static AnchorPane barChartContainerPn;
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
@@ -92,7 +92,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			sbAmountAxisNa.setTickLabelFormatter(isc);
-			barChartContainerPn = sbBarChartContainerPn;
+//			barChartContainerPn = sbBarChartContainerPn;
 			prbsController = new PrincipleReportsByStudentController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -120,7 +120,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 			courcesCb.setItems(coursesList);
 
 			// hide barchart until after pressing SHOW
-			barChartContainerPn.setVisible(false);
+//			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -191,7 +191,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
-		barChartContainerPn.setVisible(true);
+//		barChartContainerPn.setVisible(true);
 
 	}
 
