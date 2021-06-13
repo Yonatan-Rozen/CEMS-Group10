@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,12 +48,14 @@ public class StudentEnterCodeController implements Initializable {
 
 		if (code.equals(codeTf.getText())) {
 			if (examType.equals("C"))
-				ClientUI.mainScene.setRoot(FXMLLoader
-						.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
-			// StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
+				//ClientUI.mainScene.setRoot(FXMLLoader
+				//	.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
+				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 			if (examType.equals("M"))
-				ClientUI.mainScene.setRoot(
-						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
+				//				ClientUI.mainScene.setRoot(
+				//						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
+				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
+
 		}
 
 		// if the student didn't insert the correct code

@@ -195,7 +195,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		System.out.println("before the query of submit");
 		// successful submit example ***********************************
 		//TODO update grade into exams_results_computerized
-		ClientUI.chat.accept(new String[] { "btnPressSubmit","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade) });
+		ClientUI.chat.accept(new String[] { "btnPressSubmitComputerized","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade) });
 
 		System.out.println("after the query of submit");
 
@@ -281,18 +281,24 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	//TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked () throws IOException {
-		submitBtn.setDisable(true);
-		// turn it around : diasble the EXAM and FORCE him to press Submit
-		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
-		//convert to minutes
-		//There are 60,000,000,000 nanosecond in 1 minute.
-		estimatedTime=estimatedTime/600000;
-		estimatedTime=estimatedTime/100000;
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		// NOT successful submit - the exam is locked and submitted automatically ***********************************
-		// update "submited" column to 1 in DB's exams_results table
-		ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked","NOT successful", String.format("%ld", estimatedTime), ChatClient.user.getUsername(),examID });
+		if (StudentMenuController.smController.examLocked) {
+			submitBtn.setDisable(true);
+			// turn it around : diasble the EXAM and FORCE him to press Submit
+			System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
+			estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
+			//convert to minutes
+			//There are 60,000,000,000 nanosecond in 1 minute.
+			estimatedTime = estimatedTime / 600000;
+			estimatedTime = estimatedTime / 100000;
+			ClientUI.mainScene
+			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+			//			ClientUI.mainScene
+			//			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+			//			// NOT successful submit - the exam is locked and submitted automatically ***********************************
+			// update "submited" column to 1 in DB's exams_results table
+			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
+					String.format("%ld", estimatedTime), ChatClient.user.getUsername(), examID });
+		}
 	}
 
 	/**

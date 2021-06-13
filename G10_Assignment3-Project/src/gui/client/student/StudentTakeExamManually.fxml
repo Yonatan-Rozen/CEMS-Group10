@@ -3,39 +3,57 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeExamManuallyController">
+<AnchorPane minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeExamManuallyController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="60.0" text="Take Exam" underline="true" AnchorPane.topAnchor="20.0">
+      <Label layoutX="166.0" layoutY="112.0" prefHeight="35.0" prefWidth="187.0" text="exam ( ****** ) :">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="119.0" layoutY="113.0" prefHeight="27.0" prefWidth="153.0" text="exam ( ****** ) :">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="61.0" fitWidth="47.0" layoutX="199.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="61.0" fitWidth="47.0" layoutX="315.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../Desktop/הנדסת%20תכנה/סמסטר%205/שיטות/פרוייקט/הגשה%203/clipart1125405.png" />
          </image>
       </ImageView>
-      <Hyperlink fx:id="sbDownloadExamFileLnk" layoutX="246.0" layoutY="150.0" onAction="#lnkPressDownloadExamFile" prefHeight="27.0" prefWidth="168.0" text="Download exam file here">
+      <Hyperlink fx:id="sbDownloadExamFileLnk" layoutX="362.0" layoutY="161.0" onAction="#lnkPressDownloadExamFile" prefHeight="33.0" prefWidth="206.0" text="Download exam file here">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Hyperlink>
-      <Pane layoutX="155.0" layoutY="195.0" prefHeight="174.0" prefWidth="290.0" />
-      <Button fx:id="sbSubmitExamBtn" layoutX="465.0" layoutY="336.0" mnemonicParsing="false" onAction="#btnPressSubmitExam" prefHeight="33.0" prefWidth="104.0" text="Submit" textAlignment="CENTER">
+      <Pane layoutX="177.0" layoutY="242.0" prefHeight="117.0" prefWidth="577.0">
+         <children>
+            <Label layoutX="14.0" layoutY="19.0" text="Upload Word Document :">
+               <font>
+                  <Font name="System Bold Italic" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="sbSearchBtn" layoutX="371.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnPressSearch" text="SEARCH FILE &gt;&gt;&gt;">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <TextField fx:id="sbUploadFileTf" editable="false" focusTraversable="false" layoutX="14.0" layoutY="69.0" mouseTransparent="true" prefHeight="31.0" prefWidth="533.0" promptText="~File path~" scaleShape="false">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children></Pane>
+      <Button fx:id="sbSubmitExamBtn" layoutX="708.0" layoutY="535.0" mnemonicParsing="false" onAction="#btnPressSubmitExam" prefHeight="33.0" prefWidth="104.0" text="Submit" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
+      <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="373.0" layoutY="59.0" text="Take Exam" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

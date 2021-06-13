@@ -11,10 +11,12 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.server.ServerConsoleController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.server.ServerConsoleController">
    <children>
+      <ImageView fx:id="sblogoImg" fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
          <center>
             <GridPane BorderPane.alignment="CENTER">
@@ -67,6 +69,11 @@
             </Label>
          </top>
       </BorderPane>
-      <ImageView fx:id="imgView" fitHeight="100.0" fitWidth="200.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" rotate="-11.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Label layoutX="491.0" layoutY="17.0" text="status:" AnchorPane.leftAnchor="491.0" AnchorPane.topAnchor="17.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Circle fx:id="sbStatusCircle" fill="#ff1f1f" layoutX="554.0" layoutY="27.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

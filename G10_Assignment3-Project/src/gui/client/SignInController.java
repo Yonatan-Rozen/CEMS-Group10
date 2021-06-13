@@ -19,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
 public class SignInController implements Initializable {
@@ -32,12 +34,16 @@ public class SignInController implements Initializable {
 	private PasswordField sbPasswordPf;
 
 	@FXML
+	private ImageView sblogoImg;
+
+	@FXML
 	private Button sbSignInBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField usernameTf;
 	private static PasswordField passwordPf;
-	
+	private static ImageView logoimg;
+
 	// START METHOD *********************************************************
 	/**
 	 * Opens SignIn.fxml
@@ -52,18 +58,18 @@ public class SignInController implements Initializable {
 		ClientUI.mainStage.setScene(ClientUI.mainScene);
 		ClientUI.mainStage.setResizable(false);
 		ClientUI.mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
+
 		ClientUI.mainStage.setOnCloseRequest(event -> {
 			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-			
+
 			ButtonType buttonYes = new ButtonType("Yes");
 			ButtonType buttonCancel = new ButtonType("Cancel");
-			Optional<ButtonType> result = methodsHandler.getNewAlert(AlertType.CONFIRMATION, "Closing client window", 
-					"You are about to close the window and disconnect!","Are you sure you want to proceed?",
-					buttonYes, buttonCancel).showAndWait();
-			
+			Optional<ButtonType> result = methodsHandler.getNewAlert(AlertType.CONFIRMATION, "Closing client window",
+					"You are about to close the window and disconnect!", "Are you sure you want to proceed?", buttonYes,
+					buttonCancel).showAndWait();
+
 			if (result.get() == buttonYes) {
 				ClientUI.mainStage.hide();
-				
 				try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
 				}catch(NullPointerException e) {System.out.println("client has logged out and then closed the window...");};
 				
@@ -73,6 +79,7 @@ public class SignInController implements Initializable {
 			}
 			event.consume(); // cancels the execution of closing the server
 		});
+
 	}
 
 	// INITIALIZE METHOD ****************************************************
@@ -80,59 +87,75 @@ public class SignInController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.mainStage.hide();
 		ClientUI.mainStage.setTitle("Computerized Exam Management System (Client)");
-		ClientUI.mainStage.setWidth(600);
-		ClientUI.mainStage.setHeight(400);
-		try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
-		}catch(NullPointerException e) {System.out.println("> client window is now active.\n> waiting for user input...");};
+//		ClientUI.mainStage.setWidth(600);
+//		ClientUI.mainStage.setHeight(400);
+		try {
+			ClientUI.chat.accept(new String[] { "Disconnect", ChatClient.user.getUsername() });
+		} catch (NullPointerException e) {
+			System.out.println("> client window is now active.\n> waiting for user input...");
+		}
+		;
 		ChatClient.user = null;
 		usernameTf = sbUsernameTf;
 		passwordPf = sbPasswordPf;
+		logoimg = sblogoImg;
+		logoimg.setImage(new Image("/logo.png"));
 		ClientUI.mainStage.show();
+
+		ImageView view = new ImageView(new Image("/icon_signIn.png"));
+		view.setFitHeight(40);
+		view.setPreserveRatio(true);
+		sbSignInBtn.setGraphic(view);
 	}
 
 	// ACTION METHOD *****************************************************
-	
+
 	@FXML
-	public void enterPressSignIn(KeyEvent e)
-	{
-	    if(e.getCode().toString().equals("ENTER"))
-	    	btnPressSignIn(new ActionEvent());
+	public void enterPressSignIn(KeyEvent e) {
+
+		if (e.getCode().toString().equals("ENTER"))
+			btnPressSignIn(new ActionEvent());
 	}
-	
+
 	@FXML
 	public void btnPressSignIn(ActionEvent event) {
+
 		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-		
+
 		if (usernameTf.getText().equals("") || passwordPf.getText().equals("")) {
 			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "All fields are required!").showAndWait();
 			return;
 		}
-		
-	    // sets ChatClient.user
+
+		// sets ChatClient.user
 		ClientUI.chat.accept(new String[] { "btnPressSignIn", usernameTf.getText(), passwordPf.getText() });
 		try {
 			switch (ChatClient.user.getType()) {
 			case "Principle":
 				ClientUI.mainStage.hide();
-				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+				ClientUI.mainScene
+						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
 				break;
 			case "Student":
 				ClientUI.mainStage.hide();
-				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+				ClientUI.mainScene
+						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 				break;
 			case "Teacher":
 				ClientUI.mainStage.hide();
-				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+				ClientUI.mainScene
+						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 				break;
 			default:
 				System.out.println("error! this type doesn't exist");
 				break;
 			}
 		} catch (NullPointerException | IOException e) {
-			
+
 			if (e instanceof IOException)
 				System.out.println("could not load fxml");
-			else methodsHandler.getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
+			else
+				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
 		}
 	}
 

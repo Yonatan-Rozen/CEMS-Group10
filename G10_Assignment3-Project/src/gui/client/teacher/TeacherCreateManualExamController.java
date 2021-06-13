@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.DragEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -173,13 +172,14 @@ public class TeacherCreateManualExamController implements Initializable {
 					String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
 							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
-					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath });
+					// TODO examID should have a value here
+					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath,"T" });
 
 					ButtonType buttonYes = new ButtonType("Yes");
 					ButtonType buttonNo = new ButtonType("No");
 					Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Exam saved", "File was uploaded successfuly!",
 							"Upload another file?",buttonYes, buttonNo).showAndWait();
-					
+
 					if (request.get() == buttonYes)
 						TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateManualExam"));
 					else ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
