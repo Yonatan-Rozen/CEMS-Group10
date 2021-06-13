@@ -1,16 +1,11 @@
 package gui.client.teacher;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import client.ChatClient;
 import client.ClientUI;
@@ -21,23 +16,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.AmbientLight;
-import javafx.scene.PointLight;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import logic.exam.Exam;
 import logic.exam.IExam;
-import logic.question.Question;
-import javafx.scene.control.Alert.AlertType;
 
 public class TeacherEditExamController implements Initializable {
 	public static TeacherEditExamController teeController;
@@ -51,6 +43,12 @@ public class TeacherEditExamController implements Initializable {
 
 	@FXML
 	private AnchorPane sbRightPanelAp;
+	
+	@FXML
+	private AnchorPane sbCommentsAp;
+	
+	@FXML
+	private AnchorPane sbUploadAp;	
 
 	@FXML
 	private TextArea sbStudentCommentsTa;
@@ -60,6 +58,9 @@ public class TeacherEditExamController implements Initializable {
 
 	@FXML
 	private TextArea sbAllocatedTimeTa;
+	
+	@FXML
+	private TextField sbAllocatedTimeTf;
 
 	@FXML
 	private TableView<IExam> sbExamsTv;
@@ -109,7 +110,10 @@ public class TeacherEditExamController implements Initializable {
 	private static AnchorPane leftPanelAp;
 	private static AnchorPane topPanelAp;
 	private static AnchorPane rightPanelAp;
+	private static AnchorPane commentsAp;
+	private static AnchorPane uploadAp;	
 	private static ChoiceBox<String> chooseBankCb;
+	
 	private static Button continue1Btn;
 	private static Button deleteExamBtn1;
 	private static Button editSelectedExamBtn;
@@ -119,12 +123,13 @@ public class TeacherEditExamController implements Initializable {
 	private static Button searchBtn;
 	private static TextArea studentCommentsTa;
 	private static TextArea teacherCommentsTa1;
-	private static TextArea allocatedTimeTa;
+//	private static TextArea allocatedTimeTa;
 	private static TextField uploadFileTf;
+	private static TextField allocatedTimeTf;
 
 	// STATIC INSTANCES *****************************************************
 	private static String ExamID, ExamType, FileName, FilePath;
-	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
+	public static ObservableList<String> bankList = FXCollections.observableArrayList();
 	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
 	private static List<IExam> examList;
 	ObservableList<IExam> examObservableList = FXCollections.observableArrayList();
@@ -137,10 +142,13 @@ public class TeacherEditExamController implements Initializable {
 		teeController = new TeacherEditExamController();
 
 		examsTv = sbExamsTv;
+		CommonMethodsHandler.getInstance().disableTableColumnSwap(examsTv);
 		examIDTc = sbExamIDTc;
 		courseIDTc = sbcourseIDTc;
 		leftPanelAp = sbLeftPanelAp;
 		rightPanelAp = sbRightPanelAp;
+		commentsAp = sbCommentsAp; 
+		uploadAp = sbUploadAp;	    
 		topPanelAp = sbTopPanelAp;
 		chooseBankCb = sbChooseBankCb;
 		continue1Btn = sbContinue1Btn;
@@ -152,7 +160,8 @@ public class TeacherEditExamController implements Initializable {
 		searchBtn = sbSearchBtn;
 		studentCommentsTa = sbStudentCommentsTa;
 		teacherCommentsTa1 = sbTeacherCommentsTa1;
-		allocatedTimeTa = sbAllocatedTimeTa;
+		allocatedTimeTf = sbAllocatedTimeTf;
+		CommonMethodsHandler.getInstance().setIntegersOnlyTextLimiter(allocatedTimeTf, 3);
 		uploadFileTf = sbUploadFileTf;
 		teacherCommentsTa1.setWrapText(true);
 		studentCommentsTa.setWrapText(true);
@@ -161,35 +170,30 @@ public class TeacherEditExamController implements Initializable {
 
 		leftPanelAp.setDisable(true);
 		rightPanelAp.setDisable(true);
+		bankList.clear();
+		bankList.add("----------");
 		chooseBankCb.setValue("----------");
 		chooseBankCb.setItems(bankList);
 
-		if (bankList.size() == 1) { // add banks only once
-			ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "3" });
-		}
+		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "3" });
 	}
 
 	@FXML
 	void btnPressContinue1(ActionEvent event) {
 		System.out.println("TeacherEditExam::btnPressContinue1");
-		if (chooseBankCb.getValue() != "----------") {
+		if (!chooseBankCb.getValue().equals("----------")) {
 
 			topPanelAp.setDisable(true);
 			leftPanelAp.setDisable(false);
 			circle.setStyle("-fx-fill: #f4f4f4;");
 
-			CourseList.clear(); // clear list
-
-			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),
-					ChatClient.user.getUsername() });
+//			CourseList.clear(); // clear list <---- not used - Yonatan
+			
+			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),ChatClient.user.getUsername() });
 
 			examIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("examID"));
-			examIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-
-			///// this is not bankID , the result is courseID
 			courseIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("courseID"));
-			courseIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-
+			
 		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
 					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
@@ -209,20 +213,20 @@ public class TeacherEditExamController implements Initializable {
 	@FXML
 	void btnPressFinish(ActionEvent event) throws IOException {
 		System.out.println("TeacherEditExam::btnPressFinish");
-		String insertTime = allocatedTimeTa.getText();
+		String insertTime = allocatedTimeTf.getText();
 		if (!insertTime.equals("Enter Time!")) {
 			if (Integer.parseInt(insertTime) > 0) {
 
 				if (ExamType.equals("C")) {
-					System.out.println("check info = " + ExamID + studentCommentsTa.getText()
-							+ teacherCommentsTa1.getText() + allocatedTimeTa.getText());
+					System.out.println("check info = " + ExamID +" "+ studentCommentsTa.getText()
+							+ teacherCommentsTa1.getText() + allocatedTimeTf.getText());
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
-							studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTa.getText(), "2",
+							studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTf.getText(), "2",
 							ChatClient.user.getUsername() });
 				} else { // ExamType = "M"
-					System.out.println("check info(manual) = " + ExamID + allocatedTimeTa.getText() + FilePath);
+					System.out.println("check info(manual) = " + ExamID + allocatedTimeTf.getText() + FilePath);
 					ClientUI.chat.accept(new String[] { "btnPressFinishEditManualExam", ExamID, FilePath,
-							allocatedTimeTa.getText(), ChatClient.user.getUsername() });
+							allocatedTimeTf.getText(), ChatClient.user.getUsername() });
 				}
 
 				ButtonType buttonYes = new ButtonType("Yes");
@@ -262,22 +266,20 @@ public class TeacherEditExamController implements Initializable {
 			ExamType = exam.getType();
 
 			circle.setStyle("-fx-fill: #f4f4f4;");
-			allocatedTimeTa.setText(exam.getAllocatedTime());
+			allocatedTimeTf.setText(exam.getAllocatedTime());
 			ExamID = exam.getExamID();
 
-			if (exam.getType().equals("C")) {
-				sbUploadFileTf.setDisable(true);
-				searchBtn.setDisable(true);
-			} else { // case "M"
-				teacherCommentsTa1.setDisable(true);
-				studentCommentsTa.setDisable(true);
-			}
+			if (exam.getType().equals("C"))
+				uploadAp.setDisable(true);
+			else  // case "M"
+				commentsAp.setDisable(true);
+				
 
 			//////
 			// set text in student&teacher comments(with sql query??)
 			//////
 
-			allocatedTimeTa.setText(exam.getAllocatedTime());
+			allocatedTimeTf.setText(exam.getAllocatedTime());
 			ExamID = exam.getExamID();
 
 		} else {
@@ -293,10 +295,8 @@ public class TeacherEditExamController implements Initializable {
 
 		leftPanelAp.setDisable(false);
 		rightPanelAp.setDisable(true);
-		sbUploadFileTf.setDisable(false);
-		searchBtn.setDisable(false);
-		teacherCommentsTa1.setDisable(false);
-		studentCommentsTa.setDisable(false);
+		uploadAp.setDisable(false);
+		commentsAp.setDisable(false);
 
 	}
 
@@ -307,8 +307,7 @@ public class TeacherEditExamController implements Initializable {
 
 		IExam exam = examsTv.getSelectionModel().getSelectedItem();
 		if (exam != null) {
-			ClientUI.chat
-					.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
+			ClientUI.chat.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
 			examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
 			circle.setStyle("-fx-fill: GREEN;");
 

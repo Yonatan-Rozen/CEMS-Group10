@@ -13,11 +13,11 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherEditExamController">
    <children>
-      <AnchorPane fx:id="sbLeftPanelAp" layoutX="50.0" layoutY="284.0" prefHeight="400.0" prefWidth="320.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="50.0">
+      <AnchorPane fx:id="sbLeftPanelAp" layoutX="56.0" layoutY="160.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0">
          <children>
-            <Button fx:id="sbEditSelectedExamBtn" layoutX="164.0" layoutY="315.0" mnemonicParsing="false" onAction="#btnPressEditSelectedExam" prefHeight="75.0" prefWidth="130.0" text="EDIT &gt;&gt;" AnchorPane.bottomAnchor="10.0">
+            <Button fx:id="sbEditSelectedExamBtn" layoutX="164.0" layoutY="315.0" mnemonicParsing="false" onAction="#btnPressEditSelectedExam" prefWidth="130.0" text="EDIT &gt;&gt;" AnchorPane.bottomAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
@@ -25,13 +25,13 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <TableView fx:id="sbExamsTv" layoutX="14.0" layoutY="96.0" prefHeight="247.0" prefWidth="280.0" AnchorPane.bottomAnchor="96.0">
+            <TableView fx:id="sbExamsTv" layoutX="14.0" layoutY="96.0" prefHeight="280.0" prefWidth="280.0" AnchorPane.bottomAnchor="63.0">
               <columns>
-                <TableColumn fx:id="sbExamIDTc" maxWidth="-1.0" minWidth="170.0" prefWidth="170.0" style="-fx-font-size: 17;" text="Exam ID" />
-                  <TableColumn fx:id="sbcourseIDTc" maxWidth="-1.0" minWidth="110.0" prefWidth="110.0" style="-fx-font-size: 17;" text="Course ID" />
+                <TableColumn fx:id="sbExamIDTc" maxWidth="165.0" minWidth="125.0" prefWidth="152.0" style="-fx-font-size: 15; -fx-alignment: CENTER; -fx-font-weight: Bold;" text="Exam ID" />
+                  <TableColumn fx:id="sbcourseIDTc" maxWidth="141.0" minWidth="103.0" prefWidth="110.0" style="-fx-font-size: 15; -fx-alignment: CENTER; -fx-font-weight: Bold;" text="Course ID" />
               </columns>
             </TableView>
-            <Button fx:id="sbDeleteExamBtn1" layoutX="14.0" layoutY="315.0" mnemonicParsing="false" onAction="#btnPressDeleteExam" prefHeight="75.0" prefWidth="130.0" text="DELETE" AnchorPane.bottomAnchor="10.0">
+            <Button fx:id="sbDeleteExamBtn1" layoutX="14.0" layoutY="315.0" mnemonicParsing="false" onAction="#btnPressDeleteExam" prefWidth="130.0" text="DELETE" AnchorPane.bottomAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -39,76 +39,95 @@
             <Circle fx:id="sbCircle" disable="true" fill="#f8f8f8" layoutX="279.0" layoutY="20.0" opacity="0.5" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbRightPanelAp" layoutX="392.0" layoutY="177.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="50.0">
+      <AnchorPane fx:id="sbRightPanelAp" layoutX="401.0" layoutY="140.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="145.0">
          <children>
-            <Label layoutX="32.0" layoutY="305.0" text="Allocated Time" underline="true" AnchorPane.topAnchor="295.0">
+            <Label layoutX="68.0" layoutY="327.0" text="Edit allocated time (min):" underline="true">
                <font>
                   <Font name="System Bold Italic" size="21.0" />
                </font>
             </Label>
-            <Label text="Student Comments" underline="true">
-               <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="sbStudentCommentsTa" layoutY="31.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for students -" />
-            <TextArea fx:id="sbTeacherCommentsTa1" layoutY="140.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for superviser -" AnchorPane.topAnchor="132.0" />
-            <Label layoutX="-1.0" layoutY="109.0" text="Teacher Comments" underline="true" AnchorPane.topAnchor="101.0">
-               <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="sbAllocatedTimeTa" layoutX="188.0" layoutY="302.0" prefHeight="7.0" prefWidth="135.0" promptText="###" AnchorPane.topAnchor="295.0" />
-            <Button fx:id="sbFinishBtn" layoutX="323.0" layoutY="347.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;">
+            <Button fx:id="sbFinishBtn" layoutX="323.0" layoutY="351.0" mnemonicParsing="false" onAction="#btnPressFinish" text="FINISH &gt;&gt;&gt;" AnchorPane.bottomAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Line endX="7.0" layoutX="-20.0" startX="7.0" startY="393.0" />
-            <Button fx:id="sbChangeExamBtn" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#btnPressChangeExam" text="&lt;&lt; CHANGE EXAM">
+            <Button fx:id="sbChangeExamBtn" layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#btnPressChangeExam" text="&lt;&lt; CHANGE EXAM" AnchorPane.bottomAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Label layoutY="224.0" text="Upload Word Doc:" underline="true" AnchorPane.topAnchor="210.0">
+            <AnchorPane fx:id="sbCommentsAp" prefWidth="430.0">
+               <children>
+                  <Label text="Edit comments for students:" underline="true">
+                     <font>
+                        <Font name="System Italic" size="21.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="sbStudentCommentsTa" layoutY="31.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for students -" wrapText="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextArea>
+                  <TextArea fx:id="sbTeacherCommentsTa1" layoutY="132.0" prefHeight="70.0" prefWidth="430.0" promptText="- Edit comments for superviser -" wrapText="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextArea>
+                  <Label layoutY="101.0" text="Edit comments for teachers:" underline="true">
+                     <font>
+                        <Font name="System Italic" size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="sbUploadAp" layoutY="222.0" prefWidth="430.0">
+               <children>
+                  <Label layoutY="9.0" text="Upload different file:" underline="true">
+                     <font>
+                        <Font name="System Italic" size="21.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sbUploadFileTf" editable="false" focusTraversable="false" layoutY="45.0" mouseTransparent="true" prefHeight="31.0" prefWidth="430.0" promptText="~File path~" scaleShape="false">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="sbSearchBtn" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="252.0" layoutY="5.0" maxHeight="53.0" minHeight="31.0" mnemonicParsing="false" onAction="#btnPressSearch" prefHeight="35.0" prefWidth="178.0" text="SEARCH FILE &gt;&gt;&gt;" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets top="5.0" />
+                     </opaqueInsets>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <TextField fx:id="sbAllocatedTimeTf" alignment="CENTER" layoutX="327.0" layoutY="328.0" prefWidth="60.0" promptText="###">
                <font>
-                  <Font name="System Italic" size="21.0" />
-               </font>
-            </Label>
-            <TextField fx:id="sbUploadFileTf" editable="false" focusTraversable="false" layoutX="-1.0" layoutY="262.0" mouseTransparent="true" prefHeight="31.0" prefWidth="430.0" promptText="~File path~" scaleShape="false" AnchorPane.topAnchor="250.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Button fx:id="sbSearchBtn" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="251.0" layoutY="224.0" maxHeight="53.0" minHeight="31.0" mnemonicParsing="false" onAction="#btnPressSearch" prefHeight="35.0" prefWidth="178.0" text="SEARCH FILE &gt;&gt;&gt;" wrapText="true" AnchorPane.topAnchor="210.0">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets top="5.0" />
-               </opaqueInsets>
-            </Button>
+                  <Font size="14.0" />
+               </font></TextField>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sbTopPanelAp" layoutX="30.0" layoutY="70.0" prefHeight="97.0" prefWidth="841.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <AnchorPane fx:id="sbTopPanelAp" layoutX="30.0" layoutY="70.0" prefHeight="39.0" prefWidth="798.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="75.0">
          <children>
-            <Label layoutX="243.0" layoutY="33.0" text="choose exam bank :" underline="true">
+            <Label layoutX="192.0" layoutY="4.0" text="Choose subject of study:" underline="true" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Italic" size="21.0" />
                </font>
             </Label>
-            <Button fx:id="sbContinue1Btn" layoutX="674.0" layoutY="22.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.bottomAnchor="29.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+            <Button fx:id="sbContinue1Btn" layoutX="674.0" layoutY="22.0" mnemonicParsing="false" onAction="#btnPressContinue1" text="CONTINUE &gt;&gt;&gt;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
-            <ChoiceBox fx:id="sbChooseBankCb" layoutX="451.0" layoutY="36.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="sbChooseBankCb" layoutX="417.0" layoutY="4.0" prefWidth="150.0" style="-fx-font-size: 15; -fx-font-weight: Bold;" AnchorPane.bottomAnchor="4.0" AnchorPane.topAnchor="4.0" />
          </children>
       </AnchorPane>
-      <Line endX="450.0" layoutX="450.0" layoutY="162.0" startX="-450.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="137.0" startX="-450.0" />
       <Label layoutX="366.0" layoutY="14.0" text="Edit Exam" underline="true">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
+      <Line endX="450.0" layoutX="450.0" layoutY="356.0" startX="-79.5" />
+      <Line endX="7.0" endY="-32.5" layoutX="363.0" layoutY="169.0" startX="7.0" startY="430.0" />
+      <Line endX="450.0" layoutX="450.0" layoutY="459.0" startX="-79.5" />
    </children>
 </AnchorPane>
