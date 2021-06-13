@@ -46,17 +46,14 @@ public class TeacherExamTypeController implements Initializable {
 	private Button sbManualBtn;
 
 	@FXML
-	private ImageView sbManualImg;
+	private ImageView sbTypeImg;
 
-	@FXML
-	private ImageView sbComputerizedImg;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static AnchorPane botPanelAp;
 	private static Button computerizedBtn;
 	private static Button manualBtn;
-	private static ImageView manualImg;
-	private static ImageView computerizedImg;
+	private static ImageView typeImg;
 
 	// STATIC INSTANCES *****************************************************
 //	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
@@ -74,18 +71,12 @@ public class TeacherExamTypeController implements Initializable {
 		botPanelAp = sbBotPanelAp;
 		computerizedBtn = sbComputerizedBtn;
 		manualBtn = sbManualBtn;
-		manualImg = sbManualImg;
-		computerizedImg = sbComputerizedImg;
-		manualImg.setImage(new Image("/manualExam_icon.jpg"));
-		computerizedImg.setImage(new Image("/automaticExam_icon.jpg"));
-		manualImg.setFitWidth(300);
-		computerizedImg.setFitWidth(300);
-		manualImg.setFitHeight(141);
-		computerizedImg.setFitHeight(141);
-		manualImg.setCache(true);
-		computerizedImg.setSmooth(true);
-		manualImg.setPreserveRatio(false);
-		computerizedImg.setPreserveRatio(false);
+		typeImg = sbTypeImg;
+		typeImg.setImage(new Image("/img_examType.png"));
+		typeImg.setFitWidth(930);
+		typeImg.setFitHeight(230);
+		typeImg.setCache(true);
+		typeImg.setPreserveRatio(false);
 	}
 
 	// ACTION METHODS *******************************************************
