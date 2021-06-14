@@ -40,7 +40,7 @@
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></Button>
-                  <Button fx:id="sbComputerizedResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressComputerizedResults" text="COMP. RESULTS">
+                  <Button fx:id="sbCheckExamResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCheckExamResults" text="EXAM RESULTS">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>

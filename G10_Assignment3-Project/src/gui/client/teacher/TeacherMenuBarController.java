@@ -47,7 +47,7 @@ public class TeacherMenuBarController implements Initializable {
 	private Button sbSettingsBtn;
 	
 	@FXML
-	private Button sbComputerizedResultsBtn;
+	private Button sbCheckExamResultsBtn;
 
 	@FXML
 	private Hyperlink sbLogoutLnk;
@@ -69,7 +69,7 @@ public class TeacherMenuBarController implements Initializable {
 	private static Button createExamBtn;
 	private static Button editExamBtn;
 	private static Button viewReportsBtn;
-	private static Button computerizedResultsBtn;
+	private static Button checkExamResultsBtn;
 	private static Button settingsBtn;
 	protected static BorderPane mainPaneBp;
 
@@ -88,7 +88,7 @@ public class TeacherMenuBarController implements Initializable {
 		createExamBtn = sbCreateExamBtn;
 		editExamBtn = sbEditExamBtn;
 		viewReportsBtn = sbViewReportsBtn;
-		computerizedResultsBtn = sbComputerizedResultsBtn;
+		checkExamResultsBtn = sbCheckExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		mainPaneBp = sbMainPaneBp;
 
@@ -98,7 +98,7 @@ public class TeacherMenuBarController implements Initializable {
 		createExamBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		editExamBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
-		computerizedResultsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		checkExamResultsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
 		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		
 		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
@@ -177,10 +177,10 @@ public class TeacherMenuBarController implements Initializable {
 	 * @param event
 	 */
 	@FXML
-	public void btnPressComputerizedResults(ActionEvent event) {
+	public void btnPressCheckExamResults(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressComputerizedResults");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCheckComputerizedResults"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, computerizedResultsBtn);
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCheckExamResults"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, checkExamResultsBtn);
 	}
 
 	@FXML
