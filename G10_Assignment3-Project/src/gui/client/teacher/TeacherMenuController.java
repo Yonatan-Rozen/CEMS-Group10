@@ -85,15 +85,10 @@ public class TeacherMenuController implements Initializable {
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		ClientUI.mainStage.show();
 		teacherBgImg = sbTeacherBgImg;
-<<<<<<< HEAD
 		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
 		teacherBgImg.setPreserveRatio(false);
 		teacherBgImg.setFitHeight(620);
 
-
-=======
-		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
->>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
 	}
 
 	// ACTION METHODS *******************************************************
