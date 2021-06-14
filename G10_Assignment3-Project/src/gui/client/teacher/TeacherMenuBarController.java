@@ -97,7 +97,8 @@ public class TeacherMenuBarController implements Initializable {
 		editQuestionBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
 		createExamBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
 		editExamBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
-		viewReportsBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
+		viewReportsBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");
+		computerizedResultsBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");
 		settingsBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
 		
 		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
