@@ -27,14 +27,14 @@
                   <TableColumn fx:id="sbExamTypeClm" prefWidth="77.0" text="Type" />
                </columns>
             </TableView>
-            <TableView fx:id="tblVExamsDetails2" layoutY="246.0" prefHeight="226.0" prefWidth="519.0">
+            <TableView fx:id="tblVExamsDetails2" layoutY="246.0" prefHeight="226.0" prefWidth="856.0">
               <columns>
-                <TableColumn fx:id="sbExamsID_1Clm" prefWidth="83.0" text="ID" />
-                <TableColumn fx:id="sbDateClm" prefWidth="91.0" text="Date" />
-                  <TableColumn fx:id="sbDurationClm" prefWidth="59.0" text="Duration" />
-                  <TableColumn fx:id="sbAllStudentsClm" prefWidth="94.0" text="#Total students" />
-                  <TableColumn fx:id="sbNumSubmitted_1Clm" prefWidth="84.0" text="#Submitted" />
-                  <TableColumn fx:id="sbNumSubmitted_0Clm" prefWidth="107.0" text="#Non-Submitted" />
+                <TableColumn fx:id="sbExamsID_1Clm" prefWidth="140.0" text="ID" />
+                <TableColumn fx:id="sbDateClm" prefWidth="145.0" text="Date" />
+                  <TableColumn fx:id="sbDurationClm" prefWidth="148.0" text="Duration" />
+                  <TableColumn fx:id="sbAllStudentsClm" prefWidth="142.0" text="#Total students" />
+                  <TableColumn fx:id="sbNumSubmitted_1Clm" prefWidth="156.0" text="#Submitted" />
+                  <TableColumn fx:id="sbNumSubmitted_0Clm" prefWidth="123.0" text="#Non-Submitted" />
               </columns>
             </TableView>
          </children>
