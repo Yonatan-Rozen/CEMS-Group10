@@ -41,9 +41,9 @@ public class ExamResults implements Serializable {
 
 		// check for even case
 		if (lenghtArray % 2 != 0)
-			return (double) gradesList.get(lenghtArray / 2);
+			return gradesList.get(lenghtArray / 2);
 
-		return (double) (gradesList.get((lenghtArray - 1) / 2) + gradesList.get(lenghtArray / 2)) / 2.0;
+		return (gradesList.get((lenghtArray - 1) / 2) + gradesList.get(lenghtArray / 2)) / 2.0;
 	}
 
 	public double getAverage() {
@@ -53,8 +53,10 @@ public class ExamResults implements Serializable {
 		return sum / gradesList.size();
 	}
 
+	@Override
 	public String toString() {
-		return examID;
+		return examID+" : "+gradesList;
+
 	}
 
 	public XYChart.Series<String, Integer> getGraph() {

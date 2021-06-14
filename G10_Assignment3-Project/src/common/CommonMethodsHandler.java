@@ -19,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -265,8 +266,12 @@ public class CommonMethodsHandler {
 	 */
 	public Button disablePropertySwapper(Button currentBtn, Button newBtn) {
 		if (currentBtn != null)
-			currentBtn.setDisable(false);
-		newBtn.setDisable(true);
+//			currentBtn.setGraphic(new ImageView("/icon_x.png"));
+			currentBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
+//			currentBtn.setDisable(false);
+//		newBtn.setDisable(true);
+//		newBtn.setGraphic(new ImageView("/icon_v.png"));
+		newBtn.setStyle("-fx-background-image: url('/icon_v.png') ; -fx-background-repeat: no-repeat;");	
 		return newBtn;
 	}
 

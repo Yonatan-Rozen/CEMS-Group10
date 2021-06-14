@@ -86,6 +86,9 @@ public class TeacherMenuController implements Initializable {
 		ClientUI.mainStage.show();
 		teacherBgImg = sbTeacherBgImg;
 		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
+		teacherBgImg.setPreserveRatio(false);
+		teacherBgImg.setFitHeight(620);
+
 	}
 
 	// ACTION METHODS *******************************************************

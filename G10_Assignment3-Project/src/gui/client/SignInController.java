@@ -47,7 +47,7 @@ public class SignInController implements Initializable {
 	// START METHOD *********************************************************
 	/**
 	 * Opens SignIn.fxml
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
@@ -72,7 +72,7 @@ public class SignInController implements Initializable {
 				ClientUI.mainStage.hide();
 				try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
 				}catch(NullPointerException e) {System.out.println("client has logged out and then closed the window...");};
-				
+
 				methodsHandler.getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
 						"Press ok to continue").showAndWait();
 				System.exit(0);
@@ -134,17 +134,17 @@ public class SignInController implements Initializable {
 			case "Principle":
 				ClientUI.mainStage.hide();
 				ClientUI.mainScene
-						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
 				break;
 			case "Student":
 				ClientUI.mainStage.hide();
 				ClientUI.mainScene
-						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 				break;
 			case "Teacher":
 				ClientUI.mainStage.hide();
 				ClientUI.mainScene
-						.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 				break;
 			default:
 				System.out.println("error! this type doesn't exist");

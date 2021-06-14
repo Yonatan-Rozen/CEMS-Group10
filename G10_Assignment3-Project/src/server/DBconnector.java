@@ -1649,17 +1649,24 @@ public class DBconnector {
 			Statement stmt = con.createStatement();
 			ResultSet rs = null;
 			if (type.equals("T") || type.equals("P")) {
-				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
+				rs = stmt.executeQuery("SELECT E.ExamID, ERC.GradeByTeacher "
 						+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
-						+ "WHERE C.CourseID=E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
+						+ "WHERE C.CourseID= E.CourseID and C.CourseName= '" + courseName + "'" + " and B.UsernameT= '"
 						+ userName + "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID and C.SubjectID=B.SubjectID"
-						+ " ORDER BY E.ExamID");
+						+ " and ERC.GradeByTeacher is not null ORDER BY E.ExamID");
 			} else if (type.equals("S")) {
-				rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
-						+ "FROM exams E, courses C , exams_results_computerized ERC, banks B "
-						+ "where ERC.ExamID=E.ExamID and E.CourseID=C.CourseID and C.CourseName='" + courseName
-						+ "' and ERC.UsernameS='" + userName + "'"
-						+ " and B.BankID=E.BankID and C.SubjectID=B.SubjectID " + "ORDER BY E.ExamID");
+				rs = stmt.executeQuery("SELECT E.ExamID, ERC.GradeByTeacher "
+						+ "FROM exams E, courses C ,exams_results_computerized ERC, banks B "
+						+"where exists (select * from exams_results_computerized ERC where ERC.UsernameS= '"+userName+"' and ERC.ExamID=E.ExamID )"
+						+ " and E.CourseID= C.CourseID and C.CourseName= '" + courseName
+						+ "' and B.BankID= E.BankID and C.SubjectID= B.SubjectID and ERC.ExamID= E.ExamID and ERC.GradeByTeacher is not null ORDER BY E.ExamID");
+
+				/*SELECT ERC.ExamID, ERC.GradeByTeacher
+FROM exams E, courses C , banks B, exams_results_computerized ERC
+where exists (select * from  exams_results_computerized ERC where ERC.UsernameS="7" and ERC.ExamID=E.ExamID )
+and E.CourseID=C.CourseID and C.CourseName= "The History Of Art 1" and B.BankID=E.BankID and C.SubjectID=B.SubjectID
+and ERC.ExamID=E.ExamID and ERC.GradeByTeacher is not null
+ORDER BY E.ExamID;*/
 			}
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
@@ -1707,11 +1714,11 @@ public class DBconnector {
 		// chatClient
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.ExamID, GradeByTeacher "
-					+ "FROM exams E, courses C , banks B, exams_results_computerized RC "
+			ResultSet rs = stmt.executeQuery("SELECT distinct E.ExamID, ERC.GradeByTeacher "
+					+ "FROM exams E, courses C , banks B, exams_results_computerized ERC "
 					+ "WHERE C.CourseID=E.CourseID and C.CourseID='" + courseIDafterSplit + "'" + " and B.UsernameT='"
 					+ teacherDetailes[1] + "' and B.SubjectID='" + subjectID
-					+ "' and B.BankID=E.BankID and RC.ExamID=E.ExamID ORDER BY E.ExamID");
+					+ "' and B.BankID=E.BankID and ERC.ExamID=E.ExamID and ERC.GradeByTeacher is not null ORDER BY E.ExamID");
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
 					er = new ExamResults(rs.getString(1), rs.getString(2));
@@ -1813,16 +1820,19 @@ public class DBconnector {
 		ManualExam me;
 		try {
 			Statement stmt = con.createStatement();
+
 			ResultSet rs = stmt.executeQuery("SELECT * From exams");
 			while (rs.next()) {
 				// FIX!!
 				System.out.println(rs.getString(9));
+
 				if (rs.getString(9).equals("C")) {
 					// public ComputerizedExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String scores,
 					// String studentComments, String teacherComments, String author, String type) {
 					ce = new ComputerizedExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getString(7), rs.getString(8), "Computerized");
+					setSecondTableExamData(rs.getString(1),ce);
 					examsDetails.add(ce);
 				}
 				// examsDetails.add(new ComputerizedExam(rs.getString(1), "", rs.getString(3),
@@ -1834,6 +1844,7 @@ public class DBconnector {
 					// allocatedTime, String author, String type) {
 					me = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
 							"Manual"/* , rs.getBlob(10) */);
+					setSecondTableExamData(rs.getString(1),me);
 					examsDetails.add(me);
 				}
 			}
@@ -1846,6 +1857,43 @@ public class DBconnector {
 			return;
 		}
 	}
+	/**
+	 * sets information for a specific exam (date, duration, NumtotalStudents, NumSubmitted_1, setNumSubmitted_0) by it's ID
+	 *
+	 * @param examID specific exam's ID
+	 * @param e an instance of Exam
+	 *
+	 * @author Meitar El-Ezra
+	 */
+	private void setSecondTableExamData(String examID,IExam e) {
+		try {
+			Statement stmt1 = con.createStatement();
+			Statement stmt2 = con.createStatement();
+			Statement stmt3 = con.createStatement();
+			Statement stmt4 = con.createStatement();
+			ResultSet rs1 = stmt1.executeQuery("SELECT count(Submited) from exams_results where ExamID= '"+examID+"' and Submited=\"1\"");
+			ResultSet rs2 = stmt2.executeQuery("SELECT count(Submited) from exams_results where ExamID= '"+examID+"' and Submited=\"0\"");
+			ResultSet rs3 = stmt3.executeQuery("SELECT max(CAST(TimeOfExecution AS UNSIGNED)) from exams_results where ExamID= '"+examID+"'");
+			//  SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %T.%f');
+			ResultSet rs4 = stmt4.executeQuery("SELECT distinct DATE_FORMAT(Date, '%d-%m-%Y') from exams_results where ExamID= '"+examID+"'");
+			//			ResultSet rs4 = stmt4.executeQuery("SELECT distinct Date from exams_results where ExamID= '"+examID+"'");
+
+			if(rs1.next())
+				e.setNumSubmitted_1(rs1.getString(1));
+			if(rs2.next())
+				e.setNumSubmitted_0(rs2.getString(1));
+			e.setNumtotalStudents("" + (Integer.parseInt(rs1.getString(1)) + Integer.parseInt(rs2.getString(1))) );
+			if(rs3.next())
+				e.setDuration(rs3.getString(1));
+			if(rs4.next())
+				//				e.setDate(rs4.getString(1));
+				e.setDate(rs4.getString(1));
+			rs1.close();rs2.close();rs3.close();rs4.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 
 	/**
 	 * The functions determines whether the ID gotten from the principle reports'
@@ -1979,8 +2027,8 @@ public class DBconnector {
 			// ----------- query to add the tuple to exam_results table in case it doesn't
 			// exist allready
 			PreparedStatement stmt1 = con.prepareStatement(
-					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS, Started) "
-							+ "VALUES (?, ?, ?, ?, ?)");
+					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS) "
+							+ "VALUES (?, ?, ?, ?)");
 
 			stmt1.setString(1, estimatedTime);
 			if (status.equals("successful")) {
@@ -1990,7 +2038,6 @@ public class DBconnector {
 			}
 			stmt1.setString(3, examID);
 			stmt1.setString(4, studentID);
-			stmt1.setString(5, "1");
 			stmt1.executeUpdate();
 
 			// ----------- query to add the tuple to exams_results_computerized table in
@@ -2076,8 +2123,8 @@ public class DBconnector {
 			// ----------- query to add the tuple to exam_results table in case it doesn't
 			// exist allready
 			PreparedStatement stmt1 = con.prepareStatement(
-					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS, Started) "
-							+ "VALUES (?, ?, ?, ?, ?)");
+					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS) "
+							+ "VALUES (?, ?, ?, ?)");
 
 			stmt1.setString(1, estimatedTime);
 			if (status.equals("successful")) {
@@ -2087,7 +2134,6 @@ public class DBconnector {
 			}
 			stmt1.setString(3, examID);
 			stmt1.setString(4, studentID);
-			stmt1.setString(5, "1");
 			stmt1.executeUpdate();
 
 			// ----------- query to add the tuple to exams_results_manual table in
