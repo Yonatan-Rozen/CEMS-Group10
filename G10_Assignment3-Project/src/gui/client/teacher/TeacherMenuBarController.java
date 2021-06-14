@@ -45,6 +45,9 @@ public class TeacherMenuBarController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
+	
+	@FXML
+	private Button sbComputerizedResultsBtn;
 
 	@FXML
 	private Hyperlink sbLogoutLnk;
@@ -66,6 +69,7 @@ public class TeacherMenuBarController implements Initializable {
 	private static Button createExamBtn;
 	private static Button editExamBtn;
 	private static Button viewReportsBtn;
+	private static Button computerizedResultsBtn;
 	private static Button settingsBtn;
 	protected static BorderPane mainPaneBp;
 
@@ -84,6 +88,7 @@ public class TeacherMenuBarController implements Initializable {
 		createExamBtn = sbCreateExamBtn;
 		editExamBtn = sbEditExamBtn;
 		viewReportsBtn = sbViewReportsBtn;
+		computerizedResultsBtn = sbComputerizedResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		mainPaneBp = sbMainPaneBp;
 
@@ -99,12 +104,6 @@ public class TeacherMenuBarController implements Initializable {
 	}
 
 	// ACTION METHODS *******************************************************
-	@FXML
-	public void btnPressBack(ActionEvent event) throws IOException {
-		System.out.println("TeacherMenuBar::btnPressBack");
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-	}
-
 	@FXML
 	public void btnPressCreateExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateExam");
@@ -146,13 +145,6 @@ public class TeacherMenuBarController implements Initializable {
 	}
 
 	@FXML
-	public void btnPressSettings(ActionEvent event) {
-		System.out.println("TeacherMenuBar::btnPressSettings");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("client", "UserSettings"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
-	}
-
-	@FXML
 	public void btnPressStartExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressStartExam");
 		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherStartExam"));
@@ -178,10 +170,35 @@ public class TeacherMenuBarController implements Initializable {
 			TeacherMenuController.setByMenu = false;
 		}
 	}
+	
+	/**
+	 * Opens fxml file of {@link TeacherCheckComputerizedResultsController}
+	 * @param event
+	 */
+	@FXML
+	public void btnPressComputerizedResults(ActionEvent event) {
+		System.out.println("TeacherMenuBar::btnPressComputerizedResults");
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCheckComputerizedResults"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, computerizedResultsBtn);
+	}
+
+	@FXML
+	public void btnPressSettings(ActionEvent event) {
+		System.out.println("TeacherMenuBar::btnPressSettings");
+		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("client", "UserSettings"));
+		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
+	}
 
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
+	}
+	
+
+	@FXML
+	public void btnPressBack(ActionEvent event) throws IOException {
+		System.out.println("TeacherMenuBar::btnPressBack");
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 	}
 }

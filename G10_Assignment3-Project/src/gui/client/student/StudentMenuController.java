@@ -122,7 +122,10 @@ public class StudentMenuController implements Initializable {
 		if (examID.equals(msg[1])) {
 			examLocked = true;
 			try {
-				StudentTakeComputerizedExamController.stceController.setSubmitButtonWhenLockInvoked();
+				if(examType.equals("C"))
+					StudentTakeComputerizedExamController.stceController.setSubmitButtonWhenLockInvoked();
+				else// if(examType.equals("M"))
+					StudentTakeExamManuallyController.stemController.setSubmitButtonWhenLockInvoked();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

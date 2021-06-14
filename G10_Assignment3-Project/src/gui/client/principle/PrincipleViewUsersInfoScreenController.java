@@ -1,14 +1,18 @@
 package gui.client.principle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,11 +42,14 @@ public class PrincipleViewUsersInfoScreenController implements Initializable {
 	@FXML
 	private TableColumn<User, String> sbUserTypeClm;
 
+	@FXML
+	private Button sbBackToViewInfoBtn;
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TableView <User> tblE;
 	public static PrincipleViewUsersInfoScreenController pvuisController;
 	private static ObservableList<User> usersDetails;// = new ArrayList<>();
-
+	private static Button backToViewInfoBtn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -59,6 +66,11 @@ public class PrincipleViewUsersInfoScreenController implements Initializable {
 
 		ClientUI.chat.accept(new String[] { "sbViewUsersBtn" });
 
+	}
+
+	@FXML
+	void btnPressBackToViewInfo(ActionEvent event) throws IOException {
+		PrincipleMenuBarController.	mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
 	}
 
 	// EXTERNAL USE METHODS *************************************************

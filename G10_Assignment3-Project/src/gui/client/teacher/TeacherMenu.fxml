@@ -67,7 +67,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="COMP. RESULTS">
+                  <Button fx:id="sbComputerizedResultsBtn" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressComputerizedResults" text="COMP. RESULTS">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
