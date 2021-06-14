@@ -89,6 +89,7 @@ public class PrincipleMenuController implements Initializable {
 		teacherBgImg.setImage(new Image("/img_bg.png"));
 		teacherBgImg.setPreserveRatio(false);
 		teacherBgImg.setFitHeight(620);
+		teacherBgImg.setFitWidth(1135);
 		ClientUI.mainStage.show();
 	}
 
