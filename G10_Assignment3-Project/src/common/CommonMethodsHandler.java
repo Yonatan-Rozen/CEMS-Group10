@@ -27,6 +27,8 @@ import javafx.stage.StageStyle;
 public class CommonMethodsHandler {
 	public static final Image CEMS_LOGO = new Image("/logo.png");
 	public static final Image CEMS_ICON = new Image("/icon_black.png");
+	public static final Image ICON_CORRECT = new Image("/icon_correct.png");
+	public static final Image ICON_WRONG = new Image("/icon_wrong.png");
 
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
