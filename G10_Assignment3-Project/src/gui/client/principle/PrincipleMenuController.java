@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class PrincipleMenuController implements Initializable {
 
@@ -36,6 +38,9 @@ public class PrincipleMenuController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
+	
+	@FXML
+	private ImageView sbTeacherBgImg;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink principleLnk;
@@ -45,6 +50,8 @@ public class PrincipleMenuController implements Initializable {
 	private static Button viewInfoBtn;
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
+	private static ImageView teacherBgImg;
+
 
 	// CONTROLLER INSTANCES
 	protected static PrincipleMenuBarController pmbController;
@@ -78,6 +85,10 @@ public class PrincipleMenuController implements Initializable {
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
 		pmbController = new PrincipleMenuBarController();
+		teacherBgImg = sbTeacherBgImg;
+		teacherBgImg.setImage(new Image("/img_bg.png"));
+		teacherBgImg.setPreserveRatio(false);
+		teacherBgImg.setFitHeight(620);
 		ClientUI.mainStage.show();
 	}
 

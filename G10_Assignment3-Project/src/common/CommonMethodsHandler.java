@@ -263,13 +263,15 @@ public class CommonMethodsHandler {
 	 * @param newlyPressed The 'to-be' disabled button after
 	 */
 	public Button disablePropertySwapper(Button currentBtn, Button newBtn) {
-		if (currentBtn != null)
-//			currentBtn.setGraphic(new ImageView("/icon_x.png"));
-			currentBtn.setStyle("-fx-background-image: url('/icon_x.png') ; -fx-background-repeat: no-repeat;");	
-//			currentBtn.setDisable(false);
-//		newBtn.setDisable(true);
+		if (currentBtn != null) {
+//			currentBtn.setGraphic(new ImageView("/icon_empty.png"));
+			currentBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+			currentBtn.setDisable(false);
+		}
+		newBtn.setDisable(true);
 //		newBtn.setGraphic(new ImageView("/icon_v.png"));
-		newBtn.setStyle("-fx-background-image: url('/icon_v.png') ; -fx-background-repeat: no-repeat;");	
+		newBtn.setStyle("-fx-background-image: url('/icon_v.png') ; -fx-background-repeat: no-repeat;");
+
 		return newBtn;
 	}
 
