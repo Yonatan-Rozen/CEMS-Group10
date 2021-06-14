@@ -66,7 +66,12 @@ public class StudentMenuBarController implements Initializable {
 		settingsBtn = sbSettingsBtn;
 		mainPaneBp = sbMainPaneBp;
 		menuBarContainerAp=sbMenuBarContainerAp;
-		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
+		
+		takeExamBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		viewExamResultsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		
+		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
 
 	// ACTION METHODS *******************************************************

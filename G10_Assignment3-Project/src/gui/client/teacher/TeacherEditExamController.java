@@ -43,12 +43,12 @@ public class TeacherEditExamController implements Initializable {
 
 	@FXML
 	private AnchorPane sbRightPanelAp;
-	
+
 	@FXML
 	private AnchorPane sbCommentsAp;
-	
+
 	@FXML
-	private AnchorPane sbUploadAp;	
+	private AnchorPane sbUploadAp;
 
 	@FXML
 	private TextArea sbStudentCommentsTa;
@@ -58,7 +58,7 @@ public class TeacherEditExamController implements Initializable {
 
 	@FXML
 	private TextArea sbAllocatedTimeTa;
-	
+
 	@FXML
 	private TextField sbAllocatedTimeTf;
 
@@ -111,9 +111,9 @@ public class TeacherEditExamController implements Initializable {
 	private static AnchorPane topPanelAp;
 	private static AnchorPane rightPanelAp;
 	private static AnchorPane commentsAp;
-	private static AnchorPane uploadAp;	
+	private static AnchorPane uploadAp;
 	private static ChoiceBox<String> chooseBankCb;
-	
+
 	private static Button continue1Btn;
 	private static Button deleteExamBtn1;
 	private static Button editSelectedExamBtn;
@@ -147,8 +147,8 @@ public class TeacherEditExamController implements Initializable {
 		courseIDTc = sbcourseIDTc;
 		leftPanelAp = sbLeftPanelAp;
 		rightPanelAp = sbRightPanelAp;
-		commentsAp = sbCommentsAp; 
-		uploadAp = sbUploadAp;	    
+		commentsAp = sbCommentsAp;
+		uploadAp = sbUploadAp;
 		topPanelAp = sbTopPanelAp;
 		chooseBankCb = sbChooseBankCb;
 		continue1Btn = sbContinue1Btn;
@@ -188,12 +188,13 @@ public class TeacherEditExamController implements Initializable {
 			circle.setStyle("-fx-fill: #f4f4f4;");
 
 //			CourseList.clear(); // clear list <---- not used - Yonatan
-			
-			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),ChatClient.user.getUsername() });
+
+			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),
+					ChatClient.user.getUsername() });
 
 			examIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("examID"));
 			courseIDTc.setCellValueFactory(new PropertyValueFactory<IExam, String>("courseID"));
-			
+
 		} else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message",
 					"Missing Exam Bank/Subject Name", "Must to choose Subject name/bank").showAndWait();
@@ -218,7 +219,7 @@ public class TeacherEditExamController implements Initializable {
 			if (Integer.parseInt(insertTime) > 0) {
 
 				if (ExamType.equals("C")) {
-					System.out.println("check info = " + ExamID +" "+ studentCommentsTa.getText()
+					System.out.println("check info = " + ExamID + " " + studentCommentsTa.getText()
 							+ teacherCommentsTa1.getText() + allocatedTimeTf.getText());
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
 							studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTf.getText(), "2",
@@ -271,9 +272,8 @@ public class TeacherEditExamController implements Initializable {
 
 			if (exam.getType().equals("C"))
 				uploadAp.setDisable(true);
-			else  // case "M"
+			else // case "M"
 				commentsAp.setDisable(true);
-				
 
 			//////
 			// set text in student&teacher comments(with sql query??)
@@ -301,16 +301,27 @@ public class TeacherEditExamController implements Initializable {
 	}
 
 	@FXML
-	void btnPressDeleteExam(ActionEvent event) {
+	void btnPressDeleteExam(ActionEvent event) throws IOException {
 		System.out.println("TeacherEditExam::btnPressDeleteExam");
 		circle.setStyle("-fx-fill: #f4f4f4;");
 
 		IExam exam = examsTv.getSelectionModel().getSelectedItem();
 		if (exam != null) {
-			ClientUI.chat.accept(new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
-			examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
-			circle.setStyle("-fx-fill: GREEN;");
+			ButtonType buttonYes = new ButtonType("Yes");
+			ButtonType buttonNo = new ButtonType("No");
+			Optional<ButtonType> request = CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
+					"Exam delete", "Delete Exam!", "Are you sure you want to delete the exam?", buttonYes, buttonNo)
+					.showAndWait();
 
+			if (request.get() == buttonYes) {
+				ClientUI.chat.accept(
+						new String[] { "RemoveExamFromDatabase", exam.getExamID(), ChatClient.user.getUsername() });
+				examsTv.getItems().remove(examsTv.getSelectionModel().getSelectedItem());
+				circle.setStyle("-fx-fill: GREEN;");
+			} else {
+				TeacherMenuBarController.mainPaneBp
+						.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherEditExam"));
+			}
 		} else {
 			circle.setStyle("-fx-fill: RED;");
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", "Missing delete exam",

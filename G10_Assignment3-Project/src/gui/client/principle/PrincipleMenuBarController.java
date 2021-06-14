@@ -75,7 +75,14 @@ public class PrincipleMenuBarController implements Initializable {
 		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
 		menuBarAp=sbMenuBarAp;
-		sbLogoIv.setImage(new Image (getClass().getResourceAsStream("/logo.png")));
+		
+		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+
+		
+		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
 
 	// ACTION METHODS *******************************************************

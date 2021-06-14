@@ -85,9 +85,10 @@ public class TeacherMenuController implements Initializable {
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		ClientUI.mainStage.show();
 		teacherBgImg = sbTeacherBgImg;
-		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
+		teacherBgImg.setImage(new Image("/img_bg.png"));
 		teacherBgImg.setPreserveRatio(false);
 		teacherBgImg.setFitHeight(620);
+		teacherBgImg.setFitWidth(1135);
 
 	}
 
