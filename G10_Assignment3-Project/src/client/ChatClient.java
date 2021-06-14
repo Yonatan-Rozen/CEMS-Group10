@@ -19,7 +19,7 @@ import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
-import gui.client.teacher.TeacherCheckComputerizedResultsController;
+import gui.client.teacher.TeacherCheckExamResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import gui.client.teacher.TeacherCreateExamController;
@@ -342,7 +342,7 @@ public class ChatClient extends AbstractClient {
 			System.out.println(computerizedResultsList);
 			switch(((ExamResultOfStudent)obj).getExamID()) {
 			case "SetComputerizedExamResultsByUsername":
-				TeacherCheckComputerizedResultsController.tccrController.setComputerizedResults(computerizedResultsList);
+				TeacherCheckExamResultsController.tcrController.setComputerizedResults(computerizedResultsList);
 				return;
 			default:
 				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");
