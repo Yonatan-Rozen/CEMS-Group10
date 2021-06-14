@@ -1,7 +1,9 @@
 package server;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
@@ -142,8 +144,8 @@ public class DBconnector {
 			case "GetExistingBanks":
 				getSubjectWithExistingBanks(request[1], client);
 				break;
-			case "lnkPressDownloadExamFile":
-				getManualExamFileByExamID(request[1], client);
+			case "lnkPressDownloadExamFile": //req1 =examID , req2= path
+				getManualExamFileByExamID(request[1],request[2], client);
 				break;
 			case "CheckQuestionExistsInExam": // checkQuestionExistsInExam(questionID, client)
 				checkQuestionExistsInExam(request[1], client);
@@ -271,6 +273,90 @@ public class DBconnector {
 
 	}
 
+	
+	// ***********************************************************************************************
+	/**
+	 * @param string examid
+	 * @param String path (from chooser)
+	 * @param client
+	 * @throws IOException
+	 *
+	 * @author Michael & Eliran Amerzoyev
+	 */
+	private void getManualExamFileByExamID(String examID,String path, ConnectionToClient client) throws IOException {
+		
+//	Eliran
+//		File outputFile = new File(myFile.getFileName());
+//		FileOutputStream fos = new FileOutputStream(outputFile);
+//		BufferedOutputStream bos = new BufferedOutputStream(fos);
+//	Eliran
+		
+		String examIDs = examID;
+		String message = path;
+		
+		//
+		try {
+			Blob blob= con.createBlob();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT File FROM exams WHERE ExamID = '" + examID + "'");
+			System.out.println("check return value from sql =" + rs.next());
+			blob = rs.getBlob(1);
+
+			MyFile myfile = new MyFile("Exam" + examIDs);
+			BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
+			FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
+			byte[] buffer = new byte[2048];
+			int r = 0;
+			while((r = is.read(buffer))!=-1) {
+				fos.write(buffer, 0, r);
+			}
+			fos.flush();
+			fos.close();
+			is.close();
+			blob.free();
+			
+			System.out.println("DOWNLOAD FILE ---------------> END");
+			client.sendToClient("");
+					
+			
+//// Eliran
+//			byte[] mybytearray = blob.get
+//			byte[] mybytearray = new byte[(int) blob.length()];
+//			FileInputStream fis = new FileInputStream(wordDocument);
+//			BufferedInputStream bis = new BufferedInputStream(fis);
+//			
+//			client.sendToClient(myfile);
+//			rs.close();
+//
+//			File wordDocument = new File(message);
+//
+//			// check if 'message' is a pathname (for example:
+//			// "C:\Users\Jon\Desktop\test.docx")
+//			String[] s1 = message.split("\\\\");
+//			String fileName = s1[s1.length - 1]; // "test.txt"
+//			MyFile testFile = new MyFile(fileName);
+//			
+//			
+//			byte[] mybytearray = new byte[(int) wordDocument.length()];
+//			FileInputStream fis = new FileInputStream(wordDocument);
+//			BufferedInputStream bis = new BufferedInputStream(fis);
+//
+//			testFile.initArray(mybytearray.length);
+//			testFile.setSize(mybytearray.length);
+//
+//			bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+//			bis.close();
+//			sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
+//// Eliran
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
 	private void ExamFileUpload(String examID, MyFile myFile,String whoCalled,String studentID, ConnectionToClient client) throws IOException {
 		File outputFile = new File(myFile.getFileName());
 		FileOutputStream fos = new FileOutputStream(outputFile);
@@ -302,12 +388,8 @@ public class DBconnector {
 		fos.flush();
 		System.out.println("UPLOAD FILE ---------------> END");
 		client.sendToClient("");
-
-		//			TODO this will be used to take a blob out of the database
-		//			Statement st = conn.createStatement();
-		//			ResultSet rs = st.executeQuery("select c1 from t1");
-		//			Blob b2 = rs.getBlob(1);
 	}
+	
 
 	/**
 	 * Sends message of success to to user
@@ -857,33 +939,6 @@ public class DBconnector {
 		}
 
 		client.sendToClient("ChangePassword SUCCESS - Your password was changed successfully!");
-	}
-
-	// ***********************************************************************************************
-	/**
-	 * @param string
-	 * @param client
-	 * @throws IOException
-	 *
-	 * @author Michael
-	 */
-	private void getManualExamFileByExamID(String examID, ConnectionToClient client) throws IOException {
-		// TODO Auto-generated method stub
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT File FROM exams WHERE ExamID = '" + examID + "'");
-			con.createBlob();
-			client.sendToClient(rs.getBlob(4));
-			rs.close();
-			// maybe send as a stream?
-			// https://coderanch.com/t/305876/databases/convert-Blob-Type-File
-
-		} catch (SQLException e) {
-			// TODO: handle exception
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
 	}
 
 	// ***********************************************************************************************
