@@ -226,7 +226,7 @@ public class DBconnector {
 			case "StudentUploadFile":
 				//studentTestUpload((String) request[1], (MyFile) request[2], client);
 				//break;
-			case "TeacherUploadFile": // req1 -examID , req2 -filepath
+			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 -  ,req4 - 
 				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
 				break;
 			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
@@ -287,7 +287,9 @@ public class DBconnector {
 
 			stmt.setBlob(1, blob);
 			stmt.setString(2, examID);
-			stmt.setString(3, studentID);
+			if(!whoCalled.equals("T")) {
+				stmt.setString(3, studentID);
+			}
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
