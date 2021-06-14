@@ -3,8 +3,12 @@ package client;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+
+import com.mysql.cj.jdbc.Blob;
 
 import common.CommonMethodsHandler;
 import common.MyFile;
@@ -108,10 +112,39 @@ public class ChatClient extends AbstractClient {
 	 *
 	 * @param msg The (Object[]) object
 	 * @throws IOException
+	 * @throws SQLException 
 	 */
-	private void handleArraysMessagesFromServer(Object[] msg) {
+	private void handleArraysMessagesFromServer(Object[] msg){
 		System.out.println("in handle array mesages");
 		switch (msg[0].toString()) {
+//		case "downloadFileWithBlob":
+//			try {
+//			BufferedInputStream is = (BufferedInputStream)msg[3];
+//			FileOutputStream fos = (FileOutputStream)msg[4];
+//			String examIDs = (String)msg[1];
+//			String path = (String)msg[2];
+////			MyFile myfile = new MyFile("Exam" + examIDs);
+//	//		BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
+//	//		FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
+//			byte[] buffer = new byte[2048];
+//			int r = 0;
+//			while((r = is.read(buffer))!=-1) {
+//				fos.write(buffer, 0, r);
+//			}
+//			fos.flush();
+//			fos.close();
+//			is.close();
+//	//		blob.free();
+//			
+//			System.out.println("DOWNLOAD FILE ---------------> END");
+//
+//			}
+//			catch (Exception e) {
+//				// TODO: handle exception
+//				e.printStackTrace();
+//				return;
+//			}
+//			break;
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
