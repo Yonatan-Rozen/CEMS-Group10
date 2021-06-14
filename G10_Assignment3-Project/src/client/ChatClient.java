@@ -19,6 +19,7 @@ import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.teacher.TeacherCheckComputerizedResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import gui.client.teacher.TeacherCreateExamController;
@@ -32,6 +33,7 @@ import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
+import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
 import logic.question.Question;
@@ -335,6 +337,18 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
 			}
+		} else if (obj instanceof ExamResultOfStudent) {
+			List<ExamResultOfStudent> computerizedResultsList = (List<ExamResultOfStudent>) msg;
+			System.out.println(computerizedResultsList);
+			switch(((ExamResultOfStudent)obj).getExamID()) {
+			case "SetComputerizedExamResultsByUsername":
+				TeacherCheckComputerizedResultsController.tccrController.setComputerizedResults(computerizedResultsList);
+				return;
+			default:
+				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");
+				break;
+			}
+			
 		}
 	}
 
