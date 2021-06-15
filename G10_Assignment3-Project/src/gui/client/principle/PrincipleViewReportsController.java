@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 public class PrincipleViewReportsController implements Initializable {
 
@@ -37,11 +38,15 @@ public class PrincipleViewReportsController implements Initializable {
 	@FXML
 	private Button sbProduceByStudentBtn;
 
+	@FXML
+	private ImageView sbQuestionLegendIv;
+
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextField teacherUserNameTf;
 	private static TextField courseIDTf;
 	private static TextField studentIDTf;
 	public static String insertedValue = "";
+	private static ImageView checkAnswerIv;
 
 	// STATIC INSTANCES **********************************************
 	public static Boolean doesExist = false;
@@ -63,7 +68,7 @@ public class PrincipleViewReportsController implements Initializable {
 		methodsHandler.setTextLimiter(courseIDTf, 4);// CHECK WAHT ABOUT SUBJECT ID ??????????? TODO you fixed it, right? - Yonatan
 		methodsHandler.setTextLimiter(studentIDTf, 9);
 		PrincipleMenuBarController.menuBarAp.setDisable(false);
-
+		sbQuestionLegendIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
 	}
 
 	// ACTION METHODS *******************************************************
