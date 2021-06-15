@@ -254,6 +254,14 @@ public class DBconnector {
 		}
 	}
 
+	/**
+	 * Updates the final grade in the exam of a student with additional comments
+	 * @param computerizedResults The computerized results that contains all the info about the exam
+	 * @param client The teacher who sent the request
+	 * @throws IOException
+	 * 
+	 * @author Yonatan Rozen
+	 */
 	private void updateStudentFinalGrade(ComputerizedResults computerizedResults, ConnectionToClient client)
 			throws IOException {
 		// update final grade and exam comment
