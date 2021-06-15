@@ -132,7 +132,7 @@ public class DBconnector {
 			case "btnPressShowQuestionsBySubject": // getQuestionsBySubjectAndUsername(subjectName, username, client)
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
-			case "btnPressShowExamsBySubject": // getQuestionsBySubjectAndUsername(subjectName, username, client)
+			case "btnPressShowExamsBySubject": // getExamsBySubjectAndUsername(subjectName, username, client)
 				getExamsBySubjectAndUsername(request[1], request[2], client);
 				break;
 			case "btnPressContinue2CreateExam":
@@ -147,8 +147,8 @@ public class DBconnector {
 			case "GetExistingBanks":
 				getSubjectWithExistingBanks(request[1], client);
 				break;
-			case "lnkPressDownloadExamFile": //req1 =examID , req2= path
-				getManualExamFileByExamID(request[1],request[2], client);
+			case "lnkPressDownloadExamFile": // req1 =examID , req2= path
+				getManualExamFileByExamID(request[1], request[2], client);
 				break;
 			case "CheckQuestionExistsInExam": // checkQuestionExistsInExam(questionID, client)
 				checkQuestionExistsInExam(request[1], client);
@@ -216,6 +216,8 @@ public class DBconnector {
 				break;
 			case "GetExamResultsByTeacherUsername":
 				getExamResultsByTeacherUsername(request[1], client);
+			case "GetQuestionInExamWithStudentAnswers":
+				getQuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -232,10 +234,11 @@ public class DBconnector {
 				updateQuestion((Question) request[1], client);
 				break;
 			case "StudentUploadFile":
-				//studentTestUpload((String) request[1], (MyFile) request[2], client);
-				//break;
-			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 -  ,req4 - 
-				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
+				// studentTestUpload((String) request[1], (MyFile) request[2], client);
+				// break;
+			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 - ,req4 -
+				ExamFileUpload((String) request[1], (MyFile) request[2], (String) request[3], (String) request[4],
+						client);
 				break;
 			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
 				System.out.println("finish edit exam case");
@@ -277,7 +280,7 @@ public class DBconnector {
 		client.sendToClient("");
 
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -287,20 +290,20 @@ public class DBconnector {
 	 *
 	 * @author Michael & Eliran Amerzoyev
 	 */
-	private void getManualExamFileByExamID(String examID,String path, ConnectionToClient client) throws IOException {
-		
+	private void getManualExamFileByExamID(String examID, String path, ConnectionToClient client) throws IOException {
+
 //	Eliran
 //		File outputFile = new File(myFile.getFileName());
 //		FileOutputStream fos = new FileOutputStream(outputFile);
 //		BufferedOutputStream bos = new BufferedOutputStream(fos);
 //	Eliran
-		
+
 		String examIDs = examID;
 		String message = path;
-		
+
 		//
 		try {
-			Blob blob= con.createBlob();
+			Blob blob = con.createBlob();
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT File FROM exams WHERE ExamID = '" + examID + "'");
 			System.out.println("check return value from sql =" + rs.next());
@@ -308,21 +311,20 @@ public class DBconnector {
 
 			MyFile myfile = new MyFile("Exam" + examIDs);
 			BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
-			FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
+			FileOutputStream fos = new FileOutputStream(path + "\\exam" + examIDs + ".docx"); // path+file name + docx
 			byte[] buffer = new byte[2048];
 			int r = 0;
-			while((r = is.read(buffer))!=-1) {
+			while ((r = is.read(buffer)) != -1) {
 				fos.write(buffer, 0, r);
 			}
 			fos.flush();
 			fos.close();
 			is.close();
 			blob.free();
-			
+
 			System.out.println("DOWNLOAD FILE ---------------> END");
 			client.sendToClient("");
-					
-			
+
 //// Eliran
 //			byte[] mybytearray = blob.get
 //			byte[] mybytearray = new byte[(int) blob.length()];
@@ -352,7 +354,7 @@ public class DBconnector {
 //			bis.close();
 //			sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
 //// Eliran
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
 			client.sendToClient("sql exception");
@@ -361,7 +363,8 @@ public class DBconnector {
 		}
 	}
 
-	private void ExamFileUpload(String examID, MyFile myFile,String whoCalled,String studentID, ConnectionToClient client) throws IOException {
+	private void ExamFileUpload(String examID, MyFile myFile, String whoCalled, String studentID,
+			ConnectionToClient client) throws IOException {
 
 		File outputFile = new File(myFile.getFileName());
 		FileOutputStream fos = new FileOutputStream(outputFile);
@@ -379,7 +382,7 @@ public class DBconnector {
 
 			stmt.setBlob(1, blob);
 			stmt.setString(2, examID);
-			if(!whoCalled.equals("T")) {
+			if (!whoCalled.equals("T")) {
 				stmt.setString(3, studentID);
 			}
 			stmt.executeUpdate();
@@ -395,7 +398,6 @@ public class DBconnector {
 		System.out.println("UPLOAD FILE ---------------> END");
 		client.sendToClient("");
 	}
-	
 
 	/**
 	 * Sends message of success to to user
@@ -1505,7 +1507,6 @@ public class DBconnector {
 	private void getSubjectCourseIDofExam(ConnectionToClient client) throws IOException {
 		List<String> examTextIDList = new ArrayList<>();
 		examTextIDList.add("SetAllExamIDs");
-		String eID = "0";
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(
@@ -1526,12 +1527,7 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-	 * <<<<<<< HEAD Sends the teacher the exam by the exam ID
-	 *
-	 * ======= Sends the teacher the comments made by the creator and the type of
-	 * the exam
-	 *
-	 * >>>>>>> branch 'master' of https://github.com/DeathSource/Group10.git
+	 * Sends the teacher the comments made by the creator and the type of the exam
 	 *
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
@@ -1639,6 +1635,8 @@ public class DBconnector {
 	 * @param username The username of the teacher
 	 * @param client   The teacher
 	 * @throws IOException
+	 * 
+	 * @author Yonatan Rozen
 	 */
 	private void getExamResultsByTeacherUsername(String username, ConnectionToClient client) throws IOException {
 		List<ExamResultOfStudent> results = new ArrayList<>();
@@ -1653,40 +1651,43 @@ public class DBconnector {
 				String examID = rs.getString(1);
 				String studentID = rs.getString(2);
 				String examType = rs.getString(3);
-				System.out.println("VALUE: "+ examID + " " + studentID + " " + examType);
-				
+				System.out.println("VALUE: " + examID + " " + studentID + " " + examType);
+
 				if (examType.equals("C")) {
 					Statement compStmt = con.createStatement();
-					ResultSet compRs = compStmt.executeQuery("SELECT * FROM exams_results_computerized WHERE ExamID = '" + examID
-									+ "' " + "AND UsernameS = '" + studentID + "' AND ConfirmedByTeacher = '0'");
-					
+					ResultSet compRs = compStmt.executeQuery("SELECT * FROM exams_results_computerized WHERE ExamID = '"
+							+ examID + "' " + "AND UsernameS = '" + studentID + "' AND ConfirmedByTeacher = '0'");
+
 					if (compRs.next()) {
 						examResult = new ComputerizedResults(compRs.getString(1), compRs.getString(2),
 								compRs.getString(3), compRs.getString(5), compRs.getString(6));
 					}
 					compRs.close();
-					System.out.println("comp: "+examResult);
-					
-				} else if (rs.getString(3).equals("M")){
+					System.out.println("comp: " + examResult);
+
+				} else if (rs.getString(3).equals("M")) {
 					Blob b = con.createBlob();
 					Statement manStmt = con.createStatement();
-					ResultSet manRs = manStmt.executeQuery("SELECT *, OCTET_LENGTH(FileSubmit) FROM exams_results_manual "
-							+ "WHERE ExamID = '" + examID +"' AND UsernameS = '"+studentID+"' AND FileCopy is null");
+					ResultSet manRs = manStmt.executeQuery(
+							"SELECT *, OCTET_LENGTH(FileSubmit) FROM exams_results_manual " + "WHERE ExamID = '"
+									+ examID + "' AND UsernameS = '" + studentID + "' AND FileCopy is null");
 
 					if (manRs.next()) {
 						b = manRs.getBlob(3);
 						int fileLength = manRs.getInt(4);
-						MyFile wordDocument = new MyFile("Exam "+ examID);
+						MyFile wordDocument = new MyFile("Exam " + examID);
 						wordDocument.initArray(fileLength);
 						wordDocument.setSize(fileLength);
 						wordDocument.setMybytearray(b.getBytes(1, fileLength));
 						examResult = new ManualResults(manRs.getString(1), manRs.getString(2), wordDocument);
 					}
 					manRs.close();
-					System.out.println("man: "+examResult);
+					System.out.println("man: " + examResult);
 				}
-				if (examResult != null) results.add(examResult);
-				else System.out.println("Bad Info at database!");
+				if (examResult != null)
+					results.add(examResult);
+				else
+					System.out.println("Bad Info at database!");
 				examResult = null;
 			}
 			rs.close();
@@ -1726,7 +1727,8 @@ public class DBconnector {
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("SELECT DISTINCT C.CourseName FROM courses C, "
 						+ " (SELECT E.CourseID, B.SubjectID FROM banks B, exams E, exams_results_computerized ER WHERE B.UsernameT = '"
-						+ userName + "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID) as CS "
+						+ userName
+						+ "' AND B.BankID = E.BankID AND E.ExamID=ER.ExamID AND ER.ConfirmedByTeacher = '1') as CS "
 						+ " WHERE C.CourseID = CS.CourseID AND C.SubjectID = CS.SubjectID");
 				while (rs.next()) {
 					coursesList.add(rs.getString(1));
