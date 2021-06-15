@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import common.CommonMethodsHandler;
@@ -77,6 +78,7 @@ public class ChatClient extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		System.out.println("===================handleMessageFromServer :: "+msg+"===================");
 		if (msg == null) {
 			ClientController.display("fatal error (null object has been passed)");
 		} else if (msg instanceof User) { // SignIn Success
@@ -110,7 +112,7 @@ public class ChatClient extends AbstractClient {
 	 * @throws IOException
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		System.out.println("in handle array mesages");
+		System.out.println("in handle array mesages :: "+msg[0]);
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
@@ -128,13 +130,24 @@ public class ChatClient extends AbstractClient {
 					"CreateManualExam SUCCESS" + msg[1].toString());
 			break;
 		case "SendMessageExamIDExamTypeAndExamCode":
+			System.out.println("BEFORE SETREADY ------------<<<<<<");
+			System.out.println("the array that's being passed to StudentMenuController :\n"+Arrays.toString(msg));
 			StudentMenuController.smController.setReadyExam((String[]) msg);
+			System.out.println("AFTER SETREADY ------------<<<<<<");
 			break;
 		case "MessageSentExamIDExamTypeAndExamCode":
 			TeacherStartExamController.tseController.checkStartExam(msg);
 			break;
 		case "SendMessageLockExam":
 			StudentMenuController.smController.lockExam((String[]) msg);
+			break;
+		case "SendMessageIncNumStudentsInExam":
+			TeacherStartExamController.tseController.IncStudentsInExam();
+			break;
+		case "SendMessageDecNumStudentsInExam":
+			System.out.println("entered case SendMessageDecNumStudentsInExam <<<<<<<<<<<");
+			TeacherStartExamController.tseController.DecStudentsInExam();
+			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
@@ -147,6 +160,7 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (String) object.
 	 */
 	private void handleStringMessagesFromServer(String msg) {
+		System.out.println("msg is : "+msg);
 		/**** handle connection ****/
 		if (msg.equals("Disconnect"))
 			return; // Client is disconnecting
@@ -182,8 +196,11 @@ public class ChatClient extends AbstractClient {
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
 			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
-		} else
-			ClientController.display(msg);
+		} else {
+			System.out.println("BEFORE DISPLAY");
+			ClientController.display(msg+" is the message sent :(");
+			System.out.println("AFTER DISPLAY");
+		}
 
 	}
 
