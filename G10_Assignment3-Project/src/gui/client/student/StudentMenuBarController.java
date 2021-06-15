@@ -44,6 +44,9 @@ public class StudentMenuBarController implements Initializable {
 
 	@FXML
 	private BorderPane sbMainPaneBp;
+	
+    @FXML
+    private ImageView sbMenuBg;
 
 	// STATIC INSTANCES *****************************************************
 	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
@@ -55,6 +58,8 @@ public class StudentMenuBarController implements Initializable {
 	private static Button settingsBtn;
 	protected static BorderPane mainPaneBp;
 	protected static AnchorPane menuBarContainerAp;
+	private static ImageView menuBg;
+	private static Button backBtn;
 
 	// INITIALIZE METHOD *********************************************************
 	@Override
@@ -66,6 +71,14 @@ public class StudentMenuBarController implements Initializable {
 		settingsBtn = sbSettingsBtn;
 		mainPaneBp = sbMainPaneBp;
 		menuBarContainerAp=sbMenuBarContainerAp;
+		backBtn = sbBackBtn;
+		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
+		
+		menuBg = sbMenuBg;
+		menuBg.setImage(new Image("/menubar_bg.png"));
+//		menuBg.setPreserveRatio(false);
+		menuBg.setFitHeight(600);
+		menuBg.setFitWidth(230);
 		
 		takeExamBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
