@@ -2,6 +2,7 @@ package gui.client.student;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -133,8 +134,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
 		System.out.println("scoresOfQuestions : " + scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.size()];
-		for(String answer:answersOfStudent)
-			answer="0";//initializing answers
+		Arrays.fill(answersOfStudent, "-1");
 	}
 
 	// ACTION METHODS *******************************************************
@@ -195,14 +195,24 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		System.out.println("before the query of submit");
 		// successful submit example ***********************************
 		//TODO update grade into exams_results_computerized
-		ClientUI.chat.accept(new String[] { "btnPressSubmitComputerized","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade) });
+		ClientUI.chat.accept(new String[] { "btnPressSubmitComputerized","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade),exam.getAllocatedTime() });
 
 		System.out.println("after the query of submit");
 
 		// TODO maybe add alert "are you sure you want to submit?"
 		ClientUI.mainScene
 		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		// *************************************************************
+
+		//TeacherStartExamController.tseController.studentsInExam--;
+		ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
+
+
+		//		if(TeacherStartExamController.tseController.getStudentsInExam() ==0)
+		//		{
+		//			ClientUI.chat.accept(new String[] {"SendMessageLockExam", examID}); // TODO (locks exam at the clients of the students)
+		//			TeacherMenuBarController.menuBarAp.setDisable(false);
+		//			StudentEnterCodeController.secController.setReadyExam(null, null, null);
+		//		}
 	}
 
 	// EXTERNAL USE METHODS *************************************************
@@ -290,14 +300,21 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			//There are 60,000,000,000 nanosecond in 1 minute.
 			estimatedTime = estimatedTime / 600000;
 			estimatedTime = estimatedTime / 100000;
+			int grade=calcAutomaticGrade();
+			// NOT successful submit - the exam is locked and submitted automatically ***********************************
+			// update "submited" column to 1 in DB's exams_results table
+
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
+					String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,String.format("%d", grade),exam.getAllocatedTime() });
+
+			System.err.println("before reducing the studentsInExam");
+			//TeacherStartExamController.tseController.studentsInExam--;
+			ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
+			System.out.println("<<<<<<finished setSubmitButtonWhenLockInvoked of CompExam>>>>>>");
+
 			ClientUI.mainScene
 			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-			//			ClientUI.mainScene
-			//			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-			//			// NOT successful submit - the exam is locked and submitted automatically ***********************************
-			// update "submited" column to 1 in DB's exams_results table
-			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
-					String.format("%ld", estimatedTime), ChatClient.user.getUsername(), examID });
 		}
 	}
 
@@ -309,7 +326,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private int calcAutomaticGrade() {
 		int grade=100;
 		for(int i=0;i<questionsOfExam.size();i++) {
-			if(!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer()))
+			if(!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer())||answersOfStudent[i].equals("-1"))
 				grade-=Integer.parseInt(scoresOfQuestions.get(i));
 		}
 		return grade;
