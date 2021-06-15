@@ -2,11 +2,11 @@ package gui.client.teacher;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.beans.value.ObservableValue;
@@ -29,56 +29,57 @@ public class TeacherStartExamController implements Initializable {
 	public static TeacherStartExamController tseController;
 	// JAVAFX INSTANCES *****************************************************
 	@FXML
-    private AnchorPane sbTopAp;
+	private AnchorPane sbTopAp;
 
-    @FXML
-    private ChoiceBox<String> sbChooseExamCb;
+	@FXML
+	private ChoiceBox<String> sbChooseExamCb;
 
-    @FXML
-    private TextField sbCodeTf;
+	@FXML
+	private TextField sbCodeTf;
 
-    @FXML
-    private Button sbStartBtn;
+	@FXML
+	private Button sbStartBtn;
 
-    @FXML
-    private AnchorPane sbBotAp;
-    
-    @FXML
-    private TextArea sbCommentsTa;	
+	@FXML
+	private AnchorPane sbBotAp;
 
-    @FXML
-    private TextField sbAddedAmountTf;
+	@FXML
+	private TextArea sbCommentsTa;
 
-    @FXML
-    private Button sbSendRequestBtn;
+	@FXML
+	private TextField sbAddedAmountTf;
 
-    @FXML
-    private Button sbLockExamBtn;
+	@FXML
+	private Button sbSendRequestBtn;
 
-    
+	@FXML
+	private Button sbLockExamBtn;
+
+
 	// STATIC JAVAFX INSTANCES **********************************************
-    private static AnchorPane topAp;
-    private static ChoiceBox<String> chooseExamCb;
-    private static TextField codeTf;
-    private static Button startBtn;
-    private static AnchorPane botAp;
-    private static TextArea commentsTa;
-    private static TextField addedAmountTf;
-    private static Button sendRequestBtn;
-    private static Button lockExamBtn;
-	
+	private static AnchorPane topAp;
+	private static ChoiceBox<String> chooseExamCb;
+	private static TextField codeTf;
+	private static Button startBtn;
+	private static AnchorPane botAp;
+	private static TextArea commentsTa;
+	private static TextField addedAmountTf;
+	private static Button sendRequestBtn;
+	private static Button lockExamBtn;
+
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> examSubjectCourseIDList = FXCollections.observableArrayList();
 	private static CommonMethodsHandler commonMethodHandler = CommonMethodsHandler.getInstance();
 	public static String examID;
 	public static String examType;
 	private static boolean activeStudents = false;
-	
+	public static int studentsInExam=0;
+
 	// START METHOD *********************************************************
 	public void start(Stage mainStage) throws IOException {
 	}
 
-	
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -88,12 +89,12 @@ public class TeacherStartExamController implements Initializable {
 		codeTf = sbCodeTf;
 		commonMethodHandler.setTextLimiter(codeTf, 4);
 		startBtn = sbStartBtn;
-	    botAp = sbBotAp;
-	    botAp.setDisable(true);
-	    commentsTa = sbCommentsTa;
-	    addedAmountTf = sbAddedAmountTf;
-	    sendRequestBtn = sbSendRequestBtn;
-	    lockExamBtn = sbLockExamBtn;
+		botAp = sbBotAp;
+		botAp.setDisable(true);
+		commentsTa = sbCommentsTa;
+		addedAmountTf = sbAddedAmountTf;
+		sendRequestBtn = sbSendRequestBtn;
+		lockExamBtn = sbLockExamBtn;
 		commonMethodHandler.setIntegersOnlyTextLimiter(addedAmountTf, 2);
 		//**********************************
 		//populate choseExamCb with all available exams from the database
@@ -103,7 +104,7 @@ public class TeacherStartExamController implements Initializable {
 		chooseExamCb.setValue("--------------------------------------------");
 		chooseExamCb.setItems(examSubjectCourseIDList);
 		chooseExamCb.getSelectionModel().selectedItemProperty().addListener(
-				(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
+				(ObservableValue<? extends String> observable, String oldValue, String newValue) ->
 				{
 					if (newValue != null) {
 						if (newValue.equals("--------------------------------------------")) {
@@ -119,9 +120,9 @@ public class TeacherStartExamController implements Initializable {
 		codeTf.setDisable(true);
 		startBtn.setDisable(true);
 	}
-	
+
 	// ACTION METHODS *******************************************************
-	
+
 	@FXML
 	void btnPressStart(ActionEvent event) {
 		System.out.println("TeacherStartExam::btnPressStart");
@@ -133,7 +134,7 @@ public class TeacherStartExamController implements Initializable {
 			botAp.setDisable(false);
 			examID = chooseExamCb.getValue().split("\\#")[1]; // get exam ID from the selected value
 			ClientUI.chat.accept(new String[] {"GetTypeOfExamAndOptionalComments", examID});
-			ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", examID, examType, codeTf.getText()}); // TODO send message to all students
+			ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", examID, examType, codeTf.getText(),ChatClient.user.getUsername()}); // TODO send message to all students
 			if (activeStudents) {
 				commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Exam Started", "The exam is now in execution mode",
 						"Please provide examinees with the entered code.").showAndWait();
@@ -147,36 +148,42 @@ public class TeacherStartExamController implements Initializable {
 			}
 		}
 	}
-	
+
 	@FXML
-    void btnPressLockExam(ActionEvent event) throws IOException {
+	void btnPressLockExam(ActionEvent event) throws IOException {
 		ButtonType buttonYes = new ButtonType("Confirm");
 		ButtonType buttonCancel = new ButtonType("Cancel");
-		Optional<ButtonType> request = commonMethodHandler.getNewAlert(AlertType.WARNING, "Exam Lock", 
+		Optional<ButtonType> request = commonMethodHandler.getNewAlert(AlertType.WARNING, "Exam Lock",
 				"Are you sure you want to lock the exam before the time ends?", buttonYes, buttonCancel).showAndWait();
 		if (request.get() == buttonYes) {
 			ClientUI.chat.accept(new String[] {"SendMessageLockExam", examID}); // TODO (locks exam at the clients of the students)
 			TeacherMenuBarController.menuBarAp.setDisable(false);
 			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-		}
-    }
 
-    @FXML
-    void btnPressSendRequest(ActionEvent event) {
-    	if (addedAmountTf.getText().isEmpty())
-    		commonMethodHandler.getNewAlert(AlertType.ERROR, "Missing Input", "Please provide the amount of time (in minutes) to add").showAndWait();
-    	else {
-    		commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Time Request", 
-    				"Your request has been sent","Press ok to continue.").showAndWait();
-    		ClientUI.chat.accept(new String[] {"RequestExtraTime", addedAmountTf.getText()} ); // TODO send message to principle
-    	}
-    }
-	
+			System.out.println(">>>>-------- CONTINUING to problametic query");
+			//	ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", null, null, null,ChatClient.user.getUsername()});
+			System.out.println("<<<<-------- finished to problametic query");
+
+			//	System.out.println(String.format("examID=%s examType=%s examCode=%s", examID,examType,codeTf.getText()));
+		}
+	}
+
+	@FXML
+	void btnPressSendRequest(ActionEvent event) {
+		if (addedAmountTf.getText().isEmpty())
+			commonMethodHandler.getNewAlert(AlertType.ERROR, "Missing Input", "Please provide the amount of time (in minutes) to add").showAndWait();
+		else {
+			commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Time Request",
+					"Your request has been sent","Press ok to continue.").showAndWait();
+			ClientUI.chat.accept(new String[] {"RequestExtraTime", addedAmountTf.getText()} ); // TODO send message to principle
+		}
+	}
+
 	// EXTERNAL USE METHODS *************************************************
 	public void setExamIDs(List<String> examIDs) {
 		examSubjectCourseIDList.addAll(examIDs);
 	}
-	
+
 	public void setTypeAndOptionalComments(String[] typeAndComments) {
 		examType = typeAndComments[1];
 		if (typeAndComments[2] != null )
@@ -186,5 +193,34 @@ public class TeacherStartExamController implements Initializable {
 
 	public void checkStartExam(Object[] msg) {
 		activeStudents = Integer.parseInt(msg[1].toString()) != 0;
+	}
+
+	public void IncStudentsInExam() {
+		studentsInExam++;
+		System.out.println("student entered exam : studentsInExam = "+studentsInExam);
+	}
+
+	public void DecStudentsInExam(){
+		studentsInExam--;
+		System.out.println("student submitted : studentsInExam = "+studentsInExam);
+		if(studentsInExam==0)
+		{
+			//lock exam
+			ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", null, null, null,ChatClient.user.getUsername()}); // TODO send message to all students
+			//unlock menubar and go back to main menu
+			System.out.println("before disable false etc.");
+			TeacherMenuBarController.menuBarAp.setDisable(false);
+			try {
+				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+				System.out.println("finally DONE !==============================");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static int getStudentsInExam() {
+		return studentsInExam;
 	}
 }
