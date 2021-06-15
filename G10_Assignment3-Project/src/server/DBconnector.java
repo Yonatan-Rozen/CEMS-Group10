@@ -196,18 +196,20 @@ public class DBconnector {
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
 			case "btnPressSubmitComputerized":
-				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
-				// String.format("%ld", estimatedTime),
-				// ChatClient.user.getUsername(), examID, grade});
+			case "setSubmitButtonWhenLockInvoked":
+				//ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
+				//String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,String.format("%d", grade),exam.getAllocatedTime() });
+
 				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
-						request[4], request[5], client);
+						request[4], request[5],request[6], client);
 				break;
 			case "btnPressSubmitManual":
+			case "setSubmitButtonWhenLockInvokedManual":
 				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
 				// String.format("%ld", estimatedTime),
 				// ChatClient.user.getUsername(), examID, grade});
 				UpdateManualSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
-						request[4], client);
+						request[4],request[5], client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -282,12 +284,14 @@ public class DBconnector {
 			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
 			if(whoCalled.equals("T"))
 				stmt = con.prepareStatement("UPDATE exams SET File = ? WHERE ExamID = ?");
-			else// if(whoCalled.equals("S"))
+			else{// if(whoCalled.equals("S"))
 				stmt = con.prepareStatement("UPDATE exams_results_manual SET FileSubmit = ? WHERE ExamID = ? and UsernameS = ?");
-
+				System.out.println("entered else");
+				stmt.setString(3, studentID);
+			}
 			stmt.setBlob(1, blob);
 			stmt.setString(2, examID);
-			stmt.setString(3, studentID);
+
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -2019,16 +2023,16 @@ ORDER BY E.ExamID;*/
 	 * @throws IOException
 	 */
 	private void UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(String status, String estimatedTime,
-			String studentID, String examID, String grade, ConnectionToClient client) throws IOException {
+			String studentID, String examID, String grade,String allocatedTime, ConnectionToClient client) throws IOException {
 		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem(calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
-
+		System.out.println("BEGINNING");
 		try {
 			// ----------- query to add the tuple to exam_results table in case it doesn't
 			// exist allready
 			PreparedStatement stmt1 = con.prepareStatement(
-					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS) "
-							+ "VALUES (?, ?, ?, ?)");
+					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS, AllocatedTime) "
+							+ "VALUES (?, ?, ?, ?, ?)");
 
 			stmt1.setString(1, estimatedTime);
 			if (status.equals("successful")) {
@@ -2038,8 +2042,11 @@ ORDER BY E.ExamID;*/
 			}
 			stmt1.setString(3, examID);
 			stmt1.setString(4, studentID);
+			stmt1.setString(5, allocatedTime);
 			stmt1.executeUpdate();
+		} catch (SQLException e) { 			e.printStackTrace();}
 
+		try {
 			// ----------- query to add the tuple to exams_results_computerized table in
 			// case it doesn't exist allready (accordingly)
 			PreparedStatement stmt2 = con.prepareStatement(
@@ -2051,8 +2058,7 @@ ORDER BY E.ExamID;*/
 			stmt2.setString(4, "0");
 			stmt2.executeUpdate();
 
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {			e.printStackTrace();}
 
 		try {
 			System.out.println("status = " + status + "\testimatedTime = " + estimatedTime + "\tstudentID = "
@@ -2076,11 +2082,17 @@ ORDER BY E.ExamID;*/
 			stmt.setString(4, studentID);
 
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			client.sendToClient("");
+			return;
+		}
 
+		try {
 			System.out.println("studentID = " + studentID + "\texamID = " + examID + "\tGradeBySystem = " + grade
 					+ "\tConfirmedByTeacher = '0'");
 
-			// ----------- updating the tuple in exam_result table
+			// ----------- updating the tuple in exams_results_computerized table
 			PreparedStatement stmt3 = con.prepareStatement("UPDATE exams_results_computerized SET GradeBySystem = '"
 					+ grade + "', ConfirmedByTeacher = '0', GradeByTeacher = ?,"
 					+ " ReasonForGradeChange = ? WHERE ExamID =? AND UsernameS =?");
@@ -2095,7 +2107,9 @@ ORDER BY E.ExamID;*/
 			client.sendToClient("");
 			return;
 		}
-		client.sendToClient("");
+		System.out.println("END");
+
+		client.sendToClient("**********updated student's exam's info into DB");
 	}
 
 
@@ -2114,7 +2128,7 @@ ORDER BY E.ExamID;*/
 	 * @throws IOException
 	 */
 	private void UpdateManualSubmittedExamInfoByExamIDandStudentID(String status, String estimatedTime,
-			String studentID, String examID, ConnectionToClient client) throws IOException {
+			String studentID, String examID,String allocatedTime, ConnectionToClient client) throws IOException {
 		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem
 		// (calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
@@ -2123,8 +2137,8 @@ ORDER BY E.ExamID;*/
 			// ----------- query to add the tuple to exam_results table in case it doesn't
 			// exist allready
 			PreparedStatement stmt1 = con.prepareStatement(
-					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS) "
-							+ "VALUES (?, ?, ?, ?)");
+					"INSERT INTO exams_results (TimeOfExecution, Submited, ExamID, UsernameS, AllocatedTime) "
+							+ "VALUES (?, ?, ?, ?, ?)");
 
 			stmt1.setString(1, estimatedTime);
 			if (status.equals("successful")) {
@@ -2134,6 +2148,8 @@ ORDER BY E.ExamID;*/
 			}
 			stmt1.setString(3, examID);
 			stmt1.setString(4, studentID);
+			stmt1.setString(5, allocatedTime);
+
 			stmt1.executeUpdate();
 
 			// ----------- query to add the tuple to exams_results_manual table in
@@ -2153,21 +2169,22 @@ ORDER BY E.ExamID;*/
 					+ studentID + "\texamID = " + examID);
 
 			// ----------- updating the tuple in exam_result table
-			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = '" + estimatedTime
-					+ "', Submited = ?, Date = ?" + " WHERE ExamID =? AND UsernameS =?");
+			PreparedStatement stmt = con.prepareStatement("UPDATE exams_results SET TimeOfExecution = ?"
+					+ ", Submited = ?, Date = ?" + " WHERE ExamID =? AND UsernameS =?");
+			stmt.setString(1, estimatedTime);
 			if (status.equals("successful")) {
-				stmt.setString(1, "1");
+				stmt.setString(2, "1");
 			} else {// if(status.equals("NOT successful"))
-				stmt.setString(1, "0");
+				stmt.setString(2, "0");
 			}
 
 			GregorianCalendar calendar = new GregorianCalendar();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String string = format.format(calendar.getTime());
-			stmt.setString(2, string);
+			stmt.setString(3, string);
 
-			stmt.setString(3, examID);
-			stmt.setString(4, studentID);
+			stmt.setString(4, examID);
+			stmt.setString(5, studentID);
 
 			stmt.executeUpdate();
 
