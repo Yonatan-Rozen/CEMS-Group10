@@ -53,13 +53,14 @@ public class TeacherMenuController implements Initializable {
 	private Button sbViewReportBtn;
 	
 	@FXML
-	private Button sbComputerizedResultsBtn;
+	private Button sbCheckExamResultsBtn;
 
 	@FXML
 	private Button sbSettingsBtn;
 
 	@FXML
 	private ImageView sbTeacherBgImg;
+	
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink teacherNameLnk;
@@ -85,7 +86,11 @@ public class TeacherMenuController implements Initializable {
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
 		ClientUI.mainStage.show();
 		teacherBgImg = sbTeacherBgImg;
-		teacherBgImg.setImage(new Image("/img_bgTeacher2.png"));
+		teacherBgImg.setImage(new Image("/img_bg.png"));
+		teacherBgImg.setPreserveRatio(false);
+		teacherBgImg.setFitHeight(620);
+		teacherBgImg.setFitWidth(1135);
+
 	}
 
 	// ACTION METHODS *******************************************************
@@ -159,16 +164,15 @@ public class TeacherMenuController implements Initializable {
 
 		if (choiceBoxesList != null) {
 			setByMenu = true;
-			ClientUI.mainScene
-					.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
+			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
 			TeacherMenuBarController.tmbController.btnPressViewReports(event);
 		}
 	}
 	
 	@FXML
-	public void btnPressComputerizedResults(ActionEvent event) throws IOException {
+	public void btnPressCheckExamResults(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenu::btnPressComputerizedResults");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenuBar.fxml")));
-		TeacherMenuBarController.tmbController.btnPressComputerizedResults(event);
+		TeacherMenuBarController.tmbController.btnPressCheckExamResults(event);
 	}
 }

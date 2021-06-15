@@ -12,9 +12,11 @@
 
 <SplitPane dividerPositions="0.19973544973544974" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentMenuBarController">
    <items>
-      <AnchorPane fx:id="sbMenuBarContainerAp" minHeight="600.0" minWidth="200.0" prefHeight="600.0" prefWidth="200.0">
+      <AnchorPane fx:id="sbMenuBarContainerAp" minHeight="600.0" minWidth="230.0" prefHeight="600.0" prefWidth="230.0" SplitPane.resizableWithParent="false">
          <children>
-            <VBox alignment="CENTER" layoutX="14.0" layoutY="227.0" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <ImageView fx:id="sbMenuBg" fitHeight="600.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="13.0" />
+            <ImageView fx:id="sbLogoIv" fitHeight="151.0" fitWidth="230.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox alignment="CENTER" layoutX="14.0" layoutY="227.0" prefWidth="210.0" spacing="15.0" AnchorPane.leftAnchor="10.0">
                <children>
                   <Button fx:id="sbTakeExamBtn" maxWidth="1.7976931348623157E308" minWidth="130.0" mnemonicParsing="false" onAction="#btnPressTakeAnExam" text="TAKE AN EXAM">
                      <font>
@@ -30,18 +32,17 @@
                      </font></Button>
                </children>
             </VBox>
-            <Hyperlink fx:id="sbLogoutLnk" layoutX="14.0" layoutY="360.0" onAction="#lnkPressLogout" text="logout" underline="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+            <Hyperlink fx:id="sbLogoutLnk" layoutX="14.0" layoutY="200.0" maxWidth="1.7976931348623157E308" onAction="#lnkPressLogout" prefWidth="210.0" text="logout" underline="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Hyperlink>
-            <ImageView fx:id="sbLogoIv" fitHeight="158.0" fitWidth="230.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0" />
-            <Button fx:id="sbBackBtn" layoutX="161.0" layoutY="562.0" mnemonicParsing="false" onAction="#btnPressBack" text="Back" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <Button fx:id="sbBackBtn" alignment="CENTER_RIGHT" layoutX="141.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnPressBack" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: transparent;" text="MENU" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="5.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
          </children>
       </AnchorPane>
-      <AnchorPane maxHeight="600.0" maxWidth="900.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0">
+      <AnchorPane maxHeight="600.0" maxWidth="900.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" SplitPane.resizableWithParent="false">
          <children>
             <BorderPane fx:id="sbMainPaneBp" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>

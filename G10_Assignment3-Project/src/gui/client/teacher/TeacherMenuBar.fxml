@@ -9,12 +9,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.13934426229508196" maxHeight="600.0" maxWidth="1100.0" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuBarController">
+<SplitPane dividerPositions="0.13934426229508196" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.teacher.TeacherMenuBarController">
    <items>
-      <AnchorPane fx:id="sbMenuBarAp" maxHeight="600.0" maxWidth="230.0" minWidth="230.0" prefHeight="600.0" prefWidth="230.0" SplitPane.resizableWithParent="false">
+      <AnchorPane fx:id="sbMenuBarAp" maxHeight="600.0" maxWidth="230.0" minHeight="600.0" minWidth="230.0" prefHeight="600.0" prefWidth="230.0" SplitPane.resizableWithParent="false">
          <children>
-            <ImageView fx:id="sbLogoIv" fitHeight="151.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <VBox alignment="CENTER" layoutX="20.0" layoutY="152.0" spacing="12.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <ImageView fx:id="sbMenuBg" fitHeight="600.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <ImageView fx:id="sbLogoIv" fitHeight="151.0" fitWidth="230.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox alignment="CENTER" layoutX="13.0" layoutY="152.0" maxWidth="210.0" prefWidth="210.0" spacing="12.0" AnchorPane.leftAnchor="10.0">
                <children>
                   <Button fx:id="sbStartExamBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressStartExam" text="START EXAM">
                      <font>
@@ -40,7 +41,7 @@
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></Button>
-                  <Button fx:id="sbComputerizedResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressComputerizedResults" text="COMP. RESULTS">
+                  <Button fx:id="sbCheckExamResultsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPressCheckExamResults" text="EXAM RESULTS">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -55,7 +56,7 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Hyperlink>
-            <Button fx:id="sbBackBtn" layoutX="131.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnPressBack" text="MENU" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="10.0">
+            <Button fx:id="sbBackBtn" alignment="CENTER_RIGHT" contentDisplay="TEXT_ONLY" layoutX="131.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnPressBack" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: transparent;" text="MENU" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="5.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
@@ -63,7 +64,7 @@
       </AnchorPane>
       <AnchorPane maxHeight="600.0" maxWidth="900.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" SplitPane.resizableWithParent="false">
          <children>
-            <BorderPane fx:id="sbMainPaneBp" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <BorderPane fx:id="sbMainPaneBp" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </items>

@@ -7,8 +7,6 @@ import java.util.List;
 
 import client.ClientUI;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,6 +24,9 @@ import javafx.stage.StageStyle;
 public class CommonMethodsHandler {
 	public static final Image CEMS_LOGO = new Image("/logo.png");
 	public static final Image CEMS_ICON = new Image("/icon_black.png");
+	public static final Image ICON_CORRECT = new Image("/icon_correct.png");
+	public static final Image ICON_WRONG = new Image("/icon_wrong.png");
+	public static final Image ICON_TOOLTIP = new Image("/icon_tooltip.png");
 
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
@@ -262,9 +263,15 @@ public class CommonMethodsHandler {
 	 * @param newlyPressed The 'to-be' disabled button after
 	 */
 	public Button disablePropertySwapper(Button currentBtn, Button newBtn) {
-		if (currentBtn != null)
+		if (currentBtn != null) {
+//			currentBtn.setGraphic(new ImageView("/icon_empty.png"));
+			currentBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
 			currentBtn.setDisable(false);
+		}
 		newBtn.setDisable(true);
+//		newBtn.setGraphic(new ImageView("/icon_v.png"));
+		newBtn.setStyle("-fx-background-image: url('/icon_v.png') ; -fx-background-repeat: no-repeat;");
+
 		return newBtn;
 	}
 

@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -37,6 +39,9 @@ public class StudentMenuController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
+	
+	@FXML
+	private ImageView sbTeacherBgImg;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Hyperlink studentLnk;
@@ -45,6 +50,8 @@ public class StudentMenuController implements Initializable {
 	private static Button takeExamBtn;
 	private static Button viewExamResultsBtn;
 	private static Button settingsBtn;
+	private static ImageView teacherBgImg;
+
 
 	// STATIC INSTANCES *****************************************************
 	protected static String examID;
@@ -69,6 +76,11 @@ public class StudentMenuController implements Initializable {
 		takeExamBtn = sbTakeExamBtn;
 		viewExamResultsBtn = sbViewExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
+		teacherBgImg = sbTeacherBgImg;
+		teacherBgImg.setImage(new Image("/img_bg.png"));
+		teacherBgImg.setPreserveRatio(false);
+		teacherBgImg.setFitHeight(620);
+		teacherBgImg.setFitWidth(1135);
 		ClientUI.mainStage.show();
 	}
 

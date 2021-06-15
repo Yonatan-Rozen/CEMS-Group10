@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewRequestsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.principle.PrincipleViewRequestsController">
    <children>
       <Label layoutX="329.0" layoutY="14.0" text="View Requests" underline="true" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="sbRequestsTv" layoutX="155.0" layoutY="151.0" prefHeight="250.0" prefWidth="650.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+      <TableView fx:id="sbRequestsTv" layoutX="155.0" layoutY="151.0" prefHeight="277.0" prefWidth="700.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
         <columns>
           <TableColumn fx:id="sbTeacherTc" prefWidth="180.0" resizable="false" text="Teacher" />
           <TableColumn fx:id="sbExamIdTc" prefWidth="130.0" resizable="false" text="ExamID" />
@@ -30,12 +30,12 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Label layoutX="50.0" layoutY="98.0" text="Active requests :" underline="true">
+      <Label layoutX="100.0" layoutY="98.0" text="Active requests :" underline="true">
          <font>
             <Font name="System Italic" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="102.0" layoutY="401.0" text="(Allocated time values are represented in minutes)">
+      <Label layoutX="102.0" layoutY="431.0" text="(Allocated time values are represented in minutes)">
          <font>
             <Font name="System Italic" size="15.0" />
          </font></Label>

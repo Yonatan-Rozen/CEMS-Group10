@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.teacher.TeacherCheckAnswersController;
+import gui.client.teacher.TeacherCheckExamResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
 import gui.client.teacher.TeacherCreateExamController;
@@ -33,6 +36,7 @@ import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
+import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
 import logic.question.Question;
@@ -110,10 +114,42 @@ public class ChatClient extends AbstractClient {
 	 *
 	 * @param msg The (Object[]) object
 	 * @throws IOException
+	 * @throws SQLException
 	 */
+
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		System.out.println("in handle array mesages :: "+msg[0]);
+
+		System.out.println("in handle array mesages with {\" " + msg[0].toString() + "\"");
+
 		switch (msg[0].toString()) {
+		//		case "downloadFileWithBlob":
+		//			try {
+		//			BufferedInputStream is = (BufferedInputStream)msg[3];
+		//			FileOutputStream fos = (FileOutputStream)msg[4];
+		//			String examIDs = (String)msg[1];
+		//			String path = (String)msg[2];
+		////			MyFile myfile = new MyFile("Exam" + examIDs);
+		//	//		BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
+		//	//		FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
+		//			byte[] buffer = new byte[2048];
+		//			int r = 0;
+		//			while((r = is.read(buffer))!=-1) {
+		//				fos.write(buffer, 0, r);
+		//			}
+		//			fos.flush();
+		//			fos.close();
+		//			is.close();
+		//	//		blob.free();
+		//
+		//			System.out.println("DOWNLOAD FILE ---------------> END");
+		//
+		//			}
+		//			catch (Exception e) {
+		//				// TODO: handle exception
+		//				e.printStackTrace();
+		//				return;
+		//			}
+		//			break;
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
@@ -147,6 +183,8 @@ public class ChatClient extends AbstractClient {
 		case "SendMessageDecNumStudentsInExam":
 			System.out.println("entered case SendMessageDecNumStudentsInExam <<<<<<<<<<<");
 			TeacherStartExamController.tseController.DecStudentsInExam();
+		case "SetQuestionInExamWithStudentAnswers":
+			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
 			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
@@ -177,7 +215,8 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
 			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-			//			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
+			// ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword
+			// ERROR - ".length()));
 		} else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
 			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
@@ -201,7 +240,6 @@ public class ChatClient extends AbstractClient {
 			ClientController.display(msg+" is the message sent :(");
 			System.out.println("AFTER DISPLAY");
 		}
-
 	}
 
 	/**
@@ -319,14 +357,14 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
 			}
-			//		} else if (obj instanceof Exam) {
-			//			List<Exam> examList = (List<Exam>) msg;
-			//			System.out.println(examList);
-			//			switch (((Exam) obj).getExamID()) {
-			//			case "getExamsBySubjectAndUsername":
-			//				TeacherEditExamController.teeController.setExamTableView(examList);
-			//				return;  -- [Commented by Yonatn]
-			//			}
+			// } else if (obj instanceof Exam) {
+			// List<Exam> examList = (List<Exam>) msg;
+			// System.out.println(examList);
+			// switch (((Exam) obj).getExamID()) {
+			// case "getExamsBySubjectAndUsername":
+			// TeacherEditExamController.teeController.setExamTableView(examList);
+			// return; -- [Commented by Yonatn]
+			// }
 		} else if (obj instanceof User) { // List of users
 			List<User> usersList = (List<User>) msg;
 			System.out.println(usersList);
@@ -352,6 +390,18 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
 			}
+		} else if (obj instanceof ExamResultOfStudent) {
+			List<ExamResultOfStudent> computerizedResultsList = (List<ExamResultOfStudent>) msg;
+			System.out.println(computerizedResultsList);
+			switch (((ExamResultOfStudent) obj).getExamID()) {
+			case "SetComputerizedExamResultsByUsername":
+				TeacherCheckExamResultsController.tcrController.setComputerizedResults(computerizedResultsList);
+				return;
+			default:
+				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");
+				break;
+			}
+
 		}
 	}
 
@@ -371,7 +421,7 @@ public class ChatClient extends AbstractClient {
 				String examID = ((String[]) obj)[1];
 				String message = ((String[]) obj)[2];
 				File wordDocument = new File(message);
-				String whoCalled=((String[]) obj)[3];
+				String whoCalled = ((String[]) obj)[3];
 				String studentID;
 				// check if 'message' is a pathname (for example:
 				// "C:\Users\Jon\Desktop\test.docx")
@@ -379,9 +429,10 @@ public class ChatClient extends AbstractClient {
 				String fileName = s1[s1.length - 1]; // "test.txt"
 				MyFile testFile = new MyFile(fileName);
 
-				if(whoCalled.equals("S"))
-					studentID=((String[]) obj)[4];
-				else studentID=null;
+				if (whoCalled.equals("S"))
+					studentID = ((String[]) obj)[4];
+				else
+					studentID = null;
 
 				try {
 					byte[] mybytearray = new byte[(int) wordDocument.length()];
@@ -393,7 +444,7 @@ public class ChatClient extends AbstractClient {
 
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
-					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile,whoCalled,studentID});
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, whoCalled, studentID });
 				} catch (Exception e) {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
@@ -422,6 +473,34 @@ public class ChatClient extends AbstractClient {
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
 					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
+				} catch (Exception e) {
+					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
+				}
+
+			} else if ((obj instanceof String[]) && ((String[]) obj)[0].contains("UploadManualCheckExamFile")) {
+
+				String examID = ((String[]) obj)[1];
+				String message = ((String[]) obj)[2];
+				String Studentid = ((String[]) obj)[3];
+				File wordDocument = new File(message);
+
+				// check if 'message' is a pathname (for example:
+				// "C:\Users\Jon\Desktop\test.docx")
+				String[] s1 = message.split("\\\\");
+				String fileName = s1[s1.length - 1]; // "test.txt"
+				MyFile testFile = new MyFile(fileName);
+
+				try {
+					byte[] mybytearray = new byte[(int) wordDocument.length()];
+					FileInputStream fis = new FileInputStream(wordDocument);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+
+					testFile.initArray(mybytearray.length);
+					testFile.setSize(mybytearray.length);
+
+					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+					bis.close();
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, Studentid });
 				} catch (Exception e) {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
