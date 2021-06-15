@@ -11,8 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
@@ -45,7 +45,7 @@ public class TeacherMenuBarController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
-	
+
 	@FXML
 	private Button sbComputerizedResultsBtn;
 
@@ -62,7 +62,7 @@ public class TeacherMenuBarController implements Initializable {
 	private BorderPane sbMainPaneBp;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	protected static AnchorPane menuBarAp;
+	public static AnchorPane menuBarAp;
 	private static Button startExamBtn;
 	private static Button createQuestionBtn;
 	private static Button editQuestionBtn;
@@ -119,18 +119,18 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressEditQuestion(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::btnPressEditQuestion");
-		
+
 		if (!TeacherMenuController.choiceBoxRequested) {
 			String[] request = new String[]{"GetExistingBanks", ChatClient.user.getUsername()};
 			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
 			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
 		}
-		
+
 		if (TeacherMenuController.choiceBoxesList != null) {
 			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherChooseEditQuestion"));
 			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(TeacherMenuController.choiceBoxesList);
 			TeacherMenuController.choiceBoxRequested = false;
-			
+
 			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editQuestionBtn);
 		}
 	}
@@ -145,14 +145,14 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("TeacherMenuBar::btnPressViewReports");
-		
+
 		if (!TeacherMenuController.setByMenu) {
 			String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
 			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
 			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
 			TeacherMenuController.setByMenu = false;
 		}
-		
+
 		if (TeacherMenuController.choiceBoxesList != null)
 		{
 			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherReports"));
@@ -161,7 +161,7 @@ public class TeacherMenuBarController implements Initializable {
 			TeacherMenuController.setByMenu = false;
 		}
 	}
-	
+
 	/**
 	 * Opens fxml file of {@link TeacherCheckComputerizedResultsController}
 	 * @param event
@@ -185,7 +185,7 @@ public class TeacherMenuBarController implements Initializable {
 		System.out.println("TeacherMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
-	
+
 
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
