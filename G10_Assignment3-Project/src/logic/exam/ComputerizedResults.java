@@ -45,6 +45,10 @@ public class ComputerizedResults extends ExamResultOfStudent{
 	public void setComments(List<String> comments) {
 		this.comments = comments;
 	}
+	
+	public void setCommentAtIndex(int index, String comment) {
+		this.comments.set(index, comment);
+	}
 
 	public boolean[] getIsCorrect() {
 		return isCorrect;
