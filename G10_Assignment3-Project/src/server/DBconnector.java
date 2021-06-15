@@ -28,6 +28,7 @@ import logic.exam.ExamResults;
 import logic.exam.IExam;
 import logic.exam.ManualExam;
 import logic.exam.ManualResults;
+import logic.exam.Request;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 import ocsf.server.ConnectionToClient;
@@ -219,6 +220,10 @@ public class DBconnector {
 			case "GetQuestionInExamWithStudentAnswers":
 				getQuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
+			case "sbViewRequests":
+				getRequestsToPrinciple(request[1],client);
+				break;
+				
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -2442,6 +2447,27 @@ public class DBconnector {
 		}
 		System.out.println("QUERY FOR MANUAL EXAM----------> END");
 		client.sendToClient("");
+	}
+	
+	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException
+	{
+		Request request = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM request R WHERE R.principle = '" + principle + "'");
+			while (rs.next()) 
+			{
+				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+			}
+			client.sendToClient(request);
+			rs.close();
+
+		} catch (SQLException e) {
+			// * This method should always work!!! ; Add Missing information if it doesn't*
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
 	}
 
 }
