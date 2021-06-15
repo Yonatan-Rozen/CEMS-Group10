@@ -1,10 +1,7 @@
 package server;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import common.MyFile;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -26,7 +23,7 @@ public class EchoServer extends AbstractServer {
 	 * the server
 	 */
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {		
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg instanceof Object[]) {
 			String request = (String) ((Object[]) msg)[0];
 			ServerUI.serverConsole.println(">>> " + request + " from " + client);
@@ -46,7 +43,7 @@ public class EchoServer extends AbstractServer {
 				} catch (IOException e) { e.printStackTrace(); }
 			}
 			else useDatabase(msg, client);
-		} 
+		}
 		else {
 			ServerUI.serverConsole.println(">>> " + msg + " from " + client);
 			useDatabase(msg, client);
@@ -55,12 +52,12 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * Uses info from the database and returns it to the client
-	 * 
+	 *
 	 * @param msg    The specified data request from the database
 	 * @param client The client that sent the message
 	 */
-		public void useDatabase(Object msg, ConnectionToClient client) {
-			try { DBconnector.getInstance().parseData(msg, client);
+	public void useDatabase(Object msg, ConnectionToClient client) {
+		try { DBconnector.getInstance().parseData(msg, client);
 		} catch (IOException e) {
 			e.printStackTrace();
 			ServerUI.serverConsole.println("ERROR - Could not answer client");
@@ -84,6 +81,7 @@ public class EchoServer extends AbstractServer {
 					ConnectionToClient student = (ConnectionToClient)clientThreadList[i];
 					try {
 						if (student.getInfo(student.getName()).equals("Student")) {
+							//System.out.println("GOT HERE");
 							student.sendToClient(msg);
 							amountOfStudents++;
 						}
@@ -96,6 +94,20 @@ public class EchoServer extends AbstractServer {
 					try {
 						if (student.getInfo(student.getName()).equals("Student"))
 							student.sendToClient(msg);
+					} catch (Exception ex) {
+					}
+				}
+				return;
+			case "SendMessageIncNumStudentsInExam":
+			case "SendMessageDecNumStudentsInExam":
+				for (int i = 0; i < clientThreadList.length; i++) {
+					ConnectionToClient teacher = (ConnectionToClient)clientThreadList[i];
+					//teacherID=msg[1]
+					try {
+						if (teacher.getName().equals(((String[]) msg)[1])) {
+							System.out.println("ECHOSERVER : INC OR DEC");
+							teacher.sendToClient(msg);//messageInc,examinaning teacher ID
+						}
 					} catch (Exception ex) {
 					}
 				}
