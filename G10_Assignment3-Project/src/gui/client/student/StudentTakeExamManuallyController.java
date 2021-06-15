@@ -62,6 +62,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 		//stemController
 		searchBtn = sbSearchBtn;
 		uploadFileTf = sbUploadFileTf;
+		startTime = System.nanoTime();
 	}
 
 	// ACTION METHODS *******************************************************
@@ -69,7 +70,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 	void btnPressSubmitExam(ActionEvent event) throws IOException {
 		System.out.println("StudentTakeExamManually::btnPressSubmitExam");
 		//TODO take care of pane for uploading BLOB file by dragging the file ?
-
 
 		//TODO prompt message "Are you sure you want to submit?"
 		//TODO go to "exam submitted successfully"
@@ -83,8 +83,8 @@ public class StudentTakeExamManuallyController implements Initializable {
 		//calculated for all the students that are still connected
 		System.out.println("before the query of submit");
 		// successful submit example ***********************************
-		//TODO update grade into exams_results_computerized
-		ClientUI.chat.accept(new String[] { "btnPressSubmitManual","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID });
+		System.out.println("before going to update : estimatedTime = "+String.format("%d", estimatedTime));
+		ClientUI.chat.accept(new String[] { "btnPressSubmitManual","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID ,exam.getAllocatedTime()});
 		System.out.println("in the middle of the query of submit");
 
 		ClientUI.chat.accept(new String[] { "StudentUploadFile", examID, FilePath,"S",ChatClient.user.getUsername() });
@@ -93,8 +93,10 @@ public class StudentTakeExamManuallyController implements Initializable {
 		// TODO maybe add alert "are you sure you want to submit?"
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		//TODO go to main menu
-
+		//TeacherStartExamController.tseController.studentsInExam--;
+		ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
 	}
+
 
 	@FXML
 	void lnkPressDownloadExamFile(ActionEvent event) {
@@ -162,8 +164,11 @@ public class StudentTakeExamManuallyController implements Initializable {
 			//			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
 			//			// NOT successful submit - the exam is locked and submitted automatically ***********************************
 			// update "submited" column to 1 in DB's exams_results table
-			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
-					String.format("%ld", estimatedTime), ChatClient.user.getUsername(), examID });
+			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvokedManual", "NOT successful",
+					String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,exam.getAllocatedTime() });
+
+			//TeacherStartExamController.tseController.studentsInExam--;
+			ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
 		}
 	}
 }
