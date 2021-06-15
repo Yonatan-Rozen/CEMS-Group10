@@ -74,7 +74,7 @@ public class TeacherCheckExamResultsController implements Initializable {
 		uploadCopyAp.setVisible(false);
 		pathTf = sbPathTf;
 		searchBtn = sbSearchBtn;
-
+		TeacherMenuBarController.menuBarAp.setDisable(false);
 		cmh.disableTableColumnSwap(computerizedResultsTv);
 		examIDTc.setCellValueFactory(new PropertyValueFactory<ExamResultOfStudent, String>("examID"));
 		studentIDTc.setCellValueFactory(new PropertyValueFactory<ExamResultOfStudent, String>("studentID"));
@@ -91,7 +91,7 @@ public class TeacherCheckExamResultsController implements Initializable {
 		ExamResultOfStudent selectedResult = computerizedResultsTv.getSelectionModel().getSelectedItem();
 		if (selectedResult instanceof ComputerizedResults) {
 			TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckAnswers"));
-			ClientUI.chat.accept(new String[] { "GetExamOfStudent", selectedResult.getExamID(), selectedResult.getStudentID() });
+			TeacherCheckAnswersController.tcaController.setExamOfStudentDetails((ComputerizedResults)selectedResult);
 		} else if (selectedResult instanceof ManualResults) {
 			computerizedResultsTv.setDisable(true);
 			uploadCopyAp.setVisible(true);
