@@ -18,6 +18,7 @@ import gui.client.principle.PrincipleReportsByTeacherController;
 import gui.client.principle.PrincipleViewExamsInfoScreenController;
 import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewReportsController;
+import gui.client.principle.PrincipleViewRequestsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
@@ -39,6 +40,7 @@ import logic.exam.Exam;
 import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
+import logic.exam.Request;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 import ocsf.client.AbstractClient;
@@ -104,6 +106,8 @@ public class ChatClient extends AbstractClient {
 		// StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
 		else if (msg instanceof Boolean)
 			PrincipleViewReportsController.pvrController.setDoesExit((boolean) msg);
+		else if(msg instanceof Request)
+			PrincipleViewRequestsController.pvrController.fillRequstTable((Request)msg);
 
 		// releases 'handleMessageFromClientUI' to continue getting new input
 		awaitResponse = false;
