@@ -9,9 +9,11 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -28,18 +30,7 @@
             <Font size="17.0" />
          </font>
       </TextArea>
-      <Label layoutX="46.0" layoutY="75.0" text="ExamID:" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-      </Label>
-      <Label fx:id="sbStudentIDLbl" layoutX="414.0" layoutY="75.0" text="#########">
-         <font>
-            <Font name="System Italic" size="24.0" />
-         </font>
-      </Label>
-      <Line endX="-12.0" endY="-16.0" layoutX="272.0" layoutY="120.0" startX="-12.0" startY="-36.0" />
-      <ScrollPane focusTraversable="false" layoutX="222.0" layoutY="148.0" prefHeight="50.0" prefWidth="382.0" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="212.0">
+      <ScrollPane focusTraversable="false" layoutX="202.0" layoutY="148.0" prefHeight="50.0" prefWidth="382.0" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="232.0">
          <content>
             <ButtonBar fx:id="sbQuestionsBb" buttonMinWidth="25.0">
                <padding>
@@ -48,33 +39,23 @@
             </ButtonBar>
          </content>
       </ScrollPane>
-      <Label layoutX="365.0" layoutY="114.0" text="Choose Question" underline="true" AnchorPane.leftAnchor="365.0">
+      <Label layoutX="345.0" layoutY="114.0" text="Choose Question" underline="true" AnchorPane.leftAnchor="345.0">
          <font>
             <Font name="System Italic" size="24.0" />
          </font>
       </Label>
       <Line endX="468.0" layoutX="432.0" layoutY="113.0" startX="-432.0" />
-      <Label fx:id="sbExamIDLbl" layoutX="149.0" layoutY="75.0" text="######">
-         <font>
-            <Font name="System Italic" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="281.0" layoutY="75.0" text="Student ID:" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-      </Label>
       <ScrollPane layoutX="65.0" layoutY="232.0" prefHeight="312.0" prefWidth="364.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="65.0">
          <content>
             <VBox prefWidth="342.0" spacing="20.0">
                <children>
-                  <Label fx:id="sbQuestionBodyLbl" text="Body" wrapText="true">
+                  <Label fx:id="sbQuestionBodyLbl" mouseTransparent="true" text="Body" wrapText="true">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                   <Line endX="240.0" startX="-100.0" />
-                  <RadioButton fx:id="sbAnswer1Rb" mnemonicParsing="false" text="Answer1" wrapText="true">
+                  <RadioButton fx:id="sbAnswer1Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer1" wrapText="true">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -83,19 +64,19 @@
                      </toggleGroup>
                   </RadioButton>
                   <Line endX="240.0" startX="-100.0" />
-                  <RadioButton fx:id="sbAnswer2Rb" mnemonicParsing="false" text="Answer2" toggleGroup="$sbQuestionsTg" wrapText="true">
+                  <RadioButton fx:id="sbAnswer2Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer2" toggleGroup="$sbQuestionsTg" wrapText="true">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </RadioButton>
                   <Line endX="240.0" startX="-100.0" />
-                  <RadioButton fx:id="sbAnswer3Rb" mnemonicParsing="false" text="Answer3" toggleGroup="$sbQuestionsTg" wrapText="true">
+                  <RadioButton fx:id="sbAnswer3Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer3" toggleGroup="$sbQuestionsTg" wrapText="true">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </RadioButton>
                   <Line endX="240.0" startX="-100.0" />
-                  <RadioButton fx:id="sbAnswer4Rb" mnemonicParsing="false" text="Answer4" toggleGroup="$sbQuestionsTg" wrapText="true">
+                  <RadioButton fx:id="sbAnswer4Rb" mnemonicParsing="false" mouseTransparent="true" text="Answer4" toggleGroup="$sbQuestionsTg" wrapText="true">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -121,7 +102,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="sbConfirmBtn" layoutX="549.0" layoutY="496.0" mnemonicParsing="false" onAction="#btnPressConfirm" prefWidth="287.0" text="ACCEPT FINAL GRADE">
+      <Button fx:id="sbAcceptGradeBtn" layoutX="549.0" layoutY="496.0" mnemonicParsing="false" onAction="#btnPressAcceptGrade" prefWidth="287.0" text="ACCEPT FINAL GRADE">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
@@ -147,28 +128,124 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextField layoutX="655.0" layoutY="355.0" prefWidth="67.0" />
-      <Label fx:id="sbStudentIDLbl1" layoutX="760.0" layoutY="77.0" text="###">
+      <TextField fx:id="sbFinalGradeTf" alignment="CENTER" layoutX="678.0" layoutY="355.0" prefHeight="25.0" prefWidth="46.0" promptText="###" />
+      <Label layoutX="470.0" layoutY="350.0" text="Insert Final Grade :" underline="true">
          <font>
             <Font name="System Italic" size="24.0" />
          </font>
       </Label>
-      <Line endX="-12.0" endY="-16.0" layoutX="577.0" layoutY="120.0" startX="-12.0" startY="-36.0" />
-      <Label layoutX="586.0" layoutY="75.0" text="Comp. Grade :" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="470.0" layoutY="350.0" text="Edit Final Score :" underline="true">
-         <font>
-            <Font name="System Italic" size="24.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="sbQuestionCommentTa1" layoutX="470.0" layoutY="394.0" prefHeight="90.0" prefWidth="364.0" promptText="- Insert reason for grade change -" wrapText="true">
+      <TextArea fx:id="sbExamCommentTa" layoutX="470.0" layoutY="394.0" prefHeight="90.0" prefWidth="364.0" promptText="- Insert reason for grade change -" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </TextArea>
       <Button fx:id="sbBackBtn" layoutX="470.0" layoutY="505.0" mnemonicParsing="false" onAction="#btnPressBack" text="BACK" />
+      <Line endX="470.0" layoutX="430.0" layoutY="330.0" startX="26.0" />
+      <Line endX="30.0" endY="260.0" layoutX="425.0" layoutY="340.0" startX="30.0" startY="-10.0" />
+      <Label layoutX="34.0" layoutY="206.0">
+         <tooltip>
+            <Tooltip consumeAutoHidingEvents="false" contentDisplay="TOP" style="-fx-background-color: black;">
+               <graphic>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Legend :">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Label>
+                        <Line endX="145.0" startX="-100.0" stroke="WHITE" />
+                        <RadioButton focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" selected="true" style="-fx-color: RED;" text="student selected wrong answer" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" style="-fx-text-fill: GREEN; -fx-color: GREEN;" text="unselected correct answer" textFill="#42862f">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </RadioButton>
+                        <Line endX="145.0" startX="-100.0" stroke="WHITE" />
+                        <RadioButton focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" selected="true" style="-fx-text-fill: GREEN; -fx-color: GREEN;" text="student selected correct answer" textFill="#42862f">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </RadioButton>
+                        <Line endX="145.0" startX="-100.0" stroke="WHITE" />
+                        <RadioButton focusTraversable="false" mnemonicParsing="false" mouseTransparent="true" text="neither selected nor correct">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </VBox>
+               </graphic>
+            </Tooltip>
+         </tooltip>
+         <graphic>
+            <ImageView fx:id="sbQuestionLegendIv" fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+      </Label>
+      <Label layoutX="733.0" layoutY="355.0">
+         <tooltip>
+            <Tooltip consumeAutoHidingEvents="false" contentDisplay="TOP" style="-fx-background-color: black;">
+               <graphic>
+                  <VBox prefHeight="112.0" prefWidth="151.0" spacing="5.0">
+                     <children>
+                        <Label text="please insert the student final grade" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Label>
+                        <Line endX="-75.0" startX="75.0" stroke="RED" />
+                        <Label prefWidth="151.0" text="Note that you must include the reason for a grade change" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </graphic>
+            </Tooltip>
+         </tooltip>
+         <graphic>
+            <ImageView fx:id="sbFinalScoreIv" fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+      </Label>
+      <HBox alignment="CENTER" layoutX="127.0" layoutY="67.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label text="ExamID:" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="sbExamIDLbl" text="######">
+               <font>
+                  <Font name="System Italic" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="-12.0" endY="-16.0" startX="-12.0" startY="-36.0" />
+            <Label text="Student ID:" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="sbStudentIDLbl" text="#########">
+               <font>
+                  <Font name="System Italic" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="-12.0" endY="-16.0" startX="-12.0" startY="-36.0" />
+            <Label text="Comp. Grade :" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="sbComputerizedGradeLbl" text="###">
+               <font>
+                  <Font name="System Italic" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

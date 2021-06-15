@@ -7,8 +7,6 @@ import java.util.List;
 
 import client.ClientUI;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -19,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,6 +26,7 @@ public class CommonMethodsHandler {
 	public static final Image CEMS_ICON = new Image("/icon_black.png");
 	public static final Image ICON_CORRECT = new Image("/icon_correct.png");
 	public static final Image ICON_WRONG = new Image("/icon_wrong.png");
+	public static final Image ICON_TOOLTIP = new Image("/icon_tooltip.png");
 
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
