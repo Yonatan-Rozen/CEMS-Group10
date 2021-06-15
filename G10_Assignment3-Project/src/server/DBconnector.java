@@ -244,12 +244,54 @@ public class DBconnector {
 				System.out.println("finish edit exam case");
 				btnPressFinishEditManualExam((String) request[1], (MyFile) request[2], (String) request[3], client);
 				break;
+			case "UpdateStudentFinalGrade":
+				updateStudentFinalGrade((ComputerizedResults) request[1], client);
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
 				break;
 			}
 		}
+	}
+
+	private void updateStudentFinalGrade(ComputerizedResults computerizedResults, ConnectionToClient client)
+			throws IOException {
+		// update final grade and exam comment
+		try {
+			PreparedStatement stmt = con.prepareStatement(
+					"UPDATE exams_results_computerized SET ConfirmedByTeacher = 1, GradeByTeacher = ?, ReasonForGradeChange = ? "
+							+ "WHERE ExamID = ? AND UsernameS = ? ");
+			stmt.setString(1, computerizedResults.getComputerizedGrade());
+			if (computerizedResults.getTeacherComment().isEmpty())
+				stmt.setString(2, null);
+			else
+				stmt.setString(2, computerizedResults.getTeacherComment());
+			stmt.setString(3, computerizedResults.getExamID());
+			stmt.setString(4, computerizedResults.getStudentID());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
+		// update comments for each question
+		for (int i = 0 ; i < computerizedResults.getComments().size() ; i++)
+			try {
+				PreparedStatement stmt = con.prepareStatement("UPDATE answered_questions "
+						+ "SET TeacherComment = ? WHERE QuestionID = ? AND ExamID = ?  AND UsernameS = ?");
+				stmt.setString(1,computerizedResults.getComments().get(i));
+				stmt.setString(2, computerizedResults.getQuestions().get(i).getQuestionID());
+				stmt.setString(3, computerizedResults.getExamID());
+				stmt.setString(4, computerizedResults.getStudentID());
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+
+		client.sendToClient("Updated Final Grade And Comments");
 	}
 
 	private void btnPressFinishEditManualExam(String examID, MyFile myFile, String time, ConnectionToClient client)
@@ -1693,6 +1735,53 @@ public class DBconnector {
 			rs.close();
 			System.out.println(results);
 			client.sendToClient(results);
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	/**
+	 * Sends all the details of the exam of the student back to the teacher
+	 * 
+	 * @param examID    The exam ID
+	 * @param studentID The student ID
+	 * @param client    The teacher
+	 * @throws IOException
+	 * 
+	 * @author Yonatan Rozen
+	 */
+	private void getQuestionInExamWithStudentAnswers(String examID, String studentID, ConnectionToClient client)
+			throws IOException {
+		List<QuestionInExam> questions = new ArrayList<>();
+		List<Boolean> isCorrect = new ArrayList<>();
+		List<String> studentAnswers = new ArrayList<>();
+		List<String> teacherComments = new ArrayList<>();
+		QuestionInExam question = null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT AQ.QuestionID,Q.Body, Q.Answer1, Q.Answer2, Q.Answer3, Q.Answer4, Q.CorrectAnswer, QIE.Score  ,AQ.StudentAnswer, AQ.IsCorrect, AQ.TeacherComment "
+							+ "FROM answered_questions AQ, questions_in_exam QIE, questions Q "
+							+ "WHERE AQ.ExamID = QIE.ExamID "
+							+ "AND AQ.QuestionID = QIE.QuestionID AND QIE.QuestionID = Q.QuestionID "
+							+ "AND AQ.ExamID = '" + examID + "' " + "AND AQ.UsernameS = '" + studentID + "'");
+			while (rs.next()) {
+				question = new QuestionInExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getString(6), rs.getString(7), "", rs.getString(8), "");
+
+				questions.add(question);
+				studentAnswers.add(rs.getString(9));
+				isCorrect.add(rs.getBoolean(10));
+				if (rs.getString(11) == null)
+					teacherComments.add("");
+				else
+					teacherComments.add(rs.getString(11));
+			}
+			rs.close();
+			client.sendToClient(new Object[] { "SetQuestionInExamWithStudentAnswers", questions, studentAnswers,
+					isCorrect, teacherComments });
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
 			e.printStackTrace();
