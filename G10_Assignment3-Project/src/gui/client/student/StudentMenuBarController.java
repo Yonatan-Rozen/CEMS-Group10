@@ -2,6 +2,7 @@ package gui.client.student;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -74,13 +75,15 @@ public class StudentMenuBarController implements Initializable {
 	public void btnPressTakeAnExam(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressTakeAnExam");
 		String[] readyExamData=StudentMenuController.smController.getReadyExam();
+		System.out.println("readyExamData : "+Arrays.toString(readyExamData));
 		if(readyExamData[0]==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
 		{
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
 					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
 		}
 		else{
-			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2]);
+			System.out.println("STUDENT_MenuBar ELSE");
+			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2],readyExamData[3]);
 			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
 			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, takeExamBtn);
 		}
