@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -60,6 +61,9 @@ public class TeacherMenuBarController implements Initializable {
 
 	@FXML
 	private BorderPane sbMainPaneBp;
+	
+    @FXML
+    private ImageView sbMenuBg;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	protected static AnchorPane menuBarAp;
@@ -72,6 +76,8 @@ public class TeacherMenuBarController implements Initializable {
 	private static Button checkExamResultsBtn;
 	private static Button settingsBtn;
 	protected static BorderPane mainPaneBp;
+	private static ImageView menuBg;
+	private static Button backBtn;
 
 	// STATIC INSTANCES *****************************************************
 	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
@@ -90,7 +96,14 @@ public class TeacherMenuBarController implements Initializable {
 		viewReportsBtn = sbViewReportsBtn;
 		checkExamResultsBtn = sbCheckExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
+		backBtn = sbBackBtn;
+		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
 		mainPaneBp = sbMainPaneBp;
+		menuBg = sbMenuBg;
+		menuBg.setImage(new Image("/menubar_bg.png"));
+//		menuBg.setPreserveRatio(false);
+		menuBg.setFitHeight(600);
+		menuBg.setFitWidth(230);
 
 		startExamBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		createQuestionBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	

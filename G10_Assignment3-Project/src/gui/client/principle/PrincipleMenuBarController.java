@@ -46,6 +46,9 @@ public class PrincipleMenuBarController implements Initializable {
 
 	@FXML
 	private BorderPane sbMainPaneBp;
+	
+    @FXML
+    private ImageView sbMenuBg;
 
 
 	// STATIC JAVAFX INSTANCES **********************************************
@@ -54,9 +57,10 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
 	private static Hyperlink logoutLnk;
-	private Button backBtn;
+	private static Button backBtn;
 	protected static BorderPane mainPaneBp;
 	protected static AnchorPane menuBarAp;
+	private static ImageView menuBg;
 
 	// STATIC INSTANCES *****************************************************
 	private static Button currentBtn;
@@ -72,9 +76,16 @@ public class PrincipleMenuBarController implements Initializable {
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
 		logoutLnk = sbLogoutLnk;
-		backBtn = sbBackBtn;
 		mainPaneBp = sbMainPaneBp;
 		menuBarAp=sbMenuBarAp;
+		backBtn = sbBackBtn;
+		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
+		
+		menuBg = sbMenuBg;
+		menuBg.setImage(new Image("/menubar_bg.png"));
+//		menuBg.setPreserveRatio(false);
+		menuBg.setFitHeight(600);
+		menuBg.setFitWidth(230);
 		
 		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
 		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	

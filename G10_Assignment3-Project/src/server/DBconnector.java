@@ -234,11 +234,10 @@ public class DBconnector {
 				updateQuestion((Question) request[1], client);
 				break;
 			case "StudentUploadFile":
-				// studentTestUpload((String) request[1], (MyFile) request[2], client);
-				// break;
-			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 - ,req4 -
-				ExamFileUpload((String) request[1], (MyFile) request[2], (String) request[3], (String) request[4],
-						client);
+				//studentTestUpload((String) request[1], (MyFile) request[2], client);
+				//break;
+			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 -  ,req4 - 
+				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
 				break;
 			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
 				System.out.println("finish edit exam case");

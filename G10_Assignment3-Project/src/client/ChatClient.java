@@ -3,8 +3,12 @@ package client;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+
+import com.mysql.cj.jdbc.Blob;
 
 import common.CommonMethodsHandler;
 import common.MyFile;
@@ -111,10 +115,40 @@ public class ChatClient extends AbstractClient {
 	 *
 	 * @param msg The (Object[]) object
 	 * @throws IOException
+	 * @throws SQLException
 	 */
+
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		System.out.println("in handle array mesages with {\" "+ msg[0].toString() + "\"");
+		System.out.println("in handle array mesages with {\" " + msg[0].toString() + "\"");
 		switch (msg[0].toString()) {
+//		case "downloadFileWithBlob":
+//			try {
+//			BufferedInputStream is = (BufferedInputStream)msg[3];
+//			FileOutputStream fos = (FileOutputStream)msg[4];
+//			String examIDs = (String)msg[1];
+//			String path = (String)msg[2];
+////			MyFile myfile = new MyFile("Exam" + examIDs);
+//	//		BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
+//	//		FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
+//			byte[] buffer = new byte[2048];
+//			int r = 0;
+//			while((r = is.read(buffer))!=-1) {
+//				fos.write(buffer, 0, r);
+//			}
+//			fos.flush();
+//			fos.close();
+//			is.close();
+//	//		blob.free();
+//			
+//			System.out.println("DOWNLOAD FILE ---------------> END");
+//
+//			}
+//			catch (Exception e) {
+//				// TODO: handle exception
+//				e.printStackTrace();
+//				return;
+//			}
+//			break;
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
@@ -161,7 +195,7 @@ public class ChatClient extends AbstractClient {
 			quit(); // Terminates the current client
 		else if (msg.contains("UpdatedQuestion")) // Question has been updated
 			TeacherEditQuestionController.teqController
-			.successfulEditQuestion("The question has been edited successfully!");
+					.successfulEditQuestion("The question has been edited successfully!");
 		/**** handle return message to client ****/
 		else if (msg.contains("SignIn ERROR - ")) // SignIn Errors
 			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
@@ -169,26 +203,27 @@ public class ChatClient extends AbstractClient {
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-			//			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
+					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			// ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword
+			// ERROR - ".length()));
 		} else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+					.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
 			TeacherCreateQuestionController.tcqController
-			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+					.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
 			TeacherCreateExamController.tceController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+					.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
 		} else if (msg.contains("EditExam SUCCESS - ")) {
 			TeacherEditExamController.teeController.successfulEditExam(msg.substring("EditExam SUCCESS - ".length()));
 		} else if (msg.contains("Update Question")) {
 			TeacherComputerizedExamDefinitionsController.tcedController.successfulUpdateQuestionInExam(msg);
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
-			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
+					.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
 		} else
 			ClientController.display(msg);
 
@@ -249,9 +284,9 @@ public class ChatClient extends AbstractClient {
 			case "getExamsQuestionsByExamID":
 				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
 				return;
-				// case "TeachrsIDsListForPrincipleReportByCourse":
-				// PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
-				// return;
+			// case "TeachrsIDsListForPrincipleReportByCourse":
+			// PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
+			// return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
@@ -309,14 +344,14 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
 			}
-			//		} else if (obj instanceof Exam) {
-			//			List<Exam> examList = (List<Exam>) msg;
-			//			System.out.println(examList);
-			//			switch (((Exam) obj).getExamID()) {
-			//			case "getExamsBySubjectAndUsername":
-			//				TeacherEditExamController.teeController.setExamTableView(examList);
-			//				return;  -- [Commented by Yonatn]
-			//			}
+			// } else if (obj instanceof Exam) {
+			// List<Exam> examList = (List<Exam>) msg;
+			// System.out.println(examList);
+			// switch (((Exam) obj).getExamID()) {
+			// case "getExamsBySubjectAndUsername":
+			// TeacherEditExamController.teeController.setExamTableView(examList);
+			// return; -- [Commented by Yonatn]
+			// }
 		} else if (obj instanceof User) { // List of users
 			List<User> usersList = (List<User>) msg;
 			System.out.println(usersList);
@@ -345,7 +380,7 @@ public class ChatClient extends AbstractClient {
 		} else if (obj instanceof ExamResultOfStudent) {
 			List<ExamResultOfStudent> computerizedResultsList = (List<ExamResultOfStudent>) msg;
 			System.out.println(computerizedResultsList);
-			switch(((ExamResultOfStudent)obj).getExamID()) {
+			switch (((ExamResultOfStudent) obj).getExamID()) {
 			case "SetComputerizedExamResultsByUsername":
 				TeacherCheckExamResultsController.tcrController.setComputerizedResults(computerizedResultsList);
 				return;
@@ -353,7 +388,7 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");
 				break;
 			}
-			
+
 		}
 	}
 
@@ -373,7 +408,7 @@ public class ChatClient extends AbstractClient {
 				String examID = ((String[]) obj)[1];
 				String message = ((String[]) obj)[2];
 				File wordDocument = new File(message);
-				String whoCalled=((String[]) obj)[3];
+				String whoCalled = ((String[]) obj)[3];
 				String studentID;
 				// check if 'message' is a pathname (for example:
 				// "C:\Users\Jon\Desktop\test.docx")
@@ -381,9 +416,10 @@ public class ChatClient extends AbstractClient {
 				String fileName = s1[s1.length - 1]; // "test.txt"
 				MyFile testFile = new MyFile(fileName);
 
-				if(whoCalled.equals("S"))
-					studentID=((String[]) obj)[4];
-				else studentID=null;
+				if (whoCalled.equals("S"))
+					studentID = ((String[]) obj)[4];
+				else
+					studentID = null;
 
 				try {
 					byte[] mybytearray = new byte[(int) wordDocument.length()];
@@ -395,7 +431,7 @@ public class ChatClient extends AbstractClient {
 
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
-					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile,whoCalled,studentID});
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, whoCalled, studentID });
 				} catch (Exception e) {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
@@ -428,6 +464,34 @@ public class ChatClient extends AbstractClient {
 					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
 				}
 
+			} else if ((obj instanceof String[]) && ((String[]) obj)[0].contains("UploadManualCheckExamFile")) {
+
+				String examID = ((String[]) obj)[1];
+				String message = ((String[]) obj)[2];
+				String Studentid = ((String[]) obj)[3];
+				File wordDocument = new File(message);
+
+				// check if 'message' is a pathname (for example:
+				// "C:\Users\Jon\Desktop\test.docx")
+				String[] s1 = message.split("\\\\");
+				String fileName = s1[s1.length - 1]; // "test.txt"
+				MyFile testFile = new MyFile(fileName);
+
+				try {
+					byte[] mybytearray = new byte[(int) wordDocument.length()];
+					FileInputStream fis = new FileInputStream(wordDocument);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+
+					testFile.initArray(mybytearray.length);
+					testFile.setSize(mybytearray.length);
+
+					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+					bis.close();
+					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, Studentid });
+				} catch (Exception e) {
+					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
+				}
+
 			}
 
 			else
@@ -446,15 +510,15 @@ public class ChatClient extends AbstractClient {
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
 			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
-					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
+					.getNewAlert(AlertType.WARNING, "Connection Issues",
+							"It seems like you have connection issues with the server!",
+							"Sorry for the inconvenience. Please try agian at a later time...")
+					.showAndWait();
 			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
-					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
+					.getNewAlert(AlertType.WARNING, "Connection Issues",
+							"It seems like you have connection issues with the server!",
+							"Sorry for the inconvenience. Please try agian at a later time...")
+					.showAndWait();
 			quit();
 		}
 
