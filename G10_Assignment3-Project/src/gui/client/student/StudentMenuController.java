@@ -2,6 +2,7 @@ package gui.client.student;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
@@ -49,6 +50,7 @@ public class StudentMenuController implements Initializable {
 	protected static String examID;
 	protected static String examType;
 	protected static String examCode;
+	protected static String examiningTeacherID;
 	protected static boolean examLocked;
 	private static StudentEnterCodeController secController;
 
@@ -87,9 +89,11 @@ public class StudentMenuController implements Initializable {
 
 	@FXML
 	public void btnPressTakeExam(ActionEvent event) throws Exception {
-		System.out.println("StudentMenuBar::btnPressTakeExam");
-		if(examID==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
+		System.out.println("StudentMenu ::btnPressTakeExam");
+		System.out.println("Student MENU examID = "+examID+"-------------------------->");
+		if(examID==null)				//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
 		{
+			System.out.println("examID is null-------");
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
 					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
 		}
@@ -108,17 +112,21 @@ public class StudentMenuController implements Initializable {
 
 	// EXTERNAL USE METHODS *************************************************
 	public void setReadyExam(String[] msg) {
+		if(msg[1]==null) System.out.println("GOT TO SETREADYEXAM of student menu-------------------------->");
 		examID = msg[1];
 		examType = msg[2];
 		examCode = msg[3];
-		System.out.println("examType = "+examType);
+		examiningTeacherID=msg[4];
+		System.out.println(Arrays.toString(msg));
 	}
 
+
 	public String[] getReadyExam() {
-		return new String[] {examCode,examType,examID};
+		return new String[] {examCode,examType,examID,examiningTeacherID};
 	}
 
 	public void lockExam(String[] msg) {
+		System.out.println("=======================examID gotten from echoserver : "+ msg[1]);
 		if (examID.equals(msg[1])) {
 			examLocked = true;
 			try {
