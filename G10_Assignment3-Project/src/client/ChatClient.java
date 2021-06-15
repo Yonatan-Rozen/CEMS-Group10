@@ -19,6 +19,7 @@ import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.teacher.TeacherCheckAnswersController;
 import gui.client.teacher.TeacherCheckExamResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
 import gui.client.teacher.TeacherComputerizedExamDefinitionsController;
@@ -112,7 +113,7 @@ public class ChatClient extends AbstractClient {
 	 * @throws IOException
 	 */
 	private void handleArraysMessagesFromServer(Object[] msg) {
-		System.out.println("in handle array mesages");
+		System.out.println("in handle array mesages with {\" "+ msg[0].toString() + "\"");
 		switch (msg[0].toString()) {
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
@@ -137,6 +138,10 @@ public class ChatClient extends AbstractClient {
 			break;
 		case "SendMessageLockExam":
 			StudentMenuController.smController.lockExam((String[]) msg);
+			break;
+		case "SetQuestionInExamWithStudentAnswers":
+			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
+			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
 			break;
