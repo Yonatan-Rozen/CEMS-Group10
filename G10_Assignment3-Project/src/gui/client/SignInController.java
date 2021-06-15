@@ -101,6 +101,7 @@ public class SignInController implements Initializable {
 		logoimg = sblogoImg;
 		logoimg.setImage(new Image("/logo.png"));
 		ClientUI.mainStage.show();
+		sbSignInBtn.setStyle("-fx-background-color: transparent;");
 
 		ImageView view = new ImageView(new Image("/icon_signIn.png"));
 		view.setFitHeight(40);
