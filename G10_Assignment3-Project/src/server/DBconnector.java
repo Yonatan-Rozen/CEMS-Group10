@@ -150,6 +150,9 @@ public class DBconnector {
 			case "lnkPressDownloadExamFile": // req1 =examID , req2= path
 				getManualExamFileByExamID(request[1], request[2], client);
 				break;
+			case "DownloadFileExamResult": //different ^^
+				DownloadFileExamResult(request[1],request[2],request[3], client);
+				break;
 			case "CheckQuestionExistsInExam": // checkQuestionExistsInExam(questionID, client)
 				checkQuestionExistsInExam(request[1], client);
 				break;
@@ -245,6 +248,9 @@ public class DBconnector {
 			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 -  ,req4 -
 				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
 				break;
+			case "TeacherUploadManualCheckExamFile":
+				TeacherUploadManualCheckExamFile((String) request[1], (MyFile) request[2],(String)request[3],client);
+				break;
 			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
 				System.out.println("finish edit exam case");
 				btnPressFinishEditManualExam((String) request[1], (MyFile) request[2], (String) request[3], client);
@@ -307,6 +313,61 @@ public class DBconnector {
 		client.sendToClient("Updated Final Grade And Comments");
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * @param string examid
+	 * @param String path (from chooser)
+	 * @param String username(student)
+	 * @param client
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
+	private void DownloadFileExamResult(String examID,String path,String username, ConnectionToClient client) throws IOException {
+		String examIDs = examID;
+		String message = path;
+
+		//
+		try {
+			Blob blob= con.createBlob();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT FileSubmit FROM exams_results_manual WHERE UsernameS = '" + username + "' AND ExamID = '" + examID + "'");
+			System.out.println("check return value from sql =" + rs.next());
+			blob = rs.getBlob(1);
+
+			MyFile myfile = new MyFile("Exam" + examIDs);
+			BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
+			FileOutputStream fos = new FileOutputStream(path +"\\ExamResult_"+ examIDs+".docx"); //path+file name + docx
+			byte[] buffer = new byte[2048];
+			int r = 0;
+			while((r = is.read(buffer))!=-1) {
+				fos.write(buffer, 0, r);
+			}
+			fos.flush();
+			fos.close();
+			is.close();
+			blob.free();
+
+			System.out.println("DOWNLOAD FILE ---------------> END");
+			client.sendToClient("");
+		} catch (SQLException e) {
+			// TODO: handle exception
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	// ***********************************************************************************************
+	/**
+	 * @param string examid
+	 * @param String path (from chooser)
+	 * @param String String time
+	 * @param client
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
 	private void btnPressFinishEditManualExam(String examID, MyFile myFile, String time, ConnectionToClient client)
 			throws IOException {
 
@@ -336,6 +397,42 @@ public class DBconnector {
 
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * @param string examID
+	 * @param String path (from chooser) - MyFile
+	 * @param String username
+	 * @param client
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev
+	 */
+	private void TeacherUploadManualCheckExamFile(String examID, MyFile myFile,String username, ConnectionToClient client) throws IOException {
+		File outputFile = new File(myFile.getFileName());
+		FileOutputStream fos = new FileOutputStream(outputFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		try {
+			Blob blob = con.createBlob();
+			PreparedStatement stmt = null;
+			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
+			stmt = con.prepareStatement("UPDATE exams_results_manual SET FileCopy = ? WHERE ExamID = ? AND UsernameS = ?");
+
+			stmt.setBlob(1, blob);
+			stmt.setString(2, examID);
+			stmt.setString(3, username);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		bos.write(myFile.getMybytearray(), 0, myFile.getSize());
+		bos.flush();
+		fos.flush();
+		System.out.println("UPLOAD FILE ---------------> END");
+		client.sendToClient("");
+	}
+	
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -418,6 +515,17 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * @param string examid
+	 * @param String path (from chooser) - MyFile
+	 * @param String whoCalled
+	 * @param String studentID
+	 * @param client
+	 * @throws IOException
+	 *
+	 * @author Eliran Amerzoyev & Meitar
+	 */
 	private void ExamFileUpload(String examID, MyFile myFile, String whoCalled, String studentID,
 			ConnectionToClient client) throws IOException {
 
