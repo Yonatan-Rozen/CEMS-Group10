@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
@@ -142,6 +141,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	 */
 	public void setExam(ManualExam examTupple) {
 		exam = examTupple;
+		System.out.println("THE EXAM : "+exam);
 	}
 
 	// TODO check if works after LOCK EXAM is implemented in Teacher
@@ -149,14 +149,15 @@ public class StudentTakeExamManuallyController implements Initializable {
 		stopExam("Not successful", null);
 
 	}
-	
+
 	public void stopExam(String submited, String FilePath) throws IOException {
+		System.out.println("studentTakeManualExam - stopExam :: exam: "+exam);
 		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
 		// convert to minutes
 		// There are 60,000,000,000 nanosecond in 1 minute.
 		estimatedTime = estimatedTime / 600000;
 		estimatedTime = estimatedTime / 100000;
-		
+
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		StudentExamSubmittedController.sesController.setExamDetailsManual(String.format("%d", estimatedTime), examID, exam.getAllocatedTime(), submited, FilePath);
 	}

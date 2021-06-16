@@ -121,8 +121,10 @@ public class DBconnector {
 				getCourseBySubject(request[1], request[2], request[3], client); // 1->subject
 				break;
 			case "btnPressStartExam":
+				System.out.println(">>>GOT HERE to get the exam so the student could start it");
 				getExamByExamID(request[1], client); // getExamByExamID(examID, client)
 				getExamsQuestionsByExamID(request[1], client); // getExamsQuestionsByExamID(examID, client)
+				System.out.println("<<<GOT HERE cause finished to get the exam so the student could start it");
 				break;
 			case "btnPressSaveQuestion": // insertNewQuestionToDB(subjectName, questionBody, answer1, answer2, answer3,
 				// answer4, correctAnswer, username, author, client)
@@ -206,9 +208,9 @@ public class DBconnector {
 				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
 						request[4], request[5],request[6], client);
 				break;
-//			case "btnPressSubmitManual":
-//			case "setSubmitButtonWhenLockInvokedManual":
-				
+				//			case "btnPressSubmitManual":
+				//			case "setSubmitButtonWhenLockInvokedManual":
+
 			case "updateManualSubmittedExamInfoByExamIDandStudentID":
 				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
 				// String.format("%ld", estimatedTime),
@@ -810,12 +812,14 @@ public class DBconnector {
 					exam = new ComputerizedExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getString(7), rs.getString(8), "C");
 				else if (rs.getString(9).equals("M")) {
-					// public ManualExam(String examID, String bankID, String courseID, String
-					// allocatedTime, String author, String type) {
+					System.out.println("before creating the manual exam instance");
+					//	public ManualExam(String examID, String bankID, String courseID, String
+					//		allocatedTime, String author, String type)
 					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
-							"M"/* , rs.getBlob(10) */);
+							"M");
 				}
 			}
+			System.out.println("DB_CONNECTOR :: THE EXAM :" + exam);
 			client.sendToClient(exam);
 			rs.close();
 
