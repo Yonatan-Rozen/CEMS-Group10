@@ -1,11 +1,10 @@
 package gui.client.principle;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import client.ChatClient;
 import client.ClientUI;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import logic.exam.IExam;
 import logic.exam.Request;
 
 public class PrincipleViewRequestsController implements Initializable {
@@ -30,10 +28,10 @@ public class PrincipleViewRequestsController implements Initializable {
 	private TableColumn<Request, String> sbExamIdTc;
 
 	@FXML
-	private TableColumn<Request, Integer> sbOriginalAllocatedTimeTc;
+	private TableColumn<Request, String> sbOriginalAllocatedTimeTc;
 
 	@FXML
-	private TableColumn<Request, Integer> sbNewAllocatedTimeTc;
+	private TableColumn<Request, String> sbNewAllocatedTimeTc;
 
 	@FXML
 	private Button sbAcceptRequestBtn;
@@ -42,14 +40,14 @@ public class PrincipleViewRequestsController implements Initializable {
 	private Button sbDeclineRequestBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
-	private TableView<Request> requestsTv;
-	private TableColumn<Request, String> teacherTc;
-	private TableColumn<Request, String> examIdTc;
-	private TableColumn<Request, Integer> origTimeTc;
-	private TableColumn<Request, Integer> newTimeTc;
-	private Button acceptRequestBtn;
-	private Button declineRequestBtn;
-	private static ObservableList<Request> requestList;
+	private static TableView<Request> requestsTv;
+	private static TableColumn<Request, String> teacherTc;
+	private static TableColumn<Request, String> examIdTc;
+	private static TableColumn<Request, String> origTimeTc;
+	private static TableColumn<Request, String> newTimeTc;
+	private static Button acceptRequestBtn;
+	private static Button declineRequestBtn;
+	private static ObservableList<Request> requestList = FXCollections.observableArrayList();
 	public static PrincipleViewRequestsController pvrController;
 	private static String teacherUserName;
 
@@ -67,6 +65,7 @@ public class PrincipleViewRequestsController implements Initializable {
 	void btnPressAcceptRequest(ActionEvent event) 
 	{
 		// TODO send change allocated time request to server
+		Request request = requestsTv.getSelectionModel().getSelectedItem();
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
 		ClientUI.chat.accept(new String[] { "SendMessageRequestAccepted",teacherUserName});
@@ -86,10 +85,10 @@ public class PrincipleViewRequestsController implements Initializable {
 	void setUpTableProperties()
 	{
 		requestsTv = sbRequestsTv;
-		sbTeacherTc.setCellValueFactory(new PropertyValueFactory<Request, String>("Teacher"));
-		sbExamIdTc.setCellValueFactory(new PropertyValueFactory<Request, String>("ExamID"));
-		sbOriginalAllocatedTimeTc.setCellValueFactory(new PropertyValueFactory<Request, Integer>("Original Allocated Time"));
-		sbNewAllocatedTimeTc.setCellValueFactory(new PropertyValueFactory<Request, Integer>("New Allocated Time"));
+		sbTeacherTc.setCellValueFactory(new PropertyValueFactory<Request, String>("usernameT"));
+		sbExamIdTc.setCellValueFactory(new PropertyValueFactory<Request, String>("examID"));
+		sbOriginalAllocatedTimeTc.setCellValueFactory(new PropertyValueFactory<Request, String>("allocatedTime"));
+		sbNewAllocatedTimeTc.setCellValueFactory(new PropertyValueFactory<Request, String>("newAllocatedTime"));
 	}
 	//======================================================================================================================
 	//Set The Buttons Properties

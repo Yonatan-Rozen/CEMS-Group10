@@ -2603,7 +2603,7 @@ public class DBconnector {
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM request");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requests");
 			while (rs.next())
 				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 			client.sendToClient(request);
@@ -2621,9 +2621,9 @@ public class DBconnector {
 		String usernameT=null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT UsernameT FROM request");
+			ResultSet rs = stmt.executeQuery("SELECT UsernameT FROM requests");
 			while (rs.next())
-				usernameT = rs.getString(2);
+				usernameT = rs.getString(1);
 			rs.close();			
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
