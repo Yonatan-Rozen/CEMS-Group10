@@ -215,19 +215,19 @@ public class TeacherStartExamController implements Initializable {
 			commentsTa.setText("");
 			addedAmountTf.setText("");
 			codeTf.setText("");
-			chooseExamCb.setValue("--------------------------------------------");
-//			try {
-//				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-//				System.out.println("finally DONE !==============================");
-//			}catch(IllegalStateException e2) {
-//				e2.printStackTrace();
-//				System.out.println("blabla");
-//			}
-//			catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//				System.out.println("shut up");
-//			}
+			//	chooseExamCb.setValue("--------------------------------------------");
+			//			try {
+			//				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+			//				System.out.println("finally DONE !==============================");
+			//			}catch(IllegalStateException e2) {
+			//				e2.printStackTrace();
+			//				System.out.println("blabla");
+			//			}
+			//			catch (IOException e) {
+			//				// TODO Auto-generated catch block
+			//				e.printStackTrace();
+			//				System.out.println("shut up");
+			//			}
 		}
 	}
 
