@@ -16,11 +16,11 @@
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="sbComputerizedResultsTv" layoutX="195.0" layoutY="74.0" prefHeight="312.0" prefWidth="511.0" style="-fx-font-size: 15;">
+      <TableView fx:id="sbComputerizedResultsTv" layoutX="195.0" layoutY="74.0" prefWidth="511.0" style="-fx-font-size: 15;" AnchorPane.bottomAnchor="210.0" AnchorPane.topAnchor="70.0">
         <columns>
-          <TableColumn fx:id="sbExamIDTc" prefWidth="147.0" resizable="false" style="-fx-alignment: CENTER;" text="Exam ID" />
-          <TableColumn fx:id="sbStudentIDTc" prefWidth="189.0" resizable="false" style="-fx-alignment: CENTER;" text="Student ID" />
-            <TableColumn fx:id="sbTypeTc" prefWidth="153.0" resizable="false" style="-fx-alignment: CENTER;" text="Type" />
+          <TableColumn fx:id="sbExamIDTc" prefWidth="150.0" resizable="false" style="-fx-alignment: CENTER;" text="Exam ID" />
+          <TableColumn fx:id="sbStudentIDTc" prefWidth="190.0" resizable="false" style="-fx-alignment: CENTER;" text="Student ID" />
+            <TableColumn fx:id="sbTypeTc" prefWidth="150.0" resizable="false" style="-fx-alignment: CENTER;" text="Type" />
         </columns>
       </TableView>
       <HBox alignment="CENTER" layoutX="59.0" layoutY="457.0" spacing="5.0" />

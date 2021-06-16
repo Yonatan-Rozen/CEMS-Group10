@@ -78,9 +78,9 @@ public class TeacherMenuBarController implements Initializable {
 	protected static BorderPane mainPaneBp;
 	private static ImageView menuBg;
 	private static Button backBtn;
-
+	
 	// STATIC INSTANCES *****************************************************
-	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	private CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 	private static Button currentBtn;
 
 	// INITIALIZE METHOD ****************************************************
@@ -121,22 +121,25 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressCreateExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateExam");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherExamType"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, createExamBtn);
+		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherExamType");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, createExamBtn);
+		
 	}
 
 	@FXML
 	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateQuestion");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCreateQuestion"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, createQuestionBtn);
+		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherCreateQuestion");
+		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCreateQuestion"));
+		currentBtn = cmh.disablePropertySwapper(currentBtn, createQuestionBtn);
 	}
 
 	@FXML
 	public void btnPressEditExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressEditExam");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherEditExam"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editExamBtn);
+		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherEditExam");
+		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherEditExam"));
+		currentBtn = cmh.disablePropertySwapper(currentBtn, editExamBtn);
 	}
 
 	@FXML
@@ -145,24 +148,26 @@ public class TeacherMenuBarController implements Initializable {
 
 		if (!TeacherMenuController.choiceBoxRequested) {
 			String[] request = new String[]{"GetExistingBanks", ChatClient.user.getUsername()};
-			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
-			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+			Alert alert = cmh.getNewAlert(AlertType.WARNING, "Missing questions", "Please note that you should create a question first!");
+			TeacherMenuController.choiceBoxesList = cmh.getListRequest(request, alert);
 		}
 
 		if (TeacherMenuController.choiceBoxesList != null) {
-			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherChooseEditQuestion"));
+			cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherChooseEditQuestion");
+			//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherChooseEditQuestion"));
 			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(TeacherMenuController.choiceBoxesList);
 			TeacherMenuController.choiceBoxRequested = false;
 
-			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, editQuestionBtn);
+			currentBtn = cmh.disablePropertySwapper(currentBtn, editQuestionBtn);
 		}
 	}
 
 	@FXML
 	public void btnPressStartExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressStartExam");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherStartExam"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, startExamBtn);
+		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherStartExam");
+		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherStartExam"));
+		currentBtn = cmh.disablePropertySwapper(currentBtn, startExamBtn);
 	}
 
 	@FXML
@@ -171,16 +176,16 @@ public class TeacherMenuBarController implements Initializable {
 
 		if (!TeacherMenuController.setByMenu) {
 			String[] request = new String[] { "GetCourses", ChatClient.user.getUsername(),"T"};
-			Alert alert = commonmeMethodsHandler.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
-			TeacherMenuController.choiceBoxesList = commonmeMethodsHandler.getListRequest(request, alert);
+			Alert alert = cmh.getNewAlert(AlertType.INFORMATION, "Missing info", "There are no exams results yet!");
+			TeacherMenuController.choiceBoxesList = cmh.getListRequest(request, alert);
 			TeacherMenuController.setByMenu = false;
 		}
 
-		if (TeacherMenuController.choiceBoxesList != null)
-		{
-			mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherReports"));
+		if (TeacherMenuController.choiceBoxesList != null) {
+			//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherReports"));
+			cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherReports");
 			TeacherReportsController.trController.setCoursesChoiseBox(TeacherMenuController.choiceBoxesList);
-			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewReportsBtn);
+			currentBtn = cmh.disablePropertySwapper(currentBtn, viewReportsBtn);
 			TeacherMenuController.setByMenu = false;
 		}
 	}
@@ -192,15 +197,17 @@ public class TeacherMenuBarController implements Initializable {
 	@FXML
 	public void btnPressCheckExamResults(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressComputerizedResults");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("teacher", "TeacherCheckExamResults"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, checkExamResultsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherCheckExamResults");
+		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
+		currentBtn = cmh.disablePropertySwapper(currentBtn, checkExamResultsBtn);
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressSettings");
-		mainPaneBp.setCenter(commonmeMethodsHandler.getPane("client", "UserSettings"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
+		//mainPaneBp.setCenter(cmh.getPane("client", "UserSettings"));
+		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML
