@@ -111,7 +111,8 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 		DirectoryChooser chooser = new DirectoryChooser();
 		chooser.setTitle("Save file");
-		File defaultDirectory = new File("D:");
+		//File defaultDirectory = new File("D:");
+		File defaultDirectory = new File("C:");
 		chooser.setInitialDirectory(defaultDirectory); // set default
 		try {
 			// get folder path
