@@ -18,4 +18,6 @@ public interface IExam {
 	public void setDuration(String duration) ;
 	public String getDate() ;
 	public void setDate(String date) ;
+	public String getSubjectID() ;
+	public void setSubjectID(String subjectID) ;
 }
