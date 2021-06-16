@@ -34,6 +34,7 @@ import gui.client.teacher.TeacherEditExamController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
+import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
@@ -209,9 +210,14 @@ public class ChatClient extends AbstractClient {
 		/**** handle connection ****/
 		if (msg.equals("Disconnect"))
 			return; // Client is disconnecting
-		if (msg.equals("TerminateClient"))
-			quit(); // Terminates the current client
-		else if (msg.contains("UpdatedQuestion")) // Question has been updated
+		if (msg.equals("TerminateClient")) {
+			Platform.runLater(()->{
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Server Down", "The server is currently down").showAndWait();
+				quit(); // Terminates the current client
+			});
+			Thread client = new Thread((Runnable) new ClientUI());
+			client.start();
+		}else if (msg.contains("UpdatedQuestion")) // Question has been updated
 			TeacherEditQuestionController.teqController
 			.successfulEditQuestion("The question has been edited successfully!");
 		/**** handle return message to client ****/
