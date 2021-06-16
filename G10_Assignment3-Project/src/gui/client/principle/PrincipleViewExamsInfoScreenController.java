@@ -35,6 +35,9 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 	private TableColumn<IExam, String> sbCourseIDClm;
 
 	@FXML
+	private TableColumn<IExam, String> sbSubjectIDClm;
+
+	@FXML
 	private TableColumn<IExam, String> sbAllocatedTimeClm;
 
 	@FXML
@@ -89,6 +92,7 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 		sbExamsIDClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("examID"));
 		sbUserNameClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("author"));
 		sbCourseIDClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("courseID"));
+		sbSubjectIDClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("subjectID"));
 		sbAllocatedTimeClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("allocatedTime"));
 		sbStudentsCommentsClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("studentComments"));
 		sbTeachersCommentsClm.setCellValueFactory(new PropertyValueFactory<IExam, String>("teacherComments"));

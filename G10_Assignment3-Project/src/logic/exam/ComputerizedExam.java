@@ -9,8 +9,8 @@ public class ComputerizedExam extends Exam {
 
 
 	public ComputerizedExam(String examID, String bankID, String courseID, String allocatedTime, String scores,
-			String studentComments, String teacherComments, String author, String type) {
-		super(examID, bankID, courseID, allocatedTime, author, type);
+			String studentComments, String teacherComments, String author, String type,String subjectID) {
+		super(examID, bankID, courseID, allocatedTime, author, type, subjectID);
 		this.scores = scores;
 		this.studentComments = studentComments;
 		this.teacherComments = teacherComments;
