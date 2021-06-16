@@ -18,8 +18,8 @@
         <columns>
           <TableColumn fx:id="sbTeacherTc" prefWidth="180.0" resizable="false" text="Teacher" />
           <TableColumn fx:id="sbExamIdTc" prefWidth="130.0" resizable="false" text="ExamID" />
-            <TableColumn fx:id="sbOrigTimeTc" prefWidth="200.0" resizable="false" text="Original Allocated Time" />
-            <TableColumn fx:id="sbNewTimeTc" minWidth="2.0" prefWidth="190.0" resizable="false" text="New Allocated Time" />
+            <TableColumn fx:id="sbOriginalAllocatedTimeTc" prefWidth="200.0" resizable="false" text="Original Allocated Time" />
+            <TableColumn fx:id="sbNewAllocatedTimeTc" minWidth="2.0" prefWidth="190.0" resizable="false" text="New Allocated Time" />
         </columns>
       </TableView>
       <Button fx:id="sbAcceptRequestBtn" layoutX="575.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnPressAcceptRequest" text="Accept selected request">

@@ -34,6 +34,7 @@ import gui.client.teacher.TeacherEditExamController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
+import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
@@ -192,6 +193,12 @@ public class ChatClient extends AbstractClient {
 			TeacherStartExamController.tseController.DecStudentsInExam();
 		case "SetQuestionInExamWithStudentAnswers":
 			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
+			break;
+		case "GetTeacherUserNameFromRequest":
+			PrincipleViewRequestsController.pvrController.setTeacherUserName((String)msg[1]);
+			break;
+		case "SendMessageRequestAccepted":
+		case "SendMessageRequestDeclined":
 			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
