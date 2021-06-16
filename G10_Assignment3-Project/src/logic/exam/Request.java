@@ -6,18 +6,16 @@ public class Request implements Serializable
 {
 	//Request Private Fields
 	private String examID;
-	private String author;
+	private String usernameT;
 	private String allocatedTime;
 	private String newAllocatedTime;
-	private String principle;
 	//================================================================
-	public Request(String examID, String author, String allocatedTime, String newAllocatedTime,String principle) 
+	public Request(String examID, String usernameT, String allocatedTime, String newAllocatedTime) 
 	{
 		this.examID = examID;
-		this.author = author;
+		this.usernameT = usernameT;
 		this.allocatedTime = allocatedTime;
 		this.newAllocatedTime = newAllocatedTime;
-		this.principle = principle;
 	}
 	//================================================================
 	//Return the ExamID
@@ -26,9 +24,9 @@ public class Request implements Serializable
 		return examID;
 	}
 	//================================================================
-	//Get the Author
-	public String getAuthor() {
-		return author;
+	//Get the usernameT
+	public String getUsernameT() {
+		return usernameT;
 	}
 	//================================================================
 	//Get the Allocated Time
@@ -41,19 +39,14 @@ public class Request implements Serializable
 		return newAllocatedTime;
 	}
 	//================================================================
-	//Get the New Allocated Time
-	public String getPrinciple() {
-		return principle;
-	}
-	//================================================================
 	//Set ExamID
 	public void setExamID(String examID) {
 		this.examID = examID;
 	}
 	//================================================================
-	//Set Author
-	public void setAuthor(String author) {
-		this.author = author;
+	//Set usernameT
+	public void setusernameT(String usernameT) {
+		this.usernameT = usernameT;
 	}
 	//================================================================
 	//Set Allocated Time
@@ -66,8 +59,4 @@ public class Request implements Serializable
 		this.newAllocatedTime = newAllocatedTime;
 	}
 	//================================================================
-	//Set Principle
-	public void setPrinciple(String principle) {
-		this.principle = principle;
-	}
 }

@@ -35,6 +35,7 @@ import gui.client.teacher.TeacherEditExamController;
 import gui.client.teacher.TeacherEditQuestionController;
 import gui.client.teacher.TeacherReportsController;
 import gui.client.teacher.TeacherStartExamController;
+import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import logic.User;
 import logic.exam.ComputerizedExam;
@@ -99,8 +100,11 @@ public class ChatClient extends AbstractClient {
 		/**** method execution handling ****/
 		else if (msg instanceof String) {
 			handleStringMessagesFromServer((String) msg);
-		} else if (msg instanceof List)
+		} else if (msg instanceof List) {
+			System.out.println(" HERE !!!!");
 			handleListMessagesFromserver((List<?>) msg);
+			System.out.println(" HERE #2 !!!!");
+}
 		else if (msg instanceof Object[]) {
 			// System.out.println("check instaceOF object[]");
 			handleArraysMessagesFromServer((Object[]) msg);
@@ -194,6 +198,12 @@ public class ChatClient extends AbstractClient {
 			TeacherStartExamController.tseController.DecStudentsInExam();
 		case "SetQuestionInExamWithStudentAnswers":
 			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
+			break;
+		case "GetTeacherUserNameFromRequest":
+			PrincipleViewRequestsController.pvrController.setTeacherUserName((String)msg[1]);
+			break;
+		case "SendMessageRequestAccepted":
+		case "SendMessageRequestDeclined":
 			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
@@ -399,7 +409,24 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((Exam) obj).getExamID() + " is missing!");
 				break;
 			}
-		} else if (obj instanceof ExamResultOfStudent) {
+		}
+		else if(obj instanceof ExamResultsTableStudent) {
+			System.out.println("ChatClient :: instanceof ExamResultOfStudent *********************");
+
+			List<ExamResultsTableStudent> examsResultsList = (List<ExamResultsTableStudent>) msg;
+			System.out.println(examsResultsList);
+			switch (((ExamResultsTableStudent) obj).getExamID()) {
+			case "getExamResultsByStudentId":
+				System.out.println("ChatClient :: getExamResultsByStudentId *********************");
+				StudentExamResultsController.serController.setExamDetails(examsResultsList);
+				break;
+
+			default:
+				ClientController.display(((ExamResultsTableStudent) obj).getExamID() + " is missing!");
+				break;
+			}
+		}
+		else if (obj instanceof ExamResultOfStudent) {
 			List<ExamResultOfStudent> computerizedResultsList = (List<ExamResultOfStudent>) msg;
 			System.out.println(computerizedResultsList);
 			switch (((ExamResultOfStudent) obj).getExamID()) {
@@ -412,19 +439,7 @@ public class ChatClient extends AbstractClient {
 			}
 
 		}
-		else if(obj instanceof ExamResultsTableStudent) {
-			List<ExamResultsTableStudent> examsResultsList = (List<ExamResultsTableStudent>) msg;
-			System.out.println(examsResultsList);
-			switch (((ExamResultsTableStudent) obj).getExamID()) {
-			case "getExamResultsByStudentId":
-				StudentExamResultsController.serController.setExamDetails(examsResultsList);
-				break;
-
-			default:
-				ClientController.display(((ExamResultsTableStudent) obj).getExamID() + " is missing!");
-				break;
-			}
-		}
+		
 	}
 
 	/**

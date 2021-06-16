@@ -124,7 +124,8 @@ public class DBconnector {
 			case "btnPressStartExam":
 				System.out.println(">>>GOT HERE to get the exam so the student could start it");
 				getExamByExamID(request[1], client); // getExamByExamID(examID, client)
-				getExamsQuestionsByExamID(request[1], client); // getExamsQuestionsByExamID(examID, client)
+				if(request[2].equals("C"))
+					getExamsQuestionsByExamID(request[1], client); // getExamsQuestionsByExamID(examID, client)
 				System.out.println("<<<GOT HERE cause finished to get the exam so the student could start it");
 				break;
 			case "btnPressSaveQuestion": // insertNewQuestionToDB(subjectName, questionBody, answer1, answer2, answer3,
@@ -136,7 +137,9 @@ public class DBconnector {
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
 			case "getExamResultsForStudentsExamResults":
+				System.out.println("------------> got here, before query getExamResultsByStudentId");
 				getExamResultsByStudentId(request[1], client);
+				System.out.println("------------> got here, after query getExamResultsByStudentId");
 				break;
 			case "btnPressShowExamsBySubject": // getExamsBySubjectAndUsername(subjectName, username, client)
 				getExamsBySubjectAndUsername(request[1], request[2], client);
@@ -153,8 +156,8 @@ public class DBconnector {
 			case "GetExistingBanks":
 				getSubjectWithExistingBanks(request[1], client);
 				break;
-			case "lnkPressDownloadExamFile": // req1 =examID , req2= path
-				getManualExamFileByExamID(request[1], request[2], client);
+			case "lnkPressDownloadExamFile": // req1 =examID , req2= path , req3 =callingReason , req4= studentID
+				getManualExamFileByExamID(request[1], request[2],request[3],request[4], client);
 				break;
 			case "DownloadFileExamResult": // different ^^
 				DownloadFileExamResult(request[1], request[2], request[3], client);
@@ -233,7 +236,10 @@ public class DBconnector {
 				getQuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
 			case "sbViewRequests":
-				getRequestsToPrinciple(request[1], client);
+				getRequestsToPrinciple(client);
+				break;				
+			case "sbDeleteRequests":
+				deleteRequestsToPrinciple(client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -465,7 +471,7 @@ public class DBconnector {
 	 *
 	 * @author Michael & Eliran Amerzoyev
 	 */
-	private void getManualExamFileByExamID(String examID, String path, ConnectionToClient client) throws IOException {
+	private void getManualExamFileByExamID(String examID, String path,String callingReason,String studentID, ConnectionToClient client) throws IOException {
 
 		// Eliran
 		// File outputFile = new File(myFile.getFileName());
@@ -480,13 +486,18 @@ public class DBconnector {
 		try {
 			Blob blob = con.createBlob();
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT File FROM exams WHERE ExamID = '" + examID + "'");
+			ResultSet rs=null;
+			if(callingReason.equals("submit"))
+				rs= stmt.executeQuery("SELECT File FROM exams WHERE ExamID = '" + examID + "'");
+			else if(callingReason.equals("viewRes"))
+				rs= stmt.executeQuery("SELECT FileCopy FROM exams_results_manual WHERE ExamID = '" + examID + "' and UsernameS='"+studentID+"'");
 			System.out.println("check return value from sql =" + rs.next());
 			blob = rs.getBlob(1);
 
 			MyFile myfile = new MyFile("Exam" + examIDs);
 			BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
-			FileOutputStream fos = new FileOutputStream(path + "\\exam" + examIDs + ".docx"); // path+file name + docx
+			String fullPath=(callingReason.equals("submit"))?(path + "\\exam" + examIDs + ".docx"):(path + "\\CheckedExam" + examIDs + ".docx");
+			FileOutputStream fos = new FileOutputStream(fullPath); // path+file name + docx
 			byte[] buffer = new byte[2048];
 			int r = 0;
 			while ((r = is.read(buffer)) != -1) {
@@ -547,7 +558,7 @@ public class DBconnector {
 	 * @param client
 	 * @throws IOException
 	 *
-	 * @author Eliran Amerzoyev & Meitar
+	 * @author Eliran Amerzoyev & Meitar El-Ezra
 	 */
 	private void ExamFileUpload(String examID, MyFile myFile, String whoCalled, String studentID,
 			ConnectionToClient client) throws IOException {
@@ -2580,7 +2591,7 @@ public class DBconnector {
 			stmt.setString(5, studentID);
 
 			stmt.executeUpdate();
-
+System.out.println("after inserting everything about MANUAL exam besides the file");
 			// System.out.println("studentID = " + studentID + "\texamID = " + examID +
 			// "\tGradeBySystem = " + grade
 			// + "\tConfirmedByTeacher = '0'");
@@ -2594,15 +2605,15 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
-	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException {
+
+	private void getRequestsToPrinciple(ConnectionToClient client) throws IOException
+	{
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM request R WHERE R.principle = '" + principle + "'");
-			while (rs.next()) {
-				request = new Request(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getString(5));
-			}
+			ResultSet rs = stmt.executeQuery("SELECT * FROM request");
+			while (rs.next())
+				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 			client.sendToClient(request);
 			rs.close();
 
@@ -2613,6 +2624,30 @@ public class DBconnector {
 			return;
 		}
 	}
+	private void deleteRequestsToPrinciple(ConnectionToClient client) throws IOException
+	{
+		String usernameT=null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT UsernameT FROM request");
+			while (rs.next())
+				usernameT = rs.getString(2);
+			rs.close();			
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		try {
+			PreparedStatement stmt = con.prepareStatement("DELETE FROM requests");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		client.sendToClient(new String[] {"GetTeacherUserNameFromRequest",usernameT});
+	}
 
 	/**
 	 * @param studnetId
@@ -2622,17 +2657,18 @@ public class DBconnector {
 	 */
 	private void getExamResultsByStudentId(String studnetId, ConnectionToClient client) throws IOException {
 		List<ExamResultsTableStudent> listExamsResults = new ArrayList<ExamResultsTableStudent>();
-		listExamsResults.add(new ExamResultsTableStudent("getExamResultsByStudentId", "", ""));
-
+		listExamsResults.add(new ExamResultsTableStudent("getExamResultsByStudentId", "", "",""));
+System.out.println("START getExamResultsByStudentId");
 		try {
+			System.out.println("-------1-------");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT distinct ER.ExamID,ERC.GradeByTeacher FROM exams_results_computerized ERC,exams_results ER\r\n"
+					"SELECT distinct ER.ExamID,ERC.GradeByTeacher, C.CourseName FROM exams_results_computerized ERC,exams_results ER, banks B, courses C, exams E "
 							+ "WHERE ER.ExamID = ERC.ExamID AND ER.UsernameS=ERC.UsernameS AND ERC.ConfirmedByTeacher=1 AND ER.UsernameS='"
-							+ studnetId + "'");
+							+ studnetId + "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
 			while (rs.next()) {
 				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId,
-						rs.getString(2));
+						rs.getString(2),rs.getString(3));
 				listExamsResults.add(examRes);
 			}
 			rs.close();
@@ -2643,13 +2679,15 @@ public class DBconnector {
 			return;
 		}
 		try {
+			System.out.println("-------2-------");
+
 			Statement stmt1 = con.createStatement();
 			ResultSet rs = stmt1.executeQuery(
-					"SELECT distinct ER.ExamID,ER.UsernameS FROM exams_results_manual ERM,exams_results ER\r\n"
+					"SELECT distinct ER.ExamID, C.CourseName FROM exams_results_manual ERM,exams_results ER, banks B, courses C, exams E "
 							+ "WHERE ER.ExamID = ERM.ExamID AND ER.UsernameS=ERM.UsernameS AND ERM.FileCopy is not null AND ER.UsernameS='"
-							+ studnetId + "'");
+							+ studnetId + "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
 			while (rs.next()) {
-				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId, "---");
+				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId, "---",rs.getString(2));
 				listExamsResults.add(examRes);
 			}
 			rs.close();
@@ -2660,7 +2698,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-
+		System.out.println("END getExamResultsByStudentId");
 	}
 
 	private void updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID(String examID, String studentID,

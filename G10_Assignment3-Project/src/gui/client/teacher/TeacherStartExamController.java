@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logic.exam.Request;
 
 public class TeacherStartExamController implements Initializable {
 	public static TeacherStartExamController tseController;
@@ -74,7 +75,7 @@ public class TeacherStartExamController implements Initializable {
 	public static String examType;
 	private static boolean activeStudents = false;
 	public static int studentsInExam=0;
-
+	public static Request teacherRequest;
 	// START METHOD *********************************************************
 	public void start(Stage mainStage) throws IOException {
 	}
@@ -182,7 +183,7 @@ public class TeacherStartExamController implements Initializable {
 		else {
 			commonMethodHandler.getNewAlert(AlertType.INFORMATION, "Time Request",
 					"Your request has been sent","Press ok to continue.").showAndWait();
-			ClientUI.chat.accept(new String[] {"RequestExtraTime", addedAmountTf.getText()} ); // TODO send message to principle
+			ClientUI.chat.accept(new String[] {"TeacherRequestExtraTime", addedAmountTf.getText()} ); // TODO send message to principle
 		}
 	}
 
@@ -242,5 +243,10 @@ public class TeacherStartExamController implements Initializable {
 
 	public static int getStudentsInExam() {
 		return studentsInExam;
+	}
+	
+	public static void showRequestResult()
+	{
+		
 	}
 }

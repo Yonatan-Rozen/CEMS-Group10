@@ -51,6 +51,7 @@ public class PrincipleViewRequestsController implements Initializable {
 	private Button declineRequestBtn;
 	private static ObservableList<Request> requestList;
 	public static PrincipleViewRequestsController pvrController;
+	private static String teacherUserName;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -58,7 +59,7 @@ public class PrincipleViewRequestsController implements Initializable {
 		pvrController = new PrincipleViewRequestsController();
 		setUpTableProperties();
 		setUpButtonsProperties();
-		ClientUI.chat.accept(new String[] { "sbViewRequests",ChatClient.user.getUsername() });
+		ClientUI.chat.accept(new String[] { "sbViewRequests"});
 	}
 
 	// ACTION METHODS *******************************************************
@@ -67,12 +68,18 @@ public class PrincipleViewRequestsController implements Initializable {
 	{
 		// TODO send change allocated time request to server
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
+		deleteRequest();
+		ClientUI.chat.accept(new String[] { "SendMessageRequestAccepted",teacherUserName});
 	}
 
 	@FXML
-	void btnPressDeclineRequest(ActionEvent event) {
+	void btnPressDeclineRequest(ActionEvent event) 
+	{
 		// TODO send message "request declined" to teacher
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
+		deleteRequest();
+		ClientUI.chat.accept(new String[] { "SendMessageRequestDeclined",teacherUserName});
+		
 	}
 	
 	//Set The Table Properties
@@ -105,5 +112,13 @@ public class PrincipleViewRequestsController implements Initializable {
 		} catch (IllegalStateException e) {}
 	}
 	
+	public void deleteRequest()
+	{
+		ClientUI.chat.accept(new String[] { "sbDeleteRequests"});
+	}
 	
+	public void setTeacherUserName(String usernameT)
+	{
+		teacherUserName = usernameT;
+	}
 }
