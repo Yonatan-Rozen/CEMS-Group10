@@ -20,6 +20,7 @@ import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewRequestsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
+import gui.client.student.StudentEnterCodeController;
 import gui.client.student.StudentExamResultsController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
@@ -203,7 +204,7 @@ public class ChatClient extends AbstractClient {
 			PrincipleViewRequestsController.pvrController.setTeacherUserName((String)msg[1]);
 			break;
 		case "SendMessageRequestAccepted":
-		case "SendMessageRequestDeclined":
+			StudentEnterCodeController.secController.setAdditionalTime(((Request)((Object[]) msg)[1]).getNewAllocatedTime());
 			break;
 		default:
 			ClientController.display(msg[0].toString() + " is missing!");
@@ -259,6 +260,10 @@ public class ChatClient extends AbstractClient {
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
 			TeacherChooseEditQuestionController.tceqController
 			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
+		}else if (msg.contains("SendMessageRequest")) {
+			if (msg.contains("Accept")) 
+				TeacherStartExamController.tseController.setPrincipleRequestAnswer(true);
+			else TeacherStartExamController.tseController.setPrincipleRequestAnswer(false);
 		} else {
 			System.out.println("BEFORE DISPLAY");
 			ClientController.display(msg+" is the message sent :(");
