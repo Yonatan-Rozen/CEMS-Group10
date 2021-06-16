@@ -54,7 +54,7 @@ public class SignInController implements Initializable {
 		siController = this;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml"));
 		ClientUI.mainScene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
+		ClientUI.mainScene.getStylesheets().add(getClass().getResource("/common/Client.css").toExternalForm());
 		ClientUI.mainStage.setScene(ClientUI.mainScene);
 		ClientUI.mainStage.setResizable(false);
 		ClientUI.mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);

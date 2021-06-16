@@ -56,18 +56,6 @@ public class PrincipleMenuController implements Initializable {
 	// CONTROLLER INSTANCES
 	protected static PrincipleMenuBarController pmbController;
 
-	// START METHOD *********************************************************
-	/**
-	 * Opens PrincipleMenu.fxml
-	 *
-	 * @throws Exception
-	 */
-	public void start() throws Exception {
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/principle/PrincipleMenu.css").toExternalForm());
-
-	}
-
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

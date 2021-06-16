@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientUI;
+import javafx.animation.FadeTransition;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -17,9 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class CommonMethodsHandler {
 	public static final Image CEMS_LOGO = new Image("/logo.png");
@@ -27,6 +30,7 @@ public class CommonMethodsHandler {
 	public static final Image ICON_CORRECT = new Image("/icon_correct.png");
 	public static final Image ICON_WRONG = new Image("/icon_wrong.png");
 	public static final Image ICON_TOOLTIP = new Image("/icon_tooltip.png");
+	public static final int DURATION_IN_MILLIS = 600;
 
 	private static CommonMethodsHandler commonMethodsHandler;
 	private static List<String> choiceBoxesList = new ArrayList<>();
@@ -289,6 +293,19 @@ public class CommonMethodsHandler {
 				header.setReordering(false);
 			});
 		});
+	}
+	
+	public void fadeInAndOut(BorderPane mainPaneBp, String type, String fxml) {
+		FadeTransition fade = new FadeTransition();
+		fade.setDuration(Duration.millis(DURATION_IN_MILLIS));
+		fade.setNode(mainPaneBp);
+		fade.setFromValue(1);
+		fade.setToValue(0);
+		fade.play();
+		mainPaneBp.setCenter(getPane(type, fxml));
+		fade.setRate(-1.0);
+		fade.jumpTo(new Duration(DURATION_IN_MILLIS));
+		fade.play();
 	}
 
 	// *****************************************************************************************

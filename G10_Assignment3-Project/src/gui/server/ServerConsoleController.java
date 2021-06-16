@@ -56,7 +56,7 @@ public class ServerConsoleController implements Initializable {
 	public void start(Stage mainStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/server/ServerConsole.fxml"));
 		Scene scene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui.server/ServerConsole.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/common/Server.css").toExternalForm());
 		mainStage.setTitle("Computerized Exam Management System (Server)");
 		mainStage.setScene(scene);
 		mainStage.setResizable(false);

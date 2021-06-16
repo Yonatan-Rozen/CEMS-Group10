@@ -60,7 +60,7 @@ public class TeacherPreviewQuestionController implements Initializable {
 		previewStage = stage;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherPreviewQuestion.fxml"));
 		Scene mainScene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/client/SignIn.css").toExternalForm());
+		mainScene.getStylesheets().add(getClass().getResource("/common/Client.css").toExternalForm());
 		stage.setScene(mainScene);
 		stage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		stage.setResizable(false);
