@@ -130,7 +130,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp = sbExamContainerAp;
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
-		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
+		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID ,"C"});
 		System.out.println("scoresOfQuestions : " + scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.size()];
 		Arrays.fill(answersOfStudent, "-1");

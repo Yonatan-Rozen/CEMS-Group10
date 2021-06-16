@@ -62,7 +62,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 		// stemController
 		searchBtn = sbSearchBtn;
 		uploadFileTf = sbUploadFileTf;
-		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
+		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID,"M" });
 		startTime = System.nanoTime();
 	}
 
@@ -96,7 +96,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 		}
 
 		System.out.println("path = " + FilePath);
-		ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", examID , FilePath });
+		ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", examID , FilePath , "submit", ""});
 		// TODO add method of getFile from DB
 		// added table of manual exams
 	}
