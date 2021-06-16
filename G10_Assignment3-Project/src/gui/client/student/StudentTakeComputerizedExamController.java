@@ -122,7 +122,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	public String ddMin, ddHour;
 	public DecimalFormat dFormat = new DecimalFormat("00");
 	public Timer timer;
-	public String additionalTime;
 	// CONTROLLER INSTANCES *******************************************
 	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();
 
@@ -154,15 +153,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		Arrays.fill(answersOfStudent, "-1");
 	}
 
-	private void initializeTimer(String time) {
-		hour = Integer.parseInt(time) / 60;
-		min = Integer.parseInt(time) % 60;
-		sec = 0;
-		ddHour = dFormat.format(hour);
-		ddMin = dFormat.format(min);
-		timerLbl.setText(ddHour + ":" + ddMin);
-	}
-
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressStartExam(ActionEvent event) {
@@ -180,88 +170,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		}
 		sbExamContainerAp.setDisable(false);
 		startTime = System.nanoTime();
-	}
-
-	private void startTimer() {
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						sec--;
-						ddHour = dFormat.format(hour);
-						ddMin = dFormat.format(min);
-						timerLbl.setText(ddHour + ":" + ddMin);
-						if (sec == -1) {
-							sec = 59;
-							min--;
-							ddMin = dFormat.format(min);
-							timerLbl.setText(ddHour + ":" + ddMin);
-						}
-						if (min == -1) {
-							hour--;
-							sec = 59;
-							min = 59;
-							ddMin = dFormat.format(min);
-							ddHour = dFormat.format(hour);
-							timerLbl.setText(ddHour + ":" + ddMin);
-						}
-						if (sec == 0 && min == 0 & hour == 0) {
-							timer.cancel();
-							cancel();
-							if (additionalTime != null) {
-								initializeTimer(additionalTime);
-								Timer extraTime = new Timer();
-								extraTime.schedule(new TimerTask() {
-									@Override
-									public void run() {
-										Platform.runLater(new Runnable() {
-											@Override
-											public void run() {
-												sec--;
-												ddHour = dFormat.format(hour);
-												ddMin = dFormat.format(min);
-												timerLbl.setText(ddHour + ":" + ddMin);
-												if (sec == -1) {
-													sec = 59;
-													min--;
-													ddMin = dFormat.format(min);
-													timerLbl.setText(ddHour + ":" + ddMin);
-												}
-												if (min == -1) {
-													hour--;
-													sec = 59;
-													min = 59;
-													ddMin = dFormat.format(min);
-													ddHour = dFormat.format(hour);
-													timerLbl.setText(ddHour + ":" + ddMin);
-												}
-												if (sec == 0 && min == 0 & hour == 0) {
-													timerLbl.setText("Time Is Finished");
-													extraTime.cancel();
-													cancel();
-													try { stopExam("Not successful");
-													} catch (IOException e) { e.printStackTrace(); }
-												}
-											}
-										});
-
-									}
-								}, 0, 100); // TODO change to 1000!
-							}
-							else 
-								try { stopExam("Not successful");
-								} catch (IOException e) { e.printStackTrace(); }
-						}
-					}
-				});
-
-			}
-		}, 0, 100); // TODO change to 1000!
-
-		
 	}
 
 	@FXML
@@ -341,10 +249,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	public void setCourseName(String courseName) {
 		examOfCourseLbl.setText("Exam - " + courseName);
 	}
-	
-	public void setAdditionalTime(String time) {
-		additionalTime = time;
-	}
 
 	/**
 	 *
@@ -404,6 +308,96 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime),
 				examID, String.format("%d", grade), exam.getAllocatedTime(), submited, questionsOfExam,
 				answersOfStudent);
+	}
+	
+	private void initializeTimer(String time) {
+		hour = Integer.parseInt(time) / 60;
+		min = Integer.parseInt(time) % 60;
+		sec = 0;
+		ddHour = dFormat.format(hour);
+		ddMin = dFormat.format(min);
+		timerLbl.setText(ddHour + ":" + ddMin);
+	}
+
+	private void startTimer() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						sec--;
+						ddHour = dFormat.format(hour);
+						ddMin = dFormat.format(min);
+						timerLbl.setText(ddHour + ":" + ddMin);
+						if (sec == -1) {
+							sec = 59;
+							min--;
+							ddMin = dFormat.format(min);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (min == -1) {
+							hour--;
+							sec = 59;
+							min = 59;
+							ddMin = dFormat.format(min);
+							ddHour = dFormat.format(hour);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (sec == 0 && min == 0 & hour == 0) {
+							timer.cancel();
+							cancel();
+							
+							if (StudentEnterCodeController.additionalTime != null) {
+								initializeTimer(StudentEnterCodeController.additionalTime);
+								Timer extraTime = new Timer();
+								extraTime.schedule(new TimerTask() {
+									@Override
+									public void run() {
+										Platform.runLater(new Runnable() {
+											@Override
+											public void run() {
+												sec--;
+												ddHour = dFormat.format(hour);
+												ddMin = dFormat.format(min);
+												timerLbl.setText(ddHour + ":" + ddMin);
+												if (sec == -1) {
+													sec = 59;
+													min--;
+													ddMin = dFormat.format(min);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (min == -1) {
+													hour--;
+													sec = 59;
+													min = 59;
+													ddMin = dFormat.format(min);
+													ddHour = dFormat.format(hour);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (sec == 0 && min == 0 & hour == 0) {
+													timerLbl.setText("Time Is Finished");
+													extraTime.cancel();
+													cancel();
+													try { stopExam("Not successful");
+													} catch (IOException e) { e.printStackTrace(); }
+												}
+											}
+										});
+
+									}
+								}, 0, 1000); // TODO change to 1000!
+							}
+							else 
+								try { stopExam("Not successful");
+								} catch (IOException e) { e.printStackTrace(); }
+						}
+					}
+				});
+
+			}
+		}, 0, 1000); // TODO change to 1000!
 	}
 
 }
