@@ -62,6 +62,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 		// stemController
 		searchBtn = sbSearchBtn;
 		uploadFileTf = sbUploadFileTf;
+		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
 		startTime = System.nanoTime();
 	}
 
@@ -126,9 +127,11 @@ public class StudentTakeExamManuallyController implements Initializable {
 	 * @param examIDFromTeacher the running exam ID sent from the teacher
 	 */
 	public void setExamID(String examIDFromTeacher) {
-		if (examIDFromTeacher != null && !examIDFromTeacher.equals(""))
+		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
 			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
+			System.out.println("StudentTakeExamManually - setExamID :: examID = "+examID);
+		}
 		else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
 					"There was no examID chosen by a teacher").showAndWait();
