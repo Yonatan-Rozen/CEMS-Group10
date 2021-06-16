@@ -2,12 +2,16 @@ package gui.client.student;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import client.ClientUI;
 import common.CommonMethodsHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,6 +40,21 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private AnchorPane sbExamContainerAp;
 
 	@FXML
+	private Label sbAlertCoreectIDLbl;
+
+	@FXML
+	private Label sbExamIDLbl;
+
+	@FXML
+	private TextField sbStudentIDTf;
+
+	@FXML
+	private Button sbStartExamBtn;
+
+	@FXML
+	private Label sbTimerLbl;
+
+	@FXML
 	private TextArea sbGeneralInfoTa;
 
 	@FXML
@@ -43,9 +62,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	@FXML
 	private ButtonBar sbQuestionBarBb;
-
-	@FXML
-	private Label sbScorelbl;
 
 	@FXML
 	private ScrollPane sbAnswersSp;
@@ -69,21 +85,16 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private RadioButton sbAnswer4Rb;
 
 	@FXML
+	private Label sbScorelbl;
+
+	@FXML
 	private Button sbSubmitBtn;
-
-	@FXML
-	private TextField sbStudentIDTf;
-
-	@FXML
-	private Button sbStartExamBtn;
-
-	@FXML
-	private Label sbAlertCoreectIDLbl;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Label examOfCourseLbl;
 	private static TextArea generalInfoTa;
 	private static Label scorelbl;
+	private static Label timerLbl;
 	private static ButtonBar questionBarBb;
 	private static Label questionLbl;
 	private static ToggleGroup answerTg;
@@ -107,6 +118,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private static long startTime;
 	private static long estimatedTime;
 
+	public static int sec, min, hour;
+	public String ddMin, ddHour;
+	public DecimalFormat dFormat = new DecimalFormat("00");
+	public Timer timer;
+	public String additionalTime;
 	// CONTROLLER INSTANCES *******************************************
 	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();
 
@@ -119,6 +135,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		scorelbl = sbScorelbl;
 		questionBarBb = sbQuestionBarBb;
 		questionLbl = sbQuestionLbl;
+		timerLbl = sbTimerLbl;
 		answerTg = sbAnswerTg;
 		answer1Rb = sbAnswer1Rb;
 		answer2Rb = sbAnswer2Rb;
@@ -131,14 +148,25 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		examContainerAp.setDisable(true);
 		startExamBtn = sbStartExamBtn;
 		ClientUI.chat.accept(new String[] { "btnPressStartExam", examID });
+		initializeTimer(exam.getAllocatedTime());
 		System.out.println("scoresOfQuestions : " + scoresOfQuestions);
 		answersOfStudent = new String[scoresOfQuestions.size()];
 		Arrays.fill(answersOfStudent, "-1");
 	}
 
+	private void initializeTimer(String time) {
+		hour = Integer.parseInt(time) / 60;
+		min = Integer.parseInt(time) % 60;
+		sec = 0;
+		ddHour = dFormat.format(hour);
+		ddMin = dFormat.format(min);
+		timerLbl.setText(ddHour + ":" + ddMin);
+	}
+
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressStartExam(ActionEvent event) {
+		startTimer();
 		System.out.println("StudentTakeComputerizedExam::btnPressStartExam");
 		Button b;
 		// may be check if it's repressed and if it was pressed again-delete all
@@ -152,6 +180,88 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		}
 		sbExamContainerAp.setDisable(false);
 		startTime = System.nanoTime();
+	}
+
+	private void startTimer() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						sec--;
+						ddHour = dFormat.format(hour);
+						ddMin = dFormat.format(min);
+						timerLbl.setText(ddHour + ":" + ddMin);
+						if (sec == -1) {
+							sec = 59;
+							min--;
+							ddMin = dFormat.format(min);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (min == -1) {
+							hour--;
+							sec = 59;
+							min = 59;
+							ddMin = dFormat.format(min);
+							ddHour = dFormat.format(hour);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (sec == 0 && min == 0 & hour == 0) {
+							timer.cancel();
+							cancel();
+							if (additionalTime != null) {
+								initializeTimer(additionalTime);
+								Timer extraTime = new Timer();
+								extraTime.schedule(new TimerTask() {
+									@Override
+									public void run() {
+										Platform.runLater(new Runnable() {
+											@Override
+											public void run() {
+												sec--;
+												ddHour = dFormat.format(hour);
+												ddMin = dFormat.format(min);
+												timerLbl.setText(ddHour + ":" + ddMin);
+												if (sec == -1) {
+													sec = 59;
+													min--;
+													ddMin = dFormat.format(min);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (min == -1) {
+													hour--;
+													sec = 59;
+													min = 59;
+													ddMin = dFormat.format(min);
+													ddHour = dFormat.format(hour);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (sec == 0 && min == 0 & hour == 0) {
+													timerLbl.setText("Time Is Finished");
+													extraTime.cancel();
+													cancel();
+													try { stopExam("Not successful");
+													} catch (IOException e) { e.printStackTrace(); }
+												}
+											}
+										});
+
+									}
+								}, 0, 100); // TODO change to 1000!
+							}
+							else 
+								try { stopExam("Not successful");
+								} catch (IOException e) { e.printStackTrace(); }
+						}
+					}
+				});
+
+			}
+		}, 0, 100); // TODO change to 1000!
+
+		
 	}
 
 	@FXML
@@ -231,6 +341,10 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	public void setCourseName(String courseName) {
 		examOfCourseLbl.setText("Exam - " + courseName);
 	}
+	
+	public void setAdditionalTime(String time) {
+		additionalTime = time;
+	}
 
 	/**
 	 *
@@ -265,7 +379,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	private int calcAutomaticGrade() {
 		int grade = 100;
 		for (int i = 0; i < questionsOfExam.size(); i++) {
-			if (!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer()) || answersOfStudent[i].equals("-1"))
+			if (!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer())
+					|| answersOfStudent[i].equals("-1"))
 				grade -= Integer.parseInt(scoresOfQuestions.get(i));
 		}
 		return grade;
@@ -284,8 +399,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		// calculated for all the students that are still connected
 		int grade = calcAutomaticGrade();
 
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime), examID, String.format("%d", grade), exam.getAllocatedTime(), submited,questionsOfExam,answersOfStudent);
+		ClientUI.mainScene
+				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime),
+				examID, String.format("%d", grade), exam.getAllocatedTime(), submited, questionsOfExam,
+				answersOfStudent);
 	}
 
 }

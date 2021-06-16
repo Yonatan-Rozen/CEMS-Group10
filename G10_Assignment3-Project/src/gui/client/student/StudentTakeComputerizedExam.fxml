@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -9,117 +10,144 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeComputerizedExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentTakeComputerizedExamController">
    <children>
-      <Label fx:id="sbExamOfCourseLbl" layoutX="50.0" layoutY="22.0" text="Exam - Algebra 1" underline="true" AnchorPane.topAnchor="20.0">
+      <Label fx:id="sbExamOfCourseLbl" layoutX="315.0" layoutY="22.0" text="Exam - Algebra 1" underline="true" AnchorPane.topAnchor="22.0">
          <font>
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="sbExamContainerAp" layoutX="34.0" layoutY="65.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="74.0">
+      <AnchorPane fx:id="sbExamContainerAp" layoutX="8.0" layoutY="489.0" prefHeight="97.0" prefWidth="86.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="806.0" />
+      <Label fx:id="sbAlertCoreectIDLbl" layoutX="595.0" layoutY="12.0" prefHeight="20.0" prefWidth="287.0" text="it's your resposability to make sure it's the correct ID !" textFill="RED" />
+      <HBox alignment="CENTER" layoutY="67.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutY="1.0" text="General information :" underline="true">
+            <Label text="ExamID:" underline="true">
                <font>
-                  <Font name="System Italic" size="18.0" />
+                  <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="sbGeneralInfoTa" editable="false" focusTraversable="false" layoutY="28.0" prefHeight="120.0" prefWidth="800.0" promptText="Allocated Time : 180 (minutes)...">
+            <Label fx:id="sbExamIDLbl" text="######">
                <font>
-                  <Font name="System Italic" size="15.0" />
-               </font>
-            </TextArea>
-            <Label layoutY="148.0" text="Questions :" underline="true">
-               <font>
-                  <Font name="System Italic" size="18.0" />
+                  <Font name="System Italic" size="24.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="sbQuestionSp" focusTraversable="false" layoutX="90.0" layoutY="154.0" prefHeight="60.0" prefWidth="700.0">
-              <content>
-                <AnchorPane>
-                     <children>
-                        <ButtonBar fx:id="sbQuestionBarBb" buttonMinWidth="30.0" focusTraversable="false" layoutY="5.0" nodeOrientation="LEFT_TO_RIGHT" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
-            <Label fx:id="sbScorelbl" layoutX="-2.0" layoutY="217.0" text="(score : x) ">
+            <Line endX="-12.0" endY="-16.0" startX="-12.0" startY="-36.0" />
+            <Label text="Student ID:" underline="true">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="sbAnswersSp" focusTraversable="false" layoutY="244.0" prefHeight="230.0" prefWidth="800.0">
-               <content>
-                  <VBox spacing="20.0">
-                     <children>
-                        <Label fx:id="sbQuestionLbl">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                      <AnchorPane>
-                           <children>
-                              <RadioButton fx:id="sbAnswer1Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer1" AnchorPane.leftAnchor="10.0">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="sbAnswerTg" />
-                                 </toggleGroup>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </RadioButton>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <RadioButton fx:id="sbAnswer2Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer2" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </RadioButton>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <RadioButton fx:id="sbAnswer3Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer3" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </RadioButton>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <RadioButton fx:id="sbAnswer4Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer4" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </RadioButton>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-            <Button fx:id="sbSubmitBtn" layoutX="677.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnPressSubmit" text="Submit &gt;&gt;&gt;">
+            <TextField fx:id="sbStudentIDTf" alignment="CENTER" prefHeight="25.0" prefWidth="105.0" promptText="- Insert Your ID -" />
+            <Button fx:id="sbStartExamBtn" mnemonicParsing="false" onAction="#btnPressStartExam" text="Start &gt; &gt; &gt;">
                <font>
-                  <Font name="System Bold" size="17.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Button>
          </children>
-      </AnchorPane>
-      <TextField fx:id="sbStudentIDTf" alignment="CENTER" layoutX="571.0" layoutY="32.0" prefHeight="25.0" prefWidth="183.0" promptText="* * * * * * * * *" />
-      <Label layoutX="471.0" layoutY="35.0" prefHeight="20.0" prefWidth="101.0" text="Insert ID here:">
+      </HBox>
+      <HBox alignment="CENTER" layoutY="7.0" spacing="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <Label fx:id="sbTimerLbl" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-radius: 20;" text="00:00">
+               <font>
+                  <Font name="System Bold Italic" size="32.0" />
+               </font>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <Line endX="431.0" layoutX="450.0" layoutY="109.0" startX="-442.0" />
+      <Label layoutX="109.0" layoutY="117.0" text="General information :" underline="true">
          <font>
-            <Font size="14.0" />
+            <Font name="System Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="sbStartExamBtn" layoutX="764.0" layoutY="30.0" mnemonicParsing="false" onAction="#btnPressStartExam" text="Start &gt; &gt; &gt;">
+      <TextArea fx:id="sbGeneralInfoTa" editable="false" focusTraversable="false" layoutX="279.0" layoutY="117.0" prefHeight="87.0" prefWidth="445.0" promptText="Allocated Time : 180 (minutes)...">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </TextArea>
+      <ScrollPane fx:id="sbQuestionSp" focusTraversable="false" layoutX="279.0" layoutY="216.0" prefHeight="60.0" prefWidth="445.0">
+        <content>
+          <AnchorPane>
+               <children>
+                  <ButtonBar fx:id="sbQuestionBarBb" buttonMinWidth="30.0" focusTraversable="false" layoutY="5.0" nodeOrientation="LEFT_TO_RIGHT" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane fx:id="sbAnswersSp" focusTraversable="false" layoutX="281.0" layoutY="300.0" prefHeight="222.0" prefWidth="441.0">
+         <content>
+            <VBox spacing="20.0">
+               <children>
+                  <Label fx:id="sbQuestionLbl">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer1Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer1" AnchorPane.leftAnchor="10.0">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sbAnswerTg" />
+                           </toggleGroup>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer2Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer2" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer3Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer3" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <RadioButton fx:id="sbAnswer4Rb" layoutY="6.0" mnemonicParsing="false" onAction="#rbPressAnswer4" toggleGroup="$sbAnswerTg" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Label fx:id="sbScorelbl" layoutX="195.0" layoutY="300.0" text="(score : x) ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="192.0" layoutY="327.0" text="Questions :" underline="true">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="sbSubmitBtn" layoutX="599.0" layoutY="529.0" mnemonicParsing="false" onAction="#btnPressSubmit" text="Submit &gt;&gt;&gt;">
+         <font>
+            <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Label fx:id="sbAlertCoreectIDLbl" layoutX="467.0" layoutY="55.0" prefHeight="20.0" prefWidth="287.0" text="it's your resposability to make sure it's the correct ID !" textFill="RED" />
    </children>
 </AnchorPane>
