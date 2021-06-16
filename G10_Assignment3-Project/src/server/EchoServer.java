@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 
+import logic.exam.Request;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -116,14 +117,19 @@ public class EchoServer extends AbstractServer {
 			case "SendMessageRequestDeclined":
 				for (int i = 0; i < clientThreadList.length; i++) 
 				{
-					ConnectionToClient teacher = (ConnectionToClient)clientThreadList[i];
+					ConnectionToClient client = (ConnectionToClient)clientThreadList[i];
+					String name = client.getName();
 					try {
-						if (teacher.getName().equals(((String[]) msg)[1]))
-							teacher.sendToClient(((String[]) msg)[0]);
+						if (name.equals(((Request)((Object[]) msg)[1]).getUsernameT()))
+							client.sendToClient(request);
+						else if (client.getInfo(name).equals("Student") && request.contains("Accepted"))
+							client.sendToClient(msg);
+						
 					} 
 					catch (Exception ex){}
-				}
 				
+				}
+				return;
 			default:
 				break;
 			}
