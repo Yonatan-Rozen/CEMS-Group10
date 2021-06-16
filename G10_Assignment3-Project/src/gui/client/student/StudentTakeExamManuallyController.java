@@ -73,7 +73,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 
 	@FXML
-	void lnkPressDownloadExamFile(ActionEvent event) {
+	void lnkPressDownloadExamFile(ActionEvent event) throws RuntimeException{
 		System.out.println("StudentTakeExamManually::lnkPressDownloadExamFile");
 		// TODO BLOB stuff
 
@@ -101,7 +101,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	}
 
 	@FXML
-	void btnPressSearch(ActionEvent event) {
+	void btnPressSearch(ActionEvent event) throws RuntimeException{
 		System.out.println("StudentTakeExamManually::btnPressSearch");
 		fileChooser.setTitle("Choose Exam File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("docx Files", "*.docx"),
