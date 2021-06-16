@@ -2,6 +2,7 @@ package logic.exam;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Request implements Serializable
 {
 	//Request Private Fields
