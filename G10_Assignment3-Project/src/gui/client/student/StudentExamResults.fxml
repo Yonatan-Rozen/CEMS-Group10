@@ -7,17 +7,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamResultsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentExamResultsController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="14.0" text="Exam Results" underline="true" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TableView layoutX="150.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-font-size: 18;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="sbExamResultsTbl" layoutX="150.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-font-size: 18;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
          <columns>
-            <TableColumn prefWidth="300.0" text="Course Name" />
-            <TableColumn prefWidth="300.0" text="Grade" />
+            <TableColumn fx:id="sbExamIdClm" prefWidth="208.80001831054688" text="Exam ID" />
+            <TableColumn fx:id="sbCourseNameClm" prefWidth="184.80001831054688" text="Course Name" />
+            <TableColumn fx:id="sbGradeClm" prefWidth="208.80001831054688" text="Grade" />
          </columns>
       </TableView>
       <Button fx:id="sbGetCopyBtn" layoutX="648.0" layoutY="525.0" mnemonicParsing="false" onAction="#btnPressGetCopy" text="Get Copy">

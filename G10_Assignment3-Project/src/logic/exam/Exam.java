@@ -8,6 +8,7 @@ public class Exam implements Serializable,IExam{
 	private String author;
 	private String bankID;
 	private String courseID;
+	private String subjectID;
 	private String allocatedTime;
 	private String type;
 	private String numtotalStudents;
@@ -16,14 +17,15 @@ public class Exam implements Serializable,IExam{
 	private String duration;
 	private String date;
 
-	public Exam(String examID, String bankID, String courseID, String allocatedTime, String author,String type) {
+	public Exam(String examID, String bankID, String courseID, String allocatedTime,
+			String author,String type,String subjectID) {
 		this.examID = examID;
 		this.author = author;
 		this.type = type;
 		this.bankID = bankID;
 		this.courseID = courseID;
 		this.allocatedTime = allocatedTime;
-
+		this.subjectID = subjectID;
 	}
 
 	@Override
@@ -112,6 +114,16 @@ public class Exam implements Serializable,IExam{
 	public void setDate(String date) {
 		// TODO Auto-generated method stub
 		this.date = date;
+	}
+
+	@Override
+	public String getSubjectID() {
+		return subjectID;
+	}
+
+	@Override
+	public void setSubjectID(String subjectID) {
+		this.subjectID = subjectID;
 	}
 
 	@Override

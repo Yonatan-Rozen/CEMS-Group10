@@ -112,6 +112,18 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 				return;
+			case "SendMessageRequestAccepted":
+			case "SendMessageRequestDeclined":
+				for (int i = 0; i < clientThreadList.length; i++) 
+				{
+					ConnectionToClient teacher = (ConnectionToClient)clientThreadList[i];
+					try {
+						if (teacher.getName().equals(((String[]) msg)[1]))
+							teacher.sendToClient(((String[]) msg)[0]);
+					} 
+					catch (Exception ex){}
+				}
+				
 			default:
 				break;
 			}
