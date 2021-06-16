@@ -513,17 +513,21 @@ public class ChatClient extends AbstractClient {
 
 			else
 				sendToServer(obj); // <-- message being sent to the server
-
+			
 			awaitResponse = true;
-
+			if (obj != null && obj instanceof String[] && ((String[])obj)[0].equals("SendMessageExamIDExamTypeAndExamCode") && ((String[])obj)[1] == null) {
+				awaitResponse = false;
+			}
 			// wait for response
 			while (awaitResponse) {
 				try {
+					System.out.println("dead");
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+			System.out.println("locked");
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
 			CommonMethodsHandler.getInstance()

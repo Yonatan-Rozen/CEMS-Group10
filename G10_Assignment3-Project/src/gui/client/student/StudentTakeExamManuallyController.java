@@ -69,38 +69,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressSubmitExam(ActionEvent event) throws IOException {
-		System.out.println("StudentTakeExamManually::btnPressSubmitExam");
-		// TODO take care of pane for uploading BLOB file by dragging the file ?
-
-
-		// TODO prompt message "Are you sure you want to submit?"
-		// TODO go to "exam submitted successfully"
-		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
-		// convert to minutes
-		// There are 60,000,000,000 nanosecond in 1 minute.
-		estimatedTime = estimatedTime / 600000;
-		estimatedTime = estimatedTime / 100000;
-		// TODO if the teacher pressed "lock exam" the submit button has to be disabled,
-		// the exam has to be submitted as is automatically, and the time must be
-		// calculated for all the students that are still connected
-		System.out.println("before the query of submit");
-		// successful submit example ***********************************
-		System.out.println("before going to update : estimatedTime = "+String.format("%d", estimatedTime));
-		ClientUI.chat.accept(new String[] { "btnPressSubmitManual","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID ,exam.getAllocatedTime()});
-
-		System.out.println("in the middle of the query of submit");
-
-		ClientUI.chat
-		.accept(new String[] { "StudentUploadFile", examID, FilePath, "S", ChatClient.user.getUsername() });
-		System.out.println("after the query of submit");
-
-		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		//TODO go to main menu
-		//TeacherStartExamController.tseController.studentsInExam--;
-		ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
-
+		stopExam("successful", FilePath);
 	}
 
 
@@ -177,27 +146,18 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 	// TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
-		if (StudentMenuController.smController.examLocked) {
-			submitExamBtn.setDisable(true);
-			// turn it around : diasble the EXAM and FORCE him to press Submit
-			System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-			estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
-			// convert to minutes
-			// There are 60,000,000,000 nanosecond in 1 minute.
-			estimatedTime = estimatedTime / 600000;
-			estimatedTime = estimatedTime / 100000;
-			ClientUI.mainScene
-			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-			// ClientUI.mainScene
-			// .setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-			// // NOT successful submit - the exam is locked and submitted automatically
-			// ***********************************
-			// update "submited" column to 1 in DB's exams_results table
-			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvokedManual", "NOT successful",
-					String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,exam.getAllocatedTime() });
+		stopExam("Not successful", null);
 
-			//TeacherStartExamController.tseController.studentsInExam--;
-			ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
-		}
+	}
+	
+	public void stopExam(String submited, String FilePath) throws IOException {
+		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
+		// convert to minutes
+		// There are 60,000,000,000 nanosecond in 1 minute.
+		estimatedTime = estimatedTime / 600000;
+		estimatedTime = estimatedTime / 100000;
+		
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		StudentExamSubmittedController.sesController.setExamDetailsManual(String.format("%d", estimatedTime), examID, exam.getAllocatedTime(), submited, FilePath);
 	}
 }

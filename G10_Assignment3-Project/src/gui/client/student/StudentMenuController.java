@@ -58,7 +58,6 @@ public class StudentMenuController implements Initializable {
 	protected static String examType;
 	protected static String examCode;
 	protected static String examiningTeacherID;
-	protected static boolean examLocked;
 	private static StudentEnterCodeController secController;
 
 	// INITIALIZE METHOD ****************************************************
@@ -140,7 +139,6 @@ public class StudentMenuController implements Initializable {
 	public void lockExam(String[] msg) {
 		System.out.println("=======================examID gotten from echoserver : "+ msg[1]);
 		if (examID.equals(msg[1])) {
-			examLocked = true;
 			try {
 				if(examType.equals("C"))
 					StudentTakeComputerizedExamController.stceController.setSubmitButtonWhenLockInvoked();

@@ -200,15 +200,16 @@ public class DBconnector {
 			case "UpdateQuestionAndScoreToExam":
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
-			case "btnPressSubmitComputerized":
-			case "setSubmitButtonWhenLockInvoked":
+			case "updateCopmuterizedSubmittedExamInfoByExamIDandStudentID":
 				//ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
 				//String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,String.format("%d", grade),exam.getAllocatedTime() });
 				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
 						request[4], request[5],request[6], client);
 				break;
-			case "btnPressSubmitManual":
-			case "setSubmitButtonWhenLockInvokedManual":
+//			case "btnPressSubmitManual":
+//			case "setSubmitButtonWhenLockInvokedManual":
+				
+			case "updateManualSubmittedExamInfoByExamIDandStudentID":
 				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
 				// String.format("%ld", estimatedTime),
 				// ChatClient.user.getUsername(), examID, grade});

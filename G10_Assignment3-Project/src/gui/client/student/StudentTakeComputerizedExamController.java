@@ -181,38 +181,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	@FXML
 	void btnPressSubmit(ActionEvent event) throws IOException {
-		//TODO
-		int i;//unnecessary just for signal
-		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
-		//convert to minutes
-		//There are 60,000,000,000 nanosecond in 1 minute.
-		estimatedTime=estimatedTime/600000;
-		estimatedTime=estimatedTime/100000;
-		//TODO if the teacher pressed "lock exam" the submit button has to be disabled, the exam has to be submitted as is automatically, and the time must be
-		//calculated for all the students that are still connected
-		int grade=calcAutomaticGrade();
-		System.out.println("before the query of submit");
-		// successful submit example ***********************************
-		//TODO update grade into exams_results_computerized
-		ClientUI.chat.accept(new String[] { "btnPressSubmitComputerized","successful", String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID, String.format("%d", grade),exam.getAllocatedTime() });
-
-		System.out.println("after the query of submit");
-
-		// TODO maybe add alert "are you sure you want to submit?"
-		ClientUI.mainScene
-		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-
-		//TeacherStartExamController.tseController.studentsInExam--;
-		ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
-
-
-		//		if(TeacherStartExamController.tseController.getStudentsInExam() ==0)
-		//		{
-		//			ClientUI.chat.accept(new String[] {"SendMessageLockExam", examID}); // TODO (locks exam at the clients of the students)
-		//			TeacherMenuBarController.menuBarAp.setDisable(false);
-		//			StudentEnterCodeController.secController.setReadyExam(null, null, null);
-		//		}
+		stopExam("successful");
 	}
 
 	// EXTERNAL USE METHODS *************************************************
@@ -289,46 +258,35 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		});
 	}
 
-	//TODO check if works after LOCK EXAM is implemented in Teacher
-	public void setSubmitButtonWhenLockInvoked () throws IOException {
-		if (StudentMenuController.smController.examLocked) {
-			submitBtn.setDisable(true);
-			// turn it around : diasble the EXAM and FORCE him to press Submit
-			System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-			estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
-			//convert to minutes
-			//There are 60,000,000,000 nanosecond in 1 minute.
-			estimatedTime = estimatedTime / 600000;
-			estimatedTime = estimatedTime / 100000;
-			int grade=calcAutomaticGrade();
-			// NOT successful submit - the exam is locked and submitted automatically ***********************************
-			// update "submited" column to 1 in DB's exams_results table
-
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
-					String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,String.format("%d", grade),exam.getAllocatedTime() });
-
-			System.err.println("before reducing the studentsInExam");
-			//TeacherStartExamController.tseController.studentsInExam--;
-			ClientUI.chat.accept(new String[] {"SendMessageDecNumStudentsInExam",StudentMenuController.examiningTeacherID}); // TODO (Decrements the amount of students that are in the running exam)
-			System.out.println("<<<<<<finished setSubmitButtonWhenLockInvoked of CompExam>>>>>>");
-
-			ClientUI.mainScene
-			.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		}
+	// TODO check if works after LOCK EXAM is implemented in Teacher
+	public void setSubmitButtonWhenLockInvoked() throws IOException {
+		stopExam("Not successful");
 	}
 
-	/**
-	 * 	checks the correct answers with the answers of the student, calculating the garde accordingly
-
-	 * @return the student's grade by his answers
-	 */
 	private int calcAutomaticGrade() {
-		int grade=100;
-		for(int i=0;i<questionsOfExam.size();i++) {
-			if(!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer())||answersOfStudent[i].equals("-1"))
-				grade-=Integer.parseInt(scoresOfQuestions.get(i));
+		int grade = 100;
+		for (int i = 0; i < questionsOfExam.size(); i++) {
+			if (!answersOfStudent[i].equals(questionsOfExam.get(i).getCorrectAnswer()) || answersOfStudent[i].equals("-1"))
+				grade -= Integer.parseInt(scoresOfQuestions.get(i));
 		}
 		return grade;
 	}
+
+	public void stopExam(String submited) throws IOException {
+		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
+		
+		// elapsed time in nanoseconds
+		estimatedTime = System.nanoTime() - startTime;
+
+		// convert to minutes (There are 60,000,000,000 nanosecond in 1 minute)
+		estimatedTime = estimatedTime / 600000;
+		estimatedTime = estimatedTime / 100000;
+
+		// calculated for all the students that are still connected
+		int grade = calcAutomaticGrade();
+
+		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime), examID, String.format("%d", grade), exam.getAllocatedTime(), submited);
+	}
+
 }
