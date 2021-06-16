@@ -2427,7 +2427,8 @@ public class DBconnector {
 			stmt2.setString(4, "0");
 			stmt2.executeUpdate();
 
-		} catch (SQLException e) {			e.printStackTrace();}
+		} catch (SQLException e) {			//e.printStackTrace();
+		}
 
 		try {
 			System.out.println("status = " + status + "\testimatedTime = " + estimatedTime + "\tstudentID = "
@@ -2605,7 +2606,7 @@ public class DBconnector {
 				stmt.executeUpdate();
 			} catch (SQLException e) {
 				client.sendToClient("sql exception");
-				e.printStackTrace();
+				//e.printStackTrace();
 				return;
 			}
 
