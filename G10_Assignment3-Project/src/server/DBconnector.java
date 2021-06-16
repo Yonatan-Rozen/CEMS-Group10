@@ -25,6 +25,7 @@ import logic.exam.ComputerizedResults;
 import logic.exam.Exam;
 import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
+import logic.exam.ExamResultsTableStudent;
 import logic.exam.IExam;
 import logic.exam.ManualExam;
 import logic.exam.ManualResults;
@@ -134,6 +135,9 @@ public class DBconnector {
 			case "btnPressShowQuestionsBySubject": // getQuestionsBySubjectAndUsername(subjectName, username, client)
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
+			case "getExamResultsForStudentsExamResults":
+				getExamResultsByStudentId(request[1], client);
+				break;
 			case "btnPressShowExamsBySubject": // getExamsBySubjectAndUsername(subjectName, username, client)
 				getExamsBySubjectAndUsername(request[1], request[2], client);
 				break;
@@ -152,8 +156,8 @@ public class DBconnector {
 			case "lnkPressDownloadExamFile": // req1 =examID , req2= path
 				getManualExamFileByExamID(request[1], request[2], client);
 				break;
-			case "DownloadFileExamResult": //different ^^
-				DownloadFileExamResult(request[1],request[2],request[3], client);
+			case "DownloadFileExamResult": // different ^^
+				DownloadFileExamResult(request[1], request[2], request[3], client);
 				break;
 			case "CheckQuestionExistsInExam": // checkQuestionExistsInExam(questionID, client)
 				checkQuestionExistsInExam(request[1], client);
@@ -185,9 +189,9 @@ public class DBconnector {
 			case "GetSubjectCourseIDofExam":
 				getSubjectCourseIDofExam(client);
 				break;
-				// case "GetExamByID":
-				// getExamInfoByID(request[1], client); // UNUSED
-				// break;
+			// case "GetExamByID":
+			// getExamInfoByID(request[1], client); // UNUSED
+			// break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
 			case "GetTypeOfExamAndOptionalComments":
@@ -206,20 +210,22 @@ public class DBconnector {
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
 			case "updateCopmuterizedSubmittedExamInfoByExamIDandStudentID":
-				//ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT successful",
-				//String.format("%d", estimatedTime), ChatClient.user.getUsername(), examID,String.format("%d", grade),exam.getAllocatedTime() });
-				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
-						request[4], request[5],request[6], client);
+				// ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT
+				// successful",
+				// String.format("%d", estimatedTime), ChatClient.user.getUsername(),
+				// examID,String.format("%d", grade),exam.getAllocatedTime() });
+				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
+						request[5], request[6], client);
 				break;
-				//			case "btnPressSubmitManual":
-				//			case "setSubmitButtonWhenLockInvokedManual":
+			// case "btnPressSubmitManual":
+			// case "setSubmitButtonWhenLockInvokedManual":
 
 			case "updateManualSubmittedExamInfoByExamIDandStudentID":
 				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
 				// String.format("%ld", estimatedTime),
 				// ChatClient.user.getUsername(), examID, grade});
-				UpdateManualSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3],
-						request[4],request[5], client);
+				UpdateManualSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
+						request[5], client);
 				break;
 			case "GetExamResultsByTeacherUsername":
 				getExamResultsByTeacherUsername(request[1], client);
@@ -227,7 +233,7 @@ public class DBconnector {
 				getQuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
 			case "sbViewRequests":
-				getRequestsToPrinciple(request[1],client);
+				getRequestsToPrinciple(request[1], client);
 				break;
 
 			default:
@@ -245,13 +251,14 @@ public class DBconnector {
 				updateQuestion((Question) request[1], client);
 				break;
 			case "StudentUploadFile":
-				//studentTestUpload((String) request[1], (MyFile) request[2], client);
-				//break;
-			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 -  ,req4 -
-				ExamFileUpload((String) request[1], (MyFile) request[2],(String) request[3],(String)request[4], client);
+				// studentTestUpload((String) request[1], (MyFile) request[2], client);
+				// break;
+			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 - ,req4 -
+				ExamFileUpload((String) request[1], (MyFile) request[2], (String) request[3], (String) request[4],
+						client);
 				break;
 			case "TeacherUploadManualCheckExamFile":
-				TeacherUploadManualCheckExamFile((String) request[1], (MyFile) request[2],(String)request[3],client);
+				TeacherUploadManualCheckExamFile((String) request[1], (MyFile) request[2], (String) request[3], client);
 				break;
 			case "btnPressFinishEditManualExam": // req1-ExamID , req2=filepath , req3- time for manual exam
 				System.out.println("finish edit exam case");
@@ -269,8 +276,10 @@ public class DBconnector {
 
 	/**
 	 * Updates the final grade in the exam of a student with additional comments
-	 * @param computerizedResults The computerized results that contains all the info about the exam
-	 * @param client The teacher who sent the request
+	 * 
+	 * @param computerizedResults The computerized results that contains all the
+	 *                            info about the exam
+	 * @param client              The teacher who sent the request
 	 * @throws IOException
 	 *
 	 * @author Yonatan Rozen
@@ -297,11 +306,11 @@ public class DBconnector {
 		}
 
 		// update comments for each question
-		for (int i = 0 ; i < computerizedResults.getComments().size() ; i++)
+		for (int i = 0; i < computerizedResults.getComments().size(); i++)
 			try {
 				PreparedStatement stmt = con.prepareStatement("UPDATE answered_questions "
 						+ "SET TeacherComment = ? WHERE QuestionID = ? AND ExamID = ?  AND UsernameS = ?");
-				stmt.setString(1,computerizedResults.getComments().get(i));
+				stmt.setString(1, computerizedResults.getComments().get(i));
 				stmt.setString(2, computerizedResults.getQuestions().get(i).getQuestionID());
 				stmt.setString(3, computerizedResults.getExamID());
 				stmt.setString(4, computerizedResults.getStudentID());
@@ -325,24 +334,27 @@ public class DBconnector {
 	 *
 	 * @author Eliran Amerzoyev
 	 */
-	private void DownloadFileExamResult(String examID,String path,String username, ConnectionToClient client) throws IOException {
+	private void DownloadFileExamResult(String examID, String path, String username, ConnectionToClient client)
+			throws IOException {
 		String examIDs = examID;
 		String message = path;
 
 		//
 		try {
-			Blob blob= con.createBlob();
+			Blob blob = con.createBlob();
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT FileSubmit FROM exams_results_manual WHERE UsernameS = '" + username + "' AND ExamID = '" + examID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT FileSubmit FROM exams_results_manual WHERE UsernameS = '"
+					+ username + "' AND ExamID = '" + examID + "'");
 			System.out.println("check return value from sql =" + rs.next());
 			blob = rs.getBlob(1);
 
 			MyFile myfile = new MyFile("Exam" + examIDs);
 			BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
-			FileOutputStream fos = new FileOutputStream(path +"\\ExamResult_"+ examIDs+".docx"); //path+file name + docx
+			FileOutputStream fos = new FileOutputStream(path + "\\ExamResult_" + examIDs + ".docx"); // path+file name +
+																										// docx
 			byte[] buffer = new byte[2048];
 			int r = 0;
-			while((r = is.read(buffer))!=-1) {
+			while ((r = is.read(buffer)) != -1) {
 				fos.write(buffer, 0, r);
 			}
 			fos.flush();
@@ -359,7 +371,7 @@ public class DBconnector {
 			return;
 		}
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -409,7 +421,8 @@ public class DBconnector {
 	 *
 	 * @author Eliran Amerzoyev
 	 */
-	private void TeacherUploadManualCheckExamFile(String examID, MyFile myFile,String username, ConnectionToClient client) throws IOException {
+	private void TeacherUploadManualCheckExamFile(String examID, MyFile myFile, String username,
+			ConnectionToClient client) throws IOException {
 		File outputFile = new File(myFile.getFileName());
 		FileOutputStream fos = new FileOutputStream(outputFile);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -417,7 +430,8 @@ public class DBconnector {
 			Blob blob = con.createBlob();
 			PreparedStatement stmt = null;
 			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
-			stmt = con.prepareStatement("UPDATE exams_results_manual SET FileCopy = ? WHERE ExamID = ? AND UsernameS = ?");
+			stmt = con.prepareStatement(
+					"UPDATE exams_results_manual SET FileCopy = ? WHERE ExamID = ? AND UsernameS = ?");
 
 			stmt.setBlob(1, blob);
 			stmt.setString(2, examID);
@@ -434,7 +448,7 @@ public class DBconnector {
 		System.out.println("UPLOAD FILE ---------------> END");
 		client.sendToClient("");
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -446,11 +460,11 @@ public class DBconnector {
 	 */
 	private void getManualExamFileByExamID(String examID, String path, ConnectionToClient client) throws IOException {
 
-		//	Eliran
-		//		File outputFile = new File(myFile.getFileName());
-		//		FileOutputStream fos = new FileOutputStream(outputFile);
-		//		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		//	Eliran
+		// Eliran
+		// File outputFile = new File(myFile.getFileName());
+		// FileOutputStream fos = new FileOutputStream(outputFile);
+		// BufferedOutputStream bos = new BufferedOutputStream(fos);
+		// Eliran
 
 		String examIDs = examID;
 		String message = path;
@@ -480,33 +494,33 @@ public class DBconnector {
 			client.sendToClient("");
 
 			//// Eliran
-			//			byte[] mybytearray = blob.get
-			//			byte[] mybytearray = new byte[(int) blob.length()];
-			//			FileInputStream fis = new FileInputStream(wordDocument);
-			//			BufferedInputStream bis = new BufferedInputStream(fis);
+			// byte[] mybytearray = blob.get
+			// byte[] mybytearray = new byte[(int) blob.length()];
+			// FileInputStream fis = new FileInputStream(wordDocument);
+			// BufferedInputStream bis = new BufferedInputStream(fis);
 			//
-			//			client.sendToClient(myfile);
-			//			rs.close();
+			// client.sendToClient(myfile);
+			// rs.close();
 			//
-			//			File wordDocument = new File(message);
+			// File wordDocument = new File(message);
 			//
-			//			// check if 'message' is a pathname (for example:
-			//			// "C:\Users\Jon\Desktop\test.docx")
-			//			String[] s1 = message.split("\\\\");
-			//			String fileName = s1[s1.length - 1]; // "test.txt"
-			//			MyFile testFile = new MyFile(fileName);
+			// // check if 'message' is a pathname (for example:
+			// // "C:\Users\Jon\Desktop\test.docx")
+			// String[] s1 = message.split("\\\\");
+			// String fileName = s1[s1.length - 1]; // "test.txt"
+			// MyFile testFile = new MyFile(fileName);
 			//
 			//
-			//			byte[] mybytearray = new byte[(int) wordDocument.length()];
-			//			FileInputStream fis = new FileInputStream(wordDocument);
-			//			BufferedInputStream bis = new BufferedInputStream(fis);
+			// byte[] mybytearray = new byte[(int) wordDocument.length()];
+			// FileInputStream fis = new FileInputStream(wordDocument);
+			// BufferedInputStream bis = new BufferedInputStream(fis);
 			//
-			//			testFile.initArray(mybytearray.length);
-			//			testFile.setSize(mybytearray.length);
+			// testFile.initArray(mybytearray.length);
+			// testFile.setSize(mybytearray.length);
 			//
-			//			bis.read(testFile.getMybytearray(), 0, mybytearray.length);
-			//			bis.close();
-			//			sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
+			// bis.read(testFile.getMybytearray(), 0, mybytearray.length);
+			// bis.close();
+			// sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
 			//// Eliran
 
 		} catch (SQLException e) {
@@ -541,8 +555,9 @@ public class DBconnector {
 			blob.setBytes(1, myFile.getMybytearray()); // convert to byte[]
 			if (whoCalled.equals("T"))
 				stmt = con.prepareStatement("UPDATE exams SET File = ? WHERE ExamID = ?");
-			else{// if(whoCalled.equals("S"))
-				stmt = con.prepareStatement("UPDATE exams_results_manual SET FileSubmit = ? WHERE ExamID = ? and UsernameS = ?");
+			else {// if(whoCalled.equals("S"))
+				stmt = con.prepareStatement(
+						"UPDATE exams_results_manual SET FileSubmit = ? WHERE ExamID = ? and UsernameS = ?");
 				System.out.println("entered else");
 				stmt.setString(3, studentID);
 			}
@@ -733,7 +748,7 @@ public class DBconnector {
 		try {
 			PreparedStatement stmt = con.prepareStatement(
 					"UPDATE exams SET AllocatedTime = '" + time + "',StudentComments = '" + studentComments
-					+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
+							+ "',TeacherComments = '" + teacherComments + "' WHERE ExamID = '" + ExamID + "';");
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			client.sendToClient("sql exception");
@@ -921,10 +936,9 @@ public class DBconnector {
 							rs.getString(6), rs.getString(7), rs.getString(8), "C");
 				else if (rs.getString(9).equals("M")) {
 					System.out.println("before creating the manual exam instance");
-					//	public ManualExam(String examID, String bankID, String courseID, String
-					//		allocatedTime, String author, String type)
-					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
-							"M");
+					// public ManualExam(String examID, String bankID, String courseID, String
+					// allocatedTime, String author, String type)
+					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8), "M");
 				}
 			}
 			System.out.println("DB_CONNECTOR :: THE EXAM :" + exam);
@@ -1363,7 +1377,7 @@ public class DBconnector {
 
 		if (num.equals("2")) { // num==2 --> teacher create exam controller
 			questionInExamList
-			.add(new QuestionInExam("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", "", "", ""));
+					.add(new QuestionInExam("getQuestionsBySubjectAndUsername2", "", "", "", "", "", "", "", "", ""));
 
 		} else { // num==1 --> teacher choose edit question controller
 			questionList.add(new Question("getQuestionsBySubjectAndUsername", "", "", "", "", "", "", ""));
@@ -1377,8 +1391,8 @@ public class DBconnector {
 			while (rs.next()) {
 				if (num.equals("2")) {
 					questionInExamList
-					.add(new QuestionInExam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), "0", "0"));
+							.add(new QuestionInExam(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
+									rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), "0", "0"));
 				} else {
 					questionList.add(new Question(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5),
 							rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
@@ -1935,7 +1949,7 @@ public class DBconnector {
 		else if (type.equals("S"))
 			coursesList.add("getCoursesByUserNameForPrincipleStudent");
 		if (type.equals("T") || type.equals("P")) // Returns the list of course names taught by the teacher that had
-			// exams
+		// exams
 		{
 			try {
 				Statement stmt = con.createStatement();
@@ -2388,8 +2402,10 @@ public class DBconnector {
 	 * @throws IOException
 	 */
 	private void UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(String status, String estimatedTime,
-			String studentID, String examID, String grade,String allocatedTime, ConnectionToClient client) throws IOException {
-		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem(calculate) ,
+			String studentID, String examID, String grade, String allocatedTime, ConnectionToClient client)
+			throws IOException {
+		// TODO insert INTO exams_results_computerized :examID, studentID,
+		// gradeBySystem(calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
 		System.out.println("BEGINNING");
 		try {
@@ -2409,7 +2425,9 @@ public class DBconnector {
 			stmt1.setString(4, studentID);
 			stmt1.setString(5, allocatedTime);
 			stmt1.executeUpdate();
-		} catch (SQLException e) { 			e.printStackTrace();}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		try {
 			// ----------- query to add the tuple to exams_results_computerized table in
@@ -2423,7 +2441,9 @@ public class DBconnector {
 			stmt2.setString(4, "0");
 			stmt2.executeUpdate();
 
-		} catch (SQLException e) {			e.printStackTrace();}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		try {
 			System.out.println("status = " + status + "\testimatedTime = " + estimatedTime + "\tstudentID = "
@@ -2492,7 +2512,7 @@ public class DBconnector {
 	 * @throws IOException
 	 */
 	private void UpdateManualSubmittedExamInfoByExamIDandStudentID(String status, String estimatedTime,
-			String studentID, String examID,String allocatedTime, ConnectionToClient client) throws IOException {
+			String studentID, String examID, String allocatedTime, ConnectionToClient client) throws IOException {
 		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem
 		// (calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
@@ -2564,15 +2584,14 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
-	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException
-	{
+	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException {
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM request R WHERE R.principle = '" + principle + "'");
-			while (rs.next())
-			{
-				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+			while (rs.next()) {
+				request = new Request(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5));
 			}
 			client.sendToClient(request);
 			rs.close();
@@ -2584,5 +2603,50 @@ public class DBconnector {
 			return;
 		}
 	}
+
+	/**
+	 * @param studnetId
+	 * @param client
+	 * @author Michael Malka
+	 * @throws IOException 
+	 */
+	private void getExamResultsByStudentId(String studnetId, ConnectionToClient client) throws IOException {
+		List<ExamResultsTableStudent> listExamsResults=new ArrayList<ExamResultsTableStudent>();
+		listExamsResults.add(new ExamResultsTableStudent("getExamResultsByStudentId", "", ""));
+		
+		try {
+			Statement stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery("SELECT distinct ER.ExamID,ERC.GradeByTeacher FROM exams_results_computerized ERC,exams_results ER\r\n"
+					+ "WHERE ER.ExamID = ERC.ExamID AND ER.UsernameS=ERC.UsernameS AND ERC.ConfirmedByTeacher=1 AND ER.UsernameS='"+studnetId+"'");
+			while(rs.next()) {
+				ExamResultsTableStudent examRes=new ExamResultsTableStudent(rs.getString(1), studnetId, rs.getString(2));
+				listExamsResults.add(examRes);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		try {
+			Statement stmt1=con.createStatement();
+			ResultSet rs=stmt1.executeQuery("SELECT distinct ER.ExamID,ER.UsernameS FROM exams_results_manual ERM,exams_results ER\r\n"
+					+ "WHERE ER.ExamID = ERM.ExamID AND ER.UsernameS=ERM.UsernameS AND ERM.FileCopy is not null AND ER.UsernameS='"+studnetId+"'");
+			while(rs.next()) {
+				ExamResultsTableStudent examRes=new ExamResultsTableStudent(rs.getString(1), studnetId, "---");
+				listExamsResults.add(examRes);
+			}
+			rs.close();
+			client.sendToClient(listExamsResults);
+		} catch (SQLException e) {
+			// TODO: handle exception
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		
+	}
+		
 
 }
