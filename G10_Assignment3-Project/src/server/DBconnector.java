@@ -914,7 +914,8 @@ public class DBconnector {
 		IExam exam = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM exams E WHERE E.ExamID = '" + examID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT E.*, B.SubjectID FROM exams E, banks B WHERE E.ExamID = '" + examID + "'"
+					+ " and E.BankID=B.BankID");
 
 			while (rs.next()) {
 				if (rs.getString(9).equals("C"))
@@ -922,13 +923,13 @@ public class DBconnector {
 					// allocatedTime, String scores,
 					// String studentComments, String teacherComments, String author, String type) {
 					exam = new ComputerizedExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getString(7), rs.getString(8), "C");
+							rs.getString(6), rs.getString(7), rs.getString(8), "C",rs.getString(10));
 				else if (rs.getString(9).equals("M")) {
 					System.out.println("before creating the manual exam instance");
 					//	public ManualExam(String examID, String bankID, String courseID, String
 					//		allocatedTime, String author, String type)
 					exam = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
-							"M");
+							"M",rs.getString(10));
 				}
 			}
 			System.out.println("DB_CONNECTOR :: THE EXAM :" + exam);
@@ -1415,22 +1416,22 @@ public class DBconnector {
 			throws IOException {
 		List<IExam> examList = new ArrayList<>();
 
-		examList.add(new Exam("getExamsBySubjectAndUsername", "", "", "", "", ""));
+		examList.add(new Exam("getExamsBySubjectAndUsername", "", "", "", "", "",""));
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT E.* FROM exams E WHERE E.bankID = "
+			ResultSet rs = stmt.executeQuery("SELECT E.*, B.SubjectID FROM exams E, banks B WHERE E.bankID = "
 					+ "	(SELECT B.BankID FROM banks B WHERE B.UsernameT = '" + username + "' AND B.SubjectID = "
 					+ "	(SELECT S.SubjectID FROM subjects S WHERE S.SubjectName = '" + subjectName + "'))");
 			while (rs.next()) {
 				if (rs.getString(9).equals("C")) {
 					ComputerizedExam ce = new ComputerizedExam(rs.getString(1), rs.getString(2), rs.getString(3),
 							rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8),
-							rs.getString(9));
+							rs.getString(9),rs.getString(10));
 					examList.add(ce);
 				} else {
 					ManualExam me = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(8), rs.getString(9)/* , rs.getBlob(10) */);
+							rs.getString(8), rs.getString(9),rs.getString(10)/* , rs.getBlob(10) */);
 					examList.add(me);
 
 				}
@@ -1966,7 +1967,7 @@ public class DBconnector {
 						"SELECT DISTINCT C.CourseName FROM courses C, exams_results_computerized ER, exams E, banks B "
 								+ "WHERE ER.UsernameS='" + userName
 								+ "' AND E.ExamID=ER.ExamID AND C.CourseID=E.CourseID "
-								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID");
+								+ "AND B.BankID=E.BankID AND B.SubjectID=C.SubjectID and ER.ConfirmedByTeacher = '1'");
 				while (rs.next()) {
 					System.out.println("there are courses with exams for student " + userName);
 					coursesList.add(rs.getString(1));
@@ -2177,13 +2178,13 @@ public class DBconnector {
 		List<IExam> examsDetails = new ArrayList<>();
 		// public Exam(String examID, String bankID, String courseID, String
 		// allocatedTime, String author,String type) {
-		examsDetails.add(new Exam("getExamsTableViewInfo", "", "", "", "", ""));
+		examsDetails.add(new Exam("getExamsTableViewInfo", "", "", "", "", "",""));
 		ComputerizedExam ce;
 		ManualExam me;
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * From exams");
+			ResultSet rs = stmt.executeQuery("SELECT E.*, B.SubjectID From exams E, banks B where E.BankID = B.BankID");
 			while (rs.next()) {
 				// FIX!!
 				System.out.println(rs.getString(9));
@@ -2193,7 +2194,7 @@ public class DBconnector {
 					// allocatedTime, String scores,
 					// String studentComments, String teacherComments, String author, String type) {
 					ce = new ComputerizedExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getString(7), rs.getString(8), "Computerized");
+							rs.getString(6), rs.getString(7), rs.getString(8), "Computerized",rs.getString(11));
 					setSecondTableExamData(rs.getString(1), ce);
 					examsDetails.add(ce);
 				}
@@ -2205,7 +2206,7 @@ public class DBconnector {
 					// public ManualExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String author, String type) {
 					me = new ManualExam(rs.getString(1), "", rs.getString(3), rs.getString(4), rs.getString(8),
-							"Manual"/* , rs.getBlob(10) */);
+							"Manual",rs.getString(11)/* , rs.getBlob(10) */);
 					setSecondTableExamData(rs.getString(1), me);
 					examsDetails.add(me);
 				}
