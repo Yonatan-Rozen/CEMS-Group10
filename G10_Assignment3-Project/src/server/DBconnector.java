@@ -229,7 +229,6 @@ public class DBconnector {
 			case "sbViewRequests":
 				getRequestsToPrinciple(request[1],client);
 				break;
-
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -259,6 +258,11 @@ public class DBconnector {
 				break;
 			case "UpdateStudentFinalGrade":
 				updateStudentFinalGrade((ComputerizedResults) request[1], client);
+			case "updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID":
+				updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID((String)request[1],(String)request[2],(List<Question>)request[3],(String[])request[4], client);
+				//ClientUI.chat.accept(new Object[] { "updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID", examID, ChatClient.user.getUsername(), questionsOfExam, answersOfStudent });
+
+				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
@@ -359,7 +363,7 @@ public class DBconnector {
 			return;
 		}
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -434,7 +438,7 @@ public class DBconnector {
 		System.out.println("UPLOAD FILE ---------------> END");
 		client.sendToClient("");
 	}
-	
+
 	// ***********************************************************************************************
 	/**
 	 * @param string examid
@@ -2583,6 +2587,46 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
+	}
+
+	private void updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID(String examID, String studentID,List<Question> questionsOfExam,String[] answersOfStudent, ConnectionToClient client) throws IOException
+	{
+		for(int i=0;i<questionsOfExam.size();i++) {
+			int isCorrect=(questionsOfExam.get(i).getCorrectAnswer().equals(answersOfStudent[i]))? 1:0;
+			//=================================================================================================
+			try {
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO answered_questions (ExamID, QuestionID, UsernameS, StudentAnswer, IsCorrect)"
+						+ " VALUES (?,?,?,?,?)");
+				stmt.setString(1, examID);
+				stmt.setString(2,questionsOfExam.get(i).getQuestionID() );
+				stmt.setString(3, studentID);
+				stmt.setString(4, answersOfStudent[i]);
+				stmt.setInt(5, isCorrect);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+
+			// update answered_questions if the tupple allready existed
+			try {
+				PreparedStatement stmt = con.prepareStatement(
+						"UPDATE answered_questions SET StudentAnswer= ?, IsCorrect= ?  WHERE ExamID= ? AND QuestionID= ? AND UsernameS= ?");
+				stmt.setString(1, answersOfStudent[i]);
+				stmt.setInt(2, isCorrect);
+				stmt.setString(3, examID);
+				stmt.setString(4,questionsOfExam.get(i).getQuestionID() );
+				stmt.setString(5, studentID);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				client.sendToClient("sql exception");
+				e.printStackTrace();
+				return;
+			}
+			//=================================================================================================
+		}
+		client.sendToClient("");
 	}
 
 }
