@@ -223,7 +223,7 @@ public class DBconnector {
 			case "sbViewRequests":
 				getRequestsToPrinciple(request[1],client);
 				break;
-				
+
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -2242,7 +2242,9 @@ public class DBconnector {
 					"SELECT DISTINCT E.Author, B.UsernameT FROM exams E, courses C , banks B, exams_results_computerized RC "
 							+ "WHERE C.CourseID=E.CourseID and E.ExamID=RC.ExamID and C.CourseID= '"
 							+ courseIDafterSplit + "' and C.SubjectID='" + subjectID
-							+ "' and B.BankID=E.BankID and B.SubjectID=C.SubjectID ORDER BY E.ExamID");
+							+ "' and B.BankID=E.BankID and B.SubjectID=C.SubjectID "
+							+ "and exists (select * from exams_results_computerized X where X.ExamID=E.ExamID and X.ConfirmedByTeacher='1') "
+							+ "ORDER BY E.ExamID");
 			while (rs.next()) {
 				TeachrsNamesList.add(rs.getString(1) + " ID:" + rs.getString(2)); // Danielle Sarusi ID:3
 				// TeachrsIDsList.add(rs.getString(2));
@@ -2448,14 +2450,14 @@ public class DBconnector {
 		System.out.println("QUERY FOR MANUAL EXAM----------> END");
 		client.sendToClient("");
 	}
-	
+
 	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException
 	{
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM request R WHERE R.principle = '" + principle + "'");
-			while (rs.next()) 
+			while (rs.next())
 			{
 				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
 			}
