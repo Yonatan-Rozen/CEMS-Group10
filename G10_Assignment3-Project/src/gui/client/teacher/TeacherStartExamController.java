@@ -216,6 +216,8 @@ public class TeacherStartExamController implements Initializable {
 			addedAmountTf.setText("");
 			codeTf.setText("");
 			//	chooseExamCb.setValue("--------------------------------------------");
+			//	commonMethodHandler.getNewAlert(AlertType.CONFIRMATION, "Exam update", "The exam had been locked successfully.").showAndWait();
+
 			//			try {
 			//				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 			//				System.out.println("finally DONE !==============================");
