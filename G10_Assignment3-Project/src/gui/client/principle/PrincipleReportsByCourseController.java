@@ -183,7 +183,11 @@ public class PrincipleReportsByCourseController implements Initializable {
 		if (examResultsList.size() == 1) {
 			System.out.println("list length for teacherID " + teachersCb.getValue() + "has only one exam");
 			nextRepBtn.setDisable(true);
-		} else {
+		}
+		else if(examResultsList.size() == 0) {
+
+		}
+		else {
 			System.out.println(
 					"list length for teacherID " + teachersCb.getValue() + " has " + examResultsList.size() + " exams");
 			nextRepBtn.setDisable(false);
