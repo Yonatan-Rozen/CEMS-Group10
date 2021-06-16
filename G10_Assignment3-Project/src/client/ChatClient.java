@@ -22,6 +22,7 @@ import gui.client.principle.PrincipleViewRequestsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
+import gui.client.student.StudentTakeExamManuallyController;
 import gui.client.teacher.TeacherCheckAnswersController;
 import gui.client.teacher.TeacherCheckExamResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
@@ -40,6 +41,7 @@ import logic.exam.Exam;
 import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
 import logic.exam.IExam;
+import logic.exam.ManualExam;
 import logic.exam.Request;
 import logic.question.Question;
 import logic.question.QuestionInExam;
@@ -102,9 +104,10 @@ public class ChatClient extends AbstractClient {
 			handleArraysMessagesFromServer((Object[]) msg);
 		} else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		// else if (msg instanceof ManualExam)
-		// StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
-		else if (msg instanceof Boolean)
+		else if (msg instanceof ManualExam) {
+			System.out.println("ChatClient msg instanceof MANUAL_EXAM");
+			StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
+		} else if (msg instanceof Boolean)
 			PrincipleViewReportsController.pvrController.setDoesExit((boolean) msg);
 		else if(msg instanceof Request)
 			PrincipleViewRequestsController.pvrController.fillRequstTable((Request)msg);
@@ -513,7 +516,7 @@ public class ChatClient extends AbstractClient {
 
 			else
 				sendToServer(obj); // <-- message being sent to the server
-			
+
 			awaitResponse = true;
 			if (obj != null && obj instanceof String[] && ((String[])obj)[0].equals("SendMessageExamIDExamTypeAndExamCode") && ((String[])obj)[1] == null) {
 				awaitResponse = false;
