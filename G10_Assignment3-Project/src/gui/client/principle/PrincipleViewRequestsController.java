@@ -68,7 +68,7 @@ public class PrincipleViewRequestsController implements Initializable {
 		Request request = requestsTv.getSelectionModel().getSelectedItem();
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
-		ClientUI.chat.accept(new String[] { "SendMessageRequestAccepted",teacherUserName});
+		ClientUI.chat.accept(new Object[] { "SendMessageRequestAccepted",request});
 	}
 
 	@FXML
