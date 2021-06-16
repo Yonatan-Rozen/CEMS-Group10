@@ -19,7 +19,6 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import logic.exam.ExamResults;
 
 public class PrincipleReportsByCourseController implements Initializable {
@@ -27,8 +26,8 @@ public class PrincipleReportsByCourseController implements Initializable {
 	@FXML
 	private BarChart<String, Integer> sbHistogramBc;
 
-//	@FXML
-//	private AnchorPane sbBarChartContainerPn;
+	//	@FXML
+	//	private AnchorPane sbBarChartContainerPn;
 
 	@FXML
 	private NumberAxis sbAmountAxisNa;
@@ -75,7 +74,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private static Button showReportsByTeacherBtn;
 	private static Button backToViewReportsBtn;
 	private static Label courseIDLbl;
-//	private static AnchorPane barChartContainerPn;
+	//	private static AnchorPane barChartContainerPn;
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> teachersList = FXCollections.observableArrayList();
@@ -91,7 +90,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-//			barChartContainerPn = sbBarChartContainerPn;
+			//			barChartContainerPn = sbBarChartContainerPn;
 			prbcController = new PrincipleReportsByCourseController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -119,7 +118,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 			teachersCb.setItems(teachersList);
 
 			// hide barchart until after pressing SHOW
-//			barChartContainerPn.setVisible(false);
+			//			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -193,7 +192,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
-//		barChartContainerPn.setVisible(true);
+		//		barChartContainerPn.setVisible(true);
 	}
 
 	// EXTERNAL METHODS *******************************************************

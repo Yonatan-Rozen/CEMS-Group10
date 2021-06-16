@@ -8,24 +8,25 @@ import logic.question.QuestionInExam;
 public class ComputerizedResults extends ExamResultOfStudent{
 
 	private String computerizedGrade;
-	private String teacherGrade = "";
-	private String teacherComment = "";
 	private List<QuestionInExam> questions;
 	private String[] studentAnswers;
 	private boolean[] isCorrect;
+	//from teacher
+	private String teacherGrade = "";
+	private String teacherComment = "";
 	private List<String> comments;
-	
+
 	public ComputerizedResults(String examID, String studentID, String computerizedGrade, String teacherGrade, String teacherComment) {
 		super(examID, studentID);
 		setComputerizedGrade(computerizedGrade);
 		setTeacherGrade(teacherGrade);
 		setTeacherComment(teacherComment);
 	}
-	
+
 	public List<QuestionInExam> getQuestions() {
 		return questions;
 	}
-	
+
 	public void setQuestions(List<QuestionInExam> questions) {
 		this.questions = questions;
 	}
@@ -45,7 +46,7 @@ public class ComputerizedResults extends ExamResultOfStudent{
 	public void setComments(List<String> comments) {
 		this.comments = comments;
 	}
-	
+
 	public void setCommentAtIndex(int index, String comment) {
 		this.comments.set(index, comment);
 	}
@@ -57,7 +58,7 @@ public class ComputerizedResults extends ExamResultOfStudent{
 	public void setIsCorrect(boolean[] isCorrect) {
 		this.isCorrect = isCorrect;
 	}
-	
+
 	public String getComputerizedGrade() {
 		return computerizedGrade;
 	}
@@ -65,7 +66,7 @@ public class ComputerizedResults extends ExamResultOfStudent{
 	public void setComputerizedGrade(String computerizedGrade) {
 		this.computerizedGrade = computerizedGrade;
 	}
-	
+
 	public String getTeacherGrade() {
 		return teacherGrade;
 	}
@@ -84,12 +85,13 @@ public class ComputerizedResults extends ExamResultOfStudent{
 		if (teacherComment != null)
 			this.teacherComment = teacherComment;
 	}
-	
+
 	@Override
 	public String getType() {
 		return "Computerized";
 	}
-	
+
+	@Override
 	public String toString() {
 		return String.format("{%s, %s, %s, %s}", getExamID(), getStudentID(), getComputerizedGrade(), getTeacherGrade());
 	}
