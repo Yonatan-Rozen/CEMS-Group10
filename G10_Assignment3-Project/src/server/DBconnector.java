@@ -236,7 +236,10 @@ public class DBconnector {
 				getQuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
 			case "sbViewRequests":
-				getRequestsToPrinciple(request[1], client);
+				getRequestsToPrinciple(client);
+				break;				
+			case "sbDeleteRequests":
+				deleteRequestsToPrinciple(client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
@@ -2602,15 +2605,15 @@ System.out.println("after inserting everything about MANUAL exam besides the fil
 		client.sendToClient("");
 	}
 
-	private void getRequestsToPrinciple(String principle, ConnectionToClient client) throws IOException {
+
+	private void getRequestsToPrinciple(ConnectionToClient client) throws IOException
+	{
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM request R WHERE R.principle = '" + principle + "'");
-			while (rs.next()) {
-				request = new Request(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getString(5));
-			}
+			ResultSet rs = stmt.executeQuery("SELECT * FROM request");
+			while (rs.next())
+				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 			client.sendToClient(request);
 			rs.close();
 
@@ -2620,6 +2623,30 @@ System.out.println("after inserting everything about MANUAL exam besides the fil
 			e.printStackTrace();
 			return;
 		}
+	}
+	private void deleteRequestsToPrinciple(ConnectionToClient client) throws IOException
+	{
+		String usernameT=null;
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT UsernameT FROM request");
+			while (rs.next())
+				usernameT = rs.getString(2);
+			rs.close();			
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		try {
+			PreparedStatement stmt = con.prepareStatement("DELETE FROM requests");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+		client.sendToClient(new String[] {"GetTeacherUserNameFromRequest",usernameT});
 	}
 
 	/**
