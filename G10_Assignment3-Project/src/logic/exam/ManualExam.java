@@ -14,8 +14,8 @@ public class ManualExam extends Exam{
 	}
 
 	//Blob file;
-	public ManualExam(String examID, String bankID, String courseID, String allocatedTime, String author, String type/*, Blob file*/) {
-		super(examID, bankID, courseID, allocatedTime, author, type);
+	public ManualExam(String examID, String bankID, String courseID, String allocatedTime, String author, String type,String subjectID/*, Blob file*/) {
+		super(examID, bankID, courseID, allocatedTime, author, type,subjectID);
 		//this.file = file;
 	}
 

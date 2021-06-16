@@ -20,6 +20,7 @@ import gui.client.principle.PrincipleViewQuestionsInfoScreenController;
 import gui.client.principle.PrincipleViewReportsController;
 import gui.client.principle.PrincipleViewRequestsController;
 import gui.client.principle.PrincipleViewUsersInfoScreenController;
+import gui.client.student.StudentExamResultsController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.student.StudentTakeExamManuallyController;
@@ -41,6 +42,7 @@ import logic.exam.ComputerizedExam;
 import logic.exam.Exam;
 import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResults;
+import logic.exam.ExamResultsTableStudent;
 import logic.exam.IExam;
 import logic.exam.ManualExam;
 import logic.exam.Request;
@@ -416,6 +418,19 @@ public class ChatClient extends AbstractClient {
 				break;
 			}
 
+		}
+		else if(obj instanceof ExamResultsTableStudent) {
+			List<ExamResultsTableStudent> examsResultsList = (List<ExamResultsTableStudent>) msg;
+			System.out.println(examsResultsList);
+			switch (((ExamResultsTableStudent) obj).getExamID()) {
+			case "getExamResultsByStudentId":
+				StudentExamResultsController.serController.setExamDetails(examsResultsList);
+				break;
+
+			default:
+				ClientController.display(((ExamResultsTableStudent) obj).getExamID() + " is missing!");
+				break;
+			}
 		}
 	}
 

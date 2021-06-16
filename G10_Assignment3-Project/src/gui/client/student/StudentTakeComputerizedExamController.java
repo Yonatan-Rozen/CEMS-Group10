@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import client.ChatClient;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
@@ -274,7 +273,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 
 	public void stopExam(String submited) throws IOException {
 		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
-		
+
 		// elapsed time in nanoseconds
 		estimatedTime = System.nanoTime() - startTime;
 
@@ -286,7 +285,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		int grade = calcAutomaticGrade();
 
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
-		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime), examID, String.format("%d", grade), exam.getAllocatedTime(), submited);
+		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime), examID, String.format("%d", grade), exam.getAllocatedTime(), submited,questionsOfExam,answersOfStudent);
 	}
 
 }
