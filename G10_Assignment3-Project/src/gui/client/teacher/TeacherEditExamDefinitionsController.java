@@ -1,11 +1,5 @@
 package gui.client.teacher;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,18 +12,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 import logic.question.Question;
-import logic.question.QuestionInExam;
 
 
 /*
@@ -167,54 +158,6 @@ public class TeacherEditExamDefinitionsController implements Initializable {
 		editTa.setDisable(true);
 		allocatedTimeTa.setText("Enter Time !!!");
 		totalScoreLbl.setText("0");
-
-//		// set up table view
-//		questionIDTc.setCellValueFactory(new PropertyValueFactory<Question, String>("questionID"));
-//		questionIDTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-//		// set up table view
-//		scoreTc.setCellValueFactory(new PropertyValueFactory<Question, String>("CorrectAnswer"));
-//		scoreTc.setStyle("-fx-alignment: CENTER; -fx-font-weight: Bold;");
-//
-//		// set button cells for the 'Update Time' Column
-//		Callback<TableColumn<Question, Void>, TableCell<Question, Void>> btnCellFactory5 = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
-//
-//			@Override
-//			public TableCell<Question, Void> call(final TableColumn<Question, Void> param5) {
-//				final TableCell<Question, Void> cell2 = new TableCell<Question, Void>() {
-//					private final Button btn = new Button();
-//					private final ImageView addicon = new ImageView(new Image("/icon_edit.png"));
-//
-//					@Override
-//					public void updateItem(Void item, boolean empty) {
-//						super.updateItem(item, empty);
-//						btn.setStyle("-fx-background-color: transparent;");
-//						btn.setPrefSize(40, 20);
-//						addicon.setPreserveRatio(true);
-//						addicon.setFitHeight(20);
-//						addicon.setFitWidth(40);
-//						btn.setGraphic(addicon);
-//						if (empty) {
-//							setGraphic(null);
-//						} else {
-//							btn.setOnAction(e -> {
-//								Question question = getTableRow().getItem();
-//								ShowQuestionAndEditScore(question);
-//							});
-//							setGraphic(btn);
-//						}
-//					}
-//				};
-//				cell2.setAlignment(Pos.CENTER);
-//				return cell2;
-//			}
-//		};
-//		editTc.setCellFactory(btnCellFactory5);
-//
-//		questionList = TeacherCreateExamController.tceController.getCurrentList();
-//		questionObservableList.addAll(questionList);
-//		System.out.println("2 = " + questionObservableList);
-//		scoreQuestionsTv.setItems(questionObservableList);
-
 	}
 
 	@FXML
@@ -232,7 +175,6 @@ public class TeacherEditExamDefinitionsController implements Initializable {
 		// sql for update score in 'question in exam'
 		String curScore = totalScoreLbl.getText();
 		int IcurScore = Integer.parseInt(curScore);
-//		IcurScore += 15;
 		totalScoreLbl.setText(String.valueOf(IcurScore += 15));
 
 	}
@@ -269,7 +211,6 @@ public class TeacherEditExamDefinitionsController implements Initializable {
 		editBtn.setDisable(false);
 		editTa.setDisable(false);
 
-		////
 		answer1Rb.setSelected(false);
 		answer2Rb.setSelected(false);
 		answer3Rb.setSelected(false);

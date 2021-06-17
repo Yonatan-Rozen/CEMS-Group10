@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ChatClient;
-import client.ClientController;
 import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;

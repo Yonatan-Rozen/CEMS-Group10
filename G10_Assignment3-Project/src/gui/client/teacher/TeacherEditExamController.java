@@ -187,8 +187,6 @@ public class TeacherEditExamController implements Initializable {
 			leftPanelAp.setDisable(false);
 			circle.setStyle("-fx-fill: #f4f4f4;");
 
-//			CourseList.clear(); // clear list <---- not used - Yonatan
-
 			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),
 					ChatClient.user.getUsername() });
 
@@ -275,10 +273,6 @@ public class TeacherEditExamController implements Initializable {
 			else // case "M"
 				commentsAp.setDisable(true);
 
-			//////
-			// set text in student&teacher comments(with sql query??)
-			//////
-
 			allocatedTimeTf.setText(exam.getAllocatedTime());
 			ExamID = exam.getExamID();
 
@@ -352,21 +346,17 @@ public class TeacherEditExamController implements Initializable {
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		bankList.addAll(msg);
 	}
 
 	public void setCourseChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		CourseList.addAll(msg);
-		System.out.println(CourseList);
 	}
 
 	public void setExamTableView(List<IExam> examsList) {
 		examList = examsList;
 		examObservableList.clear();
 		examObservableList.addAll(examsList);
-		System.out.println("examObservableList " + examObservableList);
 		examsTv.setItems(examObservableList);
 	}
 

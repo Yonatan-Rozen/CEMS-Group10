@@ -58,13 +58,13 @@ public class TeacherViewRequestsController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void BtnPressAcceptRequest(ActionEvent event) {
-		// TODO send change allocated time request to server
+		//  send change allocated time request to server
 		System.out.println("TeacherViewRequests::BtnPressAcceptRequest");
 	}
 
 	@FXML
 	void BtnPressDeclineRequest(ActionEvent event) {
-		// TODO send message "request declined" to teacher
+		//  send message "request declined" to teacher
 		System.out.println("TeacherViewRequests::BtnPressDeclineRequest");
 	}
 }

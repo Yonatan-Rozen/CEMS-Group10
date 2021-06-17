@@ -109,7 +109,6 @@ public class TeacherReportsController implements Initializable {
 			
 		});
 		
-		//choiceBoxEvents();
 	}
 
 	// ACTION METHODS *******************************************************
@@ -151,13 +150,6 @@ public class TeacherReportsController implements Initializable {
 
 	// INTERNAL USE METHODS *************************************************
 
-	/**
-	 * 
-	 */
-//	@SuppressWarnings("unchecked")
-//	private void choiceBoxEvents() {
-//		
-//	}
 	
 
 	/**
@@ -188,7 +180,6 @@ public class TeacherReportsController implements Initializable {
 	 * @param examResultsList The exam results list
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResults) {
-		System.out.println("setExamResultsDetails :::" + examResults);
 		examResultsList.clear();
 		examResultsList.addAll(examResults);
 	}

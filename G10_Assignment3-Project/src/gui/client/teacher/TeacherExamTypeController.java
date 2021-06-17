@@ -1,35 +1,16 @@
 package gui.client.teacher;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import client.ChatClient;
-import client.ClientUI;
 import common.CommonMethodsHandler;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import jdk.jshell.spi.ExecutionControl.ExecutionControlException;
-import logic.question.Question;
 
 public class TeacherExamTypeController implements Initializable {
 	public static TeacherExamTypeController tetController;
@@ -55,12 +36,6 @@ public class TeacherExamTypeController implements Initializable {
 	private static Button manualBtn;
 	private static ImageView typeImg;
 
-	// STATIC INSTANCES *****************************************************
-//	public static ObservableList<String> bankList = FXCollections.observableArrayList("----------");
-//	public static ObservableList<String> CourseList = FXCollections.observableArrayList("----------");
-//	private static List<Question> questionList;
-//	ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
-//	private static String msg;
 
 	// INITIALIZE METHOD ****************************************************
 	@Override

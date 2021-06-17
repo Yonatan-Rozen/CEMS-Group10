@@ -152,7 +152,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreTc = sbScoreTc;
 		editTc = sbEditTc;
 		backBtn = sbBackBtn;
-//		backBtn.setBackground(Color.red);
 		finishBtn = sbFinishBtn;
 		editBtn = sbEditBtn;
 		totalScoreLbl = sbTotalScoreLbl;
@@ -281,15 +280,8 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 			if (checkScores()) {
 				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
 						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTf.getText(), "1",
-						ChatClient.user.getUsername() });
-
-				
-				
-				//string of scores xx|yy|zz|xx and update in sql?
-				
-				
-				
-				
+						ChatClient.user.getUsername() });				
+			
 				ButtonType buttonYes = new ButtonType("Yes");
 				ButtonType buttonNo = new ButtonType("No");
 				Optional<ButtonType> request = cmh.getNewAlert(AlertType.INFORMATION, "Exam saved",
@@ -342,8 +334,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
 		editTf.setDisable(false);
-		editTf.setText(locateRow.get(questionupdatescore.getQuestionID())); // TODO <-->
-		////
+		editTf.setText(locateRow.get(questionupdatescore.getQuestionID())); 
 		answer1Rb.setSelected(false);
 		answer2Rb.setSelected(false);
 		answer3Rb.setSelected(false);

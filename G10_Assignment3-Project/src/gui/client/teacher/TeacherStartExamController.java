@@ -168,11 +168,6 @@ public class TeacherStartExamController implements Initializable {
 			TeacherMenuBarController.menuBarAp.setDisable(false);
 			ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
 
-			System.out.println(">>>>-------- CONTINUING to problametic query");
-			//	ClientUI.chat.accept(new String[] {"SendMessageExamIDExamTypeAndExamCode", null, null, null,ChatClient.user.getUsername()});
-			System.out.println("<<<<-------- finished to problametic query");
-
-			//	System.out.println(String.format("examID=%s examType=%s examCode=%s", examID,examType,codeTf.getText()));
 		}
 	}
 
@@ -209,12 +204,10 @@ public class TeacherStartExamController implements Initializable {
 
 	public void IncStudentsInExam() {
 		studentsInExam++;
-		System.out.println("student entered exam : studentsInExam = "+studentsInExam);
 	}
 
 	public void DecStudentsInExam(){
 		studentsInExam--;
-		System.out.println("student submitted : studentsInExam = "+studentsInExam);
 		if(studentsInExam==0)
 		{
 			//lock exam
@@ -227,21 +220,7 @@ public class TeacherStartExamController implements Initializable {
 			commentsTa.setText("");
 			addedAmountTf.setText("");
 			codeTf.setText("");
-			//	chooseExamCb.setValue("--------------------------------------------");
-			//	commonMethodHandler.getNewAlert(AlertType.CONFIRMATION, "Exam update", "The exam had been locked successfully.").showAndWait();
-
-			//			try {
-			//				ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-			//				System.out.println("finally DONE !==============================");
-			//			}catch(IllegalStateException e2) {
-			//				e2.printStackTrace();
-			//				System.out.println("blabla");
-			//			}
-			//			catch (IOException e) {
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//				System.out.println("shut up");
-			//			}
+			
 		}
 	}
 

@@ -99,7 +99,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		questionSubjectCb.setItems(subjectList);
 		
 		// set up a listener that sets the disable value of 
-		// 'createQuestionBtn' acurding to the selected value
+		// 'createQuestionBtn' according to the selected value
 		questionSubjectCb.getSelectionModel().selectedItemProperty().addListener(
 			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
 			{
