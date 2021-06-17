@@ -174,88 +174,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		startTime = System.nanoTime();
 	}
 
-	private void startTimer() {
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						sec--;
-						ddHour = dFormat.format(hour);
-						ddMin = dFormat.format(min);
-						timerLbl.setText(ddHour + ":" + ddMin);
-						if (sec == -1) {
-							sec = 59;
-							min--;
-							ddMin = dFormat.format(min);
-							timerLbl.setText(ddHour + ":" + ddMin);
-						}
-						if (min == -1) {
-							hour--;
-							sec = 59;
-							min = 59;
-							ddMin = dFormat.format(min);
-							ddHour = dFormat.format(hour);
-							timerLbl.setText(ddHour + ":" + ddMin);
-						}
-						if (sec == 0 && min == 0 & hour == 0) {
-							timer.cancel();
-							cancel();
-							if (additionalTime != null) {
-								initializeTimer(additionalTime);
-								Timer extraTime = new Timer();
-								extraTime.schedule(new TimerTask() {
-									@Override
-									public void run() {
-										Platform.runLater(new Runnable() {
-											@Override
-											public void run() {
-												sec--;
-												ddHour = dFormat.format(hour);
-												ddMin = dFormat.format(min);
-												timerLbl.setText(ddHour + ":" + ddMin);
-												if (sec == -1) {
-													sec = 59;
-													min--;
-													ddMin = dFormat.format(min);
-													timerLbl.setText(ddHour + ":" + ddMin);
-												}
-												if (min == -1) {
-													hour--;
-													sec = 59;
-													min = 59;
-													ddMin = dFormat.format(min);
-													ddHour = dFormat.format(hour);
-													timerLbl.setText(ddHour + ":" + ddMin);
-												}
-												if (sec == 0 && min == 0 & hour == 0) {
-													timerLbl.setText("Time Is Finished");
-													extraTime.cancel();
-													cancel();
-													try { stopExam("Not successful");
-													} catch (IOException e) { e.printStackTrace(); }
-												}
-											}
-										});
-
-									}
-								}, 0, 100); // TODO change to 1000!
-							}
-							else
-								try { stopExam("Not successful");
-								} catch (IOException e) { e.printStackTrace(); }
-						}
-					}
-				});
-
-			}
-		}, 0, 100); // TODO change to 1000!
-
-
-	}
-
 	@FXML
 	void rbPressAnswer1(ActionEvent event) {
 		System.out.println("StudentTakeComputerizedExam::rbPressAnswer1");
@@ -332,10 +250,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	 */
 	public void setCourseName(String courseName) {
 		examOfCourseLbl.setText("Exam - " + courseName);
-	}
-
-	public void setAdditionalTime(String time) {
-		additionalTime = time;
 	}
 
 

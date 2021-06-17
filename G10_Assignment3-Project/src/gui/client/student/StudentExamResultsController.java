@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import common.CommonMethodsHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,13 +22,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import logic.exam.ExamResultOfStudent;
 import logic.exam.ExamResultsTableStudent;
 
 public class StudentExamResultsController implements Initializable {
-	
+
 	public static StudentExamResultsController serController=new StudentExamResultsController();
-	
+
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Button sbGetCopyBtn;
@@ -51,7 +51,11 @@ public class StudentExamResultsController implements Initializable {
 	private Desktop desktop = Desktop.getDesktop();
 	private static String FileName;
 	private static String FilePath;
-	
+	private static String type;
+
+	// CONTROLLER INSTANCES **********************************************
+	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -74,7 +78,10 @@ public class StudentExamResultsController implements Initializable {
 		// TODO DOWNLOAD BLOB FILE ?
 		System.out.println("StudentExamResults::btnPressGetCopy");
 		ExamResultsTableStudent selectedResult = tableViewExam.getSelectionModel().getSelectedItem();
-		if(selectedResult.getType().equals("M"))
+		//query to get the type of exam
+		ClientUI.chat.accept(new String[] { "getExamTypeByExamID",selectedResult.getExamID()});
+
+		if(type.equals("M"))
 		{
 			//TODO download file
 			DirectoryChooser chooser = new DirectoryChooser();
@@ -88,17 +95,21 @@ public class StudentExamResultsController implements Initializable {
 				if (selectedDirectory != null) {
 					FileName = selectedDirectory.getName();
 					FilePath = selectedDirectory.getPath(); // path
-				//	uploadFileTf.setText(FilePath);
+					//	uploadFileTf.setText(FilePath);
 				}
 			} catch (RuntimeException e) {
 				e.printStackTrace();
 			}
 
 			System.out.println("path = " + FilePath);
-		ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", selectedResult.getExamID() , FilePath , "viewRes", selectedResult.getStudentID()});
+			ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", selectedResult.getExamID() , FilePath , "viewRes", selectedResult.getStudentID()});
 		}
 		else {// type == "C"
 			// TODO go to viwing checked exam FXML
+			StudentMenuBarController.mainPaneBp.setCenter(commonmeMethodsHandler.getPane("student", "StudentViewCheckedComputerizedExam"));
+			ClientUI.chat.accept(new String[] { "getmissingData",selectedResult.getExamID(), ChatClient.user.getUsername()});
+
+			StudentViewCheckedComputerizedExamController.svcceController.setExamOfStudentDetails(selectedResult);
 		}
 	}
 
@@ -110,5 +121,9 @@ public class StudentExamResultsController implements Initializable {
 		} catch (IllegalStateException e) {
 		}
 		System.out.println("StudentExamResultsController :: AFTER SET EXAM DETAILS");
+	}
+
+	public void setType(String t) {
+		type=t;
 	}
 }

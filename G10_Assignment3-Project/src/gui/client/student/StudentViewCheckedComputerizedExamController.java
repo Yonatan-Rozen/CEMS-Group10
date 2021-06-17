@@ -1,4 +1,4 @@
-package gui.client.teacher;
+package gui.client.student;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
 import common.CommonMethodsHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,14 +18,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import logic.exam.ComputerizedResults;
+import logic.exam.ExamResultsTableStudent;
 import logic.question.QuestionInExam;
 
-public class TeacherCheckAnswersController implements Initializable {
-	public static TeacherCheckAnswersController tcaController;
+public class StudentViewCheckedComputerizedExamController implements Initializable {
+	public static StudentViewCheckedComputerizedExamController svcceController;
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private TextArea sbQuestionCommentTa;
@@ -62,7 +61,7 @@ public class TeacherCheckAnswersController implements Initializable {
 	private ImageView sbCheckAnswerIv;
 
 	@FXML
-	private Button sbAcceptGradeBtn;
+	private Button sbGoBackToExamResultsBtn;
 
 	@FXML
 	private Label sbQuestionNumberLbl;
@@ -74,16 +73,13 @@ public class TeacherCheckAnswersController implements Initializable {
 	private Label sbQuestionScoreLbl;
 
 	@FXML
-	private TextField sbFinalGradeTf;
-
-	@FXML
-	private Label sbComputerizedGradeLbl;
+	private Label sbFinalGradeLbl;
 
 	@FXML
 	private TextArea sbExamCommentTa;
 
-	@FXML
-	private Button sbBackBtn;
+	//	@FXML
+	//	private Button sbBackBtn;
 
 	@FXML
 	private ImageView sbQuestionLegendIv;
@@ -99,8 +95,6 @@ public class TeacherCheckAnswersController implements Initializable {
 	private static Label examIDLbl;
 	private static ImageView checkAnswerIv;
 	private static Label questionBodyLbl;
-	private static Label computerizedGradeLbl;
-	private static TextField finalGradeTf;
 	private static ToggleGroup questionsTg;
 	private static RadioButton answer1Rb;
 	private static RadioButton answer2Rb;
@@ -109,7 +103,8 @@ public class TeacherCheckAnswersController implements Initializable {
 	private static Label questionNumberLbl;
 	private static Label questionScoreLbl;
 	private static Label noAnswerLbl;
-	private static Button backBtn;
+	private static Label finalGradeLbl;
+	//private static Button backBtn;
 
 	// STATIC INSTANCES *****************************************************
 	private static CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
@@ -126,20 +121,17 @@ public class TeacherCheckAnswersController implements Initializable {
 	private static int currentIndex;
 	private static int lastIndex;
 	private static RadioButton selected;
-
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tcaController = new TeacherCheckAnswersController();
+		svcceController = new StudentViewCheckedComputerizedExamController();
 		questionCommentTa = sbQuestionCommentTa;
 		examCommentTa = sbExamCommentTa;
 		studentIDLbl = sbStudentIDLbl;
 		questionsBb = sbQuestionsBb;
 		examIDLbl = sbExamIDLbl;
-		finalGradeTf = sbFinalGradeTf;
 		questionNumberLbl = sbQuestionNumberLbl;
 		questionBodyLbl = sbQuestionBodyLbl;
-		computerizedGradeLbl = sbComputerizedGradeLbl;
 		questionsTg = sbQuestionsTg;
 		answer1Rb = sbAnswer1Rb;
 		answer2Rb = sbAnswer2Rb;
@@ -148,9 +140,10 @@ public class TeacherCheckAnswersController implements Initializable {
 		questionScoreLbl = sbQuestionScoreLbl;
 		checkAnswerIv = sbCheckAnswerIv;
 		noAnswerLbl = sbNoAnswerLbl;
+		finalGradeLbl = sbFinalGradeLbl;
 		sbQuestionLegendIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
 		sbFinalScoreIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
-		TeacherMenuBarController.menuBarAp.setDisable(true);
+		StudentMenuBarController.menuBarContainerAp.setDisable(true);
 		que.clear();
 		answers.clear();
 		cor.clear();
@@ -163,46 +156,29 @@ public class TeacherCheckAnswersController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressAcceptGrade(ActionEvent event) {
-		for (boolean checked : checked)
-			if (!checked) {
-				cmh.getNewAlert(AlertType.INFORMATION, "Question Checking", "Please check all the questions!").showAndWait();
-				return;
-			}
-
-		if (finalGradeTf.getText().isEmpty()) {
-			cmh.getNewAlert(AlertType.INFORMATION, "Insert Final Grade", "Please insert final grade.Note that you must provide a reason for a grade change", "Press ok to continue.") .showAndWait();
-			return;
-		}
-		if (!finalGradeTf.getText().equals(examOfStudent.getComputerizedGrade()) && examCommentTa.getText().isEmpty()) {
-			cmh.getNewAlert(AlertType.INFORMATION, "Missing comment", "Note that you must provide a reason for a grade change", "Press ok to continue.") .showAndWait();
-			return;
-		}
-
-		examOfStudent.setTeacherComment(examCommentTa.getText());
-		ClientUI.chat.accept(new Object[] { "UpdateStudentFinalGrade", examOfStudent});
-		TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
-	}
-
-	@FXML
-	public void btnPressBack(ActionEvent event) {
+	void btnPressGoBack(ActionEvent event) {
 		ButtonType buttonYes = new ButtonType("Yes");
 		ButtonType buttonKeepChecking = new ButtonType("Keep checking");
-		Optional<ButtonType> result = cmh.getNewAlert(AlertType.CONFIRMATION, "Cancel Check", "Note that the checking process will reset,\nand all added comments will be discarded.",
+		Optional<ButtonType> result = cmh.getNewAlert(AlertType.CONFIRMATION, "Finish view", "You will be brought back to your checked exams table.",
 				"Are you sure you want to continue?",buttonYes,buttonKeepChecking).showAndWait();
 		if (result.get() == buttonYes)
-			TeacherMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
-	}
+			//****************************//
+			StudentMenuBarController.mainPaneBp.setCenter(cmh.getPane("student", "StudentExamResults"));
+
+		//		examOfStudent.setTeacherComment(examCommentTa.getText());
+
+		//		StudentMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
+	}			//****************************//
+
+
+
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setExamOfStudentDetails(ComputerizedResults examOfStudent) {
-		this.examOfStudent = examOfStudent;
+	public void setExamOfStudentDetails(ExamResultsTableStudent examOfStudent) {
+		//		this.examOfStudent = examOfStudent;
 		examIDLbl.setText(examOfStudent.getExamID());
 		studentIDLbl.setText(examOfStudent.getStudentID());
-		computerizedGradeLbl.setText(examOfStudent.getComputerizedGrade());
-		ClientUI.chat.accept(new String[] { "GetQuestionInExamWithStudentAnswers", examOfStudent.getExamID(),
-				examOfStudent.getStudentID(),"T" });
-
+		finalGradeLbl.setText(examOfStudent.getGrade());
 		questionsBb.getButtons().clear();
 
 		int amount = que.size();
@@ -210,7 +186,7 @@ public class TeacherCheckAnswersController implements Initializable {
 		Button btn;
 		for (int questionIndex = 1; questionIndex <= amount; questionIndex++) {
 			btn = new Button(questionIndex + "");
-			setQuestionButton(questionIndex, btn, examOfStudent.getStudentAnswers()[questionIndex - 1]);
+			setQuestionButton(questionIndex, btn,answers.get(questionIndex - 1));
 			questionsBb.getButtons().add(btn);
 		}
 
@@ -223,24 +199,25 @@ public class TeacherCheckAnswersController implements Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (lastComment != null)
-					examOfStudent.setCommentAtIndex(lastIndex, lastComment);
+				//				if (lastComment != null)
+				//					com.set(lastIndex, com.get(questionIndex));
+				//					examOfStudent.setCommentAtIndex(lastIndex, lastComment);
 				if (lastButton != null)
 					lastButton.setStyle("-fx-background-color: #90EE90;");
 				b.setStyle("-fx-background-color: #2E5984;");
 				lastButton = b;
 				lastIndex = currentIndex;
 				currentIndex = questionIndex - 1;
-				q = examOfStudent.getQuestions().get(currentIndex);
+				q = que.get(currentIndex);
 				questionNumberLbl.setText(questionIndex + "");
 				questionBodyLbl.setText(q.getQuestionBody());
 				answer1Rb.setText(q.getAnswer1());
 				answer2Rb.setText(q.getAnswer2());
 				answer3Rb.setText(q.getAnswer3());
 				answer4Rb.setText(q.getAnswer4());
-				questionScoreLbl.setText(examOfStudent.getQuestions().get(currentIndex).getQuestionScore());
-				lastComment = questionCommentTa.getText();
-				questionCommentTa.setText(examOfStudent.getComments().get(currentIndex));
+				questionScoreLbl.setText(que.get(currentIndex).getQuestionScore());
+				//				lastComment = questionCommentTa.getText();
+				questionCommentTa.setText(com.get(currentIndex));
 
 				switch (studentAnswer) {
 				case "1":
@@ -271,7 +248,7 @@ public class TeacherCheckAnswersController implements Initializable {
 				answer4Rb.setStyle(null);
 
 				noAnswerLbl.setVisible(false);
-				if (examOfStudent.getIsCorrect()[currentIndex]) {
+				if (cor.get(currentIndex)) {
 					checkAnswerIv.setImage(CommonMethodsHandler.ICON_CORRECT);
 				} else {
 					checkAnswerIv.setImage(CommonMethodsHandler.ICON_WRONG);
@@ -316,20 +293,8 @@ public class TeacherCheckAnswersController implements Initializable {
 		com.addAll((List<String>) msg[4]);
 
 		int amount = que.size();
-		String[] studentAnswers = new String[amount];
-		boolean[] isCorrect = new boolean[amount];
 		checked = new boolean[amount];
-
-		for (int i = 0; i < amount; i++) {
-			String x = answers.get(i);
-			studentAnswers[i] = answers.get(i);
-			isCorrect[i] = cor.get(i);
-		}
-
-		examOfStudent.setQuestions(que); // questions;
-		examOfStudent.setStudentAnswers(studentAnswers); // studentAnswers;
-		examOfStudent.setIsCorrect(isCorrect); // isCorrect;
-		examOfStudent.setComments(com); // comments;
 	}
+
 
 }
