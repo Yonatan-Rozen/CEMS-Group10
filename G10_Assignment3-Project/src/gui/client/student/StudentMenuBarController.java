@@ -50,7 +50,7 @@ public class StudentMenuBarController implements Initializable {
 	private ImageView sbMenuBg;
 
 	// STATIC INSTANCES *****************************************************
-	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	private CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 	private static Button currentBtn;
 
 	// STATIC JAVAFX INSTANCES **********************************************
@@ -73,11 +73,11 @@ public class StudentMenuBarController implements Initializable {
 		mainPaneBp = sbMainPaneBp;
 		menuBarContainerAp=sbMenuBarContainerAp;
 		backBtn = sbBackBtn;
-		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
-
+		backBtn.getStyleClass().clear();
+		backBtn.getStyleClass().add("backToMenu-button");
+		
 		menuBg = sbMenuBg;
 		menuBg.setImage(new Image("/menubar_bg.png"));
-		//		menuBg.setPreserveRatio(false);
 		menuBg.setFitHeight(600);
 		menuBg.setFitWidth(230);
 
@@ -103,7 +103,8 @@ public class StudentMenuBarController implements Initializable {
 			System.out.println("STUDENT_MenuBar ELSE");
 			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2],readyExamData[3]);
 			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
-			currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, takeExamBtn);
+			cmh.fadeInAndOut(mainPaneBp, "student", "StudentEnterCode");
+			currentBtn = cmh.disablePropertySwapper(currentBtn, takeExamBtn);
 		}
 	}
 
@@ -111,14 +112,16 @@ public class StudentMenuBarController implements Initializable {
 	public void btnPressSettings(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML
 	public void btnPressViewExamResults(ActionEvent event) {
 		System.out.println("StudentMenuBar::btnPressViewExamResults");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentExamResults"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewExamResultsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "student", "StudentExamResults");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, viewExamResultsBtn);
 	}
 
 	@FXML

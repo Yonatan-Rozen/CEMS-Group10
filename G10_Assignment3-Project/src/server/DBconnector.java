@@ -1174,7 +1174,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-
+		
 		client.sendToClient("ChangePassword SUCCESS - Your password was changed successfully!");
 	}
 

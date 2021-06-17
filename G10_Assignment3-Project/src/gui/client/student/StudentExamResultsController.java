@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,8 +31,6 @@ public class StudentExamResultsController implements Initializable {
 	@FXML
 	private Button sbGetCopyBtn;
 	@FXML
-	private Label sbCommentExamResultLbl;
-	@FXML
 	private TableView<ExamResultsTableStudent> sbExamResultsTbl;
 	@FXML
 	private TableColumn<ExamResultsTableStudent, String> sbExamIdClm;
@@ -44,7 +41,6 @@ public class StudentExamResultsController implements Initializable {
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static Button getCopyBtn;
-	private static Label commentExamResultLbl;
 	private static TableView<ExamResultsTableStudent> tableViewExam;
 	private static ObservableList<ExamResultsTableStudent> examsDetails;
 	FileChooser fileChooser = new FileChooser();
@@ -62,14 +58,10 @@ public class StudentExamResultsController implements Initializable {
 		tableViewExam = sbExamResultsTbl;
 		examsDetails = FXCollections.observableArrayList();
 		getCopyBtn = sbGetCopyBtn;
-		commentExamResultLbl = sbCommentExamResultLbl;
 		sbExamIdClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("examID"));
 		sbCourseNameClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("courseName"));
 		sbGradeClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("grade"));
-		System.out.println("StudentExamResultsController :: BEFORE ACCEPT *********************");
 		ClientUI.chat.accept(new String[] { "getExamResultsForStudentsExamResults", ChatClient.user.getUsername()});
-		System.out.println("StudentExamResultsController :: AFTER ACCEPT *********************");
-
 	}
 
 	// ACTION METHODS *******************************************************

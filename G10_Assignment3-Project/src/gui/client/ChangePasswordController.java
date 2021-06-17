@@ -58,9 +58,11 @@ public class ChangePasswordController implements Initializable{
 		cpController = this;
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/client/ChangePassword.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/common/Client.css").toExternalForm());
 		stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);
+		stage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		stage.show();
 	}
 	
@@ -82,6 +84,8 @@ public class ChangePasswordController implements Initializable{
     	
     	ClientUI.chat.accept(new String[] {"btnPressConfirmChange" ,ChatClient.user.getUsername(), ChatClient.user.getPassword(), currentPasswordPf.getText(), newPasswordPf.getText(), reNewPasswordPf.getText()});
     	CommonMethodsHandler.getInstance().getNewAlert(type, title, msg).showAndWait();
+    	if(msg.contains("Your password was changed successfully!"))
+    		stage.close();
     }
     
     // EXTERNAL USE METHODS **************************************************

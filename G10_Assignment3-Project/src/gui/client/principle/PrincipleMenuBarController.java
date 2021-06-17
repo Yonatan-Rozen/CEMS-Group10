@@ -56,7 +56,6 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button viewInfoBtn;
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
-	private static Hyperlink logoutLnk;
 	private static Button backBtn;
 	protected static BorderPane mainPaneBp;
 	protected static AnchorPane menuBarAp;
@@ -66,7 +65,7 @@ public class PrincipleMenuBarController implements Initializable {
 	private static Button currentBtn;
 
 	// CONTROLLER INSTANCES ***************************************************
-	private CommonMethodsHandler commonmeMethodsHandler = CommonMethodsHandler.getInstance();
+	private CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
@@ -75,15 +74,13 @@ public class PrincipleMenuBarController implements Initializable {
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn;
 		settingsBtn = sbSettingsBtn;
-		logoutLnk = sbLogoutLnk;
 		mainPaneBp = sbMainPaneBp;
 		menuBarAp=sbMenuBarAp;
 		backBtn = sbBackBtn;
-		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
-		
+		backBtn.getStyleClass().clear();
+		backBtn.getStyleClass().add("backToMenu-button");
 		menuBg = sbMenuBg;
 		menuBg.setImage(new Image("/menubar_bg.png"));
-//		menuBg.setPreserveRatio(false);
 		menuBg.setFitHeight(600);
 		menuBg.setFitWidth(230);
 		
@@ -101,28 +98,32 @@ public class PrincipleMenuBarController implements Initializable {
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewRequests");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewRequests"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewRequestsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewRequests");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, viewRequestsBtn);
 	}
 
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewInfo");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewInfoBtn);
+		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewInfo");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, viewInfoBtn);
 	}
 
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewReports");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewReports"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, viewReportsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewReports");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, viewReportsBtn);
 	}
 
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressSettings");
 		mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("client", "UserSettings"));
-		currentBtn = commonmeMethodsHandler.disablePropertySwapper(currentBtn, settingsBtn);
+		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
+		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 
 	@FXML

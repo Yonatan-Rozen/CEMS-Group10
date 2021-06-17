@@ -270,9 +270,9 @@ public class CommonMethodsHandler {
 		if (currentBtn != null) {
 //			currentBtn.setGraphic(new ImageView("/icon_empty.png"));
 			currentBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
-			currentBtn.setDisable(false);
+			currentBtn.setMouseTransparent(false);
 		}
-		newBtn.setDisable(true);
+		newBtn.setMouseTransparent(true);
 //		newBtn.setGraphic(new ImageView("/icon_v.png"));
 		newBtn.setStyle("-fx-background-image: url('/icon_v.png') ; -fx-background-repeat: no-repeat;");
 

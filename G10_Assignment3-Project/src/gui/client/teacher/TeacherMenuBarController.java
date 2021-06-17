@@ -97,7 +97,8 @@ public class TeacherMenuBarController implements Initializable {
 		checkExamResultsBtn = sbCheckExamResultsBtn;
 		settingsBtn = sbSettingsBtn;
 		backBtn = sbBackBtn;
-		backBtn.setStyle("-fx-background-color: transparent ; -fx-background-image: url('/icon_menu.png') ; -fx-background-repeat: no-repeat;");
+		backBtn.getStyleClass().clear();
+		backBtn.getStyleClass().add("backToMenu-button");
 		mainPaneBp = sbMainPaneBp;
 		menuBg = sbMenuBg;
 		menuBg.setImage(new Image("/menubar_bg.png"));
@@ -130,7 +131,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressCreateQuestion(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressCreateQuestion");
 		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherCreateQuestion");
-		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCreateQuestion"));
 		currentBtn = cmh.disablePropertySwapper(currentBtn, createQuestionBtn);
 	}
 
@@ -138,7 +138,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressEditExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressEditExam");
 		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherEditExam");
-		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherEditExam"));
 		currentBtn = cmh.disablePropertySwapper(currentBtn, editExamBtn);
 	}
 
@@ -154,7 +153,6 @@ public class TeacherMenuBarController implements Initializable {
 
 		if (TeacherMenuController.choiceBoxesList != null) {
 			cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherChooseEditQuestion");
-			//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherChooseEditQuestion"));
 			TeacherChooseEditQuestionController.tceqController.setSubjectChoiceBox(TeacherMenuController.choiceBoxesList);
 			TeacherMenuController.choiceBoxRequested = false;
 
@@ -166,7 +164,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressStartExam(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressStartExam");
 		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherStartExam");
-		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherStartExam"));
 		currentBtn = cmh.disablePropertySwapper(currentBtn, startExamBtn);
 	}
 
@@ -182,7 +179,6 @@ public class TeacherMenuBarController implements Initializable {
 		}
 
 		if (TeacherMenuController.choiceBoxesList != null) {
-			//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherReports"));
 			cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherReports");
 			TeacherReportsController.trController.setCoursesChoiseBox(TeacherMenuController.choiceBoxesList);
 			currentBtn = cmh.disablePropertySwapper(currentBtn, viewReportsBtn);
@@ -198,7 +194,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressCheckExamResults(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressComputerizedResults");
 		cmh.fadeInAndOut(mainPaneBp, "teacher", "TeacherCheckExamResults");
-		//mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
 		currentBtn = cmh.disablePropertySwapper(currentBtn, checkExamResultsBtn);
 	}
 
@@ -206,7 +201,6 @@ public class TeacherMenuBarController implements Initializable {
 	public void btnPressSettings(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressSettings");
 		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
-		//mainPaneBp.setCenter(cmh.getPane("client", "UserSettings"));
 		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
 

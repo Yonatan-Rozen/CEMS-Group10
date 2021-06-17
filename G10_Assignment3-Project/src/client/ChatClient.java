@@ -245,13 +245,7 @@ public class ChatClient extends AbstractClient {
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
-			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
-			// ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword
-			// ERROR - ".length()));
-		} else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
-			ChangePasswordController.cpController
-			.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
