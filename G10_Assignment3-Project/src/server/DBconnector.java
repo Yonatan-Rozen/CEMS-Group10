@@ -130,7 +130,7 @@ public class DBconnector {
 			case "btnPressStartExam":
 				System.out.println(">>>GOT HERE to get the exam so the student could start it");
 				getExamByExamID(request[1], client); // getExamByExamID(examID, client)
-				if(request[2].equals("C"))
+				if (request[2].equals("C"))
 					getExamsQuestionsByExamID(request[1], client); // getExamsQuestionsByExamID(examID, client)
 				System.out.println("<<<GOT HERE cause finished to get the exam so the student could start it");
 				break;
@@ -203,8 +203,8 @@ public class DBconnector {
 				// break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
-			case "GetTypeOfExamAndOptionalComments":
-				getTypeOfExamAndOptionalComments(request[1], client);
+			case "GetTypeOfExamAndOptionalCommentsAndAllocatedTime":
+				getTypeOfExamAndOptionalCommentsAndAllocatedTime(request[1], client);
 				break;
 			case "GetFullComputerizedExamInfoByExamID": // TODO this query isn't used !
 				getFullComputerizedExamDetailsByID(request[1], client);
@@ -284,6 +284,8 @@ public class DBconnector {
 				// "updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID",
 				// examID, ChatClient.user.getUsername(), questionsOfExam, answersOfStudent });
 
+			case "TeacherRequestExtraTime":
+				teacherRequestExtraTime((Request)request[1],client);
 				break;
 			default:
 				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
@@ -291,6 +293,24 @@ public class DBconnector {
 				break;
 			}
 		}
+	}
+
+	private void teacherRequestExtraTime(Request request, ConnectionToClient client) throws IOException {
+		try {
+			PreparedStatement stmt = con.prepareStatement(
+					"INSERT INTO requests (ExamID, UsernameT, AllocatedTime, AddedTime) VALUES (?,?,?,?)");
+			stmt.setString(1, request.getExamID());
+			stmt.setString(2, request.getUsernameT());
+			stmt.setString(3, request.getAllocatedTime());
+			stmt.setString(4, request.getNewAllocatedTime());
+			stmt.executeUpdate();
+			client.sendToClient("");
+		} catch (SQLException e) {
+			client.sendToClient("sql exception");
+			e.printStackTrace();
+			return;
+		}
+
 	}
 
 	/**
@@ -1735,7 +1755,7 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-	 * Sends the teacher the comments made by the creator and the type of the exam
+	 * Sends the superviser: the comments made by the creator and the exam, and it's type
 	 *
 	 * @param examID The exam ID
 	 * @param client The supervising teacher
@@ -1743,26 +1763,18 @@ public class DBconnector {
 	 *
 	 * @author Yonatan Rozen
 	 */
-	private void getTypeOfExamAndOptionalComments(String examID, ConnectionToClient client) throws IOException {
-		String[] typeAndOptionalComments = new String[] { "setTypeAndOptionalTeacherComments", "", "" };
-		// IExam exam=null;
+	private void getTypeOfExamAndOptionalCommentsAndAllocatedTime(String examID, ConnectionToClient client) throws IOException {
+		String[] typeAndOptionalComments = new String[] { "setTypeAndOptionalTeacherComments", "", "" , ""};
+
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM exams WHERE ExamID = '" + examID + "'");
 			if (rs.next()) {
-				// if (rs.getString(9).equals("C")) {
-				// exam = new ComputerizedExam(rs.getString(1), rs.getString(2),
-				// rs.getString(3), rs.getString(4),
-				// rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8),
-				// rs.getString(9));
-				// } else {
-				// exam = new ManualExam(rs.getString(1), rs.getString(2), rs.getString(3),
-				// rs.getString(4),
-				// rs.getString(8), rs.getString(9)); // TODO add rs.getString(10) [the actaul
-				// file]
-				// }
-				typeAndOptionalComments[1] = rs.getString(9);
-				typeAndOptionalComments[2] = rs.getString(7);
+
+
+				typeAndOptionalComments[1] = rs.getString(9); // type
+				typeAndOptionalComments[2] = rs.getString(7); // teacher comments
+				typeAndOptionalComments[3] = rs.getString(4); // allocated time
 			}
 			rs.close();
 			// client.sendToClient(new Object[] { "setRequestedExamInfo", exam });
@@ -2611,15 +2623,13 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
-
-	private void getRequestsToPrinciple(ConnectionToClient client) throws IOException
-	{
+	private void getRequestsToPrinciple(ConnectionToClient client) throws IOException {
 		Request request = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM requests");
 			while (rs.next())
-				request = new Request(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+				request = new Request(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
 			client.sendToClient(request);
 			rs.close();
 
@@ -2630,9 +2640,9 @@ public class DBconnector {
 			return;
 		}
 	}
-	private void deleteRequestsToPrinciple(ConnectionToClient client) throws IOException
-	{
-		String usernameT=null;
+
+	private void deleteRequestsToPrinciple(ConnectionToClient client) throws IOException {
+		String usernameT = null;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT UsernameT FROM requests");
@@ -2652,7 +2662,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-		client.sendToClient(new String[] {"GetTeacherUserNameFromRequest",usernameT});
+		client.sendToClient(new String[] { "GetTeacherUserNameFromRequest", usernameT });
 	}
 
 	/**
@@ -2663,7 +2673,7 @@ public class DBconnector {
 	 */
 	private void getExamResultsByStudentId(String studnetId, ConnectionToClient client) throws IOException {
 		List<ExamResultsTableStudent> listExamsResults = new ArrayList<ExamResultsTableStudent>();
-		listExamsResults.add(new ExamResultsTableStudent("getExamResultsByStudentId", "", "",""));
+		listExamsResults.add(new ExamResultsTableStudent("getExamResultsByStudentId", "", "", ""));
 		System.out.println("START getExamResultsByStudentId");
 		try {
 			System.out.println("-------1-------");
@@ -2671,10 +2681,11 @@ public class DBconnector {
 			ResultSet rs = stmt.executeQuery(
 					"SELECT distinct ER.ExamID,ERC.GradeByTeacher, C.CourseName FROM exams_results_computerized ERC,exams_results ER, banks B, courses C, exams E "
 							+ "WHERE ER.ExamID = ERC.ExamID AND ER.UsernameS=ERC.UsernameS AND ERC.ConfirmedByTeacher=1 AND ER.UsernameS='"
-							+ studnetId + "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
+							+ studnetId
+							+ "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
 			while (rs.next()) {
 				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId,
-						rs.getString(2),rs.getString(3));
+						rs.getString(2), rs.getString(3));
 				listExamsResults.add(examRes);
 			}
 			rs.close();
@@ -2691,9 +2702,11 @@ public class DBconnector {
 			ResultSet rs = stmt1.executeQuery(
 					"SELECT distinct ER.ExamID, C.CourseName FROM exams_results_manual ERM,exams_results ER, banks B, courses C, exams E "
 							+ "WHERE ER.ExamID = ERM.ExamID AND ER.UsernameS=ERM.UsernameS AND ERM.FileCopy is not null AND ER.UsernameS='"
-							+ studnetId + "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
+							+ studnetId
+							+ "' and E.ExamID=ER.ExamID and E.BankID=B.BankID and C.SubjectID=B.SubjectID and E.CourseID=C.courseID");
 			while (rs.next()) {
-				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId, "---",rs.getString(2));
+				ExamResultsTableStudent examRes = new ExamResultsTableStudent(rs.getString(1), studnetId, "---",
+						rs.getString(2));
 				listExamsResults.add(examRes);
 			}
 			rs.close();

@@ -30,6 +30,7 @@ public class StudentEnterCodeController implements Initializable {
 	private static String code;
 	private static String examType;
 	private static String examiningTeacherID;
+	protected static String additionalTime;
 
 	// CONTROLLER INSTANCES ****************************************************
 	public static StudentEnterCodeController secController=new StudentEnterCodeController();
@@ -99,5 +100,9 @@ public class StudentEnterCodeController implements Initializable {
 			StudentTakeComputerizedExamController.stceController.setExamID(examID);
 		else if(examType.equals("M"))
 			StudentTakeExamManuallyController.stemController.setExamID(examID);
+	}
+
+	public void setAdditionalTime(String newAllocatedTime) {
+		additionalTime = newAllocatedTime;
 	}
 }

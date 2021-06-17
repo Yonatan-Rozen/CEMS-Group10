@@ -4,10 +4,14 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import client.ClientUI;
 import common.CommonMethodsHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -24,6 +29,9 @@ import logic.exam.ManualExam;
 public class StudentTakeExamManuallyController implements Initializable {
 	public static StudentTakeExamManuallyController stemController = new StudentTakeExamManuallyController();;
 	// JAVAFX INSTNCES ******************************************************
+	@FXML
+	private Label sbTimerLbl;
+	
 	@FXML
 	private Hyperlink sbDownloadExamFileLnk;
 
@@ -37,6 +45,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	private TextField sbUploadFileTf;
 
 	// STATIC JAVAFX INSTANCES **********************************************
+	private static Label timerLbl;
 	private static Hyperlink downloadExamFileLnk;
 	private static Button submitExamBtn;
 	private static TextField uploadFileTf;
@@ -53,7 +62,11 @@ public class StudentTakeExamManuallyController implements Initializable {
 	private static String FilePath;
 	private static long startTime;
 	private static long estimatedTime;
-
+	
+	public static int sec, min, hour;
+	public String ddMin, ddHour;
+	public DecimalFormat dFormat = new DecimalFormat("00");
+	public Timer timer;
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -163,5 +176,96 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		StudentExamSubmittedController.sesController.setExamDetailsManual(String.format("%d", estimatedTime), examID, exam.getAllocatedTime(), submited, FilePath);
+	}
+	
+	private void initializeTimer(String time) {
+		hour = Integer.parseInt(time) / 60;
+		min = Integer.parseInt(time) % 60;
+		sec = 0;
+		ddHour = dFormat.format(hour);
+		ddMin = dFormat.format(min);
+		timerLbl.setText(ddHour + ":" + ddMin);
+	}
+
+	private void startTimer() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						sec--;
+						ddHour = dFormat.format(hour);
+						ddMin = dFormat.format(min);
+						timerLbl.setText(ddHour + ":" + ddMin);
+						if (sec == -1) {
+							sec = 59;
+							min--;
+							ddMin = dFormat.format(min);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (min == -1) {
+							hour--;
+							sec = 59;
+							min = 59;
+							ddMin = dFormat.format(min);
+							ddHour = dFormat.format(hour);
+							timerLbl.setText(ddHour + ":" + ddMin);
+						}
+						if (sec == 0 && min == 0 & hour == 0) {
+							timer.cancel();
+							cancel();
+							if (StudentEnterCodeController.additionalTime != null) {
+								initializeTimer(StudentEnterCodeController.additionalTime);
+								Timer extraTime = new Timer();
+								extraTime.schedule(new TimerTask() {
+									@Override
+									public void run() {
+										Platform.runLater(new Runnable() {
+											@Override
+											public void run() {
+												sec--;
+												ddHour = dFormat.format(hour);
+												ddMin = dFormat.format(min);
+												timerLbl.setText(ddHour + ":" + ddMin);
+												if (sec == -1) {
+													sec = 59;
+													min--;
+													ddMin = dFormat.format(min);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (min == -1) {
+													hour--;
+													sec = 59;
+													min = 59;
+													ddMin = dFormat.format(min);
+													ddHour = dFormat.format(hour);
+													timerLbl.setText(ddHour + ":" + ddMin);
+												}
+												if (sec == 0 && min == 0 & hour == 0) {
+													timerLbl.setText("Time Is Finished");
+													extraTime.cancel();
+													cancel();
+													try { stopExam("Not successful", null);
+													} catch (IOException e) { e.printStackTrace(); }
+												}
+											}
+										});
+
+									}
+								}, 0, 1000); // TODO change to 1000!
+							}
+							else 
+								try { stopExam("Not successful", null);
+								} catch (IOException e) { e.printStackTrace(); }
+						}
+					}
+				});
+
+			}
+		}, 0, 1000); // TODO change to 1000!
+
+		
 	}
 }

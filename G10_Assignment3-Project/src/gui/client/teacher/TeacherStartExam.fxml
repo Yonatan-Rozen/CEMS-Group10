@@ -87,6 +87,15 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
+            <HBox alignment="CENTER" layoutX="385.0" layoutY="222.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label fx:id="sbAnswerLbl" text="waiting for principle to answer..." wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
       <Line endX="550.0" layoutX="342.0" layoutY="412.0" startX="-334.0" />
