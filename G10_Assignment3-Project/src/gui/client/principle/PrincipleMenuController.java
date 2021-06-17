@@ -67,7 +67,6 @@ public class PrincipleMenuController implements Initializable {
 		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
-		// TODO welcomeLbl should be set with a name (e.x : 'welcome, Ron')
 		viewRequestsBtn = sbViewRequestsBtn;
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn;

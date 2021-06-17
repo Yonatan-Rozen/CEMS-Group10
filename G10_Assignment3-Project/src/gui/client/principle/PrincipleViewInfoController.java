@@ -35,7 +35,6 @@ public class PrincipleViewInfoController implements Initializable {
 
 	@FXML
 	void btnPressViewExams(ActionEvent event) throws Exception {
-		// TODO get exams data info from the database
 		System.out.println("PrincipleViewInfo::btnPressViewExams");
 		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewExamsInfoScreen"));
 	}

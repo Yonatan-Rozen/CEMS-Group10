@@ -65,7 +65,7 @@ public class PrincipleViewReportsController implements Initializable {
 		pvrController = new PrincipleViewReportsController();
 		prbtController = new PrincipleReportsByTeacherController();
 		methodsHandler.setTextLimiter(teacherUserNameTf, 9);
-		methodsHandler.setTextLimiter(courseIDTf, 4);// CHECK WAHT ABOUT SUBJECT ID ??????????? TODO you fixed it, right? - Yonatan
+		methodsHandler.setTextLimiter(courseIDTf, 4);
 		methodsHandler.setTextLimiter(studentIDTf, 9);
 		PrincipleMenuBarController.menuBarAp.setDisable(false);
 		sbQuestionLegendIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
@@ -74,7 +74,6 @@ public class PrincipleViewReportsController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressProduceByCourse(ActionEvent event) throws IOException {
-		// TODO show exam reports by course
 		System.out.println("PrincipleViewReports::btnPressProduceByCourse");
 		insertedValue = courseIDTf.getText();
 

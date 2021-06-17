@@ -64,7 +64,6 @@ public class PrincipleViewRequestsController implements Initializable {
 	@FXML
 	void btnPressAcceptRequest(ActionEvent event) 
 	{
-		// TODO send change allocated time request to server
 		Request request = requestsTv.getSelectionModel().getSelectedItem();
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
@@ -74,7 +73,6 @@ public class PrincipleViewRequestsController implements Initializable {
 	@FXML
 	void btnPressDeclineRequest(ActionEvent event) 
 	{
-		// TODO send message "request declined" to teacher
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
 		ClientUI.chat.accept(new String[] { "SendMessageRequestDeclined",teacherUserName});
