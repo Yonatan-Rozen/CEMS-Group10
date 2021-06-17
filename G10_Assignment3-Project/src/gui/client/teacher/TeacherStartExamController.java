@@ -130,13 +130,6 @@ public class TeacherStartExamController implements Initializable {
 		if (codeTf.getLength() != 4)
 			commonMethodHandler.getNewAlert(AlertType.WARNING, "Wrong Code", "Please enter a 4 character code.", "Press ok to continue.").showAndWait();
 		else {
-			//			Thread t= new Thread(()->{
-			//				while(true)
-			//				{
-			//					//t.start();
-			//					LocalDateTime.now();
-			//				}
-			//			});
 			TeacherMenuBarController.menuBarAp.setDisable(true);
 			topAp.setDisable(true);
 			botAp.setDisable(false);
@@ -244,9 +237,9 @@ public class TeacherStartExamController implements Initializable {
 	public static int getStudentsInExam() {
 		return studentsInExam;
 	}
-	
+
 	public static void showRequestResult()
 	{
-		
+
 	}
 }

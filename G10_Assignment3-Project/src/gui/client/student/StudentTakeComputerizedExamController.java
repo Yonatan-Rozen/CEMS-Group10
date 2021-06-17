@@ -125,6 +125,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	public String additionalTime;
 	// CONTROLLER INSTANCES *******************************************
 	public static StudentTakeComputerizedExamController stceController = new StudentTakeComputerizedExamController();
+	private static CommonMethodsHandler commonMethodHandler = CommonMethodsHandler.getInstance();
 
 	// INITIALIZE METHOD **********************************************
 	@Override
@@ -143,6 +144,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		answer4Rb = sbAnswer4Rb;
 		submitBtn = sbSubmitBtn;
 		studentIDTf = sbStudentIDTf;
+		commonMethodHandler.setTextLimiter(studentIDTf, 9);
 		alertCoreectIDLbl = sbAlertCoreectIDLbl;
 		examContainerAp = sbExamContainerAp;
 		examContainerAp.setDisable(true);
@@ -251,7 +253,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 									}
 								}, 0, 100); // TODO change to 1000!
 							}
-							else 
+							else
 								try { stopExam("Not successful");
 								} catch (IOException e) { e.printStackTrace(); }
 						}
@@ -261,7 +263,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			}
 		}, 0, 100); // TODO change to 1000!
 
-		
+
 	}
 
 	@FXML
@@ -341,7 +343,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	public void setCourseName(String courseName) {
 		examOfCourseLbl.setText("Exam - " + courseName);
 	}
-	
+
 	public void setAdditionalTime(String time) {
 		additionalTime = time;
 	}
@@ -400,7 +402,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		int grade = calcAutomaticGrade();
 
 		ClientUI.mainScene
-				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
+		.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		StudentExamSubmittedController.sesController.setExamDetailsComputerized(String.format("%d", estimatedTime),
 				examID, String.format("%d", grade), exam.getAllocatedTime(), submited, questionsOfExam,
 				answersOfStudent);
