@@ -75,7 +75,7 @@ public class StudentMenuBarController implements Initializable {
 		backBtn = sbBackBtn;
 		backBtn.getStyleClass().clear();
 		backBtn.getStyleClass().add("backToMenu-button");
-		
+
 		menuBg = sbMenuBg;
 		menuBg.setImage(new Image("/menubar_bg.png"));
 		menuBg.setFitHeight(600);
@@ -100,7 +100,6 @@ public class StudentMenuBarController implements Initializable {
 					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
 		}
 		else{
-			System.out.println("STUDENT_MenuBar ELSE");
 			StudentEnterCodeController.secController.setReadyExam(readyExamData[0],readyExamData[1],readyExamData[2],readyExamData[3]);
 			mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("student", "StudentEnterCode"));
 			cmh.fadeInAndOut(mainPaneBp, "student", "StudentEnterCode");

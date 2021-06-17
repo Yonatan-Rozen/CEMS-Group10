@@ -69,7 +69,6 @@ public class StudentExamResultsController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressGetCopy(ActionEvent event) {
-		// TODO DOWNLOAD BLOB FILE ?
 		System.out.println("StudentExamResults::btnPressGetCopy");
 		ExamResultsTableStudent selectedResult = tableViewExam.getSelectionModel().getSelectedItem();
 		//query to get the type of exam
@@ -77,7 +76,6 @@ public class StudentExamResultsController implements Initializable {
 
 		if(type.equals("M"))
 		{
-			//TODO download file
 			DirectoryChooser chooser = new DirectoryChooser();
 			chooser.setTitle("Save file");
 			//File defaultDirectory = new File("D:");
@@ -99,7 +97,6 @@ public class StudentExamResultsController implements Initializable {
 			ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", selectedResult.getExamID() , FilePath , "viewRes", selectedResult.getStudentID()});
 		}
 		else {// type == "C"
-			// TODO go to viwing checked exam FXML
 			StudentMenuBarController.mainPaneBp.setCenter(commonmeMethodsHandler.getPane("student", "StudentViewCheckedComputerizedExam"));
 			ClientUI.chat.accept(new String[] { "getmissingData",selectedResult.getExamID(), ChatClient.user.getUsername()});
 
@@ -114,7 +111,6 @@ public class StudentExamResultsController implements Initializable {
 			tableViewExam.setItems(examsDetails);
 		} catch (IllegalStateException e) {
 		}
-		System.out.println("StudentExamResultsController :: AFTER SET EXAM DETAILS");
 	}
 
 	public void setType(String t) {

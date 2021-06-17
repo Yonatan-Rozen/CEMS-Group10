@@ -81,6 +81,5 @@ public class StudentExamSubmittedController implements Initializable {
 		StudentExamSubmittedController.allocatedTime = allocatedTime;
 		StudentExamSubmittedController.submited = submited;
 		StudentExamSubmittedController.FilePath = FilePath;
-		System.out.println("manual "+estimatedTime +" "+ examID +" "+ allocatedTime +" "+ submited + " " + FilePath);
 	}
 }
