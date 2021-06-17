@@ -180,18 +180,11 @@ public class PrincipleReportsByCourseController implements Initializable {
 		System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetailsReportByCourse", teachersCb.getValue(),
 				PrincipleViewReportsController.insertedValue });
-		if (examResultsList.size() == 1) {
-			System.out.println("list length for teacherID " + teachersCb.getValue() + "has only one exam");
+		if (examResultsList.size() == 1) 	
 			nextRepBtn.setDisable(true);
-		}
-		else if(examResultsList.size() == 0) {
-
-		}
-		else {
-			System.out.println(
-					"list length for teacherID " + teachersCb.getValue() + " has " + examResultsList.size() + " exams");
+		else 
 			nextRepBtn.setDisable(false);
-		}
+		
 
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);

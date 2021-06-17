@@ -92,9 +92,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			sbAmountAxisNa.setTickLabelFormatter(isc);
-//			barChartContainerPn = sbBarChartContainerPn;
-//			if (barChartContainerPn == null)
-//				System.out.println("ITS NULL");
 			prbtController = new PrincipleReportsByTeacherController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -136,7 +133,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			showReportsByCourseBtn.setDisable(true);
 			System.out.println(PrincipleViewReportsController.insertedValue);
 			coursesList.addAll(PrincipleViewReportsController.list);
-			System.out.println("the list of courses with exams:\n" + coursesList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,16 +158,13 @@ public class PrincipleReportsByTeacherController implements Initializable {
 		index = 0;
 		System.out.println(PrincipleViewReportsController.insertedValue);
 		ClientUI.chat.accept(new String[] { "GetExamDetails", courcesCb.getValue(),
-				PrincipleViewReportsController.insertedValue, "P" });
-		// System.out.println("the list of exams:\n"+examResultsList);
-		if (examResultsList.size() == 1) {
-			System.out.println("list length for course " + courcesCb.getValue() + " has only one exam");
+		PrincipleViewReportsController.insertedValue, "P" });
+		
+		if (examResultsList.size() == 1)
 			nextRepBtn.setDisable(true);
-		} else {
-			System.out.println(
-					"list length for course " + courcesCb.getValue() + " has " + examResultsList.size() + " exams");
+		else 
 			nextRepBtn.setDisable(false);
-		}
+		
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();

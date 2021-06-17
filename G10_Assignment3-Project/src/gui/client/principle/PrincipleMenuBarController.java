@@ -94,6 +94,8 @@ public class PrincipleMenuBarController implements Initializable {
 	}
 
 	// ACTION METHODS *******************************************************
+	//=======================================================================================================
+	//Show Request
 	@FXML
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewRequests");
@@ -101,7 +103,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewRequests");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewRequestsBtn);
 	}
-
+	//=======================================================================================================
+	//Show Info
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewInfo");
@@ -109,7 +112,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewInfo");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewInfoBtn);
 	}
-
+	//=======================================================================================================
+	//Open Reports
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewReports");
@@ -117,7 +121,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewReports");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewReportsBtn);
 	}
-
+	//=======================================================================================================
+	//Open Settings
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressSettings");
@@ -125,13 +130,15 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
-
+	//=======================================================================================================
+	//Go Back To SignIn Form
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
-
+	//=======================================================================================================
+	//Go Back To Principle Menu
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::btnPressBack");

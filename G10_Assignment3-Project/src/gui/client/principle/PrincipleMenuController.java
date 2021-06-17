@@ -109,7 +109,7 @@ public class PrincipleMenuController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressSettings(event);
 	}
-
+	
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::lnkPressLogout");

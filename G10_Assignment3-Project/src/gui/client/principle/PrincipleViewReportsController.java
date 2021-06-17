@@ -77,10 +77,8 @@ public class PrincipleViewReportsController implements Initializable {
 		// TODO show exam reports by course
 		System.out.println("PrincipleViewReports::btnPressProduceByCourse");
 		insertedValue = courseIDTf.getText();
-		System.out.println(insertedValue);
 
 		if (insertedValue.equals("") || insertedValue.equals(null)) {
-			System.out.println("INSIDE IF");
 			methodsHandler
 			.getNewAlert(AlertType.ERROR, "Error message", "No course ID was inserted.", "Please re-enter.")
 			.showAndWait();
@@ -97,7 +95,6 @@ public class PrincipleViewReportsController implements Initializable {
 		// else
 		else {
 			ClientUI.chat.accept(new String[] { "GetTeachers", insertedValue });
-			System.out.println("AFTER ACCEPT");
 			if (list.size() == 0) {
 				methodsHandler
 				.getNewAlert(AlertType.ERROR, "Error message",
