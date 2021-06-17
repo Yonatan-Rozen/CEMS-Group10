@@ -64,6 +64,7 @@ public class StudentExamResultsController implements Initializable {
 		ClientUI.chat.accept(new String[] { "getExamResultsForStudentsExamResults", ChatClient.user.getUsername()});
 	}
 
+	
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressGetCopy(ActionEvent event) {
