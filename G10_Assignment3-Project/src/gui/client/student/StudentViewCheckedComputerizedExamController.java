@@ -76,20 +76,11 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 	private Label sbFinalGradeLbl;
 
 	@FXML
-	private TextArea sbExamCommentTa;
-
-	//	@FXML
-	//	private Button sbBackBtn;
-
-	@FXML
 	private ImageView sbQuestionLegendIv;
 
-	@FXML
-	private ImageView sbFinalScoreIv;
 
 	// STATIC JAVAFX INSTANCES **********************************************
 	private static TextArea questionCommentTa;
-	private static TextArea examCommentTa;
 	private static Label studentIDLbl;
 	private static ButtonBar questionsBb;
 	private static Label examIDLbl;
@@ -126,7 +117,6 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 	public void initialize(URL location, ResourceBundle resources) {
 		svcceController = new StudentViewCheckedComputerizedExamController();
 		questionCommentTa = sbQuestionCommentTa;
-		examCommentTa = sbExamCommentTa;
 		studentIDLbl = sbStudentIDLbl;
 		questionsBb = sbQuestionsBb;
 		examIDLbl = sbExamIDLbl;
@@ -142,7 +132,6 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 		noAnswerLbl = sbNoAnswerLbl;
 		finalGradeLbl = sbFinalGradeLbl;
 		sbQuestionLegendIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
-		sbFinalScoreIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
 		StudentMenuBarController.menuBarContainerAp.setDisable(true);
 		que.clear();
 		answers.clear();
@@ -161,14 +150,11 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 		ButtonType buttonKeepChecking = new ButtonType("Keep checking");
 		Optional<ButtonType> result = cmh.getNewAlert(AlertType.CONFIRMATION, "Finish view", "You will be brought back to your checked exams table.",
 				"Are you sure you want to continue?",buttonYes,buttonKeepChecking).showAndWait();
-		if (result.get() == buttonYes)
-			//****************************//
+		if (result.get() == buttonYes) {
 			StudentMenuBarController.mainPaneBp.setCenter(cmh.getPane("student", "StudentExamResults"));
-
-		//		examOfStudent.setTeacherComment(examCommentTa.getText());
-
-		//		StudentMenuBarController.mainPaneBp.setCenter(cmh.getPane("teacher", "TeacherCheckExamResults"));
-	}			//****************************//
+			StudentMenuBarController.menuBarContainerAp.setDisable(false);
+		}
+	}
 
 
 

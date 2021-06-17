@@ -17,14 +17,14 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentViewCheckedComputerizedExamController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.client.student.StudentViewCheckedComputerizedExamController">
    <children>
       <Label layoutX="234.0" layoutY="14.0" text="Checked Answers Of Exam" textAlignment="JUSTIFY" underline="true">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TextArea fx:id="sbQuestionCommentTa" layoutX="475.0" layoutY="306.0" prefHeight="105.0" prefWidth="364.0" wrapText="true">
+      <TextArea fx:id="sbQuestionCommentTa" focusTraversable="false" layoutX="475.0" layoutY="306.0" mouseTransparent="true" prefHeight="105.0" prefWidth="364.0" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
@@ -101,7 +101,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="sbGoBackToExamResultsBtn" layoutX="547.0" layoutY="537.0" mnemonicParsing="false" onAction="#btnPressGoBack" prefWidth="287.0" text="Go Back To Your Exams' Results">
+      <Button fx:id="sbGoBackToExamResultsBtn" layoutX="514.0" layoutY="519.0" mnemonicParsing="false" onAction="#btnPressGoBack" prefWidth="287.0" text="Go Back To Your Exams' Results">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
