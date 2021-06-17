@@ -215,7 +215,6 @@ public class DBconnector {
 				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
 						request[5], request[6], client);
 				break;
-
 			case "updateManualSubmittedExamInfoByExamIDandStudentID":
 				UpdateManualSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
 						request[5], client);
