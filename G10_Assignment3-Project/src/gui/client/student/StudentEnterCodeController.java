@@ -51,17 +51,12 @@ public class StudentEnterCodeController implements Initializable {
 
 		if (code.equals(codeTf.getText())) {
 			if (examType.equals("C"))
-				//ClientUI.mainScene.setRoot(FXMLLoader
-				//	.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 			if (examType.equals("M"))
-				//				ClientUI.mainScene.setRoot(
-				//						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 			StudentMenuBarController.smbController.menuBarContainerAp.setDisable(true);
 
-			//TeacherStartExamController.tseController.studentsInExam++;
-			ClientUI.chat.accept(new String[] {"SendMessageIncNumStudentsInExam",examiningTeacherID}); // TODO (increments the amount of students that are in the running exam)
+			ClientUI.chat.accept(new String[] {"SendMessageIncNumStudentsInExam",examiningTeacherID}); //(increments the amount of students that are in the running exam)
 		}
 
 		// if the student didn't insert the correct code
@@ -82,20 +77,12 @@ public class StudentEnterCodeController implements Initializable {
 	 * @param examTypeFromTeacher the type of the exam (manual or computerized)
 	 * @param examID the ID of the exam that started
 	 *
-	 *                        TODO get current code and exam-type from teacher to
-	 *                        all active students
 	 */
 	public void setReadyExam(String codeFromTeacher, String examTypeFromTeacher, String examID, String examiningTeacherID) {
-		System.out.println("GOT TO SETREADYEXAM of student ENTER CODE-------------------------->");
-		if(examID==null) System.out.println("GOT TO SETREADYEXAM of student ENTER CODE + null-------------------------->");
-
-		//System.out.println("codeFromTeacher = "+codeFromTeacher+"\nexamTypeFromTeacher = "+examTypeFromTeacher+"\nexamID = "+examID);
 		StudentEnterCodeController.examiningTeacherID=examiningTeacherID;
 		code = codeFromTeacher;
-		//	System.out.println("code=" + code);
 
 		examType = examTypeFromTeacher;
-		//System.out.println("examType=" + examType);
 		if(examType.equals("C"))
 			StudentTakeComputerizedExamController.stceController.setExamID(examID);
 		else if(examType.equals("M"))

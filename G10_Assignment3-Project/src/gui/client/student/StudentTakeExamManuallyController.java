@@ -31,7 +31,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private Label sbTimerLbl;
-	
+
 	@FXML
 	private Hyperlink sbDownloadExamFileLnk;
 
@@ -62,7 +62,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	private static String FilePath;
 	private static long startTime;
 	private static long estimatedTime;
-	
+
 	public static int sec, min, hour;
 	public String ddMin, ddHour;
 	public DecimalFormat dFormat = new DecimalFormat("00");
@@ -89,8 +89,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 	@FXML
 	void lnkPressDownloadExamFile(ActionEvent event) throws RuntimeException{
 		System.out.println("StudentTakeExamManually::lnkPressDownloadExamFile");
-		// TODO BLOB stuff
-
 		DirectoryChooser chooser = new DirectoryChooser();
 		chooser.setTitle("Save file");
 		//File defaultDirectory = new File("D:");
@@ -110,8 +108,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 		System.out.println("path = " + FilePath);
 		ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", examID , FilePath , "submit", ""});
-		// TODO add method of getFile from DB
-		// added table of manual exams
 	}
 
 	@FXML
@@ -141,9 +137,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 	 */
 	public void setExamID(String examIDFromTeacher) {
 		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
-			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
-			System.out.println("StudentTakeExamManually - setExamID :: examID = "+examID);
 		}
 		else {
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Code inserting failed",
@@ -157,10 +151,8 @@ public class StudentTakeExamManuallyController implements Initializable {
 	 */
 	public void setExam(ManualExam examTupple) {
 		exam = examTupple;
-		System.out.println("THE EXAM : "+exam);
 	}
 
-	// TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
 		stopExam("Not successful", null);
 
@@ -177,7 +169,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		StudentExamSubmittedController.sesController.setExamDetailsManual(String.format("%d", estimatedTime), examID, exam.getAllocatedTime(), submited, FilePath);
 	}
-	
+
 	private void initializeTimer(String time) {
 		hour = Integer.parseInt(time) / 60;
 		min = Integer.parseInt(time) % 60;
@@ -254,9 +246,9 @@ public class StudentTakeExamManuallyController implements Initializable {
 										});
 
 									}
-								}, 0, 1000); // TODO change to 1000!
+								}, 0, 1000);
 							}
-							else 
+							else
 								try { stopExam("Not successful", null);
 								} catch (IOException e) { e.printStackTrace(); }
 						}
@@ -264,8 +256,8 @@ public class StudentTakeExamManuallyController implements Initializable {
 				});
 
 			}
-		}, 0, 1000); // TODO change to 1000!
+		}, 0, 1000);
 
-		
+
 	}
 }
