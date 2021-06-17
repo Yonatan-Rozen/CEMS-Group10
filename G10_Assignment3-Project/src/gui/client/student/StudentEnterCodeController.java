@@ -81,9 +81,6 @@ public class StudentEnterCodeController implements Initializable {
 	 *                        all active students
 	 */
 	public void setReadyExam(String codeFromTeacher, String examTypeFromTeacher, String examID, String examiningTeacherID) {
-		System.out.println("GOT TO SETREADYEXAM of student ENTER CODE-------------------------->");
-		if(examID==null) System.out.println("GOT TO SETREADYEXAM of student ENTER CODE + null-------------------------->");
-
 		StudentEnterCodeController.examiningTeacherID=examiningTeacherID;
 		code = codeFromTeacher;
 

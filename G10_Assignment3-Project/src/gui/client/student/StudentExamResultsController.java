@@ -112,7 +112,6 @@ public class StudentExamResultsController implements Initializable {
 			tableViewExam.setItems(examsDetails);
 		} catch (IllegalStateException e) {
 		}
-		System.out.println("StudentExamResultsController :: AFTER SET EXAM DETAILS");
 	}
 
 	public void setType(String t) {
