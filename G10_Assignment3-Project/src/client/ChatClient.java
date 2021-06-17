@@ -24,6 +24,7 @@ import gui.client.student.StudentExamResultsController;
 import gui.client.student.StudentMenuController;
 import gui.client.student.StudentTakeComputerizedExamController;
 import gui.client.student.StudentTakeExamManuallyController;
+import gui.client.student.StudentViewCheckedComputerizedExamController;
 import gui.client.teacher.TeacherCheckAnswersController;
 import gui.client.teacher.TeacherCheckExamResultsController;
 import gui.client.teacher.TeacherChooseEditQuestionController;
@@ -101,10 +102,10 @@ public class ChatClient extends AbstractClient {
 		else if (msg instanceof String) {
 			handleStringMessagesFromServer((String) msg);
 		} else if (msg instanceof List) {
-			System.out.println(" HERE !!!!");
+			//System.out.println(" HERE !!!!");
 			handleListMessagesFromserver((List<?>) msg);
-			System.out.println(" HERE #2 !!!!");
-}
+			//System.out.println(" HERE #2 !!!!");
+		}
 		else if (msg instanceof Object[]) {
 			// System.out.println("check instaceOF object[]");
 			handleArraysMessagesFromServer((Object[]) msg);
@@ -178,6 +179,9 @@ public class ChatClient extends AbstractClient {
 			TeacherCreateManualExamController.tcmeController.successfulCreateDetailsAndSetExamID(msg[1].toString(),
 					"CreateManualExam SUCCESS" + msg[1].toString());
 			break;
+		case "getExamTypeByExamID":
+			StudentExamResultsController.serController.setType(((String[])msg)[1]);
+			break;
 		case "SendMessageExamIDExamTypeAndExamCode":
 			System.out.println("BEFORE SETREADY ------------<<<<<<");
 			System.out.println("the array that's being passed to StudentMenuController :\n"+Arrays.toString(msg));
@@ -198,6 +202,9 @@ public class ChatClient extends AbstractClient {
 			TeacherStartExamController.tseController.DecStudentsInExam();
 		case "SetQuestionInExamWithStudentAnswers":
 			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
+			break;
+		case "SetQuestionInExamWithStudentAnswersStudent":
+			StudentViewCheckedComputerizedExamController.svcceController.setQuestionInExamWithStudentAnswers(msg);
 			break;
 		case "GetTeacherUserNameFromRequest":
 			PrincipleViewRequestsController.pvrController.setTeacherUserName((String)msg[1]);
@@ -444,7 +451,7 @@ public class ChatClient extends AbstractClient {
 			}
 
 		}
-		
+
 	}
 
 	/**
