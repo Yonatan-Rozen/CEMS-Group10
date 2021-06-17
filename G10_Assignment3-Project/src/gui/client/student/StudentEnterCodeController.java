@@ -33,11 +33,13 @@ public class StudentEnterCodeController implements Initializable {
 
 	// CONTROLLER INSTANCES ****************************************************
 	public static StudentEnterCodeController secController=new StudentEnterCodeController();
+	private static CommonMethodsHandler commonMethodHandler = CommonMethodsHandler.getInstance();
 
 	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		codeTf = sbCodeTf;
+		commonMethodHandler.setTextLimiter(codeTf, 4);
 	}
 
 	// ACTION METHODS *******************************************************
