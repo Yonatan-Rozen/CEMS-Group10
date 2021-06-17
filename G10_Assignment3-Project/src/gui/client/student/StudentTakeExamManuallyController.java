@@ -89,8 +89,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 	@FXML
 	void lnkPressDownloadExamFile(ActionEvent event) throws RuntimeException{
 		System.out.println("StudentTakeExamManually::lnkPressDownloadExamFile");
-		// TODO BLOB stuff
-
 		DirectoryChooser chooser = new DirectoryChooser();
 		chooser.setTitle("Save file");
 		//File defaultDirectory = new File("D:");
@@ -110,8 +108,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 		System.out.println("path = " + FilePath);
 		ClientUI.chat.accept(new String[] { "lnkPressDownloadExamFile", examID , FilePath , "submit", ""});
-		// TODO add method of getFile from DB
-		// added table of manual exams
 	}
 
 	@FXML
@@ -141,7 +137,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 	 */
 	public void setExamID(String examIDFromTeacher) {
 		if (examIDFromTeacher != null && !examIDFromTeacher.equals("")) {
-			// TODO get examID from teacher to all connected students
 			examID = examIDFromTeacher;
 		}
 		else {
@@ -158,7 +153,6 @@ public class StudentTakeExamManuallyController implements Initializable {
 		exam = examTupple;
 	}
 
-	// TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
 		stopExam("Not successful", null);
 
@@ -252,7 +246,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 										});
 
 									}
-								}, 0, 1000); // TODO change to 1000!
+								}, 0, 1000);
 							}
 							else
 								try { stopExam("Not successful", null);
@@ -262,7 +256,7 @@ public class StudentTakeExamManuallyController implements Initializable {
 				});
 
 			}
-		}, 0, 1000); // TODO change to 1000!
+		}, 0, 1000);
 
 
 	}

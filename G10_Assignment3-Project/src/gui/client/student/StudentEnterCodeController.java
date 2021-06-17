@@ -56,7 +56,7 @@ public class StudentEnterCodeController implements Initializable {
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 			StudentMenuBarController.smbController.menuBarContainerAp.setDisable(true);
 
-			ClientUI.chat.accept(new String[] {"SendMessageIncNumStudentsInExam",examiningTeacherID}); // TODO (increments the amount of students that are in the running exam)
+			ClientUI.chat.accept(new String[] {"SendMessageIncNumStudentsInExam",examiningTeacherID}); //(increments the amount of students that are in the running exam)
 		}
 
 		// if the student didn't insert the correct code
@@ -77,8 +77,6 @@ public class StudentEnterCodeController implements Initializable {
 	 * @param examTypeFromTeacher the type of the exam (manual or computerized)
 	 * @param examID the ID of the exam that started
 	 *
-	 *                        TODO get current code and exam-type from teacher to
-	 *                        all active students
 	 */
 	public void setReadyExam(String codeFromTeacher, String examTypeFromTeacher, String examID, String examiningTeacherID) {
 		StudentEnterCodeController.examiningTeacherID=examiningTeacherID;

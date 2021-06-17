@@ -142,7 +142,6 @@ public class StudentMenuController implements Initializable {
 				else// if(examType.equals("M"))
 					StudentTakeExamManuallyController.stemController.setSubmitButtonWhenLockInvoked();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
