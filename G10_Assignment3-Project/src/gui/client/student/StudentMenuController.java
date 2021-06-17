@@ -13,11 +13,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class StudentMenuController implements Initializable {
 	public static StudentMenuController smController;
@@ -39,7 +39,7 @@ public class StudentMenuController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
-	
+
 	@FXML
 	private ImageView sbTeacherBgImg;
 
@@ -101,10 +101,8 @@ public class StudentMenuController implements Initializable {
 	@FXML
 	public void btnPressTakeExam(ActionEvent event) throws Exception {
 		System.out.println("StudentMenu ::btnPressTakeExam");
-		System.out.println("Student MENU examID = "+examID+"-------------------------->");
-		if(examID==null)				//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
+		if(examID==null)//||examType==null||examCode==null||examID.isEmpty()||examType.isEmpty()||examCode.isEmpty())
 		{
-			System.out.println("examID is null-------");
 			CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION,
 					"Error : cannot start any exam","There is no exam running.", "Please try again some other time").showAndWait();
 		}
@@ -123,7 +121,6 @@ public class StudentMenuController implements Initializable {
 
 	// EXTERNAL USE METHODS *************************************************
 	public void setReadyExam(String[] msg) {
-		if(msg[1]==null) System.out.println("GOT TO SETREADYEXAM of student menu-------------------------->");
 		examID = msg[1];
 		examType = msg[2];
 		examCode = msg[3];
@@ -137,7 +134,7 @@ public class StudentMenuController implements Initializable {
 	}
 
 	public void lockExam(String[] msg) {
-		System.out.println("=======================examID gotten from echoserver : "+ msg[1]);
+		System.out.println("examID gotten from echoserver : "+ msg[1]);
 		if (examID.equals(msg[1])) {
 			try {
 				if(examType.equals("C"))

@@ -51,16 +51,11 @@ public class StudentEnterCodeController implements Initializable {
 
 		if (code.equals(codeTf.getText())) {
 			if (examType.equals("C"))
-				//ClientUI.mainScene.setRoot(FXMLLoader
-				//	.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeComputerizedExam.fxml")));
 			if (examType.equals("M"))
-				//				ClientUI.mainScene.setRoot(
-				//						FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 				StudentMenuBarController.smbController.mainPaneBp.setCenter(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentTakeExamManually.fxml")));
 			StudentMenuBarController.smbController.menuBarContainerAp.setDisable(true);
 
-			//TeacherStartExamController.tseController.studentsInExam++;
 			ClientUI.chat.accept(new String[] {"SendMessageIncNumStudentsInExam",examiningTeacherID}); // TODO (increments the amount of students that are in the running exam)
 		}
 
@@ -89,13 +84,10 @@ public class StudentEnterCodeController implements Initializable {
 		System.out.println("GOT TO SETREADYEXAM of student ENTER CODE-------------------------->");
 		if(examID==null) System.out.println("GOT TO SETREADYEXAM of student ENTER CODE + null-------------------------->");
 
-		//System.out.println("codeFromTeacher = "+codeFromTeacher+"\nexamTypeFromTeacher = "+examTypeFromTeacher+"\nexamID = "+examID);
 		StudentEnterCodeController.examiningTeacherID=examiningTeacherID;
 		code = codeFromTeacher;
-		//	System.out.println("code=" + code);
 
 		examType = examTypeFromTeacher;
-		//System.out.println("examType=" + examType);
 		if(examType.equals("C"))
 			StudentTakeComputerizedExamController.stceController.setExamID(examID);
 		else if(examType.equals("M"))
