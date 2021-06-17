@@ -278,7 +278,6 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		});
 	}
 
-	// TODO check if works after LOCK EXAM is implemented in Teacher
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
 		stopExam("Not successful");
 	}
@@ -390,7 +389,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 										});
 
 									}
-								}, 0, 1000); // TODO change to 1000!
+								}, 0, 1000);
 							}
 							else
 								try { stopExam("Not successful");
@@ -400,7 +399,7 @@ public class StudentTakeComputerizedExamController implements Initializable {
 				});
 
 			}
-		}, 0, 1000); // TODO change to 1000!
+		}, 0, 1000);
 	}
 
 }

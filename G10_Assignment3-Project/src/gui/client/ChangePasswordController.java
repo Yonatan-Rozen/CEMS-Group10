@@ -90,14 +90,12 @@ public class ChangePasswordController implements Initializable{
     
     // EXTERNAL USE METHODS **************************************************
     public void badChangePassword(String Msg) {
-    	System.out.println("badChangePassword");
     	msg = Msg;
     	title = "Error message";
     	type = AlertType.ERROR;
     }
     
     public void successfulChangePassword(String Msg) {
-    	System.out.println("succesfullChangePassword");
     	msg = Msg;
     	title = "Password changed";
     	type = AlertType.INFORMATION;
