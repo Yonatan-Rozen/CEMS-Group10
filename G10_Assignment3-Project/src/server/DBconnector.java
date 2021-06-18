@@ -118,7 +118,6 @@ public class DBconnector {
 				if (userORmsg instanceof User) {
 					client.setName((String)request[1]); // username
 					serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
-					//System.out.println(("user [" + client.getName() + "] has connected successfully!"));
 					client.setInfo(client.getName(), ((User) userORmsg).getType());
 				}
 				client.sendToClient(userORmsg);
