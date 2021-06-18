@@ -13,7 +13,7 @@ import gui.server.IServerConsoleController;
 import logic.User;
 import server.DBconnector;
 
-public class ServerLoginTest {
+public class ServerSignInTest {
 	
 	private DBconnector dbconnector;
 	private String username = null;
@@ -34,6 +34,8 @@ public class ServerLoginTest {
 		dbconnector.setServerConsole(new ServerConsoleControllerStub());
 		dbconnector.connectToDB();
 		dbconnector.resetUserConnections();
+		username = "4";
+		password = "4";
 	}
 
 	/**
@@ -43,12 +45,10 @@ public class ServerLoginTest {
 	 */
 	@Test
 	public void testCorrectUsername() {
-		username = "4";
-		password = "4";
 		User expected = new User("4","4","Yonatan","Rozen","0508122784","yon969@gmail.com","Teacher");
 		User actual = null;
-		try { actual = (User) dbconnector.getUserInfoByUsernameAndPassword(username,password);
-		} catch (IOException e) {  fail(); }
+		
+		actual = (User) dbconnector.getUserInfoByUsernameAndPassword(username,password);
 		
 		assertEquals(expected, actual);
 	}
@@ -60,15 +60,15 @@ public class ServerLoginTest {
 	 */
 	@Test
 	public void testSameUserTryingToLoginAgainWithoutDisconnecting() {
-		username = "4";
-		password = "4";
 		String expected = "SignIn ERROR - This user is already connected!";
 		String actual = null;
 		
-		try { 
-			dbconnector.getUserInfoByUsernameAndPassword(username,password); // first login
-			actual = (String) dbconnector.getUserInfoByUsernameAndPassword(username,password); // scond login
-		} catch (IOException e) { fail(); }
+		// first login returns User object
+		if (!(dbconnector.getUserInfoByUsernameAndPassword(username,password) instanceof User)) 
+			fail();
+			
+		// second login returns String error message
+		actual = (String) dbconnector.getUserInfoByUsernameAndPassword(username,password); 
 		
 		assertEquals(expected, actual);
 	}
@@ -80,14 +80,12 @@ public class ServerLoginTest {
 	 */
 	@Test
 	public void testInsertWrongUsernameOrPassword(){
-		username = "4";
-		password = "5";
+		password = "5"; // set different password
+		
 		String expected = "SignIn ERROR - Wrong username or password!";
 		String actual = null;
 		
-		try { 
-			actual = (String) dbconnector.getUserInfoByUsernameAndPassword(username,password); // scond login
-		} catch (IOException e) { fail(); }
+		actual = (String) dbconnector.getUserInfoByUsernameAndPassword(username,password);
 		
 		assertEquals(expected, actual);
 	}

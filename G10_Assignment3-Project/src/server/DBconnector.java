@@ -1203,7 +1203,7 @@ public class DBconnector {
 	 *
 	 * @author Yonatan Rozen
 	 */
-	public Object getUserInfoByUsernameAndPassword(String username, String password) throws IOException {
+	public Object getUserInfoByUsernameAndPassword(String username, String password) {
 		try {
 			Statement getUser = con.createStatement();
 			ResultSet rs = getUser.executeQuery("SELECT * From users WHERE Username = '" + username + "' AND Password = '" + password + "'");
