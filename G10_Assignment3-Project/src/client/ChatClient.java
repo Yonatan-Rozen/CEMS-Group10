@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import common.CommonMethodsHandler;
@@ -51,7 +50,6 @@ import logic.exam.Request;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 import ocsf.client.AbstractClient;
-import server.ServerUI;
 
 public class ChatClient extends AbstractClient {
 
@@ -517,11 +515,6 @@ public class ChatClient extends AbstractClient {
 			}
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
-			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
-					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
 			CommonMethodsHandler.getInstance()
 			.getNewAlert(AlertType.WARNING, "Connection Issues",
 					"It seems like you have connection issues with the server!",
