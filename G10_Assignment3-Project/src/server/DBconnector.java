@@ -19,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import common.MyFile;
+import gui.server.IServerConsoleController;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.ComputerizedResults;
@@ -38,7 +39,7 @@ import ocsf.server.ConnectionToClient;
 public class DBconnector {
 	public static Connection con;
 	private static DBconnector dbCinstance;
-
+	private IServerConsoleController serverConsole;
 	// ***********************************************************************************************
 	private DBconnector() {
 	}
@@ -48,6 +49,10 @@ public class DBconnector {
 			dbCinstance = new DBconnector();
 		return dbCinstance;
 	}
+	
+	public void setServerConsole(IServerConsoleController serverConsole) {
+		this.serverConsole = serverConsole;
+	}
 
 	// ***********************************************************************************************
 	/**
@@ -56,18 +61,18 @@ public class DBconnector {
 	public void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			ServerUI.serverConsole.println("mysql driver definition succeed");
+			serverConsole.println("mysql driver definition succeed");
 		} catch (Exception ex) {
-			ServerUI.serverConsole.println("mysql driver definition failed");
+			serverConsole.println("mysql driver definition failed");
 		}
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost/cems?serverTimezone=IST", "root", "Group10*");
-			ServerUI.serverConsole.println("SQL connection succeed.");
+			serverConsole.println("SQL connection succeed.");
 		} catch (SQLException ex) {
-			ServerUI.serverConsole.println("SQLException: " + ex.getMessage());
-			ServerUI.serverConsole.println("SQLState: " + ex.getSQLState());
-			ServerUI.serverConsole.println("VendorError: " + ex.getErrorCode());
+			serverConsole.println("SQLException: " + ex.getMessage());
+			serverConsole.println("SQLState: " + ex.getSQLState());
+			serverConsole.println("VendorError: " + ex.getErrorCode());
 		}
 
 	}
@@ -248,7 +253,7 @@ public class DBconnector {
 				deleteRequestsToPrinciple(client);
 				break;
 			default:
-				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
+				serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
 				break;
 			}
@@ -288,7 +293,7 @@ public class DBconnector {
 				teacherRequestExtraTime((Request)request[1],client);
 				break;
 			default:
-				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
+				serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
 				break;
 			}

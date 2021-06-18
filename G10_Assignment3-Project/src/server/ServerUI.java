@@ -61,7 +61,8 @@ public class ServerUI extends Application{
 			serverConsole.setDisable(false);
 			return;
 		}
-		
+
+		DBconnector.getInstance().setServerConsole(ServerUI.serverConsole);
 		DBconnector.getInstance().connectToDB();
 		DBconnector.getInstance().resetUserConnections();
 	}

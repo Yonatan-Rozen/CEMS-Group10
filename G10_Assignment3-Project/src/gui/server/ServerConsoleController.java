@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import server.EchoServer;
 import server.ServerUI;
 
-public class ServerConsoleController implements Initializable {
+public class ServerConsoleController implements Initializable, IServerConsoleController {
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -116,6 +116,7 @@ public class ServerConsoleController implements Initializable {
 		consoleTa.appendText(info);
 	}
 
+	@Override
 	public void println(String info) {
 		consoleTa.appendText(info + "\n");
 	}
