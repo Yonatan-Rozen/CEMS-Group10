@@ -19,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import common.MyFile;
+import gui.server.IServerConsoleController;
 import logic.User;
 import logic.exam.ComputerizedExam;
 import logic.exam.ComputerizedResults;
@@ -38,7 +39,7 @@ import ocsf.server.ConnectionToClient;
 public class DBconnector {
 	public static Connection con;
 	private static DBconnector dbCinstance;
-
+	private IServerConsoleController serverConsole;
 	// ***********************************************************************************************
 	private DBconnector() {
 	}
@@ -48,6 +49,10 @@ public class DBconnector {
 			dbCinstance = new DBconnector();
 		return dbCinstance;
 	}
+	
+	public void setServerConsole(IServerConsoleController serverConsole) {
+		this.serverConsole = serverConsole;
+	}
 
 	// ***********************************************************************************************
 	/**
@@ -56,18 +61,18 @@ public class DBconnector {
 	public void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			ServerUI.serverConsole.println("mysql driver definition succeed");
+			serverConsole.println("mysql driver definition succeed");
 		} catch (Exception ex) {
-			ServerUI.serverConsole.println("mysql driver definition failed");
+			serverConsole.println("mysql driver definition failed");
 		}
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost/cems?serverTimezone=IST", "root", "Group10*");
-			ServerUI.serverConsole.println("SQL connection succeed.");
+			serverConsole.println("SQL connection succeed.");
 		} catch (SQLException ex) {
-			ServerUI.serverConsole.println("SQLException: " + ex.getMessage());
-			ServerUI.serverConsole.println("SQLState: " + ex.getSQLState());
-			ServerUI.serverConsole.println("VendorError: " + ex.getErrorCode());
+			serverConsole.println("SQLException: " + ex.getMessage());
+			serverConsole.println("SQLState: " + ex.getSQLState());
+			serverConsole.println("VendorError: " + ex.getErrorCode());
 		}
 
 	}
@@ -109,7 +114,13 @@ public class DBconnector {
 				getmissingData_QuestionInExamWithStudentAnswers(request[1], request[2], client);
 				break;
 			case "btnPressSignIn": // getUserInfoByUsernameAndPassword(username, password, client)
-				getUserInfoByUsernameAndPassword(request[1], request[2], client);
+				Object userORmsg = getUserInfoByUsernameAndPassword(request[1], request[2]);
+				if (userORmsg instanceof User) {
+					client.setName((String)request[1]); // username
+					serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
+					client.setInfo(client.getName(), ((User) userORmsg).getType());
+				}
+				client.sendToClient(userORmsg);
 				break;
 			case "btnPressConfirmChange": // setNewPasswordByusername(username, actaulPass, tryPass, newPass, reNewPass,
 				// client)
@@ -248,7 +259,7 @@ public class DBconnector {
 				deleteRequestsToPrinciple(client);
 				break;
 			default:
-				ServerUI.serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
+				serverConsole.println(request[0] + " is not a valid case! (String[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (String[] DBconnector)");
 				break;
 			}
@@ -288,7 +299,7 @@ public class DBconnector {
 				teacherRequestExtraTime((Request)request[1],client);
 				break;
 			default:
-				ServerUI.serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
+				serverConsole.println(request[0] + " is not a valid case! (Object[] DBconnector)");
 				client.sendToClient(request[0] + " is not a valid case! (Object[] DBconnector)");
 				break;
 			}
@@ -1180,57 +1191,38 @@ public class DBconnector {
 
 	// ***********************************************************************************************
 	/**
-	 * Sends to the user all the details about his user (get stored in user thread)
+	 * Gets the user from the database by the inserted username and password values
 	 *
 	 * @param username The username; inputed by the user
 	 * @param password The new password; inputed by the user
-	 * @param client   A user of one of the following types : Student / Teacher /
-	 *                 Principle
+	 * @param client   A user of one of the following types : Student / Teacher / Principle
 	 * @throws IOException if an I/O error occur when sending the message.
+	 * @return User if username and password combination exists in database;
+	 * <br>else an error message is returned
 	 *
 	 * @author Yonatan Rozen
 	 */
-	public void getUserInfoByUsernameAndPassword(String username, String password, ConnectionToClient client)
-			throws IOException {
-
-		User user = null;
-
+	public Object getUserInfoByUsernameAndPassword(String username, String password) {
 		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(
-					"SELECT * From users WHERE Username = '" + username + "' AND Password = '" + password + "'");
+			Statement getUser = con.createStatement();
+			ResultSet rs = getUser.executeQuery("SELECT * From users WHERE Username = '" + username + "' AND Password = '" + password + "'");
 
 			if (rs.next()) {
-				if (rs.getString(8).equals("1")) {
-					client.sendToClient("SignIn ERROR - This user is already connected!");
-					return;
-				} else
-					user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(6), rs.getString(7));
-			} else
-				client.sendToClient("SignIn ERROR - Wrong username or password!");
-		} catch (SQLException e) {
-			client.sendToClient("sql exception");
-			e.printStackTrace();
-			return;
-		}
-
-		// update that this user is connected to the server
-		if (user != null) {
-			try {
-				PreparedStatement stmt = con
-						.prepareStatement("UPDATE users SET Connected = '1' WHERE Username = '" + username + "'");
-				stmt.executeUpdate();
-			} catch (SQLException e) {
-				client.sendToClient("sql exception");
-				e.printStackTrace();
-				return;
+				
+				if (rs.getString(8).equals("1"))
+					return "SignIn ERROR - This user is already connected!"; // user already connected
+				else {
+					PreparedStatement updateUserConnected = con.prepareStatement("UPDATE users SET Connected = '1' WHERE Username = '" + username + "'");
+					updateUserConnected.executeUpdate();
+					return new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+				}
+			
+			} else {
+				return "SignIn ERROR - Wrong username or password!"; // user doesn't exist
 			}
-
-			client.sendToClient(user);
-			client.setName(username);
-			ServerUI.serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
-			client.setInfo(client.getName(), user.getType());
+		}catch(SQLException e){
+			e.printStackTrace();
+			return "sql exception";
 		}
 	}
 

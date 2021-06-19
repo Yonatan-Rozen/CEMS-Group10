@@ -102,7 +102,6 @@ public class TeacherMenuBarController implements Initializable {
 		mainPaneBp = sbMainPaneBp;
 		menuBg = sbMenuBg;
 		menuBg.setImage(new Image("/menubar_bg.png"));
-//		menuBg.setPreserveRatio(false);
 		menuBg.setFitHeight(600);
 		menuBg.setFitWidth(230);
 
@@ -186,10 +185,7 @@ public class TeacherMenuBarController implements Initializable {
 		}
 	}
 
-	/**
-	 * Opens fxml file of {@link TeacherCheckComputerizedResultsController}
-	 * @param event
-	 */
+	
 	@FXML
 	public void btnPressCheckExamResults(ActionEvent event) {
 		System.out.println("TeacherMenuBar::btnPressComputerizedResults");

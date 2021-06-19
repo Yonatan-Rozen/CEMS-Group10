@@ -73,7 +73,7 @@ public class CommonMethodsHandler {
 			default:
 				break;
 			}
-			// System.out.println(path.toString());
+			
 			try {
 				fileUrl = getClass().getClassLoader().getResource(path.toString());
 			} catch (Exception e) {
@@ -321,7 +321,6 @@ public class CommonMethodsHandler {
 		ClientUI.chat.accept(request);
 		if (choiceBoxesList.isEmpty()) {
 			alert.showAndWait();
-			System.out.println("populateList");
 			return null;
 		}
 		return choiceBoxesList;

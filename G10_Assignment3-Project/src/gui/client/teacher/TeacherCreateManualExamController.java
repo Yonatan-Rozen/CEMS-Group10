@@ -172,7 +172,6 @@ public class TeacherCreateManualExamController implements Initializable {
 					String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
 							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
-					// TODO examID should have a value here
 					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath,"T" });
 
 					ButtonType buttonYes = new ButtonType("Yes");
@@ -200,14 +199,11 @@ public class TeacherCreateManualExamController implements Initializable {
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		bankList.addAll(msg);
 	}
 
 	public void setCourseChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		CourseList.addAll(msg);
-		System.out.println(CourseList);
 	}
 
 	public void successfulCreateDetailsAndSetExamID(String ID, String Msg) {

@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import server.EchoServer;
 import server.ServerUI;
 
-public class ServerConsoleController implements Initializable {
+public class ServerConsoleController implements Initializable, IServerConsoleController {
 
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -63,10 +63,10 @@ public class ServerConsoleController implements Initializable {
 		mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 		mainStage.setOnCloseRequest(event -> {
 			mainStage.hide();
-			// TODO
-			 CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-			 methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
-			 "The server has been shut down\n(All client will be terminated shortly after...)","Press ok to continue.").showAndWait();
+			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+			methodsHandler.getNewAlert(AlertType.INFORMATION, "Server shut down",
+					"The server has been shut down\n(All client will be terminated shortly after...)",
+					"Press ok to continue.").showAndWait();
 			EchoServer.es.sendToAllClients("TerminateClient");
 			System.exit(0);
 		});
@@ -116,6 +116,7 @@ public class ServerConsoleController implements Initializable {
 		consoleTa.appendText(info);
 	}
 
+	@Override
 	public void println(String info) {
 		consoleTa.appendText(info + "\n");
 	}

@@ -106,13 +106,11 @@ public class Exam implements Serializable,IExam{
 
 	@Override
 	public String getDate() {
-		// TODO Auto-generated method stub
 		return date;
 	}
 
 	@Override
 	public void setDate(String date) {
-		// TODO Auto-generated method stub
 		this.date = date;
 	}
 

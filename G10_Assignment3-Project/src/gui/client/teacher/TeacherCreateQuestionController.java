@@ -112,7 +112,7 @@ public class TeacherCreateQuestionController implements Initializable {
 		questionSubjectCb.setItems(subjectList);
 
 		// set up a listener that sets the disable value of 
-		// 'createQuestionBtn' acurding to the selected value
+		// 'createQuestionBtn' according to the selected value
 		questionSubjectCb.getSelectionModel().selectedItemProperty().addListener(
 			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
 			{
@@ -204,7 +204,6 @@ public class TeacherCreateQuestionController implements Initializable {
 			Optional<ButtonType> result = CommonMethodsHandler.getInstance().getNewAlert(AlertType.CONFIRMATION, 
 					"Successful question creation",msg,"Create another question under the same subject?",buttonYes,buttonNo).showAndWait();
 			if (result.get() == buttonYes){
-				System.out.println("alert::Yes");
 				questionBodyTa.clear();
 				markAnswer1Rb.setSelected(true);
 				selected = markAnswer1Rb;
@@ -213,7 +212,6 @@ public class TeacherCreateQuestionController implements Initializable {
 				answer3Ta.clear();
 				answer4Ta.clear();
 			} else if (result.get() == buttonNo) {
-				System.out.println("alert::No");
 				TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
 			}
 		}
@@ -221,7 +219,6 @@ public class TeacherCreateQuestionController implements Initializable {
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setSubjectChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		subjectList.addAll(msg);
 	}
 

@@ -23,14 +23,14 @@ public class User implements Serializable{
 		this.type = string;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getUsername() {
-		return username;
 	}
 	public String getFirstname() {
 		return firstname;
@@ -48,6 +48,15 @@ public class User implements Serializable{
 		return type;
 	}
 	
-	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof User))
+			return false;
+		User otherUser = (User) other;
+		return getUsername().equals(otherUser.getUsername()) && getPassword().equals(otherUser.getPassword()) &&
+				getFirstname().equals(otherUser.getFirstname()) && getLastname().equals(otherUser.getLastname()) && 
+				getPhonenumber().equals(otherUser.getPhonenumber()) && getEmail().equals(otherUser.getEmail()) &&
+				getType().equals(otherUser.getType());
+	}
 
 }

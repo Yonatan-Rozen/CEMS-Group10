@@ -43,6 +43,7 @@ public class SignInController implements Initializable {
 	private static TextField usernameTf;
 	private static PasswordField passwordPf;
 	private static ImageView logoimg;
+	private CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 
 	// START METHOD *********************************************************
 	/**
@@ -60,11 +61,11 @@ public class SignInController implements Initializable {
 		ClientUI.mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 
 		ClientUI.mainStage.setOnCloseRequest(event -> {
-			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
+			CommonMethodsHandler cmh = CommonMethodsHandler.getInstance();
 
 			ButtonType buttonYes = new ButtonType("Yes");
 			ButtonType buttonCancel = new ButtonType("Cancel");
-			Optional<ButtonType> result = methodsHandler.getNewAlert(AlertType.CONFIRMATION, "Closing client window",
+			Optional<ButtonType> result = cmh.getNewAlert(AlertType.CONFIRMATION, "Closing client window",
 					"You are about to close the window and disconnect!", "Are you sure you want to proceed?", buttonYes,
 					buttonCancel).showAndWait();
 
@@ -73,7 +74,7 @@ public class SignInController implements Initializable {
 				try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
 				}catch(NullPointerException e) {System.out.println("client has logged out and then closed the window...");};
 
-				methodsHandler.getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
+				cmh.getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
 						"Press ok to continue").showAndWait();
 				System.exit(0);
 			}
@@ -121,10 +122,8 @@ public class SignInController implements Initializable {
 	@FXML
 	public void btnPressSignIn(ActionEvent event) {
 
-		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-
 		if (usernameTf.getText().isEmpty() || passwordPf.getText().isEmpty()) {
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "All fields are required!").showAndWait();
+			cmh.getNewAlert(AlertType.ERROR, "Error message", "All fields are required!").showAndWait();
 			return;
 		}
 		
@@ -156,7 +155,7 @@ public class SignInController implements Initializable {
 			if (e instanceof IOException)
 				System.out.println("could not load fxml");
 			else
-				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
+				cmh.getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
 		}
 	}
 

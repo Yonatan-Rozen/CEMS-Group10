@@ -145,9 +145,8 @@ public class TeacherCreateExamController implements Initializable {
 		continue2Btn = sbContinue2Btn;
 		cmh.disableTableColumnSwap(availableQuestionsTv);
 		cmh.disableTableColumnSwap(currentQuestionsTable);
-		//if (bankList.size() == 1) { // add banks only once
 		ClientUI.chat.accept(new String[] { "GetBanks", ChatClient.user.getUsername(), "1" });
-		//}
+		
 	}
 
 	// ACTION METHODS *******************************************************
@@ -187,7 +186,7 @@ public class TeacherCreateExamController implements Initializable {
 			questionID1Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
 			
 
-			// set preview col
+			// set preview column
 			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 				@Override
 				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param) {
@@ -263,7 +262,7 @@ public class TeacherCreateExamController implements Initializable {
 			// set up current table view
 			questionID2Tc.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionID"));
 
-			// set preview col
+			// set preview column
 			Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>> btnCellFactory3 = new Callback<TableColumn<QuestionInExam, Void>, TableCell<QuestionInExam, Void>>() {
 				@Override
 				public TableCell<QuestionInExam, Void> call(final TableColumn<QuestionInExam, Void> param3) {
@@ -322,7 +321,7 @@ public class TeacherCreateExamController implements Initializable {
 							} else {
 								btn.setOnAction(e -> {
 									QuestionInExam question = getTableRow().getItem();
-									locateRow.get(question).setDisable(false); // TODO <-->
+									locateRow.get(question).setDisable(false); 
 									questionInExam.remove(question);
 									removeQuestionFromCurrentQuestions(question);
 								});
@@ -368,14 +367,11 @@ public class TeacherCreateExamController implements Initializable {
 
 	// EXTERNAL USE METHODS **************************************************
 	public void setBankChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		bankList.addAll(msg);
 	}
 
 	public void setCourseChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
 		CourseList.addAll(msg);
-		System.out.println(CourseList);
 	}
 
 	public void chooseQuestionToPreview(Question question) {
@@ -384,7 +380,6 @@ public class TeacherCreateExamController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(question);
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
 
