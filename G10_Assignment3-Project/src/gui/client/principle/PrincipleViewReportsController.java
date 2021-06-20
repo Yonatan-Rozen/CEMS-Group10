@@ -16,9 +16,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-
+/**
+ * A controller class which controls the "View Reports" option screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewReportsController implements Initializable {
-
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private TextField sbteacherUserNameTf;
@@ -57,6 +59,7 @@ public class PrincipleViewReportsController implements Initializable {
 	protected static PrincipleReportsByTeacherController prbtController;
 	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		teacherUserNameTf = sbteacherUserNameTf;
@@ -172,7 +175,8 @@ public class PrincipleViewReportsController implements Initializable {
 	// EXTERNAL METHODS *******************************************************
 	/**
 	 *
-	 * @param value
+	 * @param value a boolean value that determines whether a given ID of
+	 *  teacher/stuent/course exists in the DB
 	 */
 	public void setDoesExit(boolean value) {
 		doesExist = value;
@@ -181,9 +185,10 @@ public class PrincipleViewReportsController implements Initializable {
 	/**
 	 * checks if the value inserted into the textField is legal
 	 *
-	 * @param userName
-	 * @param type
-	 * @return
+	 * @param userName ID to search in DB
+	 * @param type type of what we're searching :
+	 *  (T --> teacher, S --> student, C --> course)
+	 * @return boolean value: TRUE if the ID exists in DB, else FALSE
 	 */
 	public boolean checkIfSearchedIDExists(String userName, String type) {
 		ClientUI.chat.accept(new String[] { "checkIfSearchedIDExists", insertedValue, type });
@@ -192,6 +197,10 @@ public class PrincipleViewReportsController implements Initializable {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param list list of objects to display in the choisebox of a certain reports screen.
+	 */
 	public void setChoiseBoxList(List<String> list) {
 		PrincipleViewReportsController.list.clear();
 		PrincipleViewReportsController.list.addAll(list);

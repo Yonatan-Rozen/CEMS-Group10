@@ -19,9 +19,11 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import logic.exam.ExamResults;
-
+/**
+ * A controller class which controls the "Reports By Student" screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleReportsByTeacherController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
@@ -32,9 +34,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 
 	@FXML
 	private Label sbReportsByLbl;
-
-//	@FXML
-//	private AnchorPane sbBarChartContainerPn;
 
 	@FXML
 	private Label sbExamIDLbl;
@@ -75,7 +74,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	private static Button showReportsByCourseBtn;
 	private static Button backToViewReportsBtn;
 	private static Label teacherIDLbl;
-//	private static AnchorPane barChartContainerPn;
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
@@ -88,6 +86,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 	public static PrincipleReportsByTeacherController prbtController;
 	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -117,7 +116,7 @@ public class PrincipleReportsByTeacherController implements Initializable {
 			courcesCb.setItems(coursesList);
 
 			// hide barchart until after pressing SHOW
-//			barChartContainerPn.setVisible(false);
+			//			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -168,8 +167,6 @@ public class PrincipleReportsByTeacherController implements Initializable {
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
-//		barChartContainerPn.setVisible(true);
-
 	}
 
 	@FXML

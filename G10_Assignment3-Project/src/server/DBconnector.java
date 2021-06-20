@@ -41,15 +41,21 @@ public class DBconnector {
 	private static DBconnector dbCinstance;
 	private IServerConsoleController serverConsole;
 	// ***********************************************************************************************
+	// CONSTRUCTOR ***********************************************************************************
 	private DBconnector() {
 	}
 
+	// SINGELTON GETINSTANCE METHOD ******************************************************************
 	public static DBconnector getInstance() {
 		if (dbCinstance == null)
 			dbCinstance = new DBconnector();
 		return dbCinstance;
 	}
-	
+
+	/**
+	 * sets server console local instance
+	 * @param serverConsole instance of serverConsole
+	 */
 	public void setServerConsole(IServerConsoleController serverConsole) {
 		this.serverConsole = serverConsole;
 	}
@@ -116,7 +122,7 @@ public class DBconnector {
 			case "btnPressSignIn": // getUserInfoByUsernameAndPassword(username, password, client)
 				Object userORmsg = getUserInfoByUsernameAndPassword(request[1], request[2]);
 				if (userORmsg instanceof User) {
-					client.setName((String)request[1]); // username
+					client.setName(request[1]); // username
 					serverConsole.println(("user [" + client.getName() + "] has connected successfully!"));
 					client.setInfo(client.getName(), ((User) userORmsg).getType());
 				}
@@ -206,9 +212,6 @@ public class DBconnector {
 			case "GetSubjectCourseIDofExam":
 				getSubjectCourseIDofExam(client);
 				break;
-				// case "GetExamByID":
-				// getExamInfoByID(request[1], client); // UNUSED
-				// break;
 			case "GetQuestionsInExam":
 				getQuestionInExamByID(request[1], client);
 			case "GetTypeOfExamAndOptionalCommentsAndAllocatedTime":
@@ -227,20 +230,10 @@ public class DBconnector {
 				UpdateQuestionAndScoreToExam(request[1], request[2], request[3], client);
 				break;
 			case "updateCopmuterizedSubmittedExamInfoByExamIDandStudentID":
-				// ClientUI.chat.accept(new String[] { "setSubmitButtonWhenLockInvoked", "NOT
-				// successful",
-				// String.format("%d", estimatedTime), ChatClient.user.getUsername(),
-				// examID,String.format("%d", grade),exam.getAllocatedTime() });
 				UpdateCopmuterizedSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
 						request[5], request[6], client);
 				break;
-				// case "btnPressSubmitManual":
-				// case "setSubmitButtonWhenLockInvokedManual":
-
 			case "updateManualSubmittedExamInfoByExamIDandStudentID":
-				// ClientUI.chat.accept(new String[] { "btnPressSubmit","successful",
-				// String.format("%ld", estimatedTime),
-				// ChatClient.user.getUsername(), examID, grade});
 				UpdateManualSubmittedExamInfoByExamIDandStudentID(request[1], request[2], request[3], request[4],
 						request[5], client);
 				break;
@@ -270,8 +263,6 @@ public class DBconnector {
 				updateQuestion((Question) request[1], client);
 				break;
 			case "StudentUploadFile":
-				// studentTestUpload((String) request[1], (MyFile) request[2], client);
-				// break;
 			case "TeacherUploadFile": // req1 -examID , req2 -filepath , req3 - ,req4 -
 				ExamFileUpload((String) request[1], (MyFile) request[2], (String) request[3], (String) request[4],
 						client);
@@ -288,10 +279,6 @@ public class DBconnector {
 			case "updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID":
 				updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID((String) request[1],
 						(String) request[2], (List<Question>) request[3], (String[]) request[4], client);
-				// ClientUI.chat.accept(new Object[] {
-				// "updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID",
-				// examID, ChatClient.user.getUsername(), questionsOfExam, answersOfStudent });
-
 			case "TeacherRequestExtraTime":
 				teacherRequestExtraTime((Request)request[1],client);
 				break;
@@ -303,6 +290,17 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
+	// QUERY METHODS
+	// ***********************************************************************************************
+
+	/**
+	 *
+	 * @param request request instance of teacher
+	 * @param client teacher
+	 * @throws IOException
+	 * @author Yonatan Rozen and Tival Zitelbach
+	 */
 	private void teacherRequestExtraTime(Request request, ConnectionToClient client) throws IOException {
 		try {
 			PreparedStatement stmt = con.prepareStatement(
@@ -631,6 +629,7 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends message of success to to user
 	 *
@@ -696,6 +695,7 @@ public class DBconnector {
 
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends array with examID(computerized) and success msg
 	 *
@@ -781,6 +781,7 @@ public class DBconnector {
 		client.sendToClient(new String[] { "GetExamIDForComputerizedExam", examID });
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends message success
 	 *
@@ -816,6 +817,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends array with examID(manual) and success msg
 	 *
@@ -902,9 +904,6 @@ public class DBconnector {
 	}
 
 	// ***********************************************************************************************
-	// QUERY METHODS
-	// ***********************************************************************************************
-
 	/**
 	 * Disconnect the current client from the server
 	 *
@@ -927,6 +926,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends the student the questions (an ArrayList) of the exam he is taking
 	 *
@@ -963,6 +963,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the student the exam he is taking and the course of the exam
 	 *
@@ -1027,6 +1028,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an (ArrayList) of her subjects of study
 	 *
@@ -1057,6 +1059,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an (ArrayList) of her banks
 	 *
@@ -1096,6 +1099,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher an (ArrayList) of her courses
 	 *
@@ -1182,7 +1186,7 @@ public class DBconnector {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		client.sendToClient("ChangePassword SUCCESS - Your password was changed successfully!");
 	}
 
@@ -1205,7 +1209,7 @@ public class DBconnector {
 			ResultSet rs = getUser.executeQuery("SELECT * From users WHERE Username = '" + username + "' AND Password = '" + password + "'");
 
 			if (rs.next()) {
-				
+
 				if (rs.getString(8).equals("1"))
 					return "SignIn ERROR - This user is already connected!"; // user already connected
 				else {
@@ -1213,7 +1217,7 @@ public class DBconnector {
 					updateUserConnected.executeUpdate();
 					return new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
 				}
-			
+
 			} else {
 				return "SignIn ERROR - Wrong username or password!"; // user doesn't exist
 			}
@@ -1480,9 +1484,6 @@ public class DBconnector {
 					examList.add(me);
 
 				}
-				// examList.add(new Exam(rs.getString(1), rs.getString(3), rs.getString(4),
-				// rs.getString(5),
-				// rs.getString(6), rs.getString(7)));
 			}
 			rs.close();
 			client.sendToClient(examList);
@@ -1493,6 +1494,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the client '0' or '1' to indicated if a question exists in any exam
 	 *
@@ -1521,11 +1523,12 @@ public class DBconnector {
 
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the client success remove
 	 *
-	 * @param examID
-	 * @param username
+	 * @param examID the ID of the exam
+	 * @param username teacher
 	 * @throws IOException
 	 *
 	 * @author Eliran Amerzoyev
@@ -1544,30 +1547,6 @@ public class DBconnector {
 			return;
 		}
 
-		// // remove the exam from database(exams_results table)
-		// try {
-		// PreparedStatement stmt = con.prepareStatement("DELETE FROM exams_results
-		// WHERE ExamID = '" + examID + "'");
-		// stmt.executeUpdate();
-		// } catch (SQLException e) {
-		// client.sendToClient("sql exception");
-		// e.printStackTrace();
-		// return;
-		// }
-
-		// // remove the exam from database(exams_results_computerized table)
-		// try {
-		// PreparedStatement stmt = con
-		// .prepareStatement("DELETE FROM exams_results_computerized WHERE ExamID = '" +
-		// examID + "'");
-		// stmt.executeUpdate();
-		// } catch (SQLException e) {
-		// client.sendToClient("sql exception");
-		// e.printStackTrace();
-		// return;
-		// }
-
-		// remove the question in exam from database(questions_in_exam table)
 		try {
 			PreparedStatement stmt = con
 					.prepareStatement("DELETE FROM questions_in_exam WHERE ExamID = '" + examID + "'");
@@ -1909,6 +1888,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends all the details of the exam of the student back to the teacher
 	 *
@@ -1956,6 +1936,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends Arraylist of courses back to the teacher
 	 *
@@ -2020,6 +2001,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -2075,6 +2057,7 @@ public class DBconnector {
 		return examResultsList;
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the teacher Arraylist of examID with grades
 	 *
@@ -2158,6 +2141,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the principle all the questions' details for View Info option
 	 *
@@ -2190,6 +2174,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * Sends to the principle all the exams' details for View Info option
 	 *
@@ -2222,10 +2207,6 @@ public class DBconnector {
 					setSecondTableExamData(rs.getString(1), ce);
 					examsDetails.add(ce);
 				}
-				// examsDetails.add(new ComputerizedExam(rs.getString(1), "", rs.getString(3),
-				// rs.getString(4),
-				// rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8),
-				// rs.getString(9)));
 				else if (rs.getString(9).equals("M")) {
 					// public ManualExam(String examID, String bankID, String courseID, String
 					// allocatedTime, String author, String type) {
@@ -2245,6 +2226,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * sets information for a specific exam (date, duration, NumtotalStudents,
 	 * NumSubmitted_1, setNumSubmitted_0) by it's ID
@@ -2266,11 +2248,8 @@ public class DBconnector {
 					"SELECT count(Submited) from exams_results where ExamID= '" + examID + "' and Submited=\"0\"");
 			ResultSet rs3 = stmt3.executeQuery(
 					"SELECT max(CAST(TimeOfExecution AS UNSIGNED)) from exams_results where ExamID= '" + examID + "'");
-			// SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %T.%f');
 			ResultSet rs4 = stmt4.executeQuery(
 					"SELECT distinct DATE_FORMAT(Date, '%d-%m-%Y') from exams_results where ExamID= '" + examID + "'");
-			// ResultSet rs4 = stmt4.executeQuery("SELECT distinct Date from exams_results
-			// where ExamID= '"+examID+"'");
 
 			if (rs1.next())
 				e.setNumSubmitted_1(rs1.getString(1));
@@ -2280,7 +2259,6 @@ public class DBconnector {
 			if (rs3.next())
 				e.setDuration(rs3.getString(1));
 			if (rs4.next())
-				// e.setDate(rs4.getString(1));
 				e.setDate(rs4.getString(1));
 			rs1.close();
 			rs2.close();
@@ -2291,6 +2269,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * The functions determines whether the ID gotten from the principle reports'
 	 * textField exists in the DB and us of the correct type
@@ -2306,7 +2285,6 @@ public class DBconnector {
 	 * @author Meitar El-Ezra
 	 */
 	public void checkIfSearchedIDExists(String ID, String type, ConnectionToClient client) throws IOException {
-
 		Boolean doesExist = false;
 		if (type.equals("S") || type.equals("T")) {
 			// checks if there is a tuple in the users list of the matching type with the
@@ -2355,6 +2333,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * sends to the principle the list of teachers' names that teach a certain
 	 * course
@@ -2401,6 +2380,7 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * sets the TimeOfExecution and the submitted columns according to the
 	 * information from the student who pressed submit into the exam_results table
@@ -2512,6 +2492,7 @@ public class DBconnector {
 		client.sendToClient("**********updated student's exam's info into DB");
 	}
 
+	// ***********************************************************************************************
 	/**
 	 * sets the TimeOfExecution and the submitted columns according to the
 	 * information from the student who pressed submit into the exam_results table
@@ -2528,7 +2509,7 @@ public class DBconnector {
 	 */
 	private void UpdateManualSubmittedExamInfoByExamIDandStudentID(String status, String estimatedTime,
 			String studentID, String examID, String allocatedTime, ConnectionToClient client) throws IOException {
-		// TODO insert INTO exams_results_computerized :examID, studentID, gradeBySystem
+		//insert INTO exams_results_computerized :examID, studentID, gradeBySystem
 		// (calculate) ,
 		// ConfirmedByTeacher = 0 (for now)
 
@@ -2599,6 +2580,12 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * a query to get all the requests the pronciple has got and that are in the DB
+	 * @param client principle
+	 * @throws IOException
+	 */
 	private void getRequestsToPrinciple(ConnectionToClient client) throws IOException {
 		Request request = null;
 		try {
@@ -2617,6 +2604,12 @@ public class DBconnector {
 		}
 	}
 
+	// ***********************************************************************************************
+	/**
+	 * queries to delete all the requests the principle has in the DB
+	 * @param client principle
+	 * @throws IOException
+	 */
 	private void deleteRequestsToPrinciple(ConnectionToClient client) throws IOException {
 		String usernameT = null;
 		try {
@@ -2641,9 +2634,11 @@ public class DBconnector {
 		client.sendToClient(new String[] { "GetTeacherUserNameFromRequest", usernameT });
 	}
 
+	// ***********************************************************************************************
 	/**
-	 * @param studnetId
-	 * @param client
+	 * a query to get all the student's exams that he submitted and got a grade in (Computerized)/ that were checked (Manual)
+	 * @param studnetId the ID of the student
+	 * @param client student
 	 * @author Michael Malka
 	 * @throws IOException
 	 */
@@ -2696,14 +2691,16 @@ public class DBconnector {
 		System.out.println("END getExamResultsByStudentId");
 	}
 
+	// ***********************************************************************************************
 	/**
-	 *
-	 * @param examID
-	 * @param studentID
-	 * @param questionsOfExam
-	 * @param answersOfStudent
-	 * @param client
+	 * a query to add the submitted Comp. exanm of student's answers to the DB
+	 * @param examID the ID of the comp. exam
+	 * @param studentID the ID of the examinee
+	 * @param questionsOfExam list of the questions that were on the computerized exam
+	 * @param answersOfStudent String array of the student's answers from the comp. exam
+	 * @param client student
 	 * @throws IOException
+	 * @author Michael Malka and Meitar El Ezra
 	 */
 	private void updateCopmuterizedSubmittedExamAnswersByExamIDStudentIDandQuestionID(String examID, String studentID,
 			List<Question> questionsOfExam, String[] answersOfStudent, ConnectionToClient client) throws IOException {
@@ -2746,10 +2743,11 @@ public class DBconnector {
 		client.sendToClient("");
 	}
 
+	// ***********************************************************************************************
 	/**
 	 *
-	 * @param examID
-	 * @param client
+	 * @param examID the ID of the exam we want to get the type of
+	 * @param client student
 	 * @throws IOException
 	 */
 	private void getExamTypeByExamID(String examID, ConnectionToClient client) throws IOException {
@@ -2771,7 +2769,14 @@ public class DBconnector {
 		}
 	}
 
-
+	// ***********************************************************************************************
+	/**
+	 * get checked exam of student's information
+	 * @param examID the ID of the comp. checked exam
+	 * @param studentID the ID of the calling student
+	 * @param client student
+	 * @throws IOException
+	 */
 	private void getmissingData_QuestionInExamWithStudentAnswers(String examID, String studentID, ConnectionToClient client) throws IOException
 	{
 		List<QuestionInExam> questions = new ArrayList<>();

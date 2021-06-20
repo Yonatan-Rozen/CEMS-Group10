@@ -17,7 +17,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logic.exam.IExam;
-
+/**
+ * A controller class which controls the "View Exams" screen fron the "View Info" option
+ *  of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewExamsInfoScreenController implements Initializable{
 
 	// JAVAFX INSTNCES ******************************************************
@@ -81,6 +85,7 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 	private static ObservableList<IExam> examsDetails;// = new ArrayList<>();
 	private static Button backToViewInfoBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tblE1 = tblVExamsDetails1;
@@ -107,6 +112,7 @@ public class PrincipleViewExamsInfoScreenController implements Initializable{
 		ClientUI.chat.accept(new String[] { "sbViewExamsBtn" });
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressBackToViewInfo(ActionEvent event) throws IOException {
 		PrincipleMenuBarController.	mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));

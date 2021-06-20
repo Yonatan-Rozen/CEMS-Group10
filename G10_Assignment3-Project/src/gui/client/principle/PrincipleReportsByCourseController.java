@@ -20,14 +20,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import logic.exam.ExamResults;
-
+/**
+ * A controller class which controls the "Reports By Course" screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleReportsByCourseController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private BarChart<String, Integer> sbHistogramBc;
-
-	//	@FXML
-	//	private AnchorPane sbBarChartContainerPn;
 
 	@FXML
 	private NumberAxis sbAmountAxisNa;
@@ -74,7 +74,6 @@ public class PrincipleReportsByCourseController implements Initializable {
 	private static Button showReportsByTeacherBtn;
 	private static Button backToViewReportsBtn;
 	private static Label courseIDLbl;
-	//	private static AnchorPane barChartContainerPn;
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> teachersList = FXCollections.observableArrayList();
@@ -87,10 +86,10 @@ public class PrincipleReportsByCourseController implements Initializable {
 	public static PrincipleReportsByCourseController prbcController;
 	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			//			barChartContainerPn = sbBarChartContainerPn;
 			prbcController = new PrincipleReportsByCourseController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -141,6 +140,7 @@ public class PrincipleReportsByCourseController implements Initializable {
 		}
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void BtnPressPrevousRep(ActionEvent event) {
 		System.out.println("PrincipleReports::BtnPressPrevousRep");

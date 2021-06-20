@@ -19,9 +19,11 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import logic.exam.ExamResults;
-
+/**
+ * A controller class which controls the "Reports By Student" screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleReportsByStudentController implements Initializable {
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
@@ -54,9 +56,6 @@ public class PrincipleReportsByStudentController implements Initializable {
 	@FXML
 	private ChoiceBox<String> sbCourcesCb;
 
-//	@FXML
-//	private AnchorPane sbBarChartContainerPn;
-
 	@FXML
 	private Button sbShowReportsByCourseBtn;
 
@@ -75,7 +74,6 @@ public class PrincipleReportsByStudentController implements Initializable {
 	private static Button showReportsByCourseBtn;
 	private static Button backToViewReportsBtn;
 	private static Label studentIDLbl;
-//	private static AnchorPane barChartContainerPn;
 
 	// STATIC INSTANCES ****************************************************
 	public static ObservableList<String> coursesList = FXCollections.observableArrayList();
@@ -88,11 +86,12 @@ public class PrincipleReportsByStudentController implements Initializable {
 	public static PrincipleReportsByStudentController prbsController;
 	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			sbAmountAxisNa.setTickLabelFormatter(isc);
-//			barChartContainerPn = sbBarChartContainerPn;
+			//			barChartContainerPn = sbBarChartContainerPn;
 			prbsController = new PrincipleReportsByStudentController();
 			histogramBc = sbHistogramBc;
 			reportsByLbl = sbReportsByLbl;
@@ -120,7 +119,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 			courcesCb.setItems(coursesList);
 
 			// hide barchart until after pressing SHOW
-//			barChartContainerPn.setVisible(false);
+			//			barChartContainerPn.setVisible(false);
 
 			// set up a listener that sets the disable value of
 			// 'showReportsByCourseBtn' according to the selected value
@@ -141,6 +140,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 		}
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void BtnPressPrevousRep(ActionEvent event) {
 		System.out.println("PrincipleReports::BtnPressPrevousRep");
@@ -188,7 +188,7 @@ public class PrincipleReportsByStudentController implements Initializable {
 		previousRepBtn.setDisable(true);
 		histogramBc.getData().removeAll(series);
 		setExamResultData();
-//		barChartContainerPn.setVisible(true);
+		//		barChartContainerPn.setVisible(true);
 
 	}
 
