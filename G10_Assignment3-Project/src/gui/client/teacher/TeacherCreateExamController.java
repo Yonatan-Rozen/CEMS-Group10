@@ -32,6 +32,12 @@ import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 
+/**
+ * A controller that controls the first stage in the making of an exam, including:
+ * <br>* choosing the course of the exam <br>* choosing quesitons to add to the exam
+ * <br>* removing questions from the exam
+ * @author Eliran Amerzoyev
+ */
 public class TeacherCreateExamController implements Initializable {
 	public static TeacherCreateExamController tceController;
 
@@ -366,14 +372,26 @@ public class TeacherCreateExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setBankChoiceBox(List<String> msg) {
-		bankList.addAll(msg);
+	/**
+	 * Sets the first choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setBankChoiceBox(List<String> subjectList) {
+		bankList.addAll(subjectList);
 	}
 
-	public void setCourseChoiceBox(List<String> msg) {
-		CourseList.addAll(msg);
+	/**
+	 * Sets the second choice box with the courses under the chosen subject
+	 * @param courseList The list of courses
+	 */
+	public void setCourseChoiceBox(List<String> courseList) {
+		CourseList.addAll(courseList);
 	}
 
+	/**
+	 * Open a preivew window for a chosen question
+	 * @param question The chosen question
+	 */
 	public void chooseQuestionToPreview(Question question) {
 		try {
 			new TeacherPreviewQuestionController().start(new Stage());
@@ -383,18 +401,30 @@ public class TeacherCreateExamController implements Initializable {
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
 
+	/**
+	 * Adds the question to the exam
+	 * @param question The selected question
+	 */
 	public void addQuestionToCurrentQuestions(QuestionInExam question) {
 		questionObservableList.add(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
 	}
 
+	/**
+	 * Removes the question from the exam
+	 * @param question The selected question
+	 */
 	public void removeQuestionFromCurrentQuestions(QuestionInExam question) {
 		questionObservableList.remove(question);
 		currentQuestionsTable.setItems(questionObservableList);
 		questionInExam = currentQuestionsTable.getItems();
 	}
 
+	/**
+	 * Sets the left tableview with all the questions under the chosen subject
+	 * @param questions The list of questions
+	 */
 	public void setQuestionTableView(List<QuestionInExam> questions) {
 		questionList = questions;
 		questionObservableList.clear();
@@ -402,14 +432,24 @@ public class TeacherCreateExamController implements Initializable {
 		availableQuestionsTv.setItems(questionObservableList);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void successfulCreateExam(String Msg) {
 		msg = Msg;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public ObservableList<QuestionInExam> getCurrentObservableList() {
 		return questionObservableList;
 	}
 
+	/**
+	 * Get the current list of questions of the right tableview
+	 * @return The list of question that will be part of the exam
+	 */
 	public List<QuestionInExam> getCurrentList() {
 		return questionInExam;
 	}

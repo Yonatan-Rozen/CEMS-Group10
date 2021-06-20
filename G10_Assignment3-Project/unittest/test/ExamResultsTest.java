@@ -79,7 +79,7 @@ class ExamResultsTest {
 	 */
 	@Test
 	public void testInsertedGradeIsLessThanZero() {
-		boolean actual =  examResults.addGrade("-1");
+		boolean actual = examResults.addGrade("-1");
 		assertFalse(actual);
 	}
 	

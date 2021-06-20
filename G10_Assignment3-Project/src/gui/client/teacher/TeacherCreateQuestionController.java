@@ -24,6 +24,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * A controller that controls the creation of questions, including:
+ * <br>* choosing the subject of the quesiton<br>* typing the body and 4 answers of the question
+ * <br>* choosing only one answer
+ * @author Yonatan Rozen
+ */
 public class TeacherCreateQuestionController implements Initializable {
 	public static TeacherCreateQuestionController tcqController;
 	// JAVAFX INSTNCES ******************************************************
@@ -218,10 +224,18 @@ public class TeacherCreateQuestionController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setSubjectChoiceBox(List<String> msg) {
-		subjectList.addAll(msg);
+	/**
+	 * Sets the choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setSubjectChoiceBox(List<String> subjectList) {
+		TeacherCreateQuestionController.subjectList.addAll(subjectList);
 	}
 
+	/**
+	 * Sets a success message for a successful creation of a question
+	 * @param Msg
+	 */
 	public void successfulCreateQuestion(String Msg) {
 		msg = Msg;
 	}

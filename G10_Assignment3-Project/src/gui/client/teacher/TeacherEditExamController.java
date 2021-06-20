@@ -31,6 +31,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.exam.IExam;
 
+/**
+ * A controller that controls all the functionalites of editing an exam, including:
+ * <br>* Deleting an exam<br>* editing comments of computerized exams
+ * <br>* changing file of manual exam
+ * @author Eliran Amerzoyev & Yonatan Rozen 
+ */
 public class TeacherEditExamController implements Initializable {
 	public static TeacherEditExamController teeController;
 
@@ -345,14 +351,25 @@ public class TeacherEditExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setBankChoiceBox(List<String> msg) {
-		bankList.addAll(msg);
+	/**
+	 * Sets the choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setBankChoiceBox(List<String> subjectList) {
+		bankList.addAll(subjectList);
+	}
+	/**
+	 * Sets the choice box with all the courses under the chosen subject
+	 * @param courseList The list of subjects
+	 */
+	public void setCourseChoiceBox(List<String> courseList) {
+		CourseList.addAll(courseList);
 	}
 
-	public void setCourseChoiceBox(List<String> msg) {
-		CourseList.addAll(msg);
-	}
-
+	/**
+	 * Sets the tableview with all the exams under the chosen subject and coruse
+	 * @param examsList The list of exams
+	 */
 	public void setExamTableView(List<IExam> examsList) {
 		examList = examsList;
 		examObservableList.clear();
@@ -360,6 +377,9 @@ public class TeacherEditExamController implements Initializable {
 		examsTv.setItems(examObservableList);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void successfulEditExam(String Msg) {
 		msg = Msg;
 	}

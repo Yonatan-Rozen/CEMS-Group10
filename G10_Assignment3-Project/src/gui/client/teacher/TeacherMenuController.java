@@ -21,6 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * A controller that controls the buttons in the teacher main menu
+ * @author Yonatan Rozen
+ */
 public class TeacherMenuController implements Initializable {
 	public static TeacherMenuController tmController;
 	// JAVAFX INSTANCES *****************************************************

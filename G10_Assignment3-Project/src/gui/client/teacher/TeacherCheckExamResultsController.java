@@ -31,6 +31,12 @@ import logic.exam.ComputerizedResults;
 import logic.exam.ExamResultOfStudent;
 import logic.exam.ManualResults;
 
+/**
+ * A controller that controls a tableview that contains 
+ * all the completed exams that the teacher didn't check yet.
+ * The exams shown are only exams made by the currently connected teacher
+ * @author Yonatan Rozen
+ */
 public class TeacherCheckExamResultsController implements Initializable {
 	public static TeacherCheckExamResultsController tcrController;
 	// JAVAFX INSTANCES ******************************************************
@@ -177,10 +183,13 @@ public class TeacherCheckExamResultsController implements Initializable {
 					"Please choose file to upload").showAndWait();
 		}
 	}
-	// INTERNAL USE METHODS *************************************************
-
+	
 	// EXTERNAL USE METHODS *************************************************
-	public void setComputerizedResults(List<ExamResultOfStudent> results) {
+	/**
+	 * Sets the tableview with all the completed exams which were not checked yet
+	 * @param results The list of completed exams
+	 */
+	public void setResults(List<ExamResultOfStudent> results) {
 
 		if (results == null || results.contains(null))
 			System.err.println("bad info!");

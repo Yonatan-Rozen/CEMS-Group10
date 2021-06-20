@@ -395,7 +395,7 @@ public class ChatClient extends AbstractClient {
 			System.out.println(computerizedResultsList);
 			switch (((ExamResultOfStudent) obj).getExamID()) {
 			case "SetComputerizedExamResultsByUsername":
-				TeacherCheckExamResultsController.tcrController.setComputerizedResults(computerizedResultsList);
+				TeacherCheckExamResultsController.tcrController.setResults(computerizedResultsList);
 				return;
 			default:
 				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");

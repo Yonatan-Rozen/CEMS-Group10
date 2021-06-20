@@ -20,6 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * A controller that controls the buttons of the teacher menu side bar
+ * @author Yonatan Rozen
+ */
 public class TeacherMenuBarController implements Initializable {
 	public static TeacherMenuBarController tmbController;
 	// JAVAFX INSTANCES ******************************************************
