@@ -21,7 +21,7 @@ public class ServerSignInTest {
 	
 	private class ServerConsoleControllerStub implements IServerConsoleController{
 
-		/* stubing to avoid NullPointerException */
+		/* stubing to avoid NullPointerException 'connectoToDB()'*/
 		@Override
 		public void println(String info) {
 			System.out.println(info);
@@ -64,9 +64,10 @@ public class ServerSignInTest {
 		String actual = null;
 		
 		// first login returns User object
-		if (!(dbconnector.getUserInfoByUsernameAndPassword(username,password) instanceof User)) 
+		if (!(dbconnector.getUserInfoByUsernameAndPassword(username,password) instanceof User)) {
 			fail();
-			
+			return;
+		}
 		// second login returns String error message
 		actual = (String) dbconnector.getUserInfoByUsernameAndPassword(username,password); 
 		

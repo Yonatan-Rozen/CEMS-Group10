@@ -28,8 +28,11 @@ public class ExamResults implements Serializable {
 	}
 
 	// for the other grades with examID already exist
-	public void addGrade(String grade) {
-		gradesList.add(Integer.parseInt(grade));
+	public boolean addGrade(String grade) {
+		int gradeInt = Integer.parseInt(grade);
+		if (gradeInt < 0 || gradeInt > 100)
+			return false;
+		return gradesList.add(gradeInt);
 	}
 
 	public double getMedian() {
@@ -60,23 +63,24 @@ public class ExamResults implements Serializable {
 	}
 
 	public XYChart.Series<String, Integer> getGraph() {
-		List<String> gradesFromItoJlist = new ArrayList<>();
-		int studentGradeBins[] = new int[10];
 		XYChart.Series<String, Integer> series = new XYChart.Series<>();
+		List<String> gradesFromItoJlist = new ArrayList<>();
+		int studentGradeBins[];
 
-		// init gradesFromItoJlist
-		gradesFromItoJlist.add("0-10");
-		gradesFromItoJlist.add("11-20");
-		gradesFromItoJlist.add("21-30");
-		gradesFromItoJlist.add("31-40");
-		gradesFromItoJlist.add("41-50");
-		gradesFromItoJlist.add("51-60");
-		gradesFromItoJlist.add("61-70");
-		gradesFromItoJlist.add("71-80");
-		gradesFromItoJlist.add("81-90");
-		gradesFromItoJlist.add("91-100");
+		initGradesFromItoJlist(gradesFromItoJlist);
 
 		// init studentGradeBins
+		studentGradeBins = getStudentsGradeBins();
+
+		// init series
+		for (int i = 0; i < 10; i++) {
+			series.getData().add(new XYChart.Data<String, Integer>(gradesFromItoJlist.get(i), studentGradeBins[i]));
+		}
+		return series;
+	}
+
+	public int[] getStudentsGradeBins() {
+		int studentGradeBins[] = new int[10];
 		Arrays.fill(studentGradeBins, 0);
 		for (int grade : gradesList) {
 			if (grade >= 0 && grade <= 10)
@@ -100,11 +104,33 @@ public class ExamResults implements Serializable {
 			else if (grade >= 91 && grade <= 100)
 				studentGradeBins[9]++;
 		}
+		return studentGradeBins;
+	}
 
-		// init series
-		for (int i = 0; i < 10; i++) {
-			series.getData().add(new XYChart.Data<String, Integer>(gradesFromItoJlist.get(i), studentGradeBins[i]));
-		}
-		return series;
+	public void initGradesFromItoJlist(List<String> gradesFromItoJlist) {
+		// init gradesFromItoJlist
+		gradesFromItoJlist.add("0-10");
+		gradesFromItoJlist.add("11-20");
+		gradesFromItoJlist.add("21-30");
+		gradesFromItoJlist.add("31-40");
+		gradesFromItoJlist.add("41-50");
+		gradesFromItoJlist.add("51-60");
+		gradesFromItoJlist.add("61-70");
+		gradesFromItoJlist.add("71-80");
+		gradesFromItoJlist.add("81-90");
+		gradesFromItoJlist.add("91-100");
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof ExamResults))
+			return false;
+		ExamResults otherExamResults = (ExamResults) other;
+		
+		if (!this.getExamID().equals(otherExamResults.getExamID()))
+			return false;
+		
+		List<Integer> otherGrades = otherExamResults.getGradesList();
+		return gradesList.equals(otherGrades);
 	}
 }
