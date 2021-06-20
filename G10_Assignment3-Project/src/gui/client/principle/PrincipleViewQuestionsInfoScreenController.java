@@ -18,7 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logic.question.CorrectAnswerOfQuestion;
 import logic.question.Question;
-
+/**
+ * A controller class which controls the "View Questions" screen from the "View Info" option
+ *  of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewQuestionsInfoScreenController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
@@ -58,6 +62,7 @@ public class PrincipleViewQuestionsInfoScreenController implements Initializable
 	private static ObservableList<Question> questionsDetails;// = new ArrayList<>();
 	private static Button backToViewInfoBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tblE = tblVQuestionsDetails;
@@ -76,14 +81,13 @@ public class PrincipleViewQuestionsInfoScreenController implements Initializable
 		ClientUI.chat.accept(new String[] { "sbViewQuestionsBtn" });
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressBackToViewInfo(ActionEvent event) throws IOException {
 		PrincipleMenuBarController.	mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));
 	}
 
-
 	// EXTERNAL USE METHODS *************************************************
-
 	/**
 	 * This method puts the tuples of the questions from the DB into the tableView
 	 * @param questionsList List<Question> of the questions in the table from DB

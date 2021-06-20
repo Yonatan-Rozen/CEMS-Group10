@@ -17,9 +17,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logic.User;
-
+/**
+ * A controller class which controls the "View Users" screen from the "View Info" option
+ *  of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewUsersInfoScreenController implements Initializable {
-
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
 	private TableView<User> tblVusersDetails;
@@ -51,6 +54,7 @@ public class PrincipleViewUsersInfoScreenController implements Initializable {
 	private static ObservableList<User> usersDetails;// = new ArrayList<>();
 	private static Button backToViewInfoBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tblE = tblVusersDetails;
@@ -68,6 +72,7 @@ public class PrincipleViewUsersInfoScreenController implements Initializable {
 
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressBackToViewInfo(ActionEvent event) throws IOException {
 		PrincipleMenuBarController.	mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewInfo"));

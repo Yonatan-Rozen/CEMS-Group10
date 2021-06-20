@@ -18,7 +18,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * Controller that control the Student Menu Bar Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentMenuBarController implements Initializable {
 	public static StudentMenuBarController smbController;
 	// JAVAFX INSTANCES ******************************************************

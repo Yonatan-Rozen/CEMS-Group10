@@ -26,6 +26,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.exam.ManualExam;
 
+/**
+ * Controller that control the Student Take Manual Exam Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentTakeExamManuallyController implements Initializable {
 	public static StudentTakeExamManuallyController stemController = new StudentTakeExamManuallyController();;
 	// JAVAFX INSTNCES ******************************************************
@@ -145,19 +150,27 @@ public class StudentTakeExamManuallyController implements Initializable {
 		}
 	}
 
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
-	 * @param examTupple one exam from the exams table, with all it's fields
+	 * Set the Exam ID of the Manual Exam.
+	 * @param examID FromTeacher the running exam ID sent from the teacher
 	 */
 	public void setExam(ManualExam examTupple) {
 		exam = examTupple;
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Stop the Exam Automatically for the student
+	 */
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
 		stopExam("Not successful", null);
 
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Stop the Exam after the student submitted the exam.
+	 * @param examID FromTeacher the running exam ID sent from the teacher
+	 */
 	public void stopExam(String submited, String FilePath) throws IOException {
 		System.out.println("studentTakeManualExam - stopExam :: exam: "+exam);
 		estimatedTime = System.nanoTime() - startTime; // elapsed time in nanoseconds
@@ -169,7 +182,11 @@ public class StudentTakeExamManuallyController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentExamSubmitted.fxml")));
 		StudentExamSubmittedController.sesController.setExamDetailsManual(String.format("%d", estimatedTime), examID, exam.getAllocatedTime(), submited, FilePath);
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Initialize Timer for the student to take the exam.
+	 * @param time, Represent the allocated time for the exam.
+	 */
 	private void initializeTimer(String time) {
 		hour = Integer.parseInt(time) / 60;
 		min = Integer.parseInt(time) % 60;
@@ -178,7 +195,10 @@ public class StudentTakeExamManuallyController implements Initializable {
 		ddMin = dFormat.format(min);
 		timerLbl.setText(ddHour + ":" + ddMin);
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Start the Timer for the student to take the exam.
+	 */
 	private void startTimer() {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -257,7 +277,5 @@ public class StudentTakeExamManuallyController implements Initializable {
 
 			}
 		}, 0, 1000);
-
-
 	}
 }
