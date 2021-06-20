@@ -3,7 +3,7 @@ package logic.exam;
 import java.io.Serializable;
 /**
  * Represent The Teacher request to the principle
- * @author Tuval Zitelbach, Meitar Elezra, Michael Malka
+ * @author Tuval Zitelbach
  */
 @SuppressWarnings("serial")
 public class Request implements Serializable
