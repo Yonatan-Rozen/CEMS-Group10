@@ -16,9 +16,9 @@ import server.DBconnector;
 public class ServerGetExamResultsTest {
 
 	private DBconnector dbconnector;
-	String courseName;
-	String userName;
-	String type;
+	private String courseName;
+	private String userName;
+	private String type;
 	
 	ExamResults examResults010101;
 	ExamResults examResults010102;

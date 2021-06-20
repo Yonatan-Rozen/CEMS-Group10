@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import client.IClientController;
 import common.IntegerStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,6 +25,12 @@ import logic.exam.ExamResults;
 
 public class TeacherReportsController implements Initializable {
 	public static TeacherReportsController trController;
+
+	public static IClientController chat;
+
+	public void setClientController(IClientController chat) {
+		TeacherReportsController.chat = chat;
+	}
 
 	// JAVAFX INSTNCES ******************************************************
 
@@ -68,10 +75,12 @@ public class TeacherReportsController implements Initializable {
 	private int index;
 
 	// INITIALIZE METHOD ****************************************************
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		trController = new TeacherReportsController();
+		trController.setClientController(ClientUI.chat);
 		histogramBc = sbHistogramBc;
 		sbAmountAxisNa.setTickLabelFormatter(integerStringConverter);
 		examIDLbl = sbExamIDLbl;
@@ -83,32 +92,40 @@ public class TeacherReportsController implements Initializable {
 		previousRepBtn.setDisable(true);
 		courcesCb = sbCourcesCb;
 		courcesCb.setItems(coursesList);
-		
-		courcesCb.getSelectionModel().selectedItemProperty()
-		.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
 
-			if (newCourse != null) {
-				// show the first exam result of the first
-				histogramBc.getData().removeAll(series);
-				System.out.println("courcesCb.getValue() : " + newCourse);
-				ClientUI.chat.accept(new String[] { "GetExamDetails", newCourse ,ChatClient.user.getUsername(), "T" }); /// for examResultsList
-				System.out.println("examResultsList should always be with items : " + examResultsList);
-				// reset next button
+		courcesCb.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
+					histogramBc.getData().removeAll(series);
+					loadChoosenCourseExamRepurts(newCourse, ChatClient.user.getUsername());
+				});
+	}
+
+	public boolean loadChoosenCourseExamRepurts(String courseName, String username) {
+		if (courseName != null) {
+
+			/// for examResultsList;
+			if (chat != null)
+				chat.accept(new String[] { "GetExamDetails", courseName, username, "T" });
+			else return false;
+			// reset next button
+			try {
 				if (examResultsList.size() > 1)
 					nextRepBtn.setDisable(false);
-				else nextRepBtn.setDisable(true);
-	
+				else
+					nextRepBtn.setDisable(true);
+
 				// reset previous button
 				previousRepBtn.setDisable(true);
-	
+
 				// reset index
 				index = 0;
-	
+
+				// show the exam results of the first exam on the list
 				setExamResultData();
-			}
-			
-		});
-		
+			} catch (NullPointerException e) { }
+			return true;
+		}
+		return false;
 	}
 
 	// ACTION METHODS *******************************************************
@@ -150,23 +167,31 @@ public class TeacherReportsController implements Initializable {
 
 	// INTERNAL USE METHODS *************************************************
 
-	
-
 	/**
 	 * Set up the barchart with the current exam result details
 	 */
 	private void setExamResultData() {
 		ExamResults er = examResultsList.get(index);
-		examIDLbl.setText("ExamID: #" + er.getExamID());
-		medianLbl.setText("Median: " + String.format("%.2f", er.getMedian()));
-		averageLbl.setText("Average: " + String.format("%.2f", er.getAverage()));
+		String examID = "ExamID: #" + er.getExamID();
+		String median = "Median: " + String.format("%.2f", er.getMedian());
+		String average = "Average: " + String.format("%.2f", er.getAverage());
 		series = er.getGraph();
+
+		setLabelsAndBarChart(examID, median, average);
+	}
+
+	public void setLabelsAndBarChart(String examID, String median, String average) {
+		examIDLbl.setText(examID);
+		medianLbl.setText(median);
+		averageLbl.setText(average);
 		histogramBc.getData().add(series);
 	}
 
 	// EXTERNAL USE METHODS *************************************************
 	/**
-	 * Set coursesList, and initializes courcesCb with the first course name in the list
+	 * Set coursesList, and initializes courcesCb with the first course name in the
+	 * list
+	 * 
 	 * @param list The list of courses with exam results
 	 */
 	public void setCoursesChoiseBox(List<String> list) {
@@ -177,10 +202,12 @@ public class TeacherReportsController implements Initializable {
 
 	/**
 	 * Set up exam results list
+	 * 
 	 * @param examResultsList The exam results list
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResults) {
 		examResultsList.clear();
 		examResultsList.addAll(examResults);
 	}
+
 }
