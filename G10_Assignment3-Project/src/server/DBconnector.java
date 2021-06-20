@@ -139,11 +139,9 @@ public class DBconnector {
 				getCourseBySubject(request[1], request[2], request[3], client); // 1->subject
 				break;
 			case "btnPressStartExam":
-				System.out.println(">>>GOT HERE to get the exam so the student could start it");
 				getExamByExamID(request[1], client); // getExamByExamID(examID, client)
 				if (request[2].equals("C"))
 					getExamsQuestionsByExamID(request[1], client); // getExamsQuestionsByExamID(examID, client)
-				System.out.println("<<<GOT HERE cause finished to get the exam so the student could start it");
 				break;
 			case "btnPressSaveQuestion": // insertNewQuestionToDB(subjectName, questionBody, answer1, answer2, answer3,
 				// answer4, correctAnswer, username, author, client)
@@ -154,9 +152,7 @@ public class DBconnector {
 				getQuestionsBySubjectAndUsername(request[1], request[2], request[3], client);
 				break;
 			case "getExamResultsForStudentsExamResults":
-				System.out.println("------------> got here, before query getExamResultsByStudentId");
 				getExamResultsByStudentId(request[1], client);
-				System.out.println("------------> got here, after query getExamResultsByStudentId");
 				break;
 			case "btnPressShowExamsBySubject": // getExamsBySubjectAndUsername(subjectName, username, client)
 				getExamsBySubjectAndUsername(request[1], request[2], client);
@@ -201,7 +197,8 @@ public class DBconnector {
 				getTeacherNamesByCourseID(request[1], client);
 				break;
 			case "GetExamDetails":
-				getExamsIDAndGradesByUsernameAndCourseName(request[1], request[2], request[3], client);
+				Object listORmsg = getExamsIDAndGradesByUsernameAndCourseName(request[1], request[2], request[3]);
+				client.sendToClient(listORmsg);
 				break;
 			case "GetExamDetailsReportByCourse":
 				getExamsIDAndGradesByCourseIDandTeacherName(request[1], request[2], client);
@@ -2033,9 +2030,7 @@ public class DBconnector {
 	 *
 	 * @author Danielle sarusi, edited by Meitar El Ezra
 	 */
-	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
-			ConnectionToClient client) throws IOException {
-		System.out.println("type=" + type + "\nuser=" + userName);
+	public Object getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type) {
 		List<ExamResults> examResultsList = new ArrayList<>();
 		if (type.equals("T"))
 			examResultsList.add(new ExamResults("getExamDetailsForTeacher", "0"));
@@ -2045,7 +2040,7 @@ public class DBconnector {
 			examResultsList.add(new ExamResults("getExamDetailsForPrincipleStudent", "0"));
 		String lastExamID = "";
 		ExamResults er = null;
-		// TODO take care of student report query
+
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = null;
@@ -2061,15 +2056,6 @@ public class DBconnector {
 						+ "where exists (select * from exams_results_computerized ERC where ERC.UsernameS= '" + userName
 						+ "' and ERC.ExamID=E.ExamID )" + " and E.CourseID= C.CourseID and C.CourseName= '" + courseName
 						+ "' and B.BankID= E.BankID and C.SubjectID= B.SubjectID and ERC.ExamID= E.ExamID and ERC.GradeByTeacher is not null ORDER BY E.ExamID");
-
-				/*
-				 * SELECT ERC.ExamID, ERC.GradeByTeacher FROM exams E, courses C , banks B,
-				 * exams_results_computerized ERC where exists (select * from
-				 * exams_results_computerized ERC where ERC.UsernameS="7" and
-				 * ERC.ExamID=E.ExamID ) and E.CourseID=C.CourseID and C.CourseName=
-				 * "The History Of Art 1" and B.BankID=E.BankID and C.SubjectID=B.SubjectID and
-				 * ERC.ExamID=E.ExamID and ERC.GradeByTeacher is not null ORDER BY E.ExamID;
-				 */
 			}
 			while (rs.next()) {
 				if (!lastExamID.equals(rs.getString(1))) {
@@ -2081,14 +2067,12 @@ public class DBconnector {
 			}
 
 			rs.close();
-			System.out.println("examResultsList : " + examResultsList);
-			System.out.println("FINISHED query to get exam ID and grade");
-			client.sendToClient(examResultsList);
 		} catch (SQLException e) {
-			client.sendToClient("sql exception");
 			e.printStackTrace();
-			return;
+			return "sql exception";
 		}
+
+		return examResultsList;
 	}
 
 	/**
