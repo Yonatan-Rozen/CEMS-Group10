@@ -1,7 +1,10 @@
 package logic.exam;
 
 import java.io.Serializable;
-
+/**
+ * Represent The Teacher request to the principle
+ * @author Tuval Zitelbach, Meitar Elezra, Michael Malka
+ */
 @SuppressWarnings("serial")
 public class Request implements Serializable
 {
@@ -11,6 +14,7 @@ public class Request implements Serializable
 	private String allocatedTime;
 	private String newAllocatedTime;
 	//================================================================
+	//Constructor
 	public Request(String examID, String usernameT, String allocatedTime, String newAllocatedTime) 
 	{
 		this.examID = examID;
