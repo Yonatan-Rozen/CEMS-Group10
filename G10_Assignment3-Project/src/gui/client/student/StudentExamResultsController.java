@@ -22,7 +22,11 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.exam.ExamResultsTableStudent;
-
+/**
+ * Controller that control The Student Exam Result Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentExamResultsController implements Initializable {
 
 	public static StudentExamResultsController serController=new StudentExamResultsController();
@@ -102,6 +106,13 @@ public class StudentExamResultsController implements Initializable {
 		}
 	}
 
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * sets the result of all the exam that the student did.
+	 *
+	 * @param ExamResultsList, List of all the exam with their results that the student did.
+	 *
+	 */
 	public void setExamDetails(List<ExamResultsTableStudent> ExamResultsList) {
 		examsDetails.clear();
 		examsDetails.addAll(ExamResultsList);
@@ -110,7 +121,13 @@ public class StudentExamResultsController implements Initializable {
 		} catch (IllegalStateException e) {
 		}
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+		/**
+		 * sets the Type of the exam
+		 *
+		 * @param t, the type of the exam.
+		 *
+		 */
 	public void setType(String t) {
 		type=t;
 	}

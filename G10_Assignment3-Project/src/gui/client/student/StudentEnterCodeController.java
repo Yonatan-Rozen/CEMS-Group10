@@ -14,6 +14,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/**
+ * Controller that control the Student Enter Code Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentEnterCodeController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
@@ -88,7 +93,13 @@ public class StudentEnterCodeController implements Initializable {
 		else if(examType.equals("M"))
 			StudentTakeExamManuallyController.stemController.setExamID(examID);
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * sets Additional Time of current exam
+	 *
+	 * @param newAllocatedTime, the new allocated time for the exam.
+	 *
+	 */
 	public void setAdditionalTime(String newAllocatedTime) {
 		additionalTime = newAllocatedTime;
 	}
