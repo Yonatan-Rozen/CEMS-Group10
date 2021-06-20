@@ -27,6 +27,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logic.exam.Request;
 
+/**
+ * A controller that controls the functionalites of starting an exam, including:
+ * <br>* choosing any available exam from a list<br>* inserting 4 digit code and starting the exam
+ * <br>* possibility to request extra time<br>* possibility to stop the exam at any time
+ * @author Yonatan Rozen & Danielle Sarusi
+ */
 public class TeacherStartExamController implements Initializable {
 	public static TeacherStartExamController tseController;
 	// JAVAFX INSTANCES *****************************************************
@@ -70,8 +76,6 @@ public class TeacherStartExamController implements Initializable {
 	private static TextArea commentsTa;
 	private static TextField addedAmountTf;
 	private static Button sendRequestBtn;
-	private static Button lockExamBtn;
-	private static Label answerLbl;
 
 	// STATIC INSTANCES *****************************************************
 	public static ObservableList<String> examSubjectCourseIDList = FXCollections.observableArrayList();
@@ -101,8 +105,6 @@ public class TeacherStartExamController implements Initializable {
 		commentsTa = sbCommentsTa;
 		addedAmountTf = sbAddedAmountTf;
 		sendRequestBtn = sbSendRequestBtn;
-		lockExamBtn = sbLockExamBtn;
-		answerLbl = sbAnswerLbl;
 		commonMethodHandler.setIntegersOnlyTextLimiter(addedAmountTf, 2);
 		//**********************************
 		//populate choseExamCb with all available exams from the database
@@ -186,10 +188,18 @@ public class TeacherStartExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Sets all the avaiable exams 
+	 * @param examIDs The list of exams
+	 */
 	public void setExamIDs(List<String> examIDs) {
 		examSubjectCourseIDList.addAll(examIDs);
 	}
 
+	/**
+	 * Sets the comment for superviser (if defined)
+	 * @param typeAndComments contains {examType, comment for teacher, allocated time}
+	 */
 	public void setTypeAndOptionalComments(String[] typeAndComments) {
 		examType = typeAndComments[1];
 		if (typeAndComments[2] != null )
@@ -197,15 +207,25 @@ public class TeacherStartExamController implements Initializable {
 		allocatedTime = typeAndComments[3];
 	}
 
-
+	/**
+	 * Check if students are connected in order to start the exam
+	 * activeStudents is set to true if there is atleast 1 connected student
+	 * @param msg contains the amount of connected students
+	 */
 	public void checkStartExam(Object[] msg) {
 		activeStudents = Integer.parseInt(msg[1].toString()) != 0;
 	}
 
+	/**
+	 * Increses the amount of student that entered the exam
+	 */
 	public void IncStudentsInExam() {
 		studentsInExam++;
 	}
 
+	/**
+	 * Decreses the amount of student that entered the exam
+	 */
 	public void DecStudentsInExam(){
 		studentsInExam--;
 		if(studentsInExam==0)
@@ -224,10 +244,16 @@ public class TeacherStartExamController implements Initializable {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static int getStudentsInExam() {
 		return studentsInExam;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void setPrincipleRequestAnswer(boolean answer) {
 		//		if (answer) answerLbl.setText("Request was accepted!");
 		//		else answerLbl.setText("Request was declined!");

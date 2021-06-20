@@ -12,6 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * A controller that leads to either creating a manual exam or a computerized exam
+ * @author Eliran Amerzoyev
+ */
 public class TeacherExamTypeController implements Initializable {
 	public static TeacherExamTypeController tetController;
 

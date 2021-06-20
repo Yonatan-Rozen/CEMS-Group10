@@ -25,6 +25,11 @@ import javafx.scene.image.ImageView;
 import logic.exam.ComputerizedResults;
 import logic.question.QuestionInExam;
 
+/**
+ * A controller that controls functionalities that allow the teacher
+ * Check the question in a specific exam result of a specific student
+ * @author Yonatan Rozen
+ */
 public class TeacherCheckAnswersController implements Initializable {
 	public static TeacherCheckAnswersController tcaController;
 	// JAVAFX INSTNCES ******************************************************
@@ -195,6 +200,11 @@ public class TeacherCheckAnswersController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
+	
+	/**
+	 * Sets the details of the exam results of a specific student
+	 * @param examOfStudent The computerized exam which was completed by a specific student
+	 */
 	public void setExamOfStudentDetails(ComputerizedResults examOfStudent) {
 		this.examOfStudent = examOfStudent;
 		examIDLbl.setText(examOfStudent.getExamID());
@@ -217,6 +227,12 @@ public class TeacherCheckAnswersController implements Initializable {
 		((Button) questionsBb.getButtons().get(0)).fire();
 	}
 
+	/**
+	 * Sets the buttons at the button bar component and connects each button to a specific answered question
+	 * @param questionIndex The number of the button and question
+	 * @param b The button
+	 * @param studentAnswer The answer of the student for the current question
+	 */
 	private void setQuestionButton(int questionIndex, Button b, String studentAnswer) {
 		b.setOnAction(new EventHandler<ActionEvent>() {
 			QuestionInExam q;
@@ -307,13 +323,17 @@ public class TeacherCheckAnswersController implements Initializable {
 		});
 	}
 
+	/**
+	 * Sets all the details of the questions and the comments to be inserted for each question
+	 * @param questionAndCommentsDetails The details of the questions and the comments
+	 */
 	@SuppressWarnings("unchecked")
-	public void setQuestionInExamWithStudentAnswers(Object[] msg) {
+	public void setQuestionInExamWithStudentAnswers(Object[] questionAndCommentsDetails) {
 
-		que.addAll((List<QuestionInExam>) msg[1]);
-		answers.addAll((List<String>) msg[2]);
-		cor.addAll((List<Boolean>) msg[3]);
-		com.addAll((List<String>) msg[4]);
+		que.addAll((List<QuestionInExam>) questionAndCommentsDetails[1]);
+		answers.addAll((List<String>) questionAndCommentsDetails[2]);
+		cor.addAll((List<Boolean>) questionAndCommentsDetails[3]);
+		com.addAll((List<String>) questionAndCommentsDetails[4]);
 
 		int amount = que.size();
 		String[] studentAnswers = new String[amount];
@@ -321,7 +341,6 @@ public class TeacherCheckAnswersController implements Initializable {
 		checked = new boolean[amount];
 
 		for (int i = 0; i < amount; i++) {
-			String x = answers.get(i);
 			studentAnswers[i] = answers.get(i);
 			isCorrect[i] = cor.get(i);
 		}

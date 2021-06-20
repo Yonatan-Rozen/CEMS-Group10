@@ -44,7 +44,7 @@ class ClientGetExamResultsTest {
 	 */
 	@Test
 	void testNoCourseIsChoosen() {
-		boolean result = teacherReportsController.loadChoosenCourseExamRepurts(null, "4");
+		boolean result = teacherReportsController.loadChosenCourseExamReports(null, "4");
 		assertFalse(result);
 	}
 	
@@ -55,7 +55,7 @@ class ClientGetExamResultsTest {
 	 */
 	@Test
 	void testChoorseMathIsChoosen() {
-		boolean result = teacherReportsController.loadChoosenCourseExamRepurts("Math", "4");
+		boolean result = teacherReportsController.loadChosenCourseExamReports("Math", "4");
 		assertTrue(result);
 	}
 

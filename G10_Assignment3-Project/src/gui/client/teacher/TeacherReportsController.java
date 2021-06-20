@@ -23,6 +23,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import logic.exam.ExamResults;
 
+/**
+ * A controller that controls all the functionalites of viewing reports of exams, including:
+ * <br>* viewing report under chosen course<br>* 
+ * @author Yonatan Rozen & Danielle Sarusi
+ */
 public class TeacherReportsController implements Initializable {
 	public static TeacherReportsController trController;
 
@@ -96,11 +101,17 @@ public class TeacherReportsController implements Initializable {
 		courcesCb.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
 					histogramBc.getData().removeAll(series);
-					loadChoosenCourseExamRepurts(newCourse, ChatClient.user.getUsername());
+					loadChosenCourseExamReports(newCourse, ChatClient.user.getUsername());
 				});
 	}
 
-	public boolean loadChoosenCourseExamRepurts(String courseName, String username) {
+	/**
+	 * Load the detials of the exams under the chosen course
+	 * @param courseName The chosen course
+	 * @param username The username of the teacher
+	 * @return true if the details were loaded; false otherwise
+	 */
+	public boolean loadChosenCourseExamReports(String courseName, String username) {
 		if (courseName != null) {
 
 			/// for examResultsList;
@@ -130,11 +141,6 @@ public class TeacherReportsController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 
-	/**
-	 * Displays the previous exam report under the same course
-	 * 
-	 * @param event
-	 */
 	@FXML
 	@SuppressWarnings("unchecked")
 	void BtnPressPreviousRep(ActionEvent event) {
@@ -147,12 +153,7 @@ public class TeacherReportsController implements Initializable {
 		setExamResultData();
 
 	}
-
-	/**
-	 * Displays the next exam report under the same course
-	 * 
-	 * @param event
-	 */
+	
 	@FXML
 	@SuppressWarnings("unchecked")
 	void btnPressNextRep(ActionEvent event) {
@@ -180,6 +181,12 @@ public class TeacherReportsController implements Initializable {
 		setLabelsAndBarChart(examID, median, average);
 	}
 
+	/**
+	 * Sets all the details of the current exam report
+	 * @param examID The exam ID 
+	 * @param median The median of th exam results
+	 * @param average The average of the exam results
+	 */
 	public void setLabelsAndBarChart(String examID, String median, String average) {
 		examIDLbl.setText(examID);
 		medianLbl.setText(median);
@@ -189,9 +196,7 @@ public class TeacherReportsController implements Initializable {
 
 	// EXTERNAL USE METHODS *************************************************
 	/**
-	 * Set coursesList, and initializes courcesCb with the first course name in the
-	 * list
-	 * 
+	 * Set coursesList, and initializes courcesCb with the first course name in the list
 	 * @param list The list of courses with exam results
 	 */
 	public void setCoursesChoiseBox(List<String> list) {
@@ -202,7 +207,6 @@ public class TeacherReportsController implements Initializable {
 
 	/**
 	 * Set up exam results list
-	 * 
 	 * @param examResultsList The exam results list
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResults) {

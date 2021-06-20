@@ -34,6 +34,12 @@ import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 
+/**
+ * A controller that controls all functionalites of the final stage of the creation of an exam,
+ * including:<br>* setting scores to each question<br>* setting allocated time<br>* setting optional
+ * comments for supervising teacher and/or examinees students
+ * @author Eliran Amerzoyev
+ */
 public class TeacherComputerizedExamDefinitionsController implements Initializable {
 	public static TeacherComputerizedExamDefinitionsController tcedController;
 
@@ -303,7 +309,10 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		}
 	}
 
-	// check if all question with score(>0) and total score is 100.
+	/**
+	 * Checks if the sum of all scores reaches 100
+	 * @return true if the total score is exactly 100; false otherwise
+	 */
 	private boolean checkScores() {
 
 		int total = 0;
@@ -321,10 +330,18 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	}
 
 	// EXTERNAL USE METHODS **************************************************
+	/**
+	 * Sets the exam ID of the exam currently in the making
+	 * @param ExamID The ID of the exam
+	 */
 	public void setExamID(String ExamID) {
 		this.ExamID = ExamID;
 	}
 
+	/**
+	 * Sets the question for editing
+	 * @param question The chosen question from the tableview
+	 */
 	public void ShowQuestionAndEditScore(Question question) {
 		answer1Rb.setDisable(false);
 		answer2Rb.setDisable(false);
@@ -363,6 +380,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void successfulUpdateQuestionInExam(String Msg) {
 		msg = Msg;
 	}

@@ -25,6 +25,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.question.Question;
 
+/**
+ * A controller that controls all the functionalites of editing questions, including:
+ * <br>* editing the body and the 4 answers of the question<br>* changing the correct answer
+ * @author Yonatan Rozen
+ */
 public class TeacherEditQuestionController implements Initializable {
 	public static TeacherEditQuestionController teqController;
 	
@@ -206,6 +211,10 @@ public class TeacherEditQuestionController implements Initializable {
 				answer2Ta.getText().equals("") || answer3Ta.getText().equals("") || answer4Ta.getText().equals(""));
 	}
 	
+	/**
+	 * Checks if the corrent question was altered
+	 * @return true if any part of the question has changed;<br> false otherwise
+	 */
 	private boolean questionNotAltered() {
 		String currentMarkedAnswer = CommonMethodsHandler.getInstance().getSelectedAnswer(selected);
 		return (questionBodyTa.getText().equals(question.getQuestionBody()) &&  answer1Ta.getText().equals(question.getAnswer1()) 
@@ -213,6 +222,9 @@ public class TeacherEditQuestionController implements Initializable {
 				&& answer4Ta.getText().equals(question.getAnswer4()) && question.getCorrectAnswer().equals(currentMarkedAnswer));
 	}
 	
+	/**
+	 * Save the edited details of the current question
+	 */
 	private void saveCurrentQuestionDetails() {
 		String currentMarkedAnswer = CommonMethodsHandler.getInstance().getSelectedAnswer(selected);
 		question.setQuestionBody(questionBodyTa.getText());
@@ -226,6 +238,10 @@ public class TeacherEditQuestionController implements Initializable {
 	}
 	
 	// EXTERNAL USE METHODS **************************************************
+	/**
+	 * Sets the current details of a chosen question
+	 * @param questionToEdit The question info to edit)
+	 */
 	public void setQuestion(Question questionToEdit) {
 		question = questionToEdit;
 		editQuestionLbl.setText("Editing question #" + question.getQuestionID() + " :");
@@ -256,6 +272,10 @@ public class TeacherEditQuestionController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Sets successful message for a successfuly edited question
+	 * @param message The message
+	 */
 	public void successfulEditQuestion(String message) {
 		questionSet = true;
 		type = AlertType.CONFIRMATION;
