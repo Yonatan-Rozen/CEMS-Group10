@@ -14,7 +14,10 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+/**
+ * A controller class which controls the main menu of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleMenuController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
@@ -38,7 +41,7 @@ public class PrincipleMenuController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
-	
+
 	@FXML
 	private ImageView sbTeacherBgImg;
 
@@ -51,7 +54,6 @@ public class PrincipleMenuController implements Initializable {
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
 	private static ImageView teacherBgImg;
-
 
 	// CONTROLLER INSTANCES
 	protected static PrincipleMenuBarController pmbController;

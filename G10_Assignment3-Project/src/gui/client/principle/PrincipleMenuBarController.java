@@ -17,6 +17,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * A controller class which controls the side menu of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleMenuBarController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
@@ -46,9 +50,9 @@ public class PrincipleMenuBarController implements Initializable {
 
 	@FXML
 	private BorderPane sbMainPaneBp;
-	
-    @FXML
-    private ImageView sbMenuBg;
+
+	@FXML
+	private ImageView sbMenuBg;
 
 
 	// STATIC JAVAFX INSTANCES **********************************************
@@ -83,13 +87,12 @@ public class PrincipleMenuBarController implements Initializable {
 		menuBg.setImage(new Image("/menubar_bg.png"));
 		menuBg.setFitHeight(600);
 		menuBg.setFitWidth(230);
-		
-		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		//css
+		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
 
-		
 		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
 
