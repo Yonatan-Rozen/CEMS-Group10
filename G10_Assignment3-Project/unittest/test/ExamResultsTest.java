@@ -12,11 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javafx.scene.chart.XYChart;
 import logic.exam.ExamResults;
 
 class ExamResultsTest {
-	private ExamResults emptyExamResults;
 	private ExamResults examResults;
 	List<String> gradesFromItoJlist;
 	int studentGradeBins[];
@@ -66,7 +64,7 @@ class ExamResultsTest {
 	public void testExamResultsWithFirstGradeAsNull() {
 		firstGradeResult = null;
 		try {
-			emptyExamResults = new ExamResults(examID, firstGradeResult);
+			new ExamResults(examID, firstGradeResult);
 			fail();
 		} catch (NumberFormatException e) { }
 		assertTrue(true);
