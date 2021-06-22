@@ -43,7 +43,6 @@ public class SignInController implements Initializable {
 	private static TextField usernameTf;
 	private static PasswordField passwordPf;
 	private static ImageView logoimg;
-
 	// START METHOD *********************************************************
 	/**
 	 * Opens SignIn.fxml
@@ -60,11 +59,10 @@ public class SignInController implements Initializable {
 		ClientUI.mainStage.getIcons().add(CommonMethodsHandler.CEMS_ICON);
 
 		ClientUI.mainStage.setOnCloseRequest(event -> {
-			CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
 			ButtonType buttonYes = new ButtonType("Yes");
 			ButtonType buttonCancel = new ButtonType("Cancel");
-			Optional<ButtonType> result = methodsHandler.getNewAlert(AlertType.CONFIRMATION, "Closing client window",
+			Optional<ButtonType> result = CommonMethodsHandler.getInstance().getNewAlert(AlertType.CONFIRMATION, "Closing client window",
 					"You are about to close the window and disconnect!", "Are you sure you want to proceed?", buttonYes,
 					buttonCancel).showAndWait();
 
@@ -73,7 +71,7 @@ public class SignInController implements Initializable {
 				try{ClientUI.chat.accept(new String[] {"Disconnect",ChatClient.user.getUsername()});
 				}catch(NullPointerException e) {System.out.println("client has logged out and then closed the window...");};
 
-				methodsHandler.getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
+				CommonMethodsHandler.getInstance().getNewAlert(AlertType.INFORMATION, "Client window closed", "You have been disconnected from the server",
 						"Press ok to continue").showAndWait();
 				System.exit(0);
 			}
@@ -120,44 +118,49 @@ public class SignInController implements Initializable {
 
 	@FXML
 	public void btnPressSignIn(ActionEvent event) {
+		String username = usernameTf.getText();
+		String password =  passwordPf.getText();
 
-		CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
-
-		if (usernameTf.getText().isEmpty() || passwordPf.getText().isEmpty()) {
-			methodsHandler.getNewAlert(AlertType.ERROR, "Error message", "All fields are required!").showAndWait();
-			return;
-		}
+		Object[] alertDetails = checkEmptyInput(username, password);
 		
-		// sets ChatClient.user
-		ClientUI.chat.accept(new String[] { "btnPressSignIn", usernameTf.getText(), passwordPf.getText() });
-		try {
-			switch (ChatClient.user.getType()) {
-			case "Principle":
-				ClientUI.mainStage.hide();
-				ClientUI.mainScene
-				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
-				break;
-			case "Student":
-				ClientUI.mainStage.hide();
-				ClientUI.mainScene
-				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
-				break;
-			case "Teacher":
-				ClientUI.mainStage.hide();
-				ClientUI.mainScene
-				.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
-				break;
-			default:
-				System.out.println("error! this type doesn't exist");
-				break;
-			}
-		} catch (NullPointerException | IOException e) {
+		if (alertDetails != null)
+			CommonMethodsHandler.getInstance().getNewAlert((AlertType)alertDetails[0],(String)alertDetails[1],(String)alertDetails[2]).showAndWait();
+		
+		else {
+			// sets ChatClient.user
+			ClientUI.chat.accept(new String[] { "btnPressSignIn", usernameTf.getText(), passwordPf.getText() });
+			try {
+				switch (ChatClient.user.getType()) {
+				case "Principle":
+					ClientUI.mainStage.hide();
+					ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenu.fxml")));
+					break;
+				case "Student":
+					ClientUI.mainStage.hide();
+					ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/student/StudentMenu.fxml")));
+					break;
+				case "Teacher":
+					ClientUI.mainStage.hide();
+					ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/teacher/TeacherMenu.fxml")));
+					break;
+				default:
+					System.out.println("error! this type doesn't exist");
+					break;
+				}
+			} catch (NullPointerException | IOException e) {
 
-			if (e instanceof IOException)
-				System.out.println("could not load fxml");
-			else
-				methodsHandler.getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
+				if (e instanceof IOException)
+					System.out.println("could not load fxml");
+				else
+					CommonMethodsHandler.getInstance().getNewAlert(AlertType.ERROR, "Error message", errorMsg).showAndWait();
+			}
 		}
+	}
+
+	public Object[] checkEmptyInput(String username, String password) {
+		if (username.isEmpty() || password.isEmpty())
+			return new Object[] {AlertType.ERROR, "Error message", "All fields are required!"};
+		return null;
 	}
 
 	public void setErrorMsg(String errorMsg) {

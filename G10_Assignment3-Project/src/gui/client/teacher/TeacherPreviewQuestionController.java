@@ -19,6 +19,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.question.Question;
 
+/**
+ * A controller that controls all the functionalites of previewing a question
+ * @author Yonatan Rozen
+ */
 public class TeacherPreviewQuestionController implements Initializable {
 	public static TeacherPreviewQuestionController tpqController;
 	// JAVAFX INSTANCES ******************************************************
@@ -94,6 +98,10 @@ public class TeacherPreviewQuestionController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Sets all the detials of the chosen question
+	 * @param question The question to preview
+	 */
 	public void setQuestion(Question question) {
 		previewQuestionLbl.setText("Preview Question #" + question.getQuestionID());
 		questionBodyLbl.setText(question.getQuestionBody());

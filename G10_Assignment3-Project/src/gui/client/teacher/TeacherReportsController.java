@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import client.ChatClient;
 import client.ClientUI;
+import client.IClientController;
 import common.IntegerStringConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,8 +23,19 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import logic.exam.ExamResults;
 
+/**
+ * A controller that controls all the functionalites of viewing reports of exams, including:
+ * <br>* viewing report under chosen course<br>* 
+ * @author Yonatan Rozen & Danielle Sarusi
+ */
 public class TeacherReportsController implements Initializable {
 	public static TeacherReportsController trController;
+
+	public static IClientController chat;
+
+	public void setClientController(IClientController chat) {
+		TeacherReportsController.chat = chat;
+	}
 
 	// JAVAFX INSTNCES ******************************************************
 
@@ -68,10 +80,12 @@ public class TeacherReportsController implements Initializable {
 	private int index;
 
 	// INITIALIZE METHOD ****************************************************
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		trController = new TeacherReportsController();
+		trController.setClientController(ClientUI.chat);
 		histogramBc = sbHistogramBc;
 		sbAmountAxisNa.setTickLabelFormatter(integerStringConverter);
 		examIDLbl = sbExamIDLbl;
@@ -83,42 +97,50 @@ public class TeacherReportsController implements Initializable {
 		previousRepBtn.setDisable(true);
 		courcesCb = sbCourcesCb;
 		courcesCb.setItems(coursesList);
-		
-		courcesCb.getSelectionModel().selectedItemProperty()
-		.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
 
-			if (newCourse != null) {
-				// show the first exam result of the first
-				histogramBc.getData().removeAll(series);
-				System.out.println("courcesCb.getValue() : " + newCourse);
-				ClientUI.chat.accept(new String[] { "GetExamDetails", newCourse ,ChatClient.user.getUsername(), "T" }); /// for examResultsList
-				System.out.println("examResultsList should always be with items : " + examResultsList);
-				// reset next button
+		courcesCb.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends String> coursesList, String oldCourse, String newCourse) -> {
+					histogramBc.getData().removeAll(series);
+					loadChosenCourseExamReports(newCourse, ChatClient.user.getUsername());
+				});
+	}
+
+	/**
+	 * Load the detials of the exams under the chosen course
+	 * @param courseName The chosen course
+	 * @param username The username of the teacher
+	 * @return true if the details were loaded; false otherwise
+	 */
+	public boolean loadChosenCourseExamReports(String courseName, String username) {
+		if (courseName != null) {
+
+			/// for examResultsList;
+			if (chat != null)
+				chat.accept(new String[] { "GetExamDetails", courseName, username, "T" });
+			else return false;
+			// reset next button
+			try {
 				if (examResultsList.size() > 1)
 					nextRepBtn.setDisable(false);
-				else nextRepBtn.setDisable(true);
-	
+				else
+					nextRepBtn.setDisable(true);
+
 				// reset previous button
 				previousRepBtn.setDisable(true);
-	
+
 				// reset index
 				index = 0;
-	
+
+				// show the exam results of the first exam on the list
 				setExamResultData();
-			}
-			
-		});
-		
-		//choiceBoxEvents();
+			} catch (NullPointerException e) { }
+			return true;
+		}
+		return false;
 	}
 
 	// ACTION METHODS *******************************************************
 
-	/**
-	 * Displays the previous exam report under the same course
-	 * 
-	 * @param event
-	 */
 	@FXML
 	@SuppressWarnings("unchecked")
 	void BtnPressPreviousRep(ActionEvent event) {
@@ -131,12 +153,7 @@ public class TeacherReportsController implements Initializable {
 		setExamResultData();
 
 	}
-
-	/**
-	 * Displays the next exam report under the same course
-	 * 
-	 * @param event
-	 */
+	
 	@FXML
 	@SuppressWarnings("unchecked")
 	void btnPressNextRep(ActionEvent event) {
@@ -152,23 +169,28 @@ public class TeacherReportsController implements Initializable {
 	// INTERNAL USE METHODS *************************************************
 
 	/**
-	 * 
-	 */
-//	@SuppressWarnings("unchecked")
-//	private void choiceBoxEvents() {
-//		
-//	}
-	
-
-	/**
 	 * Set up the barchart with the current exam result details
 	 */
 	private void setExamResultData() {
 		ExamResults er = examResultsList.get(index);
-		examIDLbl.setText("ExamID: #" + er.getExamID());
-		medianLbl.setText("Median: " + String.format("%.2f", er.getMedian()));
-		averageLbl.setText("Average: " + String.format("%.2f", er.getAverage()));
+		String examID = "ExamID: #" + er.getExamID();
+		String median = "Median: " + String.format("%.2f", er.getMedian());
+		String average = "Average: " + String.format("%.2f", er.getAverage());
 		series = er.getGraph();
+
+		setLabelsAndBarChart(examID, median, average);
+	}
+
+	/**
+	 * Sets all the details of the current exam report
+	 * @param examID The exam ID 
+	 * @param median The median of th exam results
+	 * @param average The average of the exam results
+	 */
+	public void setLabelsAndBarChart(String examID, String median, String average) {
+		examIDLbl.setText(examID);
+		medianLbl.setText(median);
+		averageLbl.setText(average);
 		histogramBc.getData().add(series);
 	}
 
@@ -188,8 +210,8 @@ public class TeacherReportsController implements Initializable {
 	 * @param examResultsList The exam results list
 	 */
 	public void setExamResultsDetails(List<ExamResults> examResults) {
-		System.out.println("setExamResultsDetails :::" + examResults);
 		examResultsList.clear();
 		examResultsList.addAll(examResults);
 	}
+
 }

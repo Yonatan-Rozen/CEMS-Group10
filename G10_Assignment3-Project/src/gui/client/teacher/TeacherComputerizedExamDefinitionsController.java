@@ -34,6 +34,12 @@ import javafx.util.Callback;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 
+/**
+ * A controller that controls all functionalites of the final stage of the creation of an exam,
+ * including:<br>* setting scores to each question<br>* setting allocated time<br>* setting optional
+ * comments for supervising teacher and/or examinees students
+ * @author Eliran Amerzoyev
+ */
 public class TeacherComputerizedExamDefinitionsController implements Initializable {
 	public static TeacherComputerizedExamDefinitionsController tcedController;
 
@@ -152,7 +158,6 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreTc = sbScoreTc;
 		editTc = sbEditTc;
 		backBtn = sbBackBtn;
-//		backBtn.setBackground(Color.red);
 		finishBtn = sbFinishBtn;
 		editBtn = sbEditBtn;
 		totalScoreLbl = sbTotalScoreLbl;
@@ -281,15 +286,8 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 			if (checkScores()) {
 				ClientUI.chat.accept(new String[] { "btnPressFinishCreateComputerizedExam", ExamID,
 						studentCommentsTa.getText(), teacherCommentsTa1.getText(), allocatedTimeTf.getText(), "1",
-						ChatClient.user.getUsername() });
-
-				
-				
-				//string of scores xx|yy|zz|xx and update in sql?
-				
-				
-				
-				
+						ChatClient.user.getUsername() });				
+			
 				ButtonType buttonYes = new ButtonType("Yes");
 				ButtonType buttonNo = new ButtonType("No");
 				Optional<ButtonType> request = cmh.getNewAlert(AlertType.INFORMATION, "Exam saved",
@@ -311,7 +309,10 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		}
 	}
 
-	// check if all question with score(>0) and total score is 100.
+	/**
+	 * Checks if the sum of all scores reaches 100
+	 * @return true if the total score is exactly 100; false otherwise
+	 */
 	private boolean checkScores() {
 
 		int total = 0;
@@ -329,10 +330,18 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 	}
 
 	// EXTERNAL USE METHODS **************************************************
+	/**
+	 * Sets the exam ID of the exam currently in the making
+	 * @param ExamID The ID of the exam
+	 */
 	public void setExamID(String ExamID) {
 		this.ExamID = ExamID;
 	}
 
+	/**
+	 * Sets the question for editing
+	 * @param question The chosen question from the tableview
+	 */
 	public void ShowQuestionAndEditScore(Question question) {
 		answer1Rb.setDisable(false);
 		answer2Rb.setDisable(false);
@@ -342,8 +351,7 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		scoreLbl.setDisable(false);
 		editBtn.setDisable(false);
 		editTf.setDisable(false);
-		editTf.setText(locateRow.get(questionupdatescore.getQuestionID())); // TODO <-->
-		////
+		editTf.setText(locateRow.get(questionupdatescore.getQuestionID())); 
 		answer1Rb.setSelected(false);
 		answer2Rb.setSelected(false);
 		answer3Rb.setSelected(false);
@@ -372,6 +380,9 @@ public class TeacherComputerizedExamDefinitionsController implements Initializab
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void successfulUpdateQuestionInExam(String Msg) {
 		msg = Msg;
 	}

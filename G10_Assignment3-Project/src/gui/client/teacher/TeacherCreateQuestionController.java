@@ -24,6 +24,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * A controller that controls the creation of questions, including:
+ * <br>* choosing the subject of the quesiton<br>* typing the body and 4 answers of the question
+ * <br>* choosing only one answer
+ * @author Yonatan Rozen
+ */
 public class TeacherCreateQuestionController implements Initializable {
 	public static TeacherCreateQuestionController tcqController;
 	// JAVAFX INSTNCES ******************************************************
@@ -112,7 +118,7 @@ public class TeacherCreateQuestionController implements Initializable {
 		questionSubjectCb.setItems(subjectList);
 
 		// set up a listener that sets the disable value of 
-		// 'createQuestionBtn' acurding to the selected value
+		// 'createQuestionBtn' according to the selected value
 		questionSubjectCb.getSelectionModel().selectedItemProperty().addListener(
 			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
 			{
@@ -204,7 +210,6 @@ public class TeacherCreateQuestionController implements Initializable {
 			Optional<ButtonType> result = CommonMethodsHandler.getInstance().getNewAlert(AlertType.CONFIRMATION, 
 					"Successful question creation",msg,"Create another question under the same subject?",buttonYes,buttonNo).showAndWait();
 			if (result.get() == buttonYes){
-				System.out.println("alert::Yes");
 				questionBodyTa.clear();
 				markAnswer1Rb.setSelected(true);
 				selected = markAnswer1Rb;
@@ -213,18 +218,24 @@ public class TeacherCreateQuestionController implements Initializable {
 				answer3Ta.clear();
 				answer4Ta.clear();
 			} else if (result.get() == buttonNo) {
-				System.out.println("alert::No");
 				TeacherMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("teacher", "TeacherCreateQuestion"));
 			}
 		}
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setSubjectChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
-		subjectList.addAll(msg);
+	/**
+	 * Sets the choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setSubjectChoiceBox(List<String> subjectList) {
+		TeacherCreateQuestionController.subjectList.addAll(subjectList);
 	}
 
+	/**
+	 * Sets a success message for a successful creation of a question
+	 * @param Msg
+	 */
 	public void successfulCreateQuestion(String Msg) {
 		msg = Msg;
 	}

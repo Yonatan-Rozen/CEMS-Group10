@@ -25,6 +25,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * A controller that controls all the functionalites of the making of a manual exam, including:
+ * <br>* choosing the course of the exam <br>* uploading exam file<br>* setting allocated time
+ * @author Yonatan Rozen
+ */
 public class TeacherCreateManualExamController implements Initializable {
 	public static TeacherCreateManualExamController tcmeController;
 	// JAVAFX INSTNCES ******************************************************
@@ -172,7 +177,6 @@ public class TeacherCreateManualExamController implements Initializable {
 					String correctAnswer, author = ChatClient.user.getFirstname() + " " + ChatClient.user.getLastname();
 					ClientUI.chat.accept(new String[] { "btnPressFinishCreateManualExam", chooseCourseCb.getValue(),
 							examBankCb.getValue(), author, allocatedTimeTf.getText(), ChatClient.user.getUsername() });
-					// TODO examID should have a value here
 					ClientUI.chat.accept(new String[] { "TeacherUploadFile", examID, FilePath,"T" });
 
 					ButtonType buttonYes = new ButtonType("Yes");
@@ -199,17 +203,27 @@ public class TeacherCreateManualExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setBankChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
-		bankList.addAll(msg);
+	/**
+	 * Sets the first choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setBankChoiceBox(List<String> subjectList) {
+		bankList.addAll(subjectList);
 	}
 
-	public void setCourseChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
-		CourseList.addAll(msg);
-		System.out.println(CourseList);
+	/**
+	 * Sets the second choice box with the courses under the chosen subject
+	 * @param courseList The list of courses
+	 */
+	public void setCourseChoiceBox(List<String> courseList) {
+		CourseList.addAll(courseList);
 	}
 
+	/**
+	 * Sets the examID and a message for a successful creation of the exam
+	 * @param ID The exam ID
+	 * @param Msg The message
+	 */
 	public void successfulCreateDetailsAndSetExamID(String ID, String Msg) {
 		examID = ID;
 		msg = Msg;

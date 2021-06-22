@@ -30,6 +30,11 @@ import javafx.scene.layout.AnchorPane;
 import logic.exam.ComputerizedExam;
 import logic.question.Question;
 
+/**
+ * Controller that control the Student Take Computerized Exam Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentTakeComputerizedExamController implements Initializable {
 
 	// JAVAFX INSTNCES ******************************************************
@@ -204,10 +209,8 @@ public class StudentTakeComputerizedExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS *************************************************
-
 	/**
-	 * *
-	 *
+	 * Set the Exam ID of the Computerized Exam.
 	 * @param examIDFromTeacher the running exam ID sent from the teacher
 	 */
 	public void setExamID(String examIDFromTeacher) {
@@ -218,43 +221,42 @@ public class StudentTakeComputerizedExamController implements Initializable {
 					"There was no examID chosen by a teacher").showAndWait();
 		}
 	}
-
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
+	 * Set the Computerized Exam.
 	 * @param examTupple one exam from the exams table, with all it's fields
 	 */
 	public void setExam(ComputerizedExam examTupple) {
 		exam = examTupple;
 	}
-
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
+	 * Set all the Question of the computerized Exam.
 	 * @param questionsOfExamlist an arrayList of questions of all the questions of
 	 *                            the running exam
 	 */
 	public void setQuestionsOfExam(List<Question> questionsOfExamlist) {
 		questionsOfExam = questionsOfExamlist;
 	}
-
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
+	 *Set the all the scores of the questions in the exam.
 	 * @param questionsScoresOfExamlist
 	 */
 	public void setQuestionsScoresOfExam(List<String> questionsScoresOfExamlist) {
 		scoresOfQuestions = questionsScoresOfExamlist;
 	}
-
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
+	 *Set the Course of the computerized Exam.
 	 * @param courseName the exam's course name
 	 */
 	public void setCourseName(String courseName) {
 		examOfCourseLbl.setText("Exam - " + courseName);
 	}
-
-
+	// EXTERNAL USE METHODS *************************************************
 	/**
-	 *
+	 *Set the Question to present in the Screen.
 	 * @param questionIndex the current pressed question's index in the exam's
 	 *                      questions bar
 	 * @param b             a button for the button bar of questions to be defined
@@ -277,11 +279,17 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			}
 		});
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 *Lock the exam automatically for the student
+	 */
 	public void setSubmitButtonWhenLockInvoked() throws IOException {
 		stopExam("Not successful");
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 *Calculate Automatically the grade of the student in the Computerized exam.
+	 */
 	private int calcAutomaticGrade() {
 		int grade = 100;
 		for (int i = 0; i < questionsOfExam.size(); i++) {
@@ -291,7 +299,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		}
 		return grade;
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Submit the exam and stop the exam.
+	 * @param submited, Represent the way the exam was submitted
+	 */
 	public void stopExam(String submited) throws IOException {
 		System.out.println("StudentTakeComputerizedExam::btnPressSubmit");
 
@@ -311,7 +323,11 @@ public class StudentTakeComputerizedExamController implements Initializable {
 				examID, String.format("%d", grade), exam.getAllocatedTime(), submited, questionsOfExam,
 				answersOfStudent);
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Initialize Timer for the student to take the exam.
+	 * @param time, Represent the allocated time for the exam.
+	 */
 	private void initializeTimer(String time) {
 		hour = Integer.parseInt(time) / 60;
 		min = Integer.parseInt(time) % 60;
@@ -320,7 +336,10 @@ public class StudentTakeComputerizedExamController implements Initializable {
 		ddMin = dFormat.format(min);
 		timerLbl.setText(ddHour + ":" + ddMin);
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Start the Timer for the student to take the exam.
+	 */
 	private void startTimer() {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -401,5 +420,4 @@ public class StudentTakeComputerizedExamController implements Initializable {
 			}
 		}, 0, 1000);
 	}
-
 }

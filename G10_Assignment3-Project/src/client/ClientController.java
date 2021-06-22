@@ -2,7 +2,7 @@ package client;
 
 import java.io.IOException;
 
-public class ClientController implements ChatIF{
+public class ClientController implements ChatIF, IClientController{
 	// Class variables *************************************************
 
 		/**
@@ -29,7 +29,7 @@ public class ClientController implements ChatIF{
 			try {
 				client = new ChatClient(host, port, this);
 			} catch (IOException exception) {
-				System.out.println("Error: Can't setup connection!" + " Terminating client.");
+				System.out.println("Error: Can't setup connection! Terminating client.");
 				System.exit(1);
 			}
 		}
@@ -40,6 +40,7 @@ public class ClientController implements ChatIF{
 		 * This method waits for input from the console. Once it is received, it sends
 		 * it to the client's message handler.
 		 */
+		@Override
 		public void accept(Object obj) {
 			client.handleMessageFromClientUI(obj);
 		}

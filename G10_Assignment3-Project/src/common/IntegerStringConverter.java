@@ -2,8 +2,9 @@ package common;
 
 import javafx.util.StringConverter;
 
-/*
- * This class is used only by NumberAxis within a Barchart
+/**
+ *  This class is used to show only integer 
+ *  values at the NumberAxis of a Barchart.
  */
 public class IntegerStringConverter extends StringConverter<Number>{
 

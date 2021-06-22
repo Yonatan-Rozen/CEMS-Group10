@@ -16,9 +16,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-
+/**
+ * A controller class which controls the "View Reports" option screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewReportsController implements Initializable {
-
 	// JAVAFX INSTANCES ******************************************************
 	@FXML
 	private TextField sbteacherUserNameTf;
@@ -57,6 +59,7 @@ public class PrincipleViewReportsController implements Initializable {
 	protected static PrincipleReportsByTeacherController prbtController;
 	private CommonMethodsHandler methodsHandler = CommonMethodsHandler.getInstance();
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		teacherUserNameTf = sbteacherUserNameTf;
@@ -65,7 +68,7 @@ public class PrincipleViewReportsController implements Initializable {
 		pvrController = new PrincipleViewReportsController();
 		prbtController = new PrincipleReportsByTeacherController();
 		methodsHandler.setTextLimiter(teacherUserNameTf, 9);
-		methodsHandler.setTextLimiter(courseIDTf, 4);// CHECK WAHT ABOUT SUBJECT ID ??????????? TODO you fixed it, right? - Yonatan
+		methodsHandler.setTextLimiter(courseIDTf, 4);
 		methodsHandler.setTextLimiter(studentIDTf, 9);
 		PrincipleMenuBarController.menuBarAp.setDisable(false);
 		sbQuestionLegendIv.setImage(CommonMethodsHandler.ICON_TOOLTIP);
@@ -74,13 +77,10 @@ public class PrincipleViewReportsController implements Initializable {
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressProduceByCourse(ActionEvent event) throws IOException {
-		// TODO show exam reports by course
 		System.out.println("PrincipleViewReports::btnPressProduceByCourse");
 		insertedValue = courseIDTf.getText();
-		System.out.println(insertedValue);
 
 		if (insertedValue.equals("") || insertedValue.equals(null)) {
-			System.out.println("INSIDE IF");
 			methodsHandler
 			.getNewAlert(AlertType.ERROR, "Error message", "No course ID was inserted.", "Please re-enter.")
 			.showAndWait();
@@ -97,7 +97,6 @@ public class PrincipleViewReportsController implements Initializable {
 		// else
 		else {
 			ClientUI.chat.accept(new String[] { "GetTeachers", insertedValue });
-			System.out.println("AFTER ACCEPT");
 			if (list.size() == 0) {
 				methodsHandler
 				.getNewAlert(AlertType.ERROR, "Error message",
@@ -176,7 +175,8 @@ public class PrincipleViewReportsController implements Initializable {
 	// EXTERNAL METHODS *******************************************************
 	/**
 	 *
-	 * @param value
+	 * @param value a boolean value that determines whether a given ID of
+	 *  teacher/stuent/course exists in the DB
 	 */
 	public void setDoesExit(boolean value) {
 		doesExist = value;
@@ -185,9 +185,10 @@ public class PrincipleViewReportsController implements Initializable {
 	/**
 	 * checks if the value inserted into the textField is legal
 	 *
-	 * @param userName
-	 * @param type
-	 * @return
+	 * @param userName ID to search in DB
+	 * @param type type of what we're searching :
+	 *  (T --> teacher, S --> student, C --> course)
+	 * @return boolean value: TRUE if the ID exists in DB, else FALSE
 	 */
 	public boolean checkIfSearchedIDExists(String userName, String type) {
 		ClientUI.chat.accept(new String[] { "checkIfSearchedIDExists", insertedValue, type });
@@ -196,6 +197,10 @@ public class PrincipleViewReportsController implements Initializable {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param list list of objects to display in the choisebox of a certain reports screen.
+	 */
 	public void setChoiseBoxList(List<String> list) {
 		PrincipleViewReportsController.list.clear();
 		PrincipleViewReportsController.list.addAll(list);

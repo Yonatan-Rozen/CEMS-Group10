@@ -31,6 +31,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.question.Question;
 
+/**
+ * A controller that controls the functionalities of choosing a specific question
+ * from a list and previewing, deleting or editing the currently chosen question
+ * @author Yonatan Rozen
+ */
 public class TeacherChooseEditQuestionController implements Initializable {
 	public static TeacherChooseEditQuestionController tceqController;
 	// JAVAFX INSTNCES ******************************************************
@@ -99,7 +104,7 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		questionSubjectCb.setItems(subjectList);
 		
 		// set up a listener that sets the disable value of 
-		// 'createQuestionBtn' acurding to the selected value
+		// 'createQuestionBtn' according to the selected value
 		questionSubjectCb.getSelectionModel().selectedItemProperty().addListener(
 			(ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
 			{
@@ -224,6 +229,10 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		}
 	}
 	// INTERNAL USE METHODS **************************************************
+	/**
+	 * Shows an alert when no row is selected
+	 * @return true if no row was selected in the tableview; <br>false otherwise
+	 */
 	private boolean showAlertIfNotSelected() {
 		if (availableQuestionsTv.getSelectionModel().getSelectedItem() != null)
 			return false;
@@ -232,6 +241,11 @@ public class TeacherChooseEditQuestionController implements Initializable {
 	}
 	
 	// EXTERNAL USE METHODS **************************************************
+	/**
+	 * Sets the choice box with subjects that the current teacher is teaching.
+	 * <br> the choice box shows only subjects with created questions
+	 * @param subjects The list of subjects
+	 */
 	public void setSubjectChoiceBox(List<String> subjects) {
 		System.out.println("current:"+subjectList.toString());
 		System.out.println("subjects to add: " + subjects);
@@ -242,16 +256,29 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		questionSubjectCb.setValue(chosenSubject);
 	}
 	
+	/**
+	 * Sets the tableview with questions under the chosen subject from the choicebox
+	 * @param questions The list of questions under the same subject
+	 */
 	public void setQuestionTableView(List<Question> questions) {
 		ObservableList<Question> questionObservableList = FXCollections.observableArrayList();
 		questionObservableList.addAll(questions);
 		availableQuestionsTv.setItems(questionObservableList);
 	}
 	
+	/**
+	 * Sets wether a question is deletable or not.
+	 * <br> a deletetable question is one that does not exist in any exam
+	 * @param existsInExam The amount of instances of this question in an exam
+	 */
 	public void setQuestionDeletable(String existsInExam) {
 		deletable = (existsInExam.equals("0"));
 	}
 	
+	/**
+	 * Open a preivew window for a chosen question
+	 * @param question The chosen question
+	 */
 	public void chooseQuestionToPreview(Question question) {
 		try { new TeacherPreviewQuestionController().start(new Stage());
 		} catch (IOException e) {e.printStackTrace();}
@@ -259,6 +286,9 @@ public class TeacherChooseEditQuestionController implements Initializable {
 		TeacherPreviewQuestionController.tpqController.setQuestion(question);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void badGetSubjectsWithBank(String Msg) {
 		System.out.println("badGetSubjectsWithBank");
 	}

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import common.CommonMethodsHandler;
@@ -51,7 +50,6 @@ import logic.exam.Request;
 import logic.question.Question;
 import logic.question.QuestionInExam;
 import ocsf.client.AbstractClient;
-import server.ServerUI;
 
 public class ChatClient extends AbstractClient {
 
@@ -91,7 +89,7 @@ public class ChatClient extends AbstractClient {
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		System.out.println("===================handleMessageFromServer :: "+msg+"===================");
+		System.out.println("handleMessageFromServer :: {"+msg+"}");
 		if (msg == null) {
 			ClientController.display("fatal error (null object has been passed)");
 		} else if (msg instanceof User) { // SignIn Success
@@ -100,23 +98,24 @@ public class ChatClient extends AbstractClient {
 		}
 
 		/**** method execution handling ****/
-		else if (msg instanceof String) {
+		else if (msg instanceof String)
 			handleStringMessagesFromServer((String) msg);
-		} else if (msg instanceof List) {
-			//System.out.println(" HERE !!!!");
+		
+		else if (msg instanceof List)
 			handleListMessagesFromserver((List<?>) msg);
-			//System.out.println(" HERE #2 !!!!");
-		}
-		else if (msg instanceof Object[]) {
-			// System.out.println("check instaceOF object[]");
+		
+		else if (msg instanceof Object[])
 			handleArraysMessagesFromServer((Object[]) msg);
-		} else if (msg instanceof ComputerizedExam)
+		
+		else if (msg instanceof ComputerizedExam)
 			StudentTakeComputerizedExamController.stceController.setExam((ComputerizedExam) msg);
-		else if (msg instanceof ManualExam) {
-			System.out.println("ChatClient msg instanceof MANUAL_EXAM");
+		
+		else if (msg instanceof ManualExam)
 			StudentTakeExamManuallyController.stemController.setExam((ManualExam) msg);
-		} else if (msg instanceof Boolean)
+		
+		 else if (msg instanceof Boolean)
 			PrincipleViewReportsController.pvrController.setDoesExit((boolean) msg);
+		
 		else if(msg instanceof Request)
 			PrincipleViewRequestsController.pvrController.fillRequstTable((Request)msg);
 
@@ -137,41 +136,11 @@ public class ChatClient extends AbstractClient {
 		System.out.println("in handle array mesages with {\" " + msg[0].toString() + "\"");
 
 		switch (msg[0].toString()) {
-		//		case "downloadFileWithBlob":
-		//			try {
-		//			BufferedInputStream is = (BufferedInputStream)msg[3];
-		//			FileOutputStream fos = (FileOutputStream)msg[4];
-		//			String examIDs = (String)msg[1];
-		//			String path = (String)msg[2];
-		////			MyFile myfile = new MyFile("Exam" + examIDs);
-		//	//		BufferedInputStream is = new BufferedInputStream(blob.getBinaryStream());
-		//	//		FileOutputStream fos = new FileOutputStream(path +"\\exam"+ examIDs+".docx"); //path+file name + docx
-		//			byte[] buffer = new byte[2048];
-		//			int r = 0;
-		//			while((r = is.read(buffer))!=-1) {
-		//				fos.write(buffer, 0, r);
-		//			}
-		//			fos.flush();
-		//			fos.close();
-		//			is.close();
-		//	//		blob.free();
-		//
-		//			System.out.println("DOWNLOAD FILE ---------------> END");
-		//
-		//			}
-		//			catch (Exception e) {
-		//				// TODO: handle exception
-		//				e.printStackTrace();
-		//				return;
-		//			}
-		//			break;
 		case "checkQuestionExistsInExam":
 			TeacherChooseEditQuestionController.tceqController.setQuestionDeletable(msg[1].toString());
 			break;
 		case "setTypeAndOptionalTeacherComments":
 			TeacherStartExamController.tseController.setTypeAndOptionalComments((String[]) msg);
-			// TeacherStartExamController.tseController.setTypeAndOptionalComments(msg[1].toString()
-			// + "|" + msg[2].toString());
 			break;
 		case "GetExamIDForComputerizedExam":
 			TeacherComputerizedExamDefinitionsController.tcedController.setExamID(msg[1].toString());
@@ -184,10 +153,7 @@ public class ChatClient extends AbstractClient {
 			StudentExamResultsController.serController.setType(((String[])msg)[1]);
 			break;
 		case "SendMessageExamIDExamTypeAndExamCode":
-			System.out.println("BEFORE SETREADY ------------<<<<<<");
-			System.out.println("the array that's being passed to StudentMenuController :\n"+Arrays.toString(msg));
 			StudentMenuController.smController.setReadyExam((String[]) msg);
-			System.out.println("AFTER SETREADY ------------<<<<<<");
 			break;
 		case "MessageSentExamIDExamTypeAndExamCode":
 			TeacherStartExamController.tseController.checkStartExam(msg);
@@ -199,7 +165,6 @@ public class ChatClient extends AbstractClient {
 			TeacherStartExamController.tseController.IncStudentsInExam();
 			break;
 		case "SendMessageDecNumStudentsInExam":
-			System.out.println("entered case SendMessageDecNumStudentsInExam <<<<<<<<<<<");
 			TeacherStartExamController.tseController.DecStudentsInExam();
 		case "SetQuestionInExamWithStudentAnswers":
 			TeacherCheckAnswersController.tcaController.setQuestionInExamWithStudentAnswers(msg);
@@ -225,7 +190,6 @@ public class ChatClient extends AbstractClient {
 	 * @param msg The (String) object.
 	 */
 	private void handleStringMessagesFromServer(String msg) {
-		System.out.println("msg is : "+msg);
 		/**** handle connection ****/
 		if (msg.equals("Disconnect"))
 			return; // Client is disconnecting
@@ -237,38 +201,41 @@ public class ChatClient extends AbstractClient {
 			Thread client = new Thread((Runnable) new ClientUI());
 			client.start();
 		}else if (msg.contains("UpdatedQuestion")) // Question has been updated
-			TeacherEditQuestionController.teqController
-			.successfulEditQuestion("The question has been edited successfully!");
-		/**** handle return message to client ****/
+			TeacherEditQuestionController.teqController.successfulEditQuestion("The question has been edited successfully!");
+		
 		else if (msg.contains("SignIn ERROR - ")) // SignIn Errors
 			SignInController.siController.setErrorMsg(msg.substring("SignIn ERROR - ".length()));
+		
 		else if (msg.contains("ChangePassword ERROR - ")) // ChangePassword Errors
 			ChangePasswordController.cpController.badChangePassword(msg.substring("ChangePassword ERROR - ".length()));
+		
 		else if (msg.contains("ChangePassword SUCCESS - ")) { // ChangePassword Success
 			ChangePasswordController.cpController.successfulChangePassword(msg.substring("ChangePassword SUCCESS - ".length()));
+			
 		} else if (msg.contains("courseName:")) { // TakeComputerizedExam Error
 			StudentTakeComputerizedExamController.stceController.setCourseName(msg.substring("courseName:".length()));
+			
 		} else if (msg.contains("CreateQuestion SUCCESS - ")) { // CreateQuestion Success
-			TeacherCreateQuestionController.tcqController
-			.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+			TeacherCreateQuestionController.tcqController.successfulCreateQuestion(msg.substring("CreateQuestion SUCCESS - ".length()));
+			
 		} else if (msg.contains("CreateExam SUCCESS - ")) { // createExam Success
-			TeacherCreateExamController.tceController
-			.successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+			TeacherCreateExamController.tceController .successfulCreateExam(msg.substring("CreateExam SUCCESS - ".length()));
+			
 		} else if (msg.contains("EditExam SUCCESS - ")) {
 			TeacherEditExamController.teeController.successfulEditExam(msg.substring("EditExam SUCCESS - ".length()));
+			
 		} else if (msg.contains("Update Question")) {
 			TeacherComputerizedExamDefinitionsController.tcedController.successfulUpdateQuestionInExam(msg);
+			
 		} else if (msg.contains("GetSubjectsWithBank ERROR - ")) { // ChooseEditQuestion Error
-			TeacherChooseEditQuestionController.tceqController
-			.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
+			TeacherChooseEditQuestionController.tceqController.badGetSubjectsWithBank(msg.substring("GetSubjectsWithBank ERROR - ".length()));
+			
 		}else if (msg.contains("SendMessageRequest")) {
 			if (msg.contains("Accept")) 
 				TeacherStartExamController.tseController.setPrincipleRequestAnswer(true);
 			else TeacherStartExamController.tseController.setPrincipleRequestAnswer(false);
 		} else {
-			System.out.println("BEFORE DISPLAY");
 			ClientController.display(msg+" is the message sent :(");
-			System.out.println("AFTER DISPLAY");
 		}
 	}
 
@@ -327,16 +294,12 @@ public class ChatClient extends AbstractClient {
 			case "getExamsQuestionsByExamID":
 				StudentTakeComputerizedExamController.stceController.setQuestionsScoresOfExam(stringList);
 				return;
-				// case "TeachrsIDsListForPrincipleReportByCourse":
-				// PrincipleReportsByCourseController.prbcController.setTeachersIDsList(stringList);
-				// return;
 			default:
 				ClientController.display(obj.toString() + " is missing!");
 				break;
 			}
-			/// questionin before question!!
+
 		} else if (obj instanceof QuestionInExam) { // list of QuestionInExam
-			System.out.println("enter to instanceof question in exam");
 			List<QuestionInExam> questionList = (List<QuestionInExam>) msg;
 			System.out.println(questionList);
 			switch (((QuestionInExam) obj).getQuestionID()) {
@@ -387,14 +350,7 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((ExamResults) obj).getExamID() + " is missing!");
 				break;
 			}
-			// } else if (obj instanceof Exam) {
-			// List<Exam> examList = (List<Exam>) msg;
-			// System.out.println(examList);
-			// switch (((Exam) obj).getExamID()) {
-			// case "getExamsBySubjectAndUsername":
-			// TeacherEditExamController.teeController.setExamTableView(examList);
-			// return; -- [Commented by Yonatn]
-			// }
+			
 		} else if (obj instanceof User) { // List of users
 			List<User> usersList = (List<User>) msg;
 			System.out.println(usersList);
@@ -406,6 +362,7 @@ public class ChatClient extends AbstractClient {
 				ClientController.display(((User) obj).getUsername() + " is missing!");
 				break;
 			}
+			
 		} else if (obj instanceof IExam) { // List of exams
 			List<IExam> examsList = (List<IExam>) msg;
 			System.out.println(examsList);
@@ -422,16 +379,12 @@ public class ChatClient extends AbstractClient {
 			}
 		}
 		else if(obj instanceof ExamResultsTableStudent) {
-			System.out.println("ChatClient :: instanceof ExamResultOfStudent *********************");
-
 			List<ExamResultsTableStudent> examsResultsList = (List<ExamResultsTableStudent>) msg;
 			System.out.println(examsResultsList);
 			switch (((ExamResultsTableStudent) obj).getExamID()) {
 			case "getExamResultsByStudentId":
-				System.out.println("ChatClient :: getExamResultsByStudentId *********************");
 				StudentExamResultsController.serController.setExamDetails(examsResultsList);
 				break;
-
 			default:
 				ClientController.display(((ExamResultsTableStudent) obj).getExamID() + " is missing!");
 				break;
@@ -442,7 +395,7 @@ public class ChatClient extends AbstractClient {
 			System.out.println(computerizedResultsList);
 			switch (((ExamResultOfStudent) obj).getExamID()) {
 			case "SetComputerizedExamResultsByUsername":
-				TeacherCheckExamResultsController.tcrController.setComputerizedResults(computerizedResultsList);
+				TeacherCheckExamResultsController.tcrController.setResults(computerizedResultsList);
 				return;
 			default:
 				ClientController.display(((ExamResultOfStudent) obj).getExamID() + " is missing!");
@@ -471,8 +424,7 @@ public class ChatClient extends AbstractClient {
 				File wordDocument = new File(message);
 				String whoCalled = ((String[]) obj)[3];
 				String studentID;
-				// check if 'message' is a pathname (for example:
-				// "C:\Users\Jon\Desktop\test.docx")
+				// check if 'message' is a pathname (for example: "C:\Users\Jon\Desktop\test.docx")
 				String[] s1 = message.split("\\\\");
 				String fileName = s1[s1.length - 1]; // "test.txt"
 				MyFile testFile = new MyFile(fileName);
@@ -493,9 +445,7 @@ public class ChatClient extends AbstractClient {
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
 					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, whoCalled, studentID });
-				} catch (Exception e) {
-					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
-				}
+				} catch (Exception e) { e.printStackTrace();}
 
 			} else if ((obj instanceof String[]) && ((String[]) obj)[0].contains("FinishEditManualExam")) {
 
@@ -503,11 +453,9 @@ public class ChatClient extends AbstractClient {
 				String message = ((String[]) obj)[2];
 				String time = ((String[]) obj)[3];
 				File wordDocument = new File(message);
-
-				// check if 'message' is a pathname (for example:
-				// "C:\Users\Jon\Desktop\test.docx")
+				
 				String[] s1 = message.split("\\\\");
-				String fileName = s1[s1.length - 1]; // "test.txt"
+				String fileName = s1[s1.length - 1];
 				MyFile testFile = new MyFile(fileName);
 
 				try {
@@ -521,9 +469,7 @@ public class ChatClient extends AbstractClient {
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
 					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, time });
-				} catch (Exception e) {
-					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
-				}
+				} catch (Exception e) { e.printStackTrace(); }
 
 			} else if ((obj instanceof String[]) && ((String[]) obj)[0].contains("UploadManualCheckExamFile")) {
 
@@ -532,10 +478,8 @@ public class ChatClient extends AbstractClient {
 				String Studentid = ((String[]) obj)[3];
 				File wordDocument = new File(message);
 
-				// check if 'message' is a pathname (for example:
-				// "C:\Users\Jon\Desktop\test.docx")
 				String[] s1 = message.split("\\\\");
-				String fileName = s1[s1.length - 1]; // "test.txt"
+				String fileName = s1[s1.length - 1];
 				MyFile testFile = new MyFile(fileName);
 
 				try {
@@ -549,9 +493,7 @@ public class ChatClient extends AbstractClient {
 					bis.read(testFile.getMybytearray(), 0, mybytearray.length);
 					bis.close();
 					sendToServer(new Object[] { ((String[]) obj)[0], examID, testFile, Studentid });
-				} catch (Exception e) {
-					ServerUI.serverConsole.println("<<<<<<<Error send (Files)msg) to Server>>>>>>>");
-				}
+				} catch (Exception e) { e.printStackTrace(); }
 
 			}
 
@@ -565,20 +507,14 @@ public class ChatClient extends AbstractClient {
 			// wait for response
 			while (awaitResponse) {
 				try {
-					System.out.println("dead");
+					System.out.println("stuck");
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("locked");
 		} catch (IOException e) {
 			ClientController.display("Could not send message to server: Terminating client." + e);
-			CommonMethodsHandler.getInstance()
-			.getNewAlert(AlertType.WARNING, "Connection Issues",
-					"It seems like you have connection issues with the server!",
-					"Sorry for the inconvenience. Please try agian at a later time...")
-			.showAndWait();
 			CommonMethodsHandler.getInstance()
 			.getNewAlert(AlertType.WARNING, "Connection Issues",
 					"It seems like you have connection issues with the server!",

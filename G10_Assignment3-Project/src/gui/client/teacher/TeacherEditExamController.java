@@ -31,6 +31,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.exam.IExam;
 
+/**
+ * A controller that controls all the functionalites of editing an exam, including:
+ * <br>* Deleting an exam<br>* editing comments of computerized exams
+ * <br>* changing file of manual exam
+ * @author Eliran Amerzoyev & Yonatan Rozen 
+ */
 public class TeacherEditExamController implements Initializable {
 	public static TeacherEditExamController teeController;
 
@@ -187,8 +193,6 @@ public class TeacherEditExamController implements Initializable {
 			leftPanelAp.setDisable(false);
 			circle.setStyle("-fx-fill: #f4f4f4;");
 
-//			CourseList.clear(); // clear list <---- not used - Yonatan
-
 			ClientUI.chat.accept(new String[] { "btnPressShowExamsBySubject", chooseBankCb.getValue(),
 					ChatClient.user.getUsername() });
 
@@ -275,10 +279,6 @@ public class TeacherEditExamController implements Initializable {
 			else // case "M"
 				commentsAp.setDisable(true);
 
-			//////
-			// set text in student&teacher comments(with sql query??)
-			//////
-
 			allocatedTimeTf.setText(exam.getAllocatedTime());
 			ExamID = exam.getExamID();
 
@@ -351,25 +351,35 @@ public class TeacherEditExamController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS **************************************************
-	public void setBankChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
-		bankList.addAll(msg);
+	/**
+	 * Sets the choice box with all the subjects that the teacher teaches
+	 * @param subjectList The list of subjects
+	 */
+	public void setBankChoiceBox(List<String> subjectList) {
+		bankList.addAll(subjectList);
+	}
+	/**
+	 * Sets the choice box with all the courses under the chosen subject
+	 * @param courseList The list of subjects
+	 */
+	public void setCourseChoiceBox(List<String> courseList) {
+		CourseList.addAll(courseList);
 	}
 
-	public void setCourseChoiceBox(List<String> msg) {
-		System.out.println(msg.toString());
-		CourseList.addAll(msg);
-		System.out.println(CourseList);
-	}
-
+	/**
+	 * Sets the tableview with all the exams under the chosen subject and coruse
+	 * @param examsList The list of exams
+	 */
 	public void setExamTableView(List<IExam> examsList) {
 		examList = examsList;
 		examObservableList.clear();
 		examObservableList.addAll(examsList);
-		System.out.println("examObservableList " + examObservableList);
 		examsTv.setItems(examObservableList);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void successfulEditExam(String Msg) {
 		msg = Msg;
 	}

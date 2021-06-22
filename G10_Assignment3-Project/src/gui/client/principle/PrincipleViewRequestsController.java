@@ -14,7 +14,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import logic.exam.Request;
-
+/**
+ * A controller class which controls the "View Requests" option screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewRequestsController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
@@ -62,9 +65,8 @@ public class PrincipleViewRequestsController implements Initializable {
 
 	// ACTION METHODS *******************************************************
 	@FXML
-	void btnPressAcceptRequest(ActionEvent event) 
+	void btnPressAcceptRequest(ActionEvent event)
 	{
-		// TODO send change allocated time request to server
 		Request request = requestsTv.getSelectionModel().getSelectedItem();
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
@@ -72,16 +74,18 @@ public class PrincipleViewRequestsController implements Initializable {
 	}
 
 	@FXML
-	void btnPressDeclineRequest(ActionEvent event) 
+	void btnPressDeclineRequest(ActionEvent event)
 	{
-		// TODO send message "request declined" to teacher
 		System.out.println("PrincipleViewRequests::btnPressAcceptRequest");
 		deleteRequest();
 		ClientUI.chat.accept(new String[] { "SendMessageRequestDeclined",teacherUserName});
-		
+
 	}
-	
-	//Set The Table Properties
+
+	// EXTERNAL METHODS *******************************************************
+	/**
+	 * Sets The Table Properties
+	 */
 	void setUpTableProperties()
 	{
 		requestsTv = sbRequestsTv;
@@ -91,7 +95,9 @@ public class PrincipleViewRequestsController implements Initializable {
 		sbNewAllocatedTimeTc.setCellValueFactory(new PropertyValueFactory<Request, String>("newAllocatedTime"));
 	}
 	//======================================================================================================================
-	//Set The Buttons Properties
+	/**
+	 * Sets The Buttons Properties
+	 */
 	void setUpButtonsProperties()
 	{
 		acceptRequestBtn = sbAcceptRequestBtn;
@@ -110,12 +116,19 @@ public class PrincipleViewRequestsController implements Initializable {
 			requestsTv.setItems(requestList);
 		} catch (IllegalStateException e) {}
 	}
-	
+
+	/**
+	 * calls for a query to delete tupple from Requests table
+	 */
 	public void deleteRequest()
 	{
 		ClientUI.chat.accept(new String[] { "sbDeleteRequests"});
 	}
-	
+
+	/**
+	 *this function sets the requesting teacher's ID
+	 * @param usernameT the teacher's ID (username)
+	 */
 	public void setTeacherUserName(String usernameT)
 	{
 		teacherUserName = usernameT;

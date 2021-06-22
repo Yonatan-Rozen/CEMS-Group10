@@ -19,6 +19,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Controller that control the Student menu Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentMenuController implements Initializable {
 	public static StudentMenuController smController;
 	// JAVAFX INSTANCES ******************************************************
@@ -120,6 +125,10 @@ public class StudentMenuController implements Initializable {
 	}
 
 	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * sets all the details of the ready exam.
+	 * @param msg, Represent an array of details of ready exam.
+	 */
 	public void setReadyExam(String[] msg) {
 		examID = msg[1];
 		examType = msg[2];
@@ -128,11 +137,19 @@ public class StudentMenuController implements Initializable {
 		System.out.println(Arrays.toString(msg));
 	}
 
-
+	// EXTERNAL USE METHODS *************************************************
+		/**
+		 * Return all the details about the ready exam.
+		 */
 	public String[] getReadyExam() {
 		return new String[] {examCode,examType,examID,examiningTeacherID};
 	}
-
+	
+	// EXTERNAL USE METHODS *************************************************
+		/**
+		 * Lock the exam for the teacher and for the students.
+		 * @param msg, Represent an array of details of ready exam.
+		 */
 	public void lockExam(String[] msg) {
 		System.out.println("examID gotten from echoserver : "+ msg[1]);
 		if (examID.equals(msg[1])) {
@@ -145,6 +162,5 @@ public class StudentMenuController implements Initializable {
 				e.printStackTrace();
 			}
 		}
-		// add call to setSubmitButtonWhenLockInvoked
 	}
 }

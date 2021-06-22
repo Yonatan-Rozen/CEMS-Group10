@@ -14,7 +14,10 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+/**
+ * A controller class which controls the main menu of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleMenuController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
@@ -38,7 +41,7 @@ public class PrincipleMenuController implements Initializable {
 
 	@FXML
 	private Button sbSettingsBtn;
-	
+
 	@FXML
 	private ImageView sbTeacherBgImg;
 
@@ -51,7 +54,6 @@ public class PrincipleMenuController implements Initializable {
 	private static Button viewReportsBtn;
 	private static Button settingsBtn;
 	private static ImageView teacherBgImg;
-
 
 	// CONTROLLER INSTANCES
 	protected static PrincipleMenuBarController pmbController;
@@ -67,7 +69,6 @@ public class PrincipleMenuController implements Initializable {
 		logoutLnk = sbLogoutLnk;
 		welcomeLbl = sbWelcomeLbl;
 		welcomeLbl.setText("Welcome, " + ChatClient.user.getFirstname());
-		// TODO welcomeLbl should be set with a name (e.x : 'welcome, Ron')
 		viewRequestsBtn = sbViewRequestsBtn;
 		viewInfoBtn = sbViewInfoBtn;
 		viewReportsBtn = sbViewReportsBtn;
@@ -109,7 +110,7 @@ public class PrincipleMenuController implements Initializable {
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/principle/PrincipleMenuBar.fxml")));
 		pmbController.btnPressSettings(event);
 	}
-
+	
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws Exception {
 		System.out.println("PrincipleMenu::lnkPressLogout");

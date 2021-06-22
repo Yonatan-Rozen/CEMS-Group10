@@ -25,6 +25,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.question.Question;
 
+/**
+ * A controller that controls all the functionalites of editing questions, including:
+ * <br>* editing the body and the 4 answers of the question<br>* changing the correct answer
+ * @author Yonatan Rozen
+ */
 public class TeacherEditQuestionController implements Initializable {
 	public static TeacherEditQuestionController teqController;
 	
@@ -181,7 +186,6 @@ public class TeacherEditQuestionController implements Initializable {
 			Optional<ButtonType> result = methodHandler.getNewAlert(AlertType.WARNING, "Unchanged details","You didn't edit any part of the quesiton", 
 					"Would you rather edit another quesiton\nOR keep editing the current one?", buttonNewEdit, buttonReEdit).showAndWait();
 			if (result.get() == buttonNewEdit){
-				System.out.println("alert::Yes");
 				try { TeacherMenuBarController.tmbController.btnPressEditQuestion(event);
 				} catch (IOException e) { e.printStackTrace();}
 			}
@@ -194,14 +198,9 @@ public class TeacherEditQuestionController implements Initializable {
 				questionSet = false;
 				Optional<ButtonType> result = methodHandler.getNewAlert(type, title,header, context,buttonNewEdit,buttonReEdit).showAndWait();
 				if (result.get() == buttonNewEdit){
-					System.out.println("alert::NewEdit");
-					//TeacherMenuBarController.mainPaneBp.setCenter(methodHandler.getPane("teacher", "TeacherChooseEditQuestion"));
 					
 					try { TeacherMenuBarController.tmbController.btnPressEditQuestion(new ActionEvent());
 					} catch (IOException e) { e.printStackTrace();}
-				}
-				else if (result.get() == buttonReEdit){
-					System.out.println("alert::ReEdit");
 				}
 			} else System.out.println("problem at chat client!");
 		}
@@ -212,6 +211,10 @@ public class TeacherEditQuestionController implements Initializable {
 				answer2Ta.getText().equals("") || answer3Ta.getText().equals("") || answer4Ta.getText().equals(""));
 	}
 	
+	/**
+	 * Checks if the corrent question was altered
+	 * @return true if any part of the question has changed;<br> false otherwise
+	 */
 	private boolean questionNotAltered() {
 		String currentMarkedAnswer = CommonMethodsHandler.getInstance().getSelectedAnswer(selected);
 		return (questionBodyTa.getText().equals(question.getQuestionBody()) &&  answer1Ta.getText().equals(question.getAnswer1()) 
@@ -219,6 +222,9 @@ public class TeacherEditQuestionController implements Initializable {
 				&& answer4Ta.getText().equals(question.getAnswer4()) && question.getCorrectAnswer().equals(currentMarkedAnswer));
 	}
 	
+	/**
+	 * Save the edited details of the current question
+	 */
 	private void saveCurrentQuestionDetails() {
 		String currentMarkedAnswer = CommonMethodsHandler.getInstance().getSelectedAnswer(selected);
 		question.setQuestionBody(questionBodyTa.getText());
@@ -226,13 +232,16 @@ public class TeacherEditQuestionController implements Initializable {
 		question.setAnswer2(answer2Ta.getText());
 		question.setAnswer3(answer3Ta.getText());
 		question.setAnswer4(answer4Ta.getText());
-		System.out.println(currentMarkedAnswer);
 		question.setCorrectAnswer(currentMarkedAnswer);
 
 		ClientUI.chat.accept(new Object[] {"UpdateQuestion", question});
 	}
 	
 	// EXTERNAL USE METHODS **************************************************
+	/**
+	 * Sets the current details of a chosen question
+	 * @param questionToEdit The question info to edit)
+	 */
 	public void setQuestion(Question questionToEdit) {
 		question = questionToEdit;
 		editQuestionLbl.setText("Editing question #" + question.getQuestionID() + " :");
@@ -263,6 +272,10 @@ public class TeacherEditQuestionController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Sets successful message for a successfuly edited question
+	 * @param message The message
+	 */
 	public void successfulEditQuestion(String message) {
 		questionSet = true;
 		type = AlertType.CONFIRMATION;

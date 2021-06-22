@@ -8,7 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
+/**
+ * A controller class which controls the "View Info" option screen of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleViewInfoController implements Initializable {
 	// JAVAFX INSTNCES ******************************************************
 	@FXML
@@ -25,6 +28,7 @@ public class PrincipleViewInfoController implements Initializable {
 	private static Button viewExamsBtn;
 	private static Button viewQuestionsBtn;
 
+	// INITIALIZE METHOD ****************************************************
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		viewUsersBtn = sbViewUsersBtn;
@@ -33,9 +37,9 @@ public class PrincipleViewInfoController implements Initializable {
 
 	}
 
+	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressViewExams(ActionEvent event) throws Exception {
-		// TODO get exams data info from the database
 		System.out.println("PrincipleViewInfo::btnPressViewExams");
 		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewExamsInfoScreen"));
 	}
@@ -52,7 +56,4 @@ public class PrincipleViewInfoController implements Initializable {
 		System.out.println("PrincipleViewInfo::btnPressViewUsers");
 		PrincipleMenuBarController.mainPaneBp.setCenter(CommonMethodsHandler.getInstance().getPane("principle", "PrincipleViewUsersInfoScreen"));
 	}
-
-	// EXTERNAL USE METHODS *************************************************
-
 }

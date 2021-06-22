@@ -17,6 +17,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * A controller class which controls the side menu of the Principle user.
+ * @author Michael Malka, Tuval Zitelbach & Meitar El Ezra
+ */
 public class PrincipleMenuBarController implements Initializable {
 
 	// JAVAFX INSTANCES ******************************************************
@@ -46,9 +50,9 @@ public class PrincipleMenuBarController implements Initializable {
 
 	@FXML
 	private BorderPane sbMainPaneBp;
-	
-    @FXML
-    private ImageView sbMenuBg;
+
+	@FXML
+	private ImageView sbMenuBg;
 
 
 	// STATIC JAVAFX INSTANCES **********************************************
@@ -83,17 +87,18 @@ public class PrincipleMenuBarController implements Initializable {
 		menuBg.setImage(new Image("/menubar_bg.png"));
 		menuBg.setFitHeight(600);
 		menuBg.setFitWidth(230);
-		
-		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
-		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");	
+		//css
+		viewRequestsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		viewInfoBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		viewReportsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
+		settingsBtn.setStyle("-fx-background-image: url('/icon_empty.png') ; -fx-background-repeat: no-repeat;");
 
-		
 		sbLogoIv.setImage(CommonMethodsHandler.CEMS_LOGO);
 	}
 
 	// ACTION METHODS *******************************************************
+	//=======================================================================================================
+	//Show Request
 	@FXML
 	public void btnPressViewRequests(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewRequests");
@@ -101,7 +106,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewRequests");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewRequestsBtn);
 	}
-
+	//=======================================================================================================
+	//Show Info
 	@FXML
 	public void btnPressViewInfo(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewInfo");
@@ -109,7 +115,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewInfo");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewInfoBtn);
 	}
-
+	//=======================================================================================================
+	//Open Reports
 	@FXML
 	public void btnPressViewReports(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressViewReports");
@@ -117,7 +124,8 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "principle", "PrincipleViewReports");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, viewReportsBtn);
 	}
-
+	//=======================================================================================================
+	//Open Settings
 	@FXML
 	public void btnPressSettings(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::BtnPressSettings");
@@ -125,13 +133,15 @@ public class PrincipleMenuBarController implements Initializable {
 		cmh.fadeInAndOut(mainPaneBp, "client", "UserSettings");
 		currentBtn = cmh.disablePropertySwapper(currentBtn, settingsBtn);
 	}
-
+	//=======================================================================================================
+	//Go Back To SignIn Form
 	@FXML
 	public void lnkPressLogout(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::lnkPressLogout");
 		ClientUI.mainScene.setRoot(FXMLLoader.load(getClass().getResource("/gui/client/SignIn.fxml")));
 	}
-
+	//=======================================================================================================
+	//Go Back To Principle Menu
 	@FXML
 	public void btnPressBack(ActionEvent event) throws IOException {
 		System.out.println("PrincipleMenuBar::btnPressBack");

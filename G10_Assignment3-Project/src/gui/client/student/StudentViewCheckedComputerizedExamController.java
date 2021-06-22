@@ -23,7 +23,11 @@ import javafx.scene.image.ImageView;
 import logic.exam.ComputerizedResults;
 import logic.exam.ExamResultsTableStudent;
 import logic.question.QuestionInExam;
-
+/**
+ * Controller that control the Student View Checked Computerized Exam Screen (Form). 
+ * @author Tuval Zitelbach,Meitar El-Ezra, Michael Malka
+ *
+ */
 public class StudentViewCheckedComputerizedExamController implements Initializable {
 	public static StudentViewCheckedComputerizedExamController svcceController;
 	// JAVAFX INSTNCES ******************************************************
@@ -155,11 +159,11 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 			StudentMenuBarController.menuBarContainerAp.setDisable(false);
 		}
 	}
-
-
-
-
-	// EXTERNAL USE METHODS **************************************************
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Set The Student details that related to the exam.
+	 * @param examOfStudent, the result of the student exam.
+	 */
 	public void setExamOfStudentDetails(ExamResultsTableStudent examOfStudent) {
 		//		this.examOfStudent = examOfStudent;
 		examIDLbl.setText(examOfStudent.getExamID());
@@ -178,16 +182,19 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 
 		((Button) questionsBb.getButtons().get(0)).fire();
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Set The Questions with the student answer to present at the screen.
+	 * @param questionIndex, the Index of the question to present at the screen.
+	 * @param b, the button 
+	 * @param studentAnswer Represent The student Answer to the question.
+	 */
 	private void setQuestionButton(int questionIndex, Button b, String studentAnswer) {
 		b.setOnAction(new EventHandler<ActionEvent>() {
 			QuestionInExam q;
 
 			@Override
 			public void handle(ActionEvent event) {
-				//				if (lastComment != null)
-				//					com.set(lastIndex, com.get(questionIndex));
-				//					examOfStudent.setCommentAtIndex(lastIndex, lastComment);
 				if (lastButton != null)
 					lastButton.setStyle("-fx-background-color: #90EE90;");
 				b.setStyle("-fx-background-color: #2E5984;");
@@ -202,7 +209,6 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 				answer3Rb.setText(q.getAnswer3());
 				answer4Rb.setText(q.getAnswer4());
 				questionScoreLbl.setText(que.get(currentIndex).getQuestionScore());
-				//				lastComment = questionCommentTa.getText();
 				questionCommentTa.setText(com.get(currentIndex));
 
 				switch (studentAnswer) {
@@ -269,7 +275,11 @@ public class StudentViewCheckedComputerizedExamController implements Initializab
 			}
 		});
 	}
-
+	// EXTERNAL USE METHODS *************************************************
+	/**
+	 * Set The Student Answers for the Compterized Exam, before the teacher check.
+	 * @param msg, Represent an array of object that contains all the details for the answers of the student.
+	 */
 	@SuppressWarnings("unchecked")
 	public void setQuestionInExamWithStudentAnswers(Object[] msg) {
 
