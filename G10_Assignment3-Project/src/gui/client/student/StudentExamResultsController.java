@@ -62,12 +62,14 @@ public class StudentExamResultsController implements Initializable {
 		tableViewExam = sbExamResultsTbl;
 		examsDetails = FXCollections.observableArrayList();
 		getCopyBtn = sbGetCopyBtn;
+
+		ClientUI.chat.accept(new String[] { "getExamResultsForStudentsExamResults", ChatClient.user.getUsername()});
 		sbExamIdClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("examID"));
 		sbCourseNameClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("courseName"));
 		sbGradeClm.setCellValueFactory(new PropertyValueFactory<ExamResultsTableStudent, String>("grade"));
-		ClientUI.chat.accept(new String[] { "getExamResultsForStudentsExamResults", ChatClient.user.getUsername()});
 	}
 
+	
 	// ACTION METHODS *******************************************************
 	@FXML
 	void btnPressGetCopy(ActionEvent event) {
