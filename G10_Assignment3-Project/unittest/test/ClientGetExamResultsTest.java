@@ -13,14 +13,24 @@ import client.IClientController;
 import gui.client.teacher.TeacherReportsController;
 import logic.exam.ExamResults;
 
-
+/**
+ * Test Class for GetExamResult 
+ * @author Yonatan Rozen
+ *
+ */
 class ClientGetExamResultsTest {
 	
-	
+	/**
+	 * ClientGetExamResultsTest private fields
+	 */
 	private ClientControllerStub clientController;
 	private TeacherReportsController teacherReportsController;
 	private List<ExamResults> examResults = new ArrayList<>();
-	
+	/**
+	 * Stub for Client Controller
+	 * @author Yonatan Rozen
+	 *
+	 */
 	private class ClientControllerStub implements IClientController{
 
 		@Override

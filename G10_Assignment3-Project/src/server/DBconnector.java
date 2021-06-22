@@ -67,18 +67,18 @@ public class DBconnector {
 	public void connectToDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			ServerUI.serverConsole.println("mysql driver definition succeed");
+			serverConsole.println("mysql driver definition succeed");
 		} catch (Exception ex) {
-			ServerUI.serverConsole.println("mysql driver definition failed");
+			serverConsole.println("mysql driver definition failed");
 		}
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost/cems?serverTimezone=IST", "root", "Group10*");
-			ServerUI.serverConsole.println("SQL connection succeed.");
+			serverConsole.println("SQL connection succeed.");
 		} catch (SQLException ex) {
-			ServerUI.serverConsole.println("SQLException: " + ex.getMessage());
-			ServerUI.serverConsole.println("SQLState: " + ex.getSQLState());
-			ServerUI.serverConsole.println("VendorError: " + ex.getErrorCode());
+			serverConsole.println("SQLException: " + ex.getMessage());
+			serverConsole.println("SQLState: " + ex.getSQLState());
+			serverConsole.println("VendorError: " + ex.getErrorCode());
 		}
 
 	}
