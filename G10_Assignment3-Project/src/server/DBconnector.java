@@ -1956,8 +1956,7 @@ public class DBconnector {
 	 *
 	 * @author Danielle sarusi, edited by Meitar El Ezra
 	 */
-	private void getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type,
-			ConnectionToClient client) throws IOException {
+	public Object getExamsIDAndGradesByUsernameAndCourseName(String courseName, String userName, String type) {
 		List<ExamResults> examResultsList = new ArrayList<>();
 		if (type.equals("T"))
 			examResultsList.add(new ExamResults("getExamDetailsForTeacher", "0"));
